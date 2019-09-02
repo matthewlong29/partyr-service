@@ -39,16 +39,64 @@ public class UsersController {
   /**
    * getFriendsList.
    */
-  @GetMapping(value = "/friends-of-{userName}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/friends-list/{userName}", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<User> getFriendsList(@PathVariable String userName) {
     return usersService.getFriendsList(userName);
   }
 
   /**
+   * addUser.
+   */
+  @GetMapping(value = "/add-friend/{currentUser}/{userToAdd}")
+  public int addUser(@PathVariable String currentUser, @PathVariable String userToAdd) {
+    return usersService.addUser(currentUser, userToAdd);
+  }
+
+  /**
+   * getBlockedList.
+   */
+  @GetMapping(value = "/blocked-list/{userName}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<User> getBlockedList(@PathVariable String userName) {
+    return usersService.getBlockedList(userName);
+  }
+
+  /**
+   * blockUser.
+   */
+  @GetMapping(value = "/block-user/{currentUser}/{userToBlock}")
+  public int blockUser(@PathVariable String currentUser, @PathVariable String userToBlock) {
+    return usersService.blockUser(currentUser, userToBlock);
+  }
+
+  /**
+   * searchForUsersByName.
+   */
+  @GetMapping(value = "/search-for-user/{text}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<User> searchForUsersByName(@PathVariable String text) {
+    return usersService.searchForUsersByName(text);
+  }
+
+  /**
    * createUser.
    */
-  @PostMapping(value = "create-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "create-user", consumes = MediaType.APPLICATION_JSON_VALUE)
   public int createUser(@RequestBody User user) {
     return usersService.createUser(user);
+  }
+
+  /**
+   * chooseTheme.
+   */
+  @GetMapping(value = "choose-theme/{userToUpdate}/{themeID}")
+  public int chooseTheme(@PathVariable String userToUpdate, @PathVariable int themeID) {
+    return usersService.chooseTheme(userToUpdate, themeID);
+  }
+
+  /**
+   * changePassword.
+   */
+  @GetMapping(value = "change-password/{userToUpdate}/{newPassword}")
+  public int changePassword(@PathVariable String userToUpdate, @PathVariable String newPassword) {
+    return usersService.changePassword(userToUpdate, newPassword);
   }
 }

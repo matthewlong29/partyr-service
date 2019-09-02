@@ -13,4 +13,5 @@ public class User {
   private OnlineStatus onlineStatus;
   private int themeID;
   private int age;
+  private String country;
 }

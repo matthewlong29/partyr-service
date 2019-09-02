@@ -7,6 +7,7 @@ create table if not exists Users (
   online_status varchar(8) default 'OFFLINE',
   theme_id int default 0,
   age int,
+  country varchar(32) not null,
   primary key (user_id),
   foreign key (theme_id) references Themes(theme_id),
   constraint limit_online_status check (online_status in ('ONLINE', 'OFFLINE'))

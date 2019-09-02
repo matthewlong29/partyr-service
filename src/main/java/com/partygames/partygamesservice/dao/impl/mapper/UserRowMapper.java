@@ -21,6 +21,7 @@ public class UserRowMapper implements RowMapper<User> {
     user.setOnlineStatus(OnlineStatus.valueOf(resultSet.getString("online_status")));
     user.setThemeID(resultSet.getInt("theme_id"));
     user.setAge(resultSet.getInt("age"));
+    user.setCountry(resultSet.getString("country"));
 
     return user;
   }
