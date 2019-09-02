@@ -10,6 +10,7 @@ public class User {
   private String email;
   private String password; // TODO: hash
   private Timestamp joinedDate;
+  private OnlineStatus onlineStatus;
   private int themeID;
   private int age;
 }

@@ -5,8 +5,9 @@ insert into `PartyGamesDatabase`.`Themes` (`theme_name`) values ('light');
 
 -- ** add Users data
 
-insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `password`) values ('matthewlong29', 'long.matthew29@gmail.com', 1, 28, 'password123');
-insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `password`) values ('timmy7', 'timmy@gmail.com', 1, 28, '321drowssap');
+insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `theme_id`, `age`, `password`) values ('matthewlong29', 'long.matthew29@gmail.com', 'ONLINE', 1, 28, 'password123');
+insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `password`) values ('timmy7', 'timmy@gmail.com', 1, 25, '321drowssap');
+insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `password`) values ('cheesecake', 'cc@gmail.com', 1, 68, 'cheesypass');
 
 -- ** add Relationships
 

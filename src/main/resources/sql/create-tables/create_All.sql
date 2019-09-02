@@ -24,7 +24,7 @@ create table if not exists Users (
   password varchar(64) not null,
   joined_date timestamp default current_timestamp,
   online_status varchar(8) default 'OFFLINE',
-  theme_id int default 0,
+  theme_id int default 1,
   age int,
   primary key (user_id),
   foreign key (theme_id) references Themes(theme_id),
