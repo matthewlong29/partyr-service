@@ -31,6 +31,8 @@ create table if not exists Users (
   country varchar(32) not null,
   primary key (user_id),
   foreign key (theme_id) references Themes(theme_id),
+  unique key (user_name),
+  unique key (email),
   constraint limit_online_status check (online_status in ('ONLINE', 'OFFLINE')),
   constraint limit_ready_to_play_status check (ready_to_play_status in ('READY', 'NOT_READY'))
 ) ENGINE = INNODB;
@@ -45,6 +47,7 @@ create table if not exists Relationships (
   primary key (relationship_id),
   foreign key (relating_name) references Users(user_name),
   foreign key (related_name) references Users(user_name),
+  unique key `unique_relationship` (`relating_name`,`related_name`),
   constraint limit_relationship_type check (relationship_type in ('FRIEND', 'BLOCK'))
 ) ENGINE = INNODB;
 

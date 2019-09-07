@@ -6,5 +6,6 @@ create table if not exists Relationships (
   primary key (relationship_id),
   foreign key (relating_name) references Users(user_name),
   foreign key (related_name) references Users(user_name),
+  unique key `unique_relationship` (`relating_name`,`related_name`),
   constraint limit_relationship_type check (relationship_type in ('FRIEND', 'BLOCK'))
 ) ENGINE = INNODB;

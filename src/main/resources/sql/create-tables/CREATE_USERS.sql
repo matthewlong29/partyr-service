@@ -11,6 +11,8 @@ create table if not exists Users (
   country varchar(32) not null,
   primary key (user_id),
   foreign key (theme_id) references Themes(theme_id),
+  unique key (user_name),
+  unique key (email),
   constraint limit_online_status check (online_status in ('ONLINE', 'OFFLINE')),
   constraint limit_ready_to_play_status check (ready_to_play_status in ('READY', 'NOT_READY'))
 ) ENGINE = INNODB;
