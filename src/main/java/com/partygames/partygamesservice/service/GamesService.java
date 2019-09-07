@@ -4,6 +4,6 @@ import java.util.List;
 
 import com.partygames.partygamesservice.model.Game;
 
-public interface PartyGamesService {
-  public List<Game> getGamesAvailable();
+public interface GamesService {
+  public List<Game> getAllGames();
 }

@@ -4,6 +4,9 @@ import lombok.Data;
 
 @Data
 public class Game {
-  private String title;
-  private int numberOfPlayers;
+  private String gameName;
+  private int minNumberOfPlayers;
+  private int maxNumberOfPlayers;
+  private int minAge;
+  private int averageGameDuration;
 }
