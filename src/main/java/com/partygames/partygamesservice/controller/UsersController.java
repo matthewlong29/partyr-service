@@ -23,13 +23,14 @@ public class UsersController {
 
   /**
    * getAllUsers: returns all users, and optionally only all users that are
-   * online. TODO: add readyToPlay indicator.
+   * online. Username and email cannot contain spaces.
    */
   @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<User> getAllUsers(
-      @RequestParam(value = "online-only", required = false, defaultValue = "false") boolean onlineOnly,
+      @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly,
+      @RequestParam(value = "ready", required = false, defaultValue = "false") boolean readyToPlay,
       @RequestParam(value = "query", required = false, defaultValue = "") String queryString) {
-    return usersService.getAllUsers(onlineOnly, queryString);
+    return usersService.getAllUsers(onlineOnly, readyToPlay, queryString);
   }
 
   /**
@@ -64,16 +65,6 @@ public class UsersController {
   @GetMapping(value = "/block-user/{currentUser}/{userToBlock}")
   public int blockUser(@PathVariable String currentUser, @PathVariable String userToBlock) {
     return usersService.blockUser(currentUser, userToBlock);
-  }
-
-  /**
-   * searchForUsersByName.
-   * 
-   * TODO: make this a parameter
-   */
-  @GetMapping(value = "/search-for-user/{text}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<User> searchForUsersByName(@PathVariable String text) {
-    return usersService.searchForUsersByName(text);
   }
 
   /**

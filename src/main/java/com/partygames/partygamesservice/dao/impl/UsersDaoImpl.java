@@ -1,11 +1,13 @@
 package com.partygames.partygamesservice.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
 import com.partygames.partygamesservice.dao.impl.mapper.UserRowMapper;
 import com.partygames.partygamesservice.model.FriendStatus;
 import com.partygames.partygamesservice.model.OnlineStatus;
+import com.partygames.partygamesservice.model.ReadyStatus;
 import com.partygames.partygamesservice.model.User;
 import com.partygames.partygamesservice.util.PartyLogger;
 
@@ -25,22 +27,82 @@ public class UsersDaoImpl implements UsersDao {
   PartyLogger log;
 
   /**
-   * getAllUsers.
+   * 
    */
-  public List<User> getAllUsers() {
-    String query = "select * from Users;";
+  public List<User> serchForOnlineUsersReadyToPlayContaining(String queryString) {
+    StringBuilder query = new StringBuilder();
+    query.append("select * from Users where ready_to_play_status = '");
+    query.append(ReadyStatus.READY);
+    query.append("' and (email like '%");
+    query.append(queryString);
+    query.append("%' or user_name like '%");
+    query.append(queryString);
+    query.append("%');");
 
-    return jdbcTemplate.query(query, userRowMapper);
+    return jdbcTemplate.query(query.toString(), userRowMapper);
   }
 
   /**
-   * getOnlineUsers.
+   * 
+   */
+  public List<User> getOnlineUsersReadyToPlay() {
+    StringBuilder query = new StringBuilder();
+    query.append("select * from Users where ready_to_play_status = '");
+    query.append(ReadyStatus.READY);
+    query.append("';");
+
+    return jdbcTemplate.query(query.toString(), userRowMapper);
+  }
+
+  /**
+   * 
+   */
+  public List<User> searchForOnlineUsersContaining(String queryString) {
+    StringBuilder query = new StringBuilder();
+    query.append("select * from Users where online_status = '");
+    query.append(OnlineStatus.ONLINE);
+    query.append("' and (email like '%");
+    query.append(queryString);
+    query.append("%' or user_name like '%");
+    query.append(queryString);
+    query.append("%');");
+
+    return jdbcTemplate.query(query.toString(), userRowMapper);
+  }
+
+  /**
+   * 
    */
   public List<User> getOnlineUsers() {
     StringBuilder query = new StringBuilder();
     query.append("select * from Users where online_status = '");
     query.append(OnlineStatus.ONLINE);
     query.append("';");
+
+    return jdbcTemplate.query(query.toString(), userRowMapper);
+  }
+
+  /**
+   * 
+   */
+  public List<User> searchForAllUsersContaining(String queryString) {
+    StringBuilder query = new StringBuilder();
+    query.append("select * from Users where ");
+    query.append("(email like '%");
+    query.append(queryString);
+    query.append("%' or user_name like '%");
+    query.append(queryString);
+    query.append("%');");
+
+    return jdbcTemplate.query(query.toString(), userRowMapper);
+  }
+
+  /**
+   * 
+   */
+  public List<User> getAllUsers() {
+    StringBuilder query = new StringBuilder();
+    query.append("select * from Users;");
 
     return jdbcTemplate.query(query.toString(), userRowMapper);
   }

@@ -5,7 +5,7 @@ import java.util.List;
 import com.partygames.partygamesservice.model.User;
 
 public interface UsersService {
-  public List<User> getAllUsers(boolean onlineOnly, String queryString);
+  public List<User> getAllUsers(boolean onlineOnly, boolean readyToPlay, String queryString);
 
   public List<User> getFriendsList(String userName, boolean onlineOnly);
 
@@ -14,8 +14,6 @@ public interface UsersService {
   public List<User> getBlockedList(String userName);
 
   public int blockUser(String currentUser, String userToBlock);
-
-  public List<User> searchForUsersByName(String text);
 
   public int createUser(User user);
 

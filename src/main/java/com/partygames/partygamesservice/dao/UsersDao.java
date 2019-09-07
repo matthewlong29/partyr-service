@@ -5,11 +5,17 @@ import java.util.List;
 import com.partygames.partygamesservice.model.User;
 
 public interface UsersDao {
-  public List<User> getAllUsers();
+  public List<User> serchForOnlineUsersReadyToPlayContaining(String queryString);
 
-  public List<User> searchForUsersByName(String text);
+  public List<User> getOnlineUsersReadyToPlay();
+
+  public List<User> searchForOnlineUsersContaining(String queryString);
 
   public List<User> getOnlineUsers();
+
+  public List<User> searchForAllUsersContaining(String queryString);
+
+  public List<User> getAllUsers();
 
   public List<User> getBlockedList(String userName);
 
@@ -18,7 +24,7 @@ public interface UsersDao {
   public List<User> getFriendsList(String userName);
 
   public List<User> getOnlineFriendsList(String userName);
-  
+
   public int addUser(String currentUser, String userToAdd);
 
   public int createUser(User user);
