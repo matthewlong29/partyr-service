@@ -3,6 +3,7 @@ package com.partygames.partygamesservice.controller;
 import java.util.List;
 
 import com.partygames.partygamesservice.model.Relationship;
+import com.partygames.partygamesservice.model.Relationships;
 import com.partygames.partygamesservice.model.User;
 import com.partygames.partygamesservice.service.UsersService;
 
@@ -35,21 +36,14 @@ public class UsersController {
   }
 
   /**
-   * getFriendsList: returns all friends, and optionally only friends who are
-   * online.
+   * getRelationships: gets all relationships associated with a user, or only
+   * friends (and optionally only online friends), or only blocked users.
    */
-  @GetMapping(value = "/friends-list/{userName}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<User> getFriendsList(@PathVariable String userName,
+  @GetMapping(value = "/relationships/{userName}")
+  public Relationships getRelationships(@PathVariable String userName,
+      @RequestParam(value = "type", required = false, defaultValue = "both") String relationshipStatus,
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly) {
-    return usersService.getFriendsList(userName, onlineOnly);
-  }
-
-  /**
-   * getBlockedList.
-   */
-  @GetMapping(value = "/blocked-list/{userName}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<User> getBlockedList(@PathVariable String userName) {
-    return usersService.getBlockedList(userName);
+    return usersService.getRelationships(userName, relationshipStatus, onlineOnly);
   }
 
   /**
@@ -71,7 +65,7 @@ public class UsersController {
   /**
    * chooseTheme.
    */
-  @GetMapping(value = "choose-theme/{userToUpdate}/{themeID}")
+  @GetMapping(value = "/choose-theme/{userToUpdate}/{themeID}")
   public int chooseTheme(@PathVariable String userToUpdate, @PathVariable int themeID) {
     return usersService.chooseTheme(userToUpdate, themeID);
   }
@@ -79,7 +73,7 @@ public class UsersController {
   /**
    * changePassword.
    */
-  @GetMapping(value = "change-password/{userToUpdate}/{newPassword}")
+  @GetMapping(value = "/change-password/{userToUpdate}/{newPassword}")
   public int changePassword(@PathVariable String userToUpdate, @PathVariable String newPassword) {
     return usersService.changePassword(userToUpdate, newPassword);
   }

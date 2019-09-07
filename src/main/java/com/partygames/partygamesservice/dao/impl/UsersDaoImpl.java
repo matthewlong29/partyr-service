@@ -5,6 +5,7 @@ import java.util.List;
 import com.partygames.partygamesservice.dao.UsersDao;
 import com.partygames.partygamesservice.dao.impl.mapper.UserRowMapper;
 import com.partygames.partygamesservice.model.RelationshipStatus;
+import com.partygames.partygamesservice.model.Relationships;
 import com.partygames.partygamesservice.model.OnlineStatus;
 import com.partygames.partygamesservice.model.ReadyStatus;
 import com.partygames.partygamesservice.model.Relationship;
@@ -108,7 +109,7 @@ public class UsersDaoImpl implements UsersDao {
   }
 
   /**
-   * 
+   * getAllUsers.
    */
   public List<User> getAllUsers() {
     StringBuilder query = new StringBuilder();
@@ -122,7 +123,7 @@ public class UsersDaoImpl implements UsersDao {
   /**
    * getBlockedList.
    */
-  public List<User> getBlockedList(String userName) {
+  public Relationships getBlockedList(String userName) {
     StringBuilder query = new StringBuilder();
     query.append(
         "select user_id, user_name, email, password, joined_date, online_status, theme_id, age, country from Users ");
@@ -134,7 +135,54 @@ public class UsersDaoImpl implements UsersDao {
 
     log.query(query.toString());
 
-    return jdbcTemplate.query(query.toString(), userRowMapper);
+    Relationships relationships = new Relationships();
+    relationships.setBlockedList(jdbcTemplate.query(query.toString(), userRowMapper));
+
+    return relationships;
+  }
+
+    /**
+   * getFriendsList.
+   */
+  public Relationships getFriendsList(String userName) {
+    StringBuilder query = new StringBuilder();
+    query.append(
+        "select user_id, user_name, email, password, joined_date, online_status, theme_id, age, country from Users ");
+    query.append("left join Relationships on (Relationships.related_name = Users.user_name) where relating_name = '");
+    query.append(userName);
+    query.append("' and relationship_type = '");
+    query.append(RelationshipStatus.FRIEND);
+    query.append("' order by online_status desc, user_name;");
+
+    log.query(query.toString());
+
+    Relationships relationships = new Relationships();
+    relationships.setFriendsList(jdbcTemplate.query(query.toString(), userRowMapper));
+
+    return relationships;
+  }
+
+    /**
+   * getOnlineFriendsList.
+   */
+  public Relationships getOnlineFriendsList(String userName) {
+    StringBuilder query = new StringBuilder();
+    query.append(
+        "select user_id, user_name, email, password, joined_date, online_status, theme_id, age, country from Users ");
+    query.append("left join Relationships on (Relationships.related_name = Users.user_name) where relating_name = '");
+    query.append(userName);
+    query.append("' and relationship_type = '");
+    query.append(RelationshipStatus.FRIEND);
+    query.append("' and online_status = '");
+    query.append(OnlineStatus.ONLINE);
+    query.append("' order by user_name;");
+
+    log.query(query.toString());
+
+    Relationships relationships = new Relationships();
+    relationships.setFriendsList(jdbcTemplate.query(query.toString(), userRowMapper));
+
+    return relationships;
   }
 
   /**
@@ -154,44 +202,6 @@ public class UsersDaoImpl implements UsersDao {
     log.query(query.toString());
 
     return jdbcTemplate.update(query.toString());
-  }
-
-  /**
-   * getFriendsList.
-   */
-  public List<User> getFriendsList(String userName) {
-    StringBuilder query = new StringBuilder();
-    query.append(
-        "select user_id, user_name, email, password, joined_date, online_status, theme_id, age, country from Users ");
-    query.append("left join Relationships on (Relationships.related_name = Users.user_name) where relating_name = '");
-    query.append(userName);
-    query.append("' and relationship_type = '");
-    query.append(RelationshipStatus.FRIEND);
-    query.append("' order by online_status desc, user_name;");
-
-    log.query(query.toString());
-
-    return jdbcTemplate.query(query.toString(), userRowMapper);
-  }
-
-  /**
-   * getOnlineFriendsList.
-   */
-  public List<User> getOnlineFriendsList(String userName) {
-    StringBuilder query = new StringBuilder();
-    query.append(
-        "select user_id, user_name, email, password, joined_date, online_status, theme_id, age, country from Users ");
-    query.append("left join Relationships on (Relationships.related_name = Users.user_name) where relating_name = '");
-    query.append(userName);
-    query.append("' and relationship_type = '");
-    query.append(RelationshipStatus.FRIEND);
-    query.append("' and online_status = '");
-    query.append(OnlineStatus.ONLINE);
-    query.append("' order by user_name;");
-
-    log.query(query.toString());
-
-    return jdbcTemplate.query(query.toString(), userRowMapper);
   }
 
   /**

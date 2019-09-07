@@ -1,9 +1,12 @@
 package com.partygames.partygamesservice.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
 import com.partygames.partygamesservice.model.Relationship;
+import com.partygames.partygamesservice.model.RelationshipStatus;
+import com.partygames.partygamesservice.model.Relationships;
 import com.partygames.partygamesservice.model.User;
 import com.partygames.partygamesservice.service.UsersService;
 import com.partygames.partygamesservice.util.PartyLogger;
@@ -48,21 +51,27 @@ public class UsersServiceImpl implements UsersService {
   }
 
   /**
-   * getFriendsList.
+   * getRelationships.
    */
-  public List<User> getFriendsList(String userName, boolean onlineOnly) {
-    if (onlineOnly) {
+  public Relationships getRelationships(String userName, String relationshipStatus, boolean onlineOnly) {
+    if (relationshipStatus.equals(RelationshipStatus.FRIEND.toString()) && onlineOnly) {
+      log.info("GETTING ALL ONLINE FRIENDS OF: " + userName);
       return usersDao.getOnlineFriendsList(userName);
+    } else if (relationshipStatus.equals(RelationshipStatus.FRIEND.toString()) && !onlineOnly) {
+      log.info("GETTING ALL FRIENDS OF: " + userName);
+      return usersDao.getFriendsList(userName);
+    } else if (relationshipStatus.equals(RelationshipStatus.BLOCK.toString())) {
+      log.info("GETTING ALL ACCOUNTS BLOCKED BY: " + userName);
+      return usersDao.getBlockedList(userName);
+    } else {
+      log.info("GETTING ALL RELATIONSHIPS OF: " + userName);
+
+      Relationships relationships = new Relationships();
+      relationships.setFriendsList(usersDao.getFriendsList(userName).getFriendsList());
+      relationships.setBlockedList(usersDao.getBlockedList(userName).getBlockedList());
+
+      return relationships;
     }
-
-    return usersDao.getFriendsList(userName);
-  }
-
-  /**
-   * getBlockedList.
-   */
-  public List<User> getBlockedList(String userName) {
-    return usersDao.getBlockedList(userName);
   }
 
   /**

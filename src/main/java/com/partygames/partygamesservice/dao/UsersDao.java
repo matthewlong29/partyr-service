@@ -3,6 +3,7 @@ package com.partygames.partygamesservice.dao;
 import java.util.List;
 
 import com.partygames.partygamesservice.model.Relationship;
+import com.partygames.partygamesservice.model.Relationships;
 import com.partygames.partygamesservice.model.User;
 
 public interface UsersDao {
@@ -18,11 +19,11 @@ public interface UsersDao {
 
   public List<User> getAllUsers();
 
-  public List<User> getBlockedList(String userName);
+  public Relationships getBlockedList(String userName);
 
-  public List<User> getFriendsList(String userName);
+  public Relationships getFriendsList(String userName);
 
-  public List<User> getOnlineFriendsList(String userName);
+  public Relationships getOnlineFriendsList(String userName);
 
   public int createRelationship(Relationship newRelationship);
 
