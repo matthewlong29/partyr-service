@@ -11,8 +11,8 @@ insert into `PartyGamesDatabase`.`Themes` (`theme_name`)
 
 -- ** add Users data
 
-insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `theme_id`, `age`, `country`, `password`) 
-  values ('matthewlong29', 'long.matthew29@gmail.com', 'ONLINE', 1, 28, 'United States', 'password123');
+insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `ready_to_play_status`, `theme_id`, `age`, `country`, `password`) 
+  values ('matthewlong29', 'long.matthew29@gmail.com', 'ONLINE', 'READY', 1, 28, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
   values ('timmy7', 'timmy@gmail.com', 1, 25, 'United States', '321drowssap');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
@@ -49,8 +49,8 @@ insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`,
   values ('cicklypaddock', 'cicklypaddock@gmail.com', 'ONLINE', 2, 28, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
   values ('unmixablefaint', 'unmixablefaint@gmail.com', 2, 30, 'United States', 'password123');
-insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `theme_id`, `age`, `country`, `password`) 
-  values ('chollysuitable', 'chollysuitable@gmail.com', 'ONLINE', 1, 31, 'United States', 'password123');
+insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `ready_to_play_status`, `theme_id`, `age`, `country`, `password`) 
+  values ('chollysuitable', 'chollysuitable@gmail.com', 'ONLINE', 'READY',1, 31, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
   values ('kappawaals', 'kappawaals@gmail.com', 1, 68, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `theme_id`, `age`, `country`, `password`) 
@@ -73,8 +73,8 @@ insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age
   values ('botchsamovar', 'botchsamovar@gmail.com', 1, 19, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
   values ('taffrailunsightly', 'taffrailunsightly@gmail.com', 1, 20, 'United States', 'password123');
-insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `theme_id`, `age`, `country`, `password`) 
-  values ('gowpenfuldancer', 'gowpenfuldancer@gmail.com', 'ONLINE', 3, 21, 'United States', 'password123');
+insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `ready_to_play_status`, `theme_id`, `age`, `country`, `password`) 
+  values ('gowpenfuldancer', 'gowpenfuldancer@gmail.com', 'ONLINE', 'READY', 3, 21, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
   values ('langdendiscover', 'langdendiscover@gmail.com', 1, 21, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
@@ -91,8 +91,8 @@ insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`,
   values ('throbbingcalm', 'throbbingcalm@gmail.com', 'ONLINE', 2, 78, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
   values ('acetoneunplanted', 'acetoneunplanted@gmail.com', 1, 44, 'United States', 'password123');
-insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `theme_id`, `age`, `country`, `password`) 
-  values ('bengaluruversatile', 'bengaluruversatile@gmail.com', 'ONLINE', 1, 42, 'United States', 'password123');
+insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `ready_to_play_status`, `theme_id`, `age`, `country`, `password`) 
+  values ('bengaluruversatile', 'bengaluruversatile@gmail.com', 'ONLINE', 'READY', 1, 42, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
   values ('minstralweyr', 'minstralweyr@gmail.com', 3, 14, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `theme_id`, `age`, `country`, `password`) 
@@ -103,8 +103,8 @@ insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`,
   values ('conferenceshiloh', 'conferenceshiloh@gmail.com', 'ONLINE', 1, 21, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `theme_id`, `age`, `country`, `password`) 
   values ('traversescreen', 'traversescreen@gmail.com', 'ONLINE', 1, 63, 'United States', 'password123');
-insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `theme_id`, `age`, `country`, `password`) 
-  values ('creditfermium', 'creditfermium@gmail.com', 'ONLINE', 2, 61, 'United States', 'password123');
+insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `ready_to_play_status`, `theme_id`, `age`, `country`, `password`) 
+  values ('creditfermium', 'creditfermium@gmail.com', 'ONLINE', 'READY', 2, 61, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
   values ('cuddlyenthusiasm', 'cuddlyenthusiasm@gmail.com', 1, 9, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
@@ -113,8 +113,8 @@ insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age
   values ('landmineipad', 'landmineipad@gmail.com', 1, 11, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
   values ('copyvan', 'copyvan@gmail.com', 1, 56, 'United States', 'password123');
-insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `theme_id`, `age`, `country`, `password`) 
-  values ('immediatesociable', 'immediatesociable@gmail.com', 'ONLINE', 3, 55, 'United States', 'password123');
+insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `online_status`, `ready_to_play_status`, `theme_id`, `age`, `country`, `password`) 
+  values ('immediatesociable', 'immediatesociable@gmail.com', 'ONLINE', 'READY', 3, 55, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
   values ('amusablechoosy', 'amusablechoosy@gmail.com', 1, 21, 'United States', 'password123');
 insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `theme_id`, `age`, `country`, `password`) 
