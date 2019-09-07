@@ -5,11 +5,9 @@ import java.util.List;
 import com.partygames.partygamesservice.model.User;
 
 public interface UsersService {
-  public List<User> getAllUsers();
+  public List<User> getAllUsers(boolean onlineOnly, String queryString);
 
-  public List<User> getOnlineUsers();
-
-  public List<User> getFriendsList(String userName);
+  public List<User> getFriendsList(String userName, boolean onlineOnly);
 
   public int addUser(String currentUser, String userToAdd);
 

@@ -16,6 +16,8 @@ public interface UsersDao {
   public int blockUser(String currentUser, String userToBlock);
 
   public List<User> getFriendsList(String userName);
+
+  public List<User> getOnlineFriendsList(String userName);
   
   public int addUser(String currentUser, String userToAdd);
 

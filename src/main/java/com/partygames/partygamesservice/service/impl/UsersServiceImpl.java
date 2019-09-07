@@ -5,6 +5,7 @@ import java.util.List;
 import com.partygames.partygamesservice.dao.UsersDao;
 import com.partygames.partygamesservice.model.User;
 import com.partygames.partygamesservice.service.UsersService;
+import com.partygames.partygamesservice.util.PartyLogger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,24 +15,33 @@ public class UsersServiceImpl implements UsersService {
   @Autowired
   UsersDao usersDao;
 
-  /**
-   * getAllUsers.
-   */
-  public List<User> getAllUsers() {
-    return usersDao.getAllUsers();
-  }
+  @Autowired
+  PartyLogger log;
 
   /**
-   * getOnlineUsers.
+   * getAllUsers returns all users and optionally only online users.
    */
-  public List<User> getOnlineUsers() {
-    return usersDao.getOnlineUsers();
+  public List<User> getAllUsers(boolean onlineOnly, String queryString) {
+    log.info("QUERY STRING: " + queryString);
+    if (onlineOnly) {
+      if (!queryString.isEmpty()) {
+        log.info("querying for: " + queryString);
+      }
+
+      return usersDao.getOnlineUsers();
+    }
+
+    return usersDao.getAllUsers();
   }
 
   /**
    * getFriendsList.
    */
-  public List<User> getFriendsList(String userName) {
+  public List<User> getFriendsList(String userName, boolean onlineOnly) {
+    if (onlineOnly) {
+      return usersDao.getOnlineFriendsList(userName);
+    }
+
     return usersDao.getFriendsList(userName);
   }
 

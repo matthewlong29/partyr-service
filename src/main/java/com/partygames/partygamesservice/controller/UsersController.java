@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,27 +22,24 @@ public class UsersController {
   UsersService usersService;
 
   /**
-   * getAllUsers.
+   * getAllUsers: returns all users, and optionally only all users that are
+   * online. TODO: add readyToPlay indicator.
    */
   @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<User> getAllUsers() {
-    return usersService.getAllUsers();
+  public List<User> getAllUsers(
+      @RequestParam(value = "online-only", required = false, defaultValue = "false") boolean onlineOnly,
+      @RequestParam(value = "query", required = false, defaultValue = "") String queryString) {
+    return usersService.getAllUsers(onlineOnly, queryString);
   }
 
   /**
-   * getOnlineUsers.
-   */
-  @GetMapping(value = "/online-users", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<User> getOnlineUsers() {
-    return usersService.getOnlineUsers();
-  }
-
-  /**
-   * getFriendsList.
+   * getFriendsList: returns all friends, and optionally only friends who are
+   * online.
    */
   @GetMapping(value = "/friends-list/{userName}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<User> getFriendsList(@PathVariable String userName) {
-    return usersService.getFriendsList(userName);
+  public List<User> getFriendsList(@PathVariable String userName,
+      @RequestParam(value = "online-only", required = false, defaultValue = "false") boolean onlineOnly) {
+    return usersService.getFriendsList(userName, onlineOnly);
   }
 
   /**
@@ -70,6 +68,8 @@ public class UsersController {
 
   /**
    * searchForUsersByName.
+   * 
+   * TODO: make this a parameter
    */
   @GetMapping(value = "/search-for-user/{text}", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<User> searchForUsersByName(@PathVariable String text) {

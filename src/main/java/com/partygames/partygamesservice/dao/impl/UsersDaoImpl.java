@@ -95,6 +95,24 @@ public class UsersDaoImpl implements UsersDao {
   }
 
   /**
+   * getOnlineFriendsList.
+   */
+  public List<User> getOnlineFriendsList(String userName) {
+    StringBuilder query = new StringBuilder();
+    query.append(
+        "select user_id, user_name, email, password, joined_date, online_status, theme_id, age, country from Users ");
+    query.append("left join Relationships on (Relationships.related_name = Users.user_name) where relating_name = '");
+    query.append(userName);
+    query.append("' and relationship_type = '");
+    query.append(FriendStatus.FRIEND);
+    query.append("' and online_status = '");
+    query.append(OnlineStatus.ONLINE);
+    query.append("';");
+
+    return jdbcTemplate.query(query.toString(), userRowMapper);
+  }
+
+  /**
    * addUser.
    */
   public int addUser(String currentUser, String userToAdd) {
