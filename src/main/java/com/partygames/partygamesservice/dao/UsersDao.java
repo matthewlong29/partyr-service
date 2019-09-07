@@ -2,6 +2,7 @@ package com.partygames.partygamesservice.dao;
 
 import java.util.List;
 
+import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.User;
 
 public interface UsersDao {
@@ -19,13 +20,11 @@ public interface UsersDao {
 
   public List<User> getBlockedList(String userName);
 
-  public int blockUser(String currentUser, String userToBlock);
-
   public List<User> getFriendsList(String userName);
 
   public List<User> getOnlineFriendsList(String userName);
 
-  public int addUser(String currentUser, String userToAdd);
+  public int createRelationship(Relationship newRelationship);
 
   public int createUser(User user);
 

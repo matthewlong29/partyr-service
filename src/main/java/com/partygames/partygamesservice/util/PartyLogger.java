@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class PartyLogger {
   public static final String ANSI_RESET = "\u001B[0m"; // reset
   public static final String ANSI_RED = "\u001B[31m"; // error
-  public static final String ANSI_GREEN = "\u001B[32m"; // ready
+  public static final String ANSI_GREEN = "\u001B[32m"; // query
   public static final String ANSI_YELLOW = "\u001B[33m"; // warning
   public static final String ANSI_BLUE = "\u001B[34m"; // info
   public static final String ANSI_PURPLE = "\u001B[35m";
@@ -34,9 +34,9 @@ public class PartyLogger {
   }
 
   /**
-   * ready.
+   * query.
    */
-  public void ready(String message) {
-    System.out.println("[" + ANSI_GREEN + "READY" + ANSI_RESET + "] " + ANSI_GREEN + message + ANSI_RESET);
+  public void query(String message) {
+    System.out.println("[" + ANSI_GREEN + "QUERY" + ANSI_RESET + "] " + ANSI_GREEN + message + ANSI_RESET);
   }
 }

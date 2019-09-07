@@ -3,6 +3,7 @@ package com.partygames.partygamesservice.service.impl;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
+import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.User;
 import com.partygames.partygamesservice.service.UsersService;
 import com.partygames.partygamesservice.util.PartyLogger;
@@ -58,13 +59,6 @@ public class UsersServiceImpl implements UsersService {
   }
 
   /**
-   * addUser.
-   */
-  public int addUser(String currentUser, String userToAdd) {
-    return usersDao.addUser(currentUser, userToAdd);
-  }
-
-  /**
    * getBlockedList.
    */
   public List<User> getBlockedList(String userName) {
@@ -72,10 +66,10 @@ public class UsersServiceImpl implements UsersService {
   }
 
   /**
-   * blockUser.
+   * createRelationship.
    */
-  public int blockUser(String currentUser, String userToBlock) {
-    return usersDao.blockUser(currentUser, userToBlock);
+  public int createRelationship(Relationship newRelationship) {
+    return usersDao.createRelationship(newRelationship);
   }
 
   /**

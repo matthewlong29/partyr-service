@@ -6,7 +6,7 @@ create table if not exists Users (
   joined_date timestamp default current_timestamp,
   online_status varchar(8) default 'OFFLINE',
   ready_to_play_status varchar(16) default 'NOT_READY', -- create trigger cant be ready if offline
-  theme_id int default 0,
+  theme_id int default 1,
   age int,
   country varchar(32) not null,
   primary key (user_id),

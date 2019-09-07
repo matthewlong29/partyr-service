@@ -1,5 +1,5 @@
 package com.partygames.partygamesservice.model;
 
-public enum FriendStatus {
+public enum RelationshipStatus {
   BLOCK, FRIEND;
 }

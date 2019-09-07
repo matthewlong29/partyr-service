@@ -2,6 +2,7 @@ package com.partygames.partygamesservice.controller;
 
 import java.util.List;
 
+import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.User;
 import com.partygames.partygamesservice.service.UsersService;
 
@@ -39,16 +40,8 @@ public class UsersController {
    */
   @GetMapping(value = "/friends-list/{userName}", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<User> getFriendsList(@PathVariable String userName,
-      @RequestParam(value = "online-only", required = false, defaultValue = "false") boolean onlineOnly) {
+      @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly) {
     return usersService.getFriendsList(userName, onlineOnly);
-  }
-
-  /**
-   * addUser.
-   */
-  @GetMapping(value = "/add-friend/{currentUser}/{userToAdd}")
-  public int addUser(@PathVariable String currentUser, @PathVariable String userToAdd) {
-    return usersService.addUser(currentUser, userToAdd);
   }
 
   /**
@@ -60,17 +53,17 @@ public class UsersController {
   }
 
   /**
-   * blockUser.
+   * createRelationship: either add a user as a friend or block them.
    */
-  @GetMapping(value = "/block-user/{currentUser}/{userToBlock}")
-  public int blockUser(@PathVariable String currentUser, @PathVariable String userToBlock) {
-    return usersService.blockUser(currentUser, userToBlock);
+  @PostMapping(value = "/create-relationship", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public int createRelationship(@RequestBody Relationship newRelationship) {
+    return usersService.createRelationship(newRelationship);
   }
 
   /**
    * createUser.
    */
-  @PostMapping(value = "create-user", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/create-user", consumes = MediaType.APPLICATION_JSON_VALUE)
   public int createUser(@RequestBody User user) {
     return usersService.createUser(user);
   }
