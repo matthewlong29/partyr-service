@@ -9,7 +9,7 @@ import com.partygames.partygamesservice.model.Relationships;
 import com.partygames.partygamesservice.model.OnlineStatus;
 import com.partygames.partygamesservice.model.ReadyStatus;
 import com.partygames.partygamesservice.model.Relationship;
-import com.partygames.partygamesservice.model.User;
+import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.util.PartyLogger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class UsersDaoImpl implements UsersDao {
   /**
    * 
    */
-  public List<User> serchForOnlineUsersReadyToPlayContaining(String queryString) {
+  public List<PartyrUser> serchForOnlineUsersReadyToPlayContaining(String queryString) {
     StringBuilder query = new StringBuilder();
     query.append("select * from Users where ready_to_play_status = '");
     query.append(ReadyStatus.READY);
@@ -48,7 +48,7 @@ public class UsersDaoImpl implements UsersDao {
   /**
    * 
    */
-  public List<User> getOnlineUsersReadyToPlay() {
+  public List<PartyrUser> getOnlineUsersReadyToPlay() {
     StringBuilder query = new StringBuilder();
     query.append("select * from Users where ready_to_play_status = '");
     query.append(ReadyStatus.READY);
@@ -62,7 +62,7 @@ public class UsersDaoImpl implements UsersDao {
   /**
    * 
    */
-  public List<User> searchForOnlineUsersContaining(String queryString) {
+  public List<PartyrUser> searchForOnlineUsersContaining(String queryString) {
     StringBuilder query = new StringBuilder();
     query.append("select * from Users where online_status = '");
     query.append(OnlineStatus.ONLINE);
@@ -80,7 +80,7 @@ public class UsersDaoImpl implements UsersDao {
   /**
    * 
    */
-  public List<User> getOnlineUsers() {
+  public List<PartyrUser> getOnlineUsers() {
     StringBuilder query = new StringBuilder();
     query.append("select * from Users where online_status = '");
     query.append(OnlineStatus.ONLINE);
@@ -94,7 +94,7 @@ public class UsersDaoImpl implements UsersDao {
   /**
    * 
    */
-  public List<User> searchForAllUsersContaining(String queryString) {
+  public List<PartyrUser> searchForAllUsersContaining(String queryString) {
     StringBuilder query = new StringBuilder();
     query.append("select * from Users where ");
     query.append("(email like '%");
@@ -111,7 +111,7 @@ public class UsersDaoImpl implements UsersDao {
   /**
    * getAllUsers.
    */
-  public List<User> getAllUsers() {
+  public List<PartyrUser> getAllUsers() {
     StringBuilder query = new StringBuilder();
     query.append("select * from Users order by online_status desc, user_name;");
 
@@ -226,7 +226,7 @@ public class UsersDaoImpl implements UsersDao {
   /**
    * createUser.
    */
-  public int createUser(User user) {
+  public int createUser(PartyrUser user) {
     StringBuilder query = new StringBuilder();
     query.append(
         "insert into `PartyGamesDatabase`.`Users` (`user_name`, `email`, `country`, `age`, `password`) values ('");

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.Relationships;
-import com.partygames.partygamesservice.model.User;
+import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class UsersController {
    * online. Username and email cannot contain spaces.
    */
   @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<User> getAllUsers(
+  public List<PartyrUser> getAllUsers(
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly,
       @RequestParam(value = "ready", required = false, defaultValue = "false") boolean readyToPlay,
       @RequestParam(value = "query", required = false, defaultValue = "") String queryString) {
@@ -58,7 +58,7 @@ public class UsersController {
    * createUser.
    */
   @PostMapping(value = "/create-user", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public int createUser(@RequestBody User user) {
+  public int createUser(@RequestBody PartyrUser user) {
     return usersService.createUser(user);
   }
 

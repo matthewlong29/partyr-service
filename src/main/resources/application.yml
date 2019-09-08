@@ -1,3 +1,6 @@
+security:
+  ignored:
+  - "*.bundle.*"
 server:
   port: ${PORT:8080}
 spring:
