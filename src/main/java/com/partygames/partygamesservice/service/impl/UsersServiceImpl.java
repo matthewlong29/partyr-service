@@ -1,13 +1,12 @@
 package com.partygames.partygamesservice.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
+import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.RelationshipStatus;
 import com.partygames.partygamesservice.model.Relationships;
-import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.service.UsersService;
 import com.partygames.partygamesservice.util.PartyLogger;
 

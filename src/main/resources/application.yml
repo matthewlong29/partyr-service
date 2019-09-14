@@ -1,6 +1,3 @@
-security:
-  ignored:
-  - "*.bundle.*"
 server:
   port: ${PORT:8080}
 spring:
@@ -8,3 +5,18 @@ spring:
     url: jdbc:mysql://party-games-database.cigcayr0ktuk.us-east-2.rds.amazonaws.com:3306/PartyGamesDatabase
     username: admin
     password: coffeeparty7
+security:
+  oauth2:
+    client:
+      clientId: 1092985979122-rq2djvc09cnp8p4k86v498fi2f3d97lm.apps.googleusercontent.com
+      clientSecret: LMC7wCoEXW_HmqczmhLIsbCJ
+      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+      userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+      clientAuthenticationScheme: form
+      scope:
+        - openid
+        - email
+        - profile
+    resource:
+      userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+      preferTokenInfo: true

@@ -1,5 +1,6 @@
 package com.partygames.partygamesservice.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import com.partygames.partygamesservice.model.Relationship;
@@ -22,6 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsersController {
   @Autowired
   UsersService usersService;
+
+  /**
+   * get currently logged in user.
+   */
+  @RequestMapping("/user")
+  public Principal sayHello(Principal principal) {
+    return principal;
+  }
 
   /**
    * getAllUsers: returns all users, and optionally only all users that are
