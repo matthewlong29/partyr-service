@@ -1,10 +1,11 @@
 package com.partygames.partygamesservice.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.Relationships;
-import com.partygames.partygamesservice.model.User;
+import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,19 @@ public class UsersController {
   UsersService usersService;
 
   /**
+   * get currently logged in user.
+   */
+  @RequestMapping("/user")
+  public Principal sayHello(Principal principal) {
+    return principal;
+  }
+
+  /**
    * getAllUsers: returns all users, and optionally only all users that are
    * online. Username and email cannot contain spaces.
    */
   @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<User> getAllUsers(
+  public List<PartyrUser> getAllUsers(
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly,
       @RequestParam(value = "ready", required = false, defaultValue = "false") boolean readyToPlay,
       @RequestParam(value = "query", required = false, defaultValue = "") String queryString) {
@@ -58,7 +67,7 @@ public class UsersController {
    * createUser.
    */
   @PostMapping(value = "/create-user", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public int createUser(@RequestBody User user) {
+  public int createUser(@RequestBody PartyrUser user) {
     return usersService.createUser(user);
   }
 

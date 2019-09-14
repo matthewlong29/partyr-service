@@ -4,19 +4,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.partygames.partygamesservice.model.OnlineStatus;
-import com.partygames.partygamesservice.model.User;
+import com.partygames.partygamesservice.model.PartyrUser;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserRowMapper implements RowMapper<User> {
+public class UserRowMapper implements RowMapper<PartyrUser> {
+  /**
+   * mapRow.
+   */
   @Override
-  public User mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-    User user = new User();
-    user.setUserName(resultSet.getString("user_name"));
+  public PartyrUser mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+    PartyrUser user = new PartyrUser();
+    user.setUserName("user_name");
+    user.setPassword("user_password");
     user.setEmail(resultSet.getString("email"));
-    user.setPassword(resultSet.getString("password"));
     user.setJoinedDate(resultSet.getTimestamp("joined_date"));
     user.setOnlineStatus(OnlineStatus.valueOf(resultSet.getString("online_status")));
     user.setThemeID(resultSet.getInt("theme_id"));

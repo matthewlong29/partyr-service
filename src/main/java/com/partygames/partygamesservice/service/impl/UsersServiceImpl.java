@@ -1,13 +1,12 @@
 package com.partygames.partygamesservice.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
+import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.RelationshipStatus;
 import com.partygames.partygamesservice.model.Relationships;
-import com.partygames.partygamesservice.model.User;
 import com.partygames.partygamesservice.service.UsersService;
 import com.partygames.partygamesservice.util.PartyLogger;
 
@@ -28,7 +27,7 @@ public class UsersServiceImpl implements UsersService {
    * string value (no spaces are allowed in username and email). note: cannot be
    * ready to play and offline.
    */
-  public List<User> getAllUsers(boolean isOnlineOnly, boolean isReadyToPlay, String queryString) {
+  public List<PartyrUser> getAllUsers(boolean isOnlineOnly, boolean isReadyToPlay, String queryString) {
     if (isReadyToPlay && !queryString.isEmpty()) {
       log.info("GETTING ONLINE USERS THAT ARE READY TO PLAY CONTAINING " + queryString);
       return usersDao.serchForOnlineUsersReadyToPlayContaining(queryString);
@@ -84,7 +83,7 @@ public class UsersServiceImpl implements UsersService {
   /**
    * createUser.
    */
-  public int createUser(User user) {
+  public int createUser(PartyrUser user) {
     return usersDao.createUser(user);
   }
 
