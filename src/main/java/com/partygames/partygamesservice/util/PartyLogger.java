@@ -15,28 +15,28 @@ public class PartyLogger {
   /**
    * error.
    */
-  public void error(String message) {
+  static public void error(String message) {
     System.out.println("[" + ANSI_RED + "ERROR" + ANSI_RESET + "] " + ANSI_RED + message + ANSI_RESET);
   }
 
   /**
    * warning.
    */
-  public void warning(String message) {
+  static public void warning(String message) {
     System.out.println("[" + ANSI_YELLOW + "WARNING" + ANSI_RESET + "] " + ANSI_YELLOW + message + ANSI_RESET);
   }
 
   /**
    * info.
    */
-  public void info(String message) {
+  static public void info(String message) {
     System.out.println("[" + ANSI_BLUE + "INFO" + ANSI_RESET + "] " + ANSI_BLUE + message + ANSI_RESET);
   }
 
   /**
    * query.
    */
-  public void query(String message) {
+  static public void query(String message) {
     System.out.println("[" + ANSI_GREEN + "QUERY" + ANSI_RESET + "] " + ANSI_GREEN + message + ANSI_RESET);
   }
 }
