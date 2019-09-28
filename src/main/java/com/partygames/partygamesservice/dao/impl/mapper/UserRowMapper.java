@@ -18,7 +18,6 @@ public class UserRowMapper implements RowMapper<PartyrUser> {
   public PartyrUser mapRow(ResultSet resultSet, int rowNum) throws SQLException {
     PartyrUser user = new PartyrUser();
     user.setUserName("user_name");
-    user.setPassword("user_password");
     user.setEmail(resultSet.getString("email"));
     user.setJoinedDate(resultSet.getTimestamp("joined_date"));
     user.setOnlineStatus(OnlineStatus.valueOf(resultSet.getString("online_status")));
