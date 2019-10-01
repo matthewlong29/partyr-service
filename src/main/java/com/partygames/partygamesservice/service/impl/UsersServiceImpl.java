@@ -18,9 +18,6 @@ public class UsersServiceImpl implements UsersService {
   @Autowired
   UsersDao usersDao;
 
-  @Autowired
-  PartyLogger log;
-
   /**
    * getAllUsers: returns all users and optionally: only online users, users ready
    * to play, and users with user name or email containing a passed in query
@@ -29,22 +26,22 @@ public class UsersServiceImpl implements UsersService {
    */
   public List<PartyrUser> getAllUsers(boolean isOnlineOnly, boolean isReadyToPlay, String queryString) {
     if (isReadyToPlay && !queryString.isEmpty()) {
-      log.info("GETTING ONLINE USERS THAT ARE READY TO PLAY CONTAINING " + queryString);
+      PartyLogger.info("GETTING ONLINE USERS THAT ARE READY TO PLAY CONTAINING " + queryString);
       return usersDao.serchForOnlineUsersReadyToPlayContaining(queryString);
     } else if (isReadyToPlay && queryString.isEmpty()) {
-      log.info("GETTING ONLINE USERS THAT ARE READY TO PLAY");
+      PartyLogger.info("GETTING ONLINE USERS THAT ARE READY TO PLAY");
       return usersDao.getOnlineUsersReadyToPlay();
     } else if (isOnlineOnly && !isReadyToPlay && !queryString.isEmpty()) {
-      log.info("GETTING ALL ONLINE USERS CONTAINING " + queryString);
+      PartyLogger.info("GETTING ALL ONLINE USERS CONTAINING " + queryString);
       return usersDao.searchForOnlineUsersContaining(queryString);
     } else if (isOnlineOnly && !isReadyToPlay && queryString.isEmpty()) {
-      log.info("GETTING ALL ONLINE USERS: ");
+      PartyLogger.info("GETTING ALL ONLINE USERS: ");
       return usersDao.getOnlineUsers();
     } else if (!isOnlineOnly && !queryString.isEmpty()) {
-      log.info("GETTING ALL USERS CONTAINING " + queryString);
+      PartyLogger.info("GETTING ALL USERS CONTAINING " + queryString);
       return usersDao.searchForAllUsersContaining(queryString);
     } else {
-      log.info("GETTING ALL USERS");
+      PartyLogger.info("GETTING ALL USERS");
       return usersDao.getAllUsers();
     }
   }
@@ -54,16 +51,16 @@ public class UsersServiceImpl implements UsersService {
    */
   public Relationships getRelationships(String userName, String relationshipStatus, boolean onlineOnly) {
     if (relationshipStatus.equals(RelationshipStatus.FRIEND.toString()) && onlineOnly) {
-      log.info("GETTING ALL ONLINE FRIENDS OF: " + userName);
+      PartyLogger.info("GETTING ALL ONLINE FRIENDS OF: " + userName);
       return usersDao.getOnlineFriendsList(userName);
     } else if (relationshipStatus.equals(RelationshipStatus.FRIEND.toString()) && !onlineOnly) {
-      log.info("GETTING ALL FRIENDS OF: " + userName);
+      PartyLogger.info("GETTING ALL FRIENDS OF: " + userName);
       return usersDao.getFriendsList(userName);
     } else if (relationshipStatus.equals(RelationshipStatus.BLOCK.toString())) {
-      log.info("GETTING ALL ACCOUNTS BLOCKED BY: " + userName);
+      PartyLogger.info("GETTING ALL ACCOUNTS BLOCKED BY: " + userName);
       return usersDao.getBlockedList(userName);
     } else {
-      log.info("GETTING ALL RELATIONSHIPS OF: " + userName);
+      PartyLogger.info("GETTING ALL RELATIONSHIPS OF: " + userName);
 
       Relationships relationships = new Relationships();
       relationships.setFriendsList(usersDao.getFriendsList(userName).getFriendsList());

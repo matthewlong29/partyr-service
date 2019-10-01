@@ -1,9 +1,8 @@
 package com.partygames.partygamesservice.websocketeventlistener;
 
 import com.partygames.partygamesservice.model.Message;
+import com.partygames.partygamesservice.util.PartyLogger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -14,24 +13,27 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 @Component
 public class WebSocketEventListener {
-
-  private static final Logger logger = LoggerFactory.getLogger(WebSocketEventListener.class);
-
   @Autowired
   private SimpMessageSendingOperations messagingTemplate;
 
+  /**
+   * handleWebSocketConnectListener.
+   */
   @EventListener
   public void handleWebSocketConnectListener(SessionConnectedEvent event) {
-    logger.info("Received a new web socket connection");
+    PartyLogger.info("Received a new web socket connection");
   }
 
+  /**
+   * handleWebSocketDisconnectListener.
+   */
   @EventListener
   public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-
     String username = (String) headerAccessor.getSessionAttributes().get("username");
+
     if (username != null) {
-      logger.info("User Disconnected : " + username);
+      PartyLogger.info("User Disconnected : " + username);
 
       Message chatMessage = new Message();
       chatMessage.setType(Message.MessageType.LEAVE);

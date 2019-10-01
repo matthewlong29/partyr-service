@@ -7,6 +7,7 @@ let messageForm = document.querySelector("#messageForm");
 let messageInput = document.querySelector("#message");
 let messageArea = document.querySelector("#messageArea");
 let connectingElement = document.querySelector(".connecting");
+let disconnectButton = document.querySelector("#disconnect");
 
 let stompClient = null;
 let username = null;
@@ -22,6 +23,9 @@ let colors = [
   "#39bbb0"
 ];
 
+/**
+ * connect.
+ */
 const connect = event => {
   username = document.querySelector("#name").value.trim();
 
@@ -34,14 +38,19 @@ const connect = event => {
 
     stompClient.connect({}, onConnected, onError);
   }
+
   event.preventDefault();
 };
 
+/**
+ * onConnected.
+ */
 const onConnected = () => {
-  // Subscribe to the Public Topic
+  // subscribe to the Public Topic
   stompClient.subscribe("/topic/public", onMessageReceived);
 
-  // Tell your username to the server
+  // tell your username to the server
+  // TODO: use logged in user
   stompClient.send(
     "/app/chat.addUser",
     {},
@@ -51,12 +60,44 @@ const onConnected = () => {
   connectingElement.classList.add("hidden");
 };
 
+/**
+ * disconnect.
+ */
+const disconnect = event => {
+  console.log(`disconnecting user`);
+  let socket = new SockJS("/ws"); // TODO make dynamic rooms?
+  stompClient.disconnect(onDisconnect);
+};
+
+/**
+ * onDisconnect.
+ */
+const onDisconnect = () => {
+  // subscribe to the Public Topic
+  stompClient.subscribe("/topic/public", onMessageReceived);
+
+  stompClient.send(
+    "/app/chat.removeUser",
+    {},
+    JSON.stringify({ sender: username, type: "LEAVE" })
+  );
+
+  usernamePage.classList.remove("hidden");
+  chatPage.classList.add("hidden");
+};
+
+/**
+ * onError.
+ */
 const onError = error => {
   connectingElement.textContent =
-    "Could not connect to WebSocket server. Please refresh this page to try again!";
+    "Could not connect to WebSocket server. Please try again!";
   connectingElement.style.color = "red";
 };
 
+/**
+ * sendMessage.
+ */
 const sendMessage = event => {
   console.log(event);
   let messageContent = messageInput.value.trim();
@@ -64,7 +105,6 @@ const sendMessage = event => {
     let chatMessage = {
       sender: username,
       content: messageInput.value,
-      // timeOfMessage:
       type: "CHAT"
     };
     stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
@@ -73,6 +113,9 @@ const sendMessage = event => {
   event.preventDefault();
 };
 
+/**
+ * onMessageReceived.
+ */
 const onMessageReceived = payload => {
   let message = JSON.parse(payload.body);
 
@@ -82,6 +125,7 @@ const onMessageReceived = payload => {
     messageElement.classList.add("event-message");
     message.content = `${message.sender} joined!`;
   } else if (message.type === "LEAVE") {
+    console.log("leaving.. :(");
     messageElement.classList.add("event-message");
     message.content = `${message.sender} left!`;
   } else {
@@ -101,9 +145,8 @@ const onMessageReceived = payload => {
   }
 
   let textElement = document.createElement("p");
-  let messageText = document.createTextNode(
-    `[${message.timeOfMessage}] ${message.content}`
-  );
+  let messageText = document.createTextNode(message.content);
+
   textElement.appendChild(messageText);
 
   messageElement.appendChild(textElement);
@@ -112,6 +155,10 @@ const onMessageReceived = payload => {
   messageArea.scrollTop = messageArea.scrollHeight;
 };
 
+/**
+ * getAvatarColor.
+ * TODO: use googles image if it exists.
+ */
 const getAvatarColor = messageSender => {
   let hash = 0;
   for (let i = 0; i < messageSender.length; i++) {
@@ -123,3 +170,4 @@ const getAvatarColor = messageSender => {
 
 usernameForm.addEventListener("submit", connect, true);
 messageForm.addEventListener("submit", sendMessage, true);
+disconnectButton.addEventListener("click", disconnect);

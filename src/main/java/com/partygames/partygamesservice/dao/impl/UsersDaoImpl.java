@@ -24,9 +24,6 @@ public class UsersDaoImpl implements UsersDao {
   @Autowired
   UserRowMapper userRowMapper;
 
-  @Autowired
-  PartyLogger log;
-
   /**
    * 
    */
@@ -40,7 +37,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(queryString);
     query.append("%') order by user_name;");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     return jdbcTemplate.query(query.toString(), userRowMapper);
   }
@@ -54,7 +51,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(ReadyStatus.READY);
     query.append("' order by user_name;");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     return jdbcTemplate.query(query.toString(), userRowMapper);
   }
@@ -72,7 +69,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(queryString);
     query.append("%') order by user_name;");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     return jdbcTemplate.query(query.toString(), userRowMapper);
   }
@@ -86,7 +83,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(OnlineStatus.ONLINE);
     query.append("' order by user_name;");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     return jdbcTemplate.query(query.toString(), userRowMapper);
   }
@@ -103,7 +100,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(queryString);
     query.append("%') order by user_name;");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     return jdbcTemplate.query(query.toString(), userRowMapper);
   }
@@ -115,7 +112,7 @@ public class UsersDaoImpl implements UsersDao {
     StringBuilder query = new StringBuilder();
     query.append("select * from Users order by online_status desc, user_name;");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     return jdbcTemplate.query(query.toString(), userRowMapper);
   }
@@ -133,7 +130,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(RelationshipStatus.BLOCK);
     query.append("' order by user_name;");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     Relationships relationships = new Relationships();
     relationships.setBlockedList(jdbcTemplate.query(query.toString(), userRowMapper));
@@ -141,7 +138,7 @@ public class UsersDaoImpl implements UsersDao {
     return relationships;
   }
 
-    /**
+  /**
    * getFriendsList.
    */
   public Relationships getFriendsList(String userName) {
@@ -154,7 +151,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(RelationshipStatus.FRIEND);
     query.append("' order by online_status desc, user_name;");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     Relationships relationships = new Relationships();
     relationships.setFriendsList(jdbcTemplate.query(query.toString(), userRowMapper));
@@ -162,7 +159,7 @@ public class UsersDaoImpl implements UsersDao {
     return relationships;
   }
 
-    /**
+  /**
    * getOnlineFriendsList.
    */
   public Relationships getOnlineFriendsList(String userName) {
@@ -177,7 +174,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(OnlineStatus.ONLINE);
     query.append("' order by user_name;");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     Relationships relationships = new Relationships();
     relationships.setFriendsList(jdbcTemplate.query(query.toString(), userRowMapper));
@@ -199,7 +196,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(RelationshipStatus.BLOCK);
     query.append("');");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     return jdbcTemplate.update(query.toString());
   }
@@ -218,7 +215,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(newRelationship.getRelationshipStatus());
     query.append("');");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     return jdbcTemplate.update(query.toString());
   }
@@ -241,7 +238,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(user.getPassword());
     query.append("');");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     return jdbcTemplate.update(query.toString());
   }
@@ -257,7 +254,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(userToUpdate);
     query.append("';");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     return jdbcTemplate.update(query.toString());
   }
@@ -273,7 +270,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(userToUpdate);
     query.append("';");
 
-    log.query(query.toString());
+    PartyLogger.query(query.toString());
 
     return jdbcTemplate.update(query.toString());
   }
