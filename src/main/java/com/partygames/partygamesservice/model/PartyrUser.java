@@ -2,17 +2,20 @@ package com.partygames.partygamesservice.model;
 
 import java.sql.Timestamp;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
+@Data
 @ToString
 public class PartyrUser {
   private String userName;
   private String email;
-  private String password;
+  private String firstName;
+  private String lastName;
+  private String pictureUrl;
+  private String userHash;
   private Timestamp joinedDate;
   private OnlineStatus onlineStatus;
   private int themeID;

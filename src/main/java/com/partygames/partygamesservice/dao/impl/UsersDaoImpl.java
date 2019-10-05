@@ -1,5 +1,12 @@
 package com.partygames.partygamesservice.dao.impl;
 
+import java.sql.PreparedStatement;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
@@ -141,7 +148,7 @@ public class UsersDaoImpl implements UsersDao {
     return relationships;
   }
 
-    /**
+  /**
    * getFriendsList.
    */
   public Relationships getFriendsList(String userName) {
@@ -162,7 +169,7 @@ public class UsersDaoImpl implements UsersDao {
     return relationships;
   }
 
-    /**
+  /**
    * getOnlineFriendsList.
    */
   public Relationships getOnlineFriendsList(String userName) {
@@ -224,6 +231,20 @@ public class UsersDaoImpl implements UsersDao {
   }
 
   /**
+   * createUserIfNotExist
+   */
+  public int createUserIfNotExist(PartyrUser user) {
+    String insertCols = "user_hash, email, first_name, last_name, profile_picture, joined_date";
+    StringBuilder sql = new StringBuilder();
+    sql.append("insert into PartyGamesDatabase.Users (");
+    sql.append(insertCols);
+    sql.append(") values(?, ?, ?, ?, ?, now()) on duplicate key update user_id = user_id");
+    String ts = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+    return jdbcTemplate.update(sql.toString(), user.getUserHash(), user.getEmail(), user.getFirstName(),
+        user.getLastName(), user.getPictureUrl());
+  }
+
+  /**
    * createUser.
    */
   public int createUser(PartyrUser user) {
@@ -237,9 +258,9 @@ public class UsersDaoImpl implements UsersDao {
     query.append(user.getCountry());
     query.append("', ");
     query.append(user.getAge());
-    query.append(", '");
-    query.append(user.getPassword());
-    query.append("');");
+    // query.append(", '");
+    // query.append(user.getPassword());
+    // query.append("');");
 
     log.query(query.toString());
 
