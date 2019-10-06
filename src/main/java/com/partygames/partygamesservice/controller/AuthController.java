@@ -1,5 +1,7 @@
 package com.partygames.partygamesservice.controller;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -57,10 +59,12 @@ public class AuthController {
 
   /**
    * getLoggedInUser.
+   * 
+   * TODO better handle exceptions
    */
   @GetMapping(value = "/current-user")
-  public PartyrUser getLoggedInUser() {
-
-    return new PartyrUser();
+  public PartyrUser getLoggedInUser(@RequestBody Map<String, String> body, HttpServletResponse res)
+      throws IOException, GeneralSecurityException {
+    return authService.getLoggedInUser(body.get("idToken"));
   }
 }

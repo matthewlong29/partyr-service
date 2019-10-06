@@ -1,5 +1,7 @@
 package com.partygames.partygamesservice.service.impl;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Collections;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -11,6 +13,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.partygames.partygamesservice.dao.UsersDao;
 import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.service.AuthService;
+import com.partygames.partygamesservice.util.PartyLogger;
 import com.partygames.partygamesservice.util.SecurityUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
         }
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      PartyLogger.error(e.getMessage());
     }
 
     return 0;
@@ -60,8 +63,29 @@ public class AuthServiceImpl implements AuthService {
 
   /**
    * getLoggedInUser.
+   * 
+   * NOTE not thread safe.
    */
-  public PartyrUser getLoggedInUser(String token) {
+  public PartyrUser getLoggedInUser(String token) throws IOException, GeneralSecurityException {
+    if (token != null) {
+      try {
+        GoogleIdToken idToken = verifier.verify(token);
+
+        if (idToken != null) {
+          Payload payload = idToken.getPayload();
+          try {
+            usersDao.getUserByEmail(payload.getEmail());
+          } catch (Exception e) {
+            PartyLogger.error("Could not find user with that email" + payload.getEmail() + "." + e.getMessage());
+          }
+        }
+      } catch (IOException e) {
+        PartyLogger.error(e.getMessage());
+      } catch (GeneralSecurityException e) {
+        PartyLogger.error(e.getMessage());
+      }
+    }
+
     return new PartyrUser();
   }
 }

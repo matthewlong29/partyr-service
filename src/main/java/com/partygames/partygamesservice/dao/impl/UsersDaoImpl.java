@@ -27,7 +27,17 @@ public class UsersDaoImpl implements UsersDao {
   UserRowMapper userRowMapper;
 
   /**
-   * 
+   * getUserByEmail.
+   */
+  public PartyrUser getUserByEmail(String email) {
+    String query = "CALL `partyrdb`.`get_user_by_email`('" + email + "');";
+    PartyLogger.query(query);
+
+    return jdbcTemplate.query(query, userRowMapper).get(0);
+  }
+
+  /**
+   * serchForOnlineUsersReadyToPlayContaining.
    */
   public List<PartyrUser> serchForOnlineUsersReadyToPlayContaining(String queryString) {
     String query = "CALL `partyrdb`.`get_users_ready_to_play`('" + queryString + "');";
@@ -37,7 +47,7 @@ public class UsersDaoImpl implements UsersDao {
   }
 
   /**
-   * 
+   * getOnlineUsersReadyToPlay.
    */
   public List<PartyrUser> getOnlineUsersReadyToPlay() {
     String query = "CALL `partyrdb`.`get_users_ready_to_play`('');";
@@ -47,7 +57,7 @@ public class UsersDaoImpl implements UsersDao {
   }
 
   /**
-   * 
+   * searchForOnlineUsersContaining.
    */
   public List<PartyrUser> searchForOnlineUsersContaining(String queryString) {
     String query = "CALL `partyrdb`.`get_users_online`('" + queryString + "');";
@@ -57,7 +67,7 @@ public class UsersDaoImpl implements UsersDao {
   }
 
   /**
-   * 
+   * getOnlineUsers.
    */
   public List<PartyrUser> getOnlineUsers() {
     String query = "CALL `partyrdb`.`get_users_online`('');";
@@ -67,7 +77,7 @@ public class UsersDaoImpl implements UsersDao {
   }
 
   /**
-   * 
+   * searchForAllUsersContaining.
    */
   public List<PartyrUser> searchForAllUsersContaining(String queryString) {
     String query = "CALL `partyrdb`.`get_all_users`('" + queryString + "');";
