@@ -25,14 +25,6 @@ public class UsersController {
   UsersService usersService;
 
   /**
-   * get currently logged in user.
-   */
-  @RequestMapping("/user")
-  public Principal sayHello(Principal principal) {
-    return principal;
-  }
-
-  /**
    * getAllUsers: returns all users, and optionally only all users that are
    * online. Username and email cannot contain spaces.
    */
