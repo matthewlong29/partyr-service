@@ -178,14 +178,11 @@ public class UsersDaoImpl implements UsersDao {
    * createUserIfNotExist
    */
   public int createUserIfNotExist(PartyrUser user) {
-    String insertCols = "user_hash, email, first_name, last_name, profile_image_url, joined_date";
-    StringBuilder sql = new StringBuilder();
-    sql.append("insert into PartyGamesDatabase.partyr_users (");
-    sql.append(insertCols);
-    sql.append(") values(?, ?, ?, ?, ?, now()) on duplicate key update user_id = user_id");
-    String ts = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
-    return jdbcTemplate.update(sql.toString(), user.getUserHash(), user.getEmail(), user.getFirstName(),
-        user.getLastName(), user.getProfileImageURL());
+    String query = "CALL `partyrdb`.`create_user`('" + user.getUserHash() + "', '" + user.getEmail() + "', '"
+        + user.getFirstName().toString() + "', '" + user.getLastName() + "', '" + user.getProfileImageURL() + "');";
+    PartyLogger.query(query);
+
+    return jdbcTemplate.update(query);
   }
 
   /**
