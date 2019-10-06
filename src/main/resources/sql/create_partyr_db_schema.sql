@@ -2,6 +2,8 @@
 
 SET FOREIGN_KEY_CHECKS=0; -- to disable them
 
+drop trigger if exists set_user_name_equal_to_email;
+
 drop table if exists black_hand_instances;
 drop table if exists black_hand;
 drop table if exists relationships;
@@ -26,7 +28,7 @@ CREATE TABLE `themes` (
 CREATE TABLE `partyr_users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_hash` varchar(254) NOT NULL,
-  `user_name` varchar(32) NOT NULL DEFAULT 'New User',
+  `user_name` varchar(32) DEFAULT NULL,
   `first_name` varchar(254) DEFAULT NULL,
   `last_name` varchar(254) DEFAULT NULL,
   `email` varchar(64) NOT NULL,
@@ -45,6 +47,9 @@ CREATE TABLE `partyr_users` (
   CONSTRAINT `limit_online_status` CHECK ((`online_status` in ('ONLINE','OFFLINE'))),
   CONSTRAINT `limit_ready_to_play_status` CHECK ((`ready_to_play_status` in ('READY', 'NOT_READY')))
 ) ENGINE=InnoDB;
+
+CREATE TRIGGER set_user_name_equal_to_email BEFORE INSERT ON partyr_users FOR EACH ROW
+  SET NEW.user_name := NEW.email;
 
 -- ** create relationships table
 
