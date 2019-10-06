@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
                     user.setEmail(payload.getEmail());
                     user.setFirstName((String) payload.get("given_name"));
                     user.setLastName((String) payload.get("family_name"));
-                    user.setPictureUrl((String) payload.get("picture"));
+                    user.setProfileImageURL((String) payload.get("picture"));
                     String uncodedUserHash = user.getEmail().concat(user.getFirstName()).concat(user.getLastName());
                     user.setUserHash(SecurityUtils.encodeHashSha256(uncodedUserHash));
                     return usersDao.createUserIfNotExist(user);

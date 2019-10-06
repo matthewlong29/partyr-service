@@ -30,7 +30,7 @@ CREATE TABLE `partyr_users` (
   `first_name` varchar(254) DEFAULT NULL,
   `last_name` varchar(254) DEFAULT NULL,
   `email` varchar(64) NOT NULL,
-  `profile_picture` varchar(254) DEFAULT NULL,
+  `profile_image_url` varchar(254) DEFAULT NULL,
   `joined_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `online_status` varchar(8) DEFAULT 'OFFLINE',
   `ready_to_play_status` varchar(16) DEFAULT 'NOT_READY',

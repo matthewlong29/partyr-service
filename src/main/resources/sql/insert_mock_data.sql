@@ -7,13 +7,13 @@ INSERT INTO `partyrdb`.`themes` (`theme_name`) VALUES ('lemon_in_water');
 
 -- ** partyr_user mock data
 
-INSERT INTO `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_picture`, `online_status`, `ready_to_play_status`, `age`, `country`)
+INSERT INTO `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `ready_to_play_status`, `age`, `country`)
 VALUES ('fbcef9848426e3a281d2b8d9e213ca80', 'matthewlong29', 'matthew', 'long', 'long.matthew29@gmail.com', 'http://www.google.com/image.jpg', 'OFFLINE', 'NOT_READY', 28, 'United States');
-INSERT INTO `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_picture`, `online_status`, `ready_to_play_status`, `age`, `country`)
+INSERT INTO `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `ready_to_play_status`, `age`, `country`)
 VALUES ('dd1b9ac0f78bb89362ca862b8f5fa340', 'timmy7', 'timmy', 'smith', 'timmy7@gmail.com', 'http://www.google.com/image.jpg', 'OFFLINE', 'NOT_READY', 13, 'United States');
-INSERT INTO `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_picture`, `online_status`, `ready_to_play_status`, `age`, `country`)
+INSERT INTO `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `ready_to_play_status`, `age`, `country`)
 VALUES ('c9c3d90d5c54fe0b3addb2d0f3ffeb20', 'cheesecake', 'cheese', 'cakeeee', 'cheesecake@gmail.com', 'http://www.google.com/image.jpg', 'ONLINE', 'NOT_READY', 99, 'United States');
-INSERT INTO `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_picture`, `online_status`, `ready_to_play_status`, `age`, `country`)
+INSERT INTO `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `ready_to_play_status`, `age`, `country`)
 VALUES ('3bc97cd06a7c868b3b38a5ab85f49c4e', 'obtrusivemonks', 'kathy', 'guy', 'obtrusivemonks@gmail.com', 'http://www.google.com/image.jpg', 'ONLINE', 'READY', 19, 'United States');
 
 -- ** relationships mock data

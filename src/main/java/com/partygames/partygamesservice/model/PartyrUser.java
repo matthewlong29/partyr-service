@@ -12,7 +12,7 @@ public class PartyrUser {
   private String email;
   private String firstName;
   private String lastName;
-  private String pictureUrl;
+  private String profileImageURL;
   private String userHash;
   private Timestamp joinedDate;
   private OnlineStatus onlineStatus;
