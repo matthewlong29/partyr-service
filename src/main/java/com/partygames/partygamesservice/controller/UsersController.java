@@ -78,12 +78,4 @@ public class UsersController {
   public int chooseTheme(@PathVariable String userToUpdate, @PathVariable int themeID) {
     return usersService.chooseTheme(userToUpdate, themeID);
   }
-
-  /**
-   * changePassword.
-   */
-  @GetMapping(value = "/change-password/{userToUpdate}/{newPassword}")
-  public int changePassword(@PathVariable String userToUpdate, @PathVariable String newPassword) {
-    return usersService.changePassword(userToUpdate, newPassword);
-  }
 }
