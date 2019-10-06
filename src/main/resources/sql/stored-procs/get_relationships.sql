@@ -16,7 +16,7 @@ BEGIN
 		`partyr_users`.`first_name`,
 		`partyr_users`.`last_name`,
 		`partyr_users`.`email`,
-		`partyr_users`.`profile_picture`,
+		`partyr_users`.`profile_image_url`,
 		`partyr_users`.`joined_date`,
 		`partyr_users`.`online_status`,
 		`partyr_users`.`ready_to_play_status`,

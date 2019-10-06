@@ -178,7 +178,7 @@ public class UsersDaoImpl implements UsersDao {
    * createUserIfNotExist
    */
   public int createUserIfNotExist(PartyrUser user) {
-    String insertCols = "user_hash, email, first_name, last_name, profile_picture, joined_date";
+    String insertCols = "user_hash, email, first_name, last_name, profile_image_url, joined_date";
     StringBuilder sql = new StringBuilder();
     sql.append("insert into PartyGamesDatabase.partyr_users (");
     sql.append(insertCols);
