@@ -7,6 +7,7 @@ import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.Relationships;
 import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.service.UsersService;
+import com.partygames.partygamesservice.util.PartyLogger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,6 +24,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsersController {
   @Autowired
   UsersService usersService;
+
+  /**
+   * getLoggedInUser.
+   * 
+   * TODO better handle exceptions; TODO pass as request body instead
+   */
+  @GetMapping(value = "/current-user/{email}")
+  public PartyrUser getLoggedInUser(@PathVariable String email) {
+    PartyLogger.info("email: " + email);
+
+    return usersService.getCurrentUser(email);
+  }
 
   /**
    * getAllUsers: returns all users, and optionally only all users that are

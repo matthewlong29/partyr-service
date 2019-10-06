@@ -1,20 +1,16 @@
 package com.partygames.partygamesservice.controller;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.service.AuthService;
 import com.partygames.partygamesservice.util.PartyLogger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,16 +51,5 @@ public class AuthController {
     }
 
     return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
-  }
-
-  /**
-   * getLoggedInUser.
-   * 
-   * TODO better handle exceptions
-   */
-  @GetMapping(value = "/current-user")
-  public PartyrUser getLoggedInUser(@RequestBody Map<String, String> body, HttpServletResponse res)
-      throws IOException, GeneralSecurityException {
-    return authService.getLoggedInUser(body.get("idToken"));
   }
 }

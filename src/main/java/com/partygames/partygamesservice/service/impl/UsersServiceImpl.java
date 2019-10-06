@@ -19,6 +19,13 @@ public class UsersServiceImpl implements UsersService {
   UsersDao usersDao;
 
   /**
+   * getCurrentUser.
+   */
+  public PartyrUser getCurrentUser(String email) {
+    return usersDao.getUserByEmail(email);
+  }
+
+  /**
    * getAllUsers: returns all users and optionally: only online users, users ready
    * to play, and users with user name or email containing a passed in query
    * string value (no spaces are allowed in username and email). note: cannot be
