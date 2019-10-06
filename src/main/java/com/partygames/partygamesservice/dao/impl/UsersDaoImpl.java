@@ -1,22 +1,17 @@
 package com.partygames.partygamesservice.dao.impl;
 
-import java.sql.PreparedStatement;
-import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
 import com.partygames.partygamesservice.dao.impl.mapper.UserRowMapper;
+import com.partygames.partygamesservice.model.OnlineStatus;
+import com.partygames.partygamesservice.model.PartyrUser;
+import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.RelationshipStatus;
 import com.partygames.partygamesservice.model.Relationships;
-import com.partygames.partygamesservice.model.OnlineStatus;
-import com.partygames.partygamesservice.model.ReadyStatus;
-import com.partygames.partygamesservice.model.Relationship;
-import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.util.PartyLogger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,79 +30,48 @@ public class UsersDaoImpl implements UsersDao {
    * 
    */
   public List<PartyrUser> serchForOnlineUsersReadyToPlayContaining(String queryString) {
-    StringBuilder query = new StringBuilder();
-    query.append("select * from partyr_users where ready_to_play_status = '");
-    query.append(ReadyStatus.READY);
-    query.append("' and (email like '%");
-    query.append(queryString);
-    query.append("%' or user_name like '%");
-    query.append(queryString);
-    query.append("%') order by user_name;");
+    String query = "CALL `partyrdb`.`get_users_ready_to_play`('" + queryString + "');";
+    PartyLogger.query(query);
 
-    PartyLogger.query(query.toString());
-
-    return jdbcTemplate.query(query.toString(), userRowMapper);
+    return jdbcTemplate.query(query, userRowMapper);
   }
 
   /**
    * 
    */
   public List<PartyrUser> getOnlineUsersReadyToPlay() {
-    StringBuilder query = new StringBuilder();
-    query.append("select * from partyr_users where ready_to_play_status = '");
-    query.append(ReadyStatus.READY);
-    query.append("' order by user_name;");
+    String query = "CALL `partyrdb`.`get_users_ready_to_play`('');";
+    PartyLogger.query(query);
 
-    PartyLogger.query(query.toString());
-
-    return jdbcTemplate.query(query.toString(), userRowMapper);
+    return jdbcTemplate.query(query, userRowMapper);
   }
 
   /**
    * 
    */
   public List<PartyrUser> searchForOnlineUsersContaining(String queryString) {
-    StringBuilder query = new StringBuilder();
-    query.append("select * from partyr_users where online_status = '");
-    query.append(OnlineStatus.ONLINE);
-    query.append("' and (email like '%");
-    query.append(queryString);
-    query.append("%' or user_name like '%");
-    query.append(queryString);
-    query.append("%') order by user_name;");
+    String query = "CALL `partyrdb`.`get_users_online`('" + queryString + "');";
+    PartyLogger.query(query);
 
-    PartyLogger.query(query.toString());
-
-    return jdbcTemplate.query(query.toString(), userRowMapper);
+    return jdbcTemplate.query(query, userRowMapper);
   }
 
   /**
    * 
    */
   public List<PartyrUser> getOnlineUsers() {
-    StringBuilder query = new StringBuilder();
-    query.append("select * from partyr_users where online_status = '");
-    query.append(OnlineStatus.ONLINE);
-    query.append("' order by user_name;");
+    String query = "CALL `partyrdb`.`get_users_online`('');";
+    PartyLogger.query(query);
 
-    PartyLogger.query(query.toString());
-
-    return jdbcTemplate.query(query.toString(), userRowMapper);
+    return jdbcTemplate.query(query, userRowMapper);
   }
 
   /**
    * 
    */
   public List<PartyrUser> searchForAllUsersContaining(String queryString) {
-    StringBuilder query = new StringBuilder();
-    query.append("select * from partyr_users where ");
-    query.append("(email like '%");
-    query.append(queryString);
-    query.append("%' or user_name like '%");
-    query.append(queryString);
-    query.append("%') order by user_name;");
-
-    PartyLogger.query(query.toString());
+    String query = "CALL `partyrdb`.`get_all_users`('" + queryString + "');";
+    PartyLogger.query(query);
 
     return jdbcTemplate.query(query.toString(), userRowMapper);
   }
@@ -116,31 +80,21 @@ public class UsersDaoImpl implements UsersDao {
    * getAllUsers.
    */
   public List<PartyrUser> getAllUsers() {
-    StringBuilder query = new StringBuilder();
-    query.append("select * from partyr_users order by online_status desc, user_name;");
+    String query = "CALL `partyrdb`.`get_all_users`('');";
+    PartyLogger.query(query);
 
-    PartyLogger.query(query.toString());
-
-    return jdbcTemplate.query(query.toString(), userRowMapper);
+    return jdbcTemplate.query(query, userRowMapper);
   }
 
   /**
    * getBlockedList.
    */
   public Relationships getBlockedList(String userName) {
-    StringBuilder query = new StringBuilder();
-    query.append(
-        "select user_id, user_name, email, password, joined_date, online_status, theme_id, age, country from partyr_users ");
-    query.append("left join Relationships on (Relationships.related_name = partyr_users.user_name) where relating_name = '");
-    query.append(userName);
-    query.append("' and relationship_type = '");
-    query.append(RelationshipStatus.BLOCK);
-    query.append("' order by user_name;");
-
-    PartyLogger.query(query.toString());
+    String query = "CALL `partyrdb`.`get_relationships`('BLOCK', '" + userName + "');";
+    PartyLogger.query(query);
 
     Relationships relationships = new Relationships();
-    relationships.setBlockedList(jdbcTemplate.query(query.toString(), userRowMapper));
+    relationships.setBlockedList(jdbcTemplate.query(query, userRowMapper));
 
     return relationships;
   }
@@ -149,19 +103,11 @@ public class UsersDaoImpl implements UsersDao {
    * getFriendsList.
    */
   public Relationships getFriendsList(String userName) {
-    StringBuilder query = new StringBuilder();
-    query.append(
-        "select user_id, user_name, email, password, joined_date, online_status, theme_id, age, country from partyr_users ");
-    query.append("left join Relationships on (Relationships.related_name = partyr_users.user_name) where relating_name = '");
-    query.append(userName);
-    query.append("' and relationship_type = '");
-    query.append(RelationshipStatus.FRIEND);
-    query.append("' order by online_status desc, user_name;");
-
-    PartyLogger.query(query.toString());
+    String query = "CALL `partyrdb`.`get_relationships`('FRIEND', '" + userName + "');";
+    PartyLogger.query(query);
 
     Relationships relationships = new Relationships();
-    relationships.setFriendsList(jdbcTemplate.query(query.toString(), userRowMapper));
+    relationships.setFriendsList(jdbcTemplate.query(query, userRowMapper));
 
     return relationships;
   }
@@ -172,8 +118,9 @@ public class UsersDaoImpl implements UsersDao {
   public Relationships getOnlineFriendsList(String userName) {
     StringBuilder query = new StringBuilder();
     query.append(
-        "select user_id, user_name, email, password, joined_date, online_status, theme_id, age, country from partyr_users ");
-    query.append("left join Relationships on (Relationships.related_name = partyr_users.user_name) where relating_name = '");
+        "select user_id, user_hash, user_name, first_name, last_name, email, profile_image_url, joined_date, online_status, ready_to_play_status, theme_id, age, country from partyr_users ");
+    query.append(
+        "left join Relationships on (Relationships.related_email = partyr_users.email) where relating_email = '");
     query.append(userName);
     query.append("' and relationship_type = '");
     query.append(RelationshipStatus.FRIEND);
@@ -195,7 +142,7 @@ public class UsersDaoImpl implements UsersDao {
   public int blockUser(String currentUser, String userToBlock) {
     StringBuilder query = new StringBuilder();
     query.append(
-        "insert into `PartyGamesDatabase`.`Relationships` (`relating_name`, `related_name`, `relationship_type`) values ('");
+        "insert into `PartyGamesDatabase`.`Relationships` (`relating_email`, `related_email`, `relationship_type`) values ('");
     query.append(currentUser);
     query.append("', '");
     query.append(userToBlock);
@@ -214,7 +161,7 @@ public class UsersDaoImpl implements UsersDao {
   public int createRelationship(Relationship newRelationship) {
     StringBuilder query = new StringBuilder();
     query.append(
-        "insert into `PartyGamesDatabase`.`Relationships` (`relating_name`, `related_name`, `relationship_type`) values ('");
+        "insert into `PartyGamesDatabase`.`Relationships` (`relating_email`, `related_email`, `relationship_type`) values ('");
     query.append(newRelationship.getRelatingName());
     query.append("', '");
     query.append(newRelationship.getRelatedName());
@@ -255,9 +202,6 @@ public class UsersDaoImpl implements UsersDao {
     query.append(user.getCountry());
     query.append("', ");
     query.append(user.getAge());
-    // query.append(", '");
-    // query.append(user.getPassword());
-    // query.append("');");
 
     PartyLogger.query(query.toString());
 
