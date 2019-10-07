@@ -28,7 +28,7 @@ CREATE TABLE `themes` (
 CREATE TABLE `partyr_users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_hash` varchar(254) NOT NULL,
-  `user_name` varchar(32) DEFAULT NULL,
+  `user_name` varchar(32),
   `first_name` varchar(254) DEFAULT NULL,
   `last_name` varchar(254) DEFAULT NULL,
   `email` varchar(64) NOT NULL,
@@ -48,8 +48,9 @@ CREATE TABLE `partyr_users` (
   CONSTRAINT `limit_ready_to_play_status` CHECK ((`ready_to_play_status` in ('READY', 'NOT_READY')))
 ) ENGINE=InnoDB;
 
-CREATE TRIGGER set_user_name_equal_to_email BEFORE INSERT ON partyr_users FOR EACH ROW
-  SET NEW.user_name := NEW.email;
+CREATE TRIGGER set_user_name_equal_to_email BEFORE INSERT ON partyr_users FOR EACH ROW BEGIN
+  IF (NEW.user_name = null) SET NEW.user_name = NEW.email; END IF;
+END;
 
 -- ** create relationships table
 

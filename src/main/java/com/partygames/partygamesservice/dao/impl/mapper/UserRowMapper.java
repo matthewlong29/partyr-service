@@ -17,7 +17,7 @@ public class UserRowMapper implements RowMapper<PartyrUser> {
   @Override
   public PartyrUser mapRow(ResultSet resultSet, int rowNum) throws SQLException {
     PartyrUser user = new PartyrUser();
-    user.setUserName("user_name");
+    user.setUserName(resultSet.getString("user_name"));
     user.setEmail(resultSet.getString("email"));
     user.setFirstName(resultSet.getString("first_name"));
     user.setLastName(resultSet.getString("last_name"));
