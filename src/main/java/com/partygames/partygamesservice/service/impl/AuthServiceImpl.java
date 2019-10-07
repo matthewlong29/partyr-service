@@ -36,13 +36,17 @@ public class AuthServiceImpl implements AuthService {
    * googleSignIn.
    */
   @Override
-  public int googleSignIn(String token) {
+  public PartyrUser googleSignIn(String token) {
+    PartyrUser user = null;
+
     try {
       if (token != null) {
         GoogleIdToken idToken = verifier.verify(token);
-        if (idToken != null) {
+        user = getLoggedInUser(idToken);
+
+        if (idToken != null && user != null) {
           Payload payload = idToken.getPayload();
-          PartyrUser user = new PartyrUser();
+
           user.setEmail(payload.getEmail());
           user.setFirstName((String) payload.get("given_name"));
           user.setLastName((String) payload.get("family_name"));
@@ -51,14 +55,15 @@ public class AuthServiceImpl implements AuthService {
           String uncodedUserHash = user.getEmail().concat(user.getFirstName()).concat(user.getLastName());
           user.setUserHash(SecurityUtils.encodeHashSha256(uncodedUserHash));
 
-          return usersDao.createUserIfNotExist(user);
+          usersDao.createUserIfNotExist(user);
+
         }
       }
     } catch (Exception e) {
       PartyLogger.error(e.getMessage());
     }
 
-    return 0;
+    return user; // TODO throw exception instead?
   }
 
   /**
@@ -66,26 +71,17 @@ public class AuthServiceImpl implements AuthService {
    * 
    * NOTE not thread safe.
    */
-  public PartyrUser getLoggedInUser(String token) throws IOException, GeneralSecurityException {
-    if (token != null) {
-      try {
-        GoogleIdToken idToken = verifier.verify(token);
+  public PartyrUser getLoggedInUser(GoogleIdToken idToken) {
+    if (idToken != null) {
+      Payload payload = idToken.getPayload();
 
-        if (idToken != null) {
-          Payload payload = idToken.getPayload();
-          try {
-            usersDao.getUserByEmail(payload.getEmail());
-          } catch (Exception e) {
-            PartyLogger.error("Could not find user with that email" + payload.getEmail() + "." + e.getMessage());
-          }
-        }
-      } catch (IOException e) {
-        PartyLogger.error(e.getMessage());
-      } catch (GeneralSecurityException e) {
-        PartyLogger.error(e.getMessage());
+      try {
+        return usersDao.getUserByEmail(payload.getEmail());
+      } catch (Exception e) {
+        PartyLogger.error("Could not find user with that email" + payload.getEmail() + "." + e.getMessage());
       }
     }
 
-    return new PartyrUser();
+    return new PartyrUser(); // TODO throw exception isntead?
   }
 }

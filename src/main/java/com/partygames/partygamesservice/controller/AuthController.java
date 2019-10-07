@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.service.AuthService;
 import com.partygames.partygamesservice.util.PartyLogger;
 
@@ -30,9 +31,11 @@ public class AuthController {
       throws Exception {
     try {
       String idToken = body.get("idToken");
-      int signInSuccess = authService.googleSignIn(idToken);
+      PartyrUser user = authService.googleSignIn(idToken);
 
-      if (signInSuccess > 0) {
+      PartyLogger.info(user.toString()); // TODO: change this method return back to int or bool!!
+
+      if (user != null) {
         Cookie authCookie = new Cookie("AUTH_ID_TOKEN", idToken);
         authCookie.setPath("/");
         authCookie.setHttpOnly(true);
