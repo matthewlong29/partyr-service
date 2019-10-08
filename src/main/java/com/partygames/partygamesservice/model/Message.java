@@ -1,6 +1,7 @@
 package com.partygames.partygamesservice.model;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,13 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Message {
-  private PartyrUser author;
-  private String sender; // TODO: use PartyrUser
+  private String author;
+  private Timestamp timeOfMessage = new Timestamp(new Date().getTime());
   private String content;
-  private LocalDateTime timeOfMessage = LocalDateTime.now();
-  private MessageType type;
-
-  public enum MessageType {
-    CHAT, JOIN, LEAVE
-  }
 }

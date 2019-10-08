@@ -105,3 +105,14 @@ CREATE TABLE `black_hand_instances` (
   CONSTRAINT `set_player_reference` FOREIGN KEY (`player`) REFERENCES `partyr_users` (`email`),
   CONSTRAINT `set_game_instance_reference` FOREIGN KEY (`game_instance_id`) REFERENCES `black_hand` (`game_instance_id`)
 ) ENGINE=InnoDB;
+
+-- ** create chat table
+
+CREATE TABLE `chat` (
+  `chat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `player` varchar(32) NOT NULL,
+  `message` varchar(512) NOT NULL,
+  `time_of_message` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`player`),
+  CONSTRAINT `set_player_reference` FOREIGN KEY (`player`) REFERENCES `partyr_users` (`email`)
+) ENGINE=InnoDB;
