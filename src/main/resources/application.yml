@@ -2,7 +2,7 @@ server:
   port: ${PORT:8080}
 spring:
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/partyrdb # jdbc:mysql://partyrgame.com:3306/PartyGamesDatabase
     username: root # root
     password: admin # Partyr@2019

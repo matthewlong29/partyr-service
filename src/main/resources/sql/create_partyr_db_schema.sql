@@ -11,6 +11,7 @@ drop table if exists achievements;
 drop table if exists partyr_users;
 drop table if exists themes;
 drop table if exists games;
+drop table if exists chat;
 
 SET FOREIGN_KEY_CHECKS=1; -- to re-enable them
 
@@ -48,9 +49,9 @@ CREATE TABLE `partyr_users` (
   CONSTRAINT `limit_ready_to_play_status` CHECK ((`ready_to_play_status` in ('READY', 'NOT_READY')))
 ) ENGINE=InnoDB;
 
-CREATE TRIGGER set_user_name_equal_to_email BEFORE INSERT ON partyr_users FOR EACH ROW BEGIN
-  IF (NEW.user_name = null) SET NEW.user_name = NEW.email; END IF;
-END;
+-- CREATE TRIGGER set_user_name_equal_to_email BEFORE INSERT ON partyr_users FOR EACH ROW BEGIN
+--   IF (NEW.user_name = null) SET NEW.user_name = NEW.email; END IF;
+-- END;
 
 -- ** create relationships table
 
@@ -110,9 +111,9 @@ CREATE TABLE `black_hand_instances` (
 
 CREATE TABLE `chat` (
   `chat_id` int(11) NOT NULL AUTO_INCREMENT,
-  `player` varchar(32) NOT NULL,
+  `author` varchar(32) NOT NULL,
   `message` varchar(512) NOT NULL,
   `time_of_message` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`player`),
-  CONSTRAINT `set_player_reference` FOREIGN KEY (`player`) REFERENCES `partyr_users` (`email`)
+  PRIMARY KEY (`chat_id`),
+  CONSTRAINT `set_author_reference` FOREIGN KEY (`author`) REFERENCES `partyr_users` (`email`)
 ) ENGINE=InnoDB;

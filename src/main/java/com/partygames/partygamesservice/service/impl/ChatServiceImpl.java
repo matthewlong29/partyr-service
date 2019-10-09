@@ -40,7 +40,7 @@ public class ChatServiceImpl implements ChatService {
   public int saveMessage(Message message) {
     PartyLogger.info("new chat message: [" + message.toString() + "]");
 
-    return 0;
+    return chatDao.insertMessage(message);
   }
 
   /**
