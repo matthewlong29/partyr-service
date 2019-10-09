@@ -29,6 +29,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     List<String> excludeList = new ArrayList<>();
     excludeList.add("/api/google-authenticate");
     excludeList.add("/api/current-user/long.matthew29@gmail.com"); // TODO remove this......
+    excludeList.add("/api/chat"); // TODO remove this......
 
     return excludeList.stream().anyMatch(p -> pathMatcher.match(p, request.getServletPath()));
   }

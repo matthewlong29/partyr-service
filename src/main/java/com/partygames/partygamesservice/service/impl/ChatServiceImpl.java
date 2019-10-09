@@ -1,6 +1,5 @@
 package com.partygames.partygamesservice.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.ChatDao;
@@ -47,6 +46,6 @@ public class ChatServiceImpl implements ChatService {
    * getMessages.
    */
   public List<Message> getMessages() {
-    return new ArrayList<>();
+    return chatDao.getMessages();
   }
 }

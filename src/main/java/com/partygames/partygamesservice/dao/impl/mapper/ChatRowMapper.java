@@ -16,7 +16,7 @@ public class ChatRowMapper implements RowMapper<Message> {
   @Override
   public Message mapRow(ResultSet resultSet, int rowNum) throws SQLException {
     Message message = new Message();
-    message.setAuthor(resultSet.getString("player"));
+    message.setAuthor(resultSet.getString("author"));
     message.setContent(resultSet.getString("message"));
     message.setTimeOfMessage(resultSet.getTimestamp("time_of_message"));
 

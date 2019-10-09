@@ -1,5 +1,7 @@
 package com.partygames.partygamesservice.dao.impl;
 
+import java.util.List;
+
 import com.partygames.partygamesservice.dao.ChatDao;
 import com.partygames.partygamesservice.dao.impl.mapper.ChatRowMapper;
 import com.partygames.partygamesservice.model.Message;
@@ -26,5 +28,15 @@ public class ChatDaoImpl implements ChatDao {
     PartyLogger.query(query);
 
     return jdbcTemplate.update(query);
+  }
+
+  /**
+   * getMessages.
+   */
+  public List<Message> getMessages() {
+    String query = "CALL `partyrdb`.`get_all_messages`();";
+    PartyLogger.query(query);
+
+    return jdbcTemplate.query(query, chatRowMapper);
   }
 }
