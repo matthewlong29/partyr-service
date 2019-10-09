@@ -22,7 +22,9 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 public class AuthenticationFilter extends OncePerRequestFilter {
-
+  /**
+   * shouldNotFilter.
+   */
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
     AntPathMatcher pathMatcher = new AntPathMatcher();
@@ -34,6 +36,9 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     return excludeList.stream().anyMatch(p -> pathMatcher.match(p, request.getServletPath()));
   }
 
+  /**
+   * doFilterInternal.
+   */
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
     PartyLogger.info("filtering");
