@@ -1,12 +1,12 @@
 package com.partygames.partygamesservice.controller;
 
-import java.security.Principal;
 import java.util.List;
 
+import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.Relationships;
-import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.service.UsersService;
+import com.partygames.partygamesservice.util.PartyLogger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,11 +25,15 @@ public class UsersController {
   UsersService usersService;
 
   /**
-   * get currently logged in user.
+   * getLoggedInUser.
+   * 
+   * TODO better handle exceptions; TODO pass as request body instead
    */
-  @RequestMapping("/user")
-  public Principal sayHello(Principal principal) {
-    return principal;
+  @GetMapping(value = "/current-user/{email}")
+  public PartyrUser getLoggedInUser(@PathVariable String email) {
+    PartyLogger.info("email: " + email);
+
+    return usersService.getCurrentUser(email);
   }
 
   /**
@@ -77,13 +81,5 @@ public class UsersController {
   @GetMapping(value = "/choose-theme/{userToUpdate}/{themeID}")
   public int chooseTheme(@PathVariable String userToUpdate, @PathVariable int themeID) {
     return usersService.chooseTheme(userToUpdate, themeID);
-  }
-
-  /**
-   * changePassword.
-   */
-  @GetMapping(value = "/change-password/{userToUpdate}/{newPassword}")
-  public int changePassword(@PathVariable String userToUpdate, @PathVariable String newPassword) {
-    return usersService.changePassword(userToUpdate, newPassword);
   }
 }

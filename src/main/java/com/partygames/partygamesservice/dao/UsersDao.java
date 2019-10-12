@@ -7,6 +7,8 @@ import com.partygames.partygamesservice.model.Relationships;
 import com.partygames.partygamesservice.model.PartyrUser;
 
 public interface UsersDao {
+  public PartyrUser getUserByEmail(String email);
+
   public List<PartyrUser> serchForOnlineUsersReadyToPlayContaining(String queryString);
 
   public List<PartyrUser> getOnlineUsersReadyToPlay();

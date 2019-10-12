@@ -1,11 +1,13 @@
 USE `partyrdb`;
-DROP procedure IF EXISTS `get_users`;
+DROP procedure IF EXISTS `get_user_by_email`;
 
 DELIMITER $$
 USE `partyrdb`$$
-CREATE PROCEDURE `get_users` (IN queryString VARCHAR(255))
+CREATE PROCEDURE `get_user_by_email` (
+	IN i_email VARCHAR(64)
+)
 BEGIN
-	SELECT 
+  SELECT 
     `partyr_users`.`user_id`,
     `partyr_users`.`user_hash`,
     `partyr_users`.`user_name`,
@@ -19,12 +21,7 @@ BEGIN
     `partyr_users`.`theme_id`,
     `partyr_users`.`age`,
     `partyr_users`.`country`
-  FROM `partyrdb`.`partyr_users` WHERE
-    user_name LIKE concat('%', queryString, '%') or 
-    first_name LIKE concat('%', queryString, '%') or 
-    last_name LIKE concat('%', queryString, '%') or 
-    email LIKE concat('%', queryString, '%')
-  ORDER BY online_status desc, first_name;
+  FROM `partyrdb`.`partyr_users` WHERE email = i_email;
 END$$
 
 DELIMITER ;
