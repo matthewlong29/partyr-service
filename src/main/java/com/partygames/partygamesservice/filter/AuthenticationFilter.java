@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,8 +31,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     AntPathMatcher pathMatcher = new AntPathMatcher();
     List<String> excludeList = new ArrayList<>();
     excludeList.add("/api/google-authenticate");
-    excludeList.add("/api/current-user/long.matthew29@gmail.com"); // TODO remove this......
-    excludeList.add("/api/chat"); // TODO remove this......
 
     return excludeList.stream().anyMatch(p -> pathMatcher.match(p, request.getServletPath()));
   }
@@ -42,12 +41,19 @@ public class AuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
     PartyLogger.info("filtering");
-    final String requestTokenHeader = request.getHeader("Authorization");
+    Cookie[] cookies = request.getCookies();
+    String requestTokenHeader = "";
+
+    try {
+      for (Cookie cookie : cookies)
+        if (cookie.getName().equalsIgnoreCase("AUTH_ID_TOKEN"))
+          requestTokenHeader = cookie.getValue();
+    } catch (Exception e) {
+      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error finding id token");
+    }
 
     NetHttpTransport transport = new NetHttpTransport();
     JsonFactory jsonFactory = new JacksonFactory();
-
-    chain.doFilter(request, response);
 
     GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
         .setAudience(
