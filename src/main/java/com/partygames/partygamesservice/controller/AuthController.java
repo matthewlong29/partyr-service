@@ -3,6 +3,7 @@ package com.partygames.partygamesservice.controller;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.partygames.partygamesservice.model.PartyrUser;
@@ -12,9 +13,11 @@ import com.partygames.partygamesservice.util.PartyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -54,5 +57,20 @@ public class AuthController {
     }
 
     return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+  }
+
+  @GetMapping(value = "check-auth")
+  public ResponseEntity<Boolean> checkAuthToken(HttpServletRequest req) throws Exception {
+    Cookie[] cookies = req.getCookies();
+    Boolean authorized = false;
+
+    try {
+      for (Cookie cookie : cookies)
+        if (cookie.getName().equalsIgnoreCase("AUTH_ID_TOKEN"))
+          authorized = authService.checkAuthToken(cookie.getValue());
+    } catch (Exception e) {
+      PartyLogger.error("Error getting id token");
+    }
+    return ResponseEntity.ok(authorized);
   }
 }

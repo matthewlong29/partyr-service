@@ -82,4 +82,15 @@ public class AuthServiceImpl implements AuthService {
 
     return new PartyrUser(); // TODO throw exception isntead?
   }
+
+  @Override
+  public Boolean checkAuthToken(String token) {
+    try {
+      GoogleIdToken idToken = verifier.verify(token);
+      return idToken != null;
+    } catch (Exception e) {
+      PartyLogger.error("Error verifying auth token");
+    }
+    return false;
+  }
 }
