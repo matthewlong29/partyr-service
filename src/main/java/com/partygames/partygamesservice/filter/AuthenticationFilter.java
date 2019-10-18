@@ -31,7 +31,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     AntPathMatcher pathMatcher = new AntPathMatcher();
     List<String> excludeList = new ArrayList<>();
     excludeList.add("/api/google-authenticate");
-
+    excludeList.add("/api/check-auth");
     return excludeList.stream().anyMatch(p -> pathMatcher.match(p, request.getServletPath()));
   }
 

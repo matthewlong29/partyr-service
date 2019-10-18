@@ -7,4 +7,6 @@ public interface AuthService {
   public PartyrUser googleSignIn(String token);
 
   public PartyrUser getLoggedInUser(GoogleIdToken idToken);
+
+  public Boolean checkAuthToken(String token);
 }
