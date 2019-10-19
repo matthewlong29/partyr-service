@@ -25,8 +25,8 @@ BEGIN
 		`partyr_users`.`country`
 	FROM partyr_users 
 	LEFT JOIN
-		Relationships ON (
-			Relationships.related_email = partyr_users.email
+		relationships ON (
+			relationships.related_email = partyr_users.email
 		) WHERE relating_email = i_email AND relationship_type = i_relationship_type ORDER BY first_name;
 END$$
 
