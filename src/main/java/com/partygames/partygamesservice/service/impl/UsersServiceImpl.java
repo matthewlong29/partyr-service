@@ -57,13 +57,13 @@ public class UsersServiceImpl implements UsersService {
    * getRelationships.
    */
   public Relationships getRelationships(String userName, String relationshipStatus, boolean onlineOnly) {
-    if (relationshipStatus.equals(RelationshipStatus.FRIEND.toString()) && onlineOnly) {
+    if (relationshipStatus.equalsIgnoreCase(RelationshipStatus.FRIEND.toString()) && onlineOnly) {
       PartyLogger.info("GETTING ALL ONLINE FRIENDS OF: " + userName);
       return usersDao.getOnlineFriendsList(userName);
-    } else if (relationshipStatus.equals(RelationshipStatus.FRIEND.toString()) && !onlineOnly) {
+    } else if (relationshipStatus.equalsIgnoreCase(RelationshipStatus.FRIEND.toString()) && !onlineOnly) {
       PartyLogger.info("GETTING ALL FRIENDS OF: " + userName);
       return usersDao.getFriendsList(userName);
-    } else if (relationshipStatus.equals(RelationshipStatus.BLOCK.toString())) {
+    } else if (relationshipStatus.equalsIgnoreCase(RelationshipStatus.BLOCK.toString())) {
       PartyLogger.info("GETTING ALL ACCOUNTS BLOCKED BY: " + userName);
       return usersDao.getBlockedList(userName);
     } else {
