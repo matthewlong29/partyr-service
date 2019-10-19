@@ -80,7 +80,7 @@ public class UsersDaoImpl implements UsersDao {
    * searchForAllUsersContaining.
    */
   public List<PartyrUser> searchForAllUsersContaining(String queryString) {
-    String query = "CALL `partyrdb`.`get_all_users`('" + queryString + "');";
+    String query = "CALL `partyrdb`.`get_users`('" + queryString + "');";
     PartyLogger.query(query);
 
     return jdbcTemplate.query(query.toString(), userRowMapper);
@@ -90,7 +90,7 @@ public class UsersDaoImpl implements UsersDao {
    * getAllUsers.
    */
   public List<PartyrUser> getAllUsers() {
-    String query = "CALL `partyrdb`.`get_all_users`('');";
+    String query = "CALL `partyrdb`.`get_users`('');";
     PartyLogger.query(query);
 
     return jdbcTemplate.query(query, userRowMapper);
