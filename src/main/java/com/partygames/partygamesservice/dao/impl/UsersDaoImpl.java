@@ -1,13 +1,9 @@
 package com.partygames.partygamesservice.dao.impl;
 
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
 import com.partygames.partygamesservice.dao.impl.mapper.UserRowMapper;
-import com.partygames.partygamesservice.model.OnlineStatus;
 import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.RelationshipStatus;
@@ -125,23 +121,12 @@ public class UsersDaoImpl implements UsersDao {
   /**
    * getOnlineFriendsList.
    */
-  public Relationships getOnlineFriendsList(String userName) {
-    StringBuilder query = new StringBuilder();
-    query.append(
-        "select user_id, user_hash, user_name, first_name, last_name, email, profile_image_url, joined_date, online_status, ready_to_play_status, theme_id, age, country from partyr_users ");
-    query.append(
-        "left join Relationships on (Relationships.related_email = partyr_users.email) where relating_email = '");
-    query.append(userName);
-    query.append("' and relationship_type = '");
-    query.append(RelationshipStatus.FRIEND);
-    query.append("' and online_status = '");
-    query.append(OnlineStatus.ONLINE);
-    query.append("' order by user_name;");
-
-    PartyLogger.query(query.toString());
+  public Relationships getOnlineFriendsList(String email) {
+    String query = "CALL `partyrdb`.`get_online_friends`('" + email + "');";
+    PartyLogger.query(query);
 
     Relationships relationships = new Relationships();
-    relationships.setFriendsList(jdbcTemplate.query(query.toString(), userRowMapper));
+    relationships.setFriendsList(jdbcTemplate.query(query, userRowMapper));
 
     return relationships;
   }
