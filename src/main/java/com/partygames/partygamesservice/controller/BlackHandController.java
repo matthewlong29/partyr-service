@@ -1,8 +1,11 @@
 package com.partygames.partygamesservice.controller;
 
+import java.util.List;
+
+import com.partygames.partygamesservice.model.BlackHandRole;
 import com.partygames.partygamesservice.model.BlackHandSettings;
 import com.partygames.partygamesservice.model.BlackHandStartGame;
-import com.partygames.partygamesservice.service.BlackHandStartGameService;
+import com.partygames.partygamesservice.service.BlackHandService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,17 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/game/black-hand")
 public class BlackHandController {
   @Autowired
-  BlackHandStartGameService blackHandStartGameService;
+  BlackHandService blackHandService;
 
   /**
    * startBlackHandGame: returns json needed to start a new game of the black
    * hand.
    */
-  @GetMapping(value = "/start-black-hand", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/start", produces = MediaType.APPLICATION_JSON_VALUE)
   public BlackHandStartGame startBlackHandGame(@RequestBody BlackHandSettings blackHandSettings) {
-    return blackHandStartGameService.startGame(blackHandSettings);
+    return blackHandService.startGame(blackHandSettings);
+  }
+
+  /**
+   * getBlackHandRoles.
+   */
+  @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<BlackHandRole> getBlackHandRoles() {
+    return blackHandService.getBlackHandRoles();
   }
 }
