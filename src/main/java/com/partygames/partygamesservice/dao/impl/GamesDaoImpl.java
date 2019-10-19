@@ -22,7 +22,7 @@ public class GamesDaoImpl implements GamesDao {
    * getAllGames.
    */
   public List<Game> getAllGames() {
-    String query = "select * from Games";
+    String query = "select * from games";
     List<Game> games = jdbcTemplate.query(query, gameRowMapper);
 
     return games;
