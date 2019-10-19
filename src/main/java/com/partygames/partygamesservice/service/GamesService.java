@@ -6,4 +6,6 @@ import com.partygames.partygamesservice.model.Game;
 
 public interface GamesService {
   public List<Game> getAllGames();
+
+  public Game getGameByName(String gameName);
 }

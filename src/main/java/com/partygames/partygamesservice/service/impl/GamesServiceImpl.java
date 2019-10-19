@@ -20,4 +20,11 @@ public class GamesServiceImpl implements GamesService {
   public List<Game> getAllGames() {
     return gamesDao.getAllGames();
   }
+
+  /**
+   * getGameByName: returns information about a specific game.
+   */
+  public Game getGameByName(String gameName) {
+    return gamesDao.getGameByName(gameName);
+  }
 }

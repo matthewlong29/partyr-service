@@ -77,3 +77,8 @@ insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
 
 insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
   values ('cheesecake@gmail.com', 'In a time where Adult Swim is straying away from animated', '2019-10-08 20:04:15');
+
+  -- ** add game mock data
+
+insert into `partyrdb`.`games` (`game_name`, `min_players_num`, `max_players_num`, `min_age`, `average_game_duration`)
+  values ("Black Hand", 5, 10, 13, 30);

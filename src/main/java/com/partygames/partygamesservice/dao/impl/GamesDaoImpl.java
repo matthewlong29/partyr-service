@@ -22,9 +22,18 @@ public class GamesDaoImpl implements GamesDao {
    * getAllGames.
    */
   public List<Game> getAllGames() {
-    String query = "select * from games";
+    String query = "CALL `partyrdb`.`get_games`();";
     List<Game> games = jdbcTemplate.query(query, gameRowMapper);
 
     return games;
+  }
+
+  /**
+   * getGameByName.
+   */
+  public Game getGameByName(String gameName) {
+    String query = "CALL `partyrdb`.`get_game`('" + gameName + "');";
+
+    return jdbcTemplate.query(query, gameRowMapper).get(0);
   }
 }

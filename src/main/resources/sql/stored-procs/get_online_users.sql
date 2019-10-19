@@ -3,7 +3,9 @@ DROP procedure IF EXISTS `get_users_online`;
 
 DELIMITER $$
 USE `partyrdb`$$
-CREATE PROCEDURE `get_users_online`(IN queryString VARCHAR(255))
+CREATE PROCEDURE `get_users_online`(
+  IN i_query_string VARCHAR(255)
+)
 BEGIN
 	SELECT
     `partyr_users`.`user_id`,
@@ -21,10 +23,10 @@ BEGIN
 		`partyr_users`.`country`
     FROM partyr_users WHERE 
       online_status = 'ONLINE' AND (
-        user_name LIKE concat('%', queryString, '%') or 
-        first_name LIKE concat('%', queryString, '%') or 
-        last_name LIKE concat('%', queryString, '%') or 
-        email LIKE concat('%', queryString, '%')
+        user_name LIKE concat('%', i_query_string, '%') or 
+        first_name LIKE concat('%', i_query_string, '%') or 
+        last_name LIKE concat('%', i_query_string, '%') or 
+        email LIKE concat('%', i_query_string, '%')
       )
     ORDER BY first_name;
 END$$
