@@ -9,7 +9,7 @@ public class BlackHandSettings {
   private int lengthOfDay;
   private int lengthOfNight;
   private boolean chatOnly; // disables audio and video feature for the game 
-  private List<BlackHandPlayerPreferredFaction> playerPreferredFactions;
+  private List<BlackHandPlayerPreferredFaction> playerPreferences;
 
   @Data
   private static class BlackHandPlayerPreferredFaction {

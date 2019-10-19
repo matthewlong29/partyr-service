@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "games",
+			"name": "general games",
 			"item": [
 				{
 					"name": "get available games",
@@ -26,7 +26,107 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "get available games",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/games",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"games"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 19 Oct 2019 20:11:23 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"gameName\": \"Black Hand\",\n        \"minNumberOfPlayers\": 5,\n        \"maxNumberOfPlayers\": 10,\n        \"minAge\": 13,\n        \"averageGameDuration\": 30\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "get game by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/game/Black Hand",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"game",
+								"Black Hand"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get game by name",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/game/Black Hand",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"game",
+										"Black Hand"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 19 Oct 2019 20:11:44 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"gameName\": \"Black Hand\",\n    \"minNumberOfPlayers\": 5,\n    \"maxNumberOfPlayers\": 10,\n    \"minAge\": 13,\n    \"averageGameDuration\": 30\n}"
+						}
+					]
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -56,7 +156,290 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "get all relationships of a user",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"relationships",
+												"coty.dawson@gmail.com"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Disposition",
+											"value": "inline;filename=f.txt"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json;charset=UTF-8"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 19 Oct 2019 20:11:54 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"friendsList\": [\n        {\n            \"userName\": null,\n            \"email\": \"obtrusivemonks@gmail.com\",\n            \"firstName\": \"kathy\",\n            \"lastName\": \"guy\",\n            \"profileImageURL\": \"http://www.google.com/image.jpg\",\n            \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n            \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n            \"onlineStatus\": \"ONLINE\",\n            \"themeID\": 1,\n            \"age\": 19,\n            \"country\": \"United States\"\n        }\n    ],\n    \"blockedList\": [\n        {\n            \"userName\": null,\n            \"email\": \"cheesecake@gmail.com\",\n            \"firstName\": \"cheese\",\n            \"lastName\": \"cakeeee\",\n            \"profileImageURL\": \"http://www.google.com/image.jpg\",\n            \"userHash\": \"c9c3d90d5c54fe0b3addb2d0f3ffeb20\",\n            \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n            \"onlineStatus\": \"ONLINE\",\n            \"themeID\": 1,\n            \"age\": 99,\n            \"country\": \"United States\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "get friends of a user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com?type=friend",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"relationships",
+										"coty.dawson@gmail.com"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "friend"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "get friends of a user",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com?type=friend",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"relationships",
+												"coty.dawson@gmail.com"
+											],
+											"query": [
+												{
+													"key": "type",
+													"value": "friend"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Disposition",
+											"value": "inline;filename=f.txt"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json;charset=UTF-8"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 19 Oct 2019 20:12:02 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"friendsList\": [\n        {\n            \"userName\": null,\n            \"email\": \"obtrusivemonks@gmail.com\",\n            \"firstName\": \"kathy\",\n            \"lastName\": \"guy\",\n            \"profileImageURL\": \"http://www.google.com/image.jpg\",\n            \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n            \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n            \"onlineStatus\": \"ONLINE\",\n            \"themeID\": 1,\n            \"age\": 19,\n            \"country\": \"United States\"\n        }\n    ],\n    \"blockedList\": []\n}"
+								}
+							]
+						},
+						{
+							"name": "get all users blocked by a user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com?type=block",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"relationships",
+										"coty.dawson@gmail.com"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "block"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "get all users blocked by a user",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com?type=block",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"relationships",
+												"coty.dawson@gmail.com"
+											],
+											"query": [
+												{
+													"key": "type",
+													"value": "block"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Disposition",
+											"value": "inline;filename=f.txt"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json;charset=UTF-8"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 19 Oct 2019 20:12:15 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"friendsList\": [],\n    \"blockedList\": [\n        {\n            \"userName\": null,\n            \"email\": \"cheesecake@gmail.com\",\n            \"firstName\": \"cheese\",\n            \"lastName\": \"cakeeee\",\n            \"profileImageURL\": \"http://www.google.com/image.jpg\",\n            \"userHash\": \"c9c3d90d5c54fe0b3addb2d0f3ffeb20\",\n            \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n            \"onlineStatus\": \"ONLINE\",\n            \"themeID\": 1,\n            \"age\": 99,\n            \"country\": \"United States\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "get online friends of a user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com?type=friend&online=true",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"relationships",
+										"coty.dawson@gmail.com"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "friend"
+										},
+										{
+											"key": "online",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "get online friends of a user",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com?type=friend&online=true",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"relationships",
+												"coty.dawson@gmail.com"
+											],
+											"query": [
+												{
+													"key": "type",
+													"value": "friend"
+												},
+												{
+													"key": "online",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Disposition",
+											"value": "inline;filename=f.txt"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json;charset=UTF-8"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 19 Oct 2019 20:12:37 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"friendsList\": [\n        {\n            \"userName\": null,\n            \"email\": \"obtrusivemonks@gmail.com\",\n            \"firstName\": \"kathy\",\n            \"lastName\": \"guy\",\n            \"profileImageURL\": \"http://www.google.com/image.jpg\",\n            \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n            \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n            \"onlineStatus\": \"ONLINE\",\n            \"themeID\": 1,\n            \"age\": 19,\n            \"country\": \"United States\"\n        }\n    ],\n    \"blockedList\": []\n}"
+								}
+							]
 						}
 					],
 					"protocolProfileBehavior": {},
@@ -80,7 +463,46 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "get all users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 19 Oct 2019 20:12:44 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"userName\": null,\n        \"email\": \"cheesecake@gmail.com\",\n        \"firstName\": \"cheese\",\n        \"lastName\": \"cakeeee\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"c9c3d90d5c54fe0b3addb2d0f3ffeb20\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"ONLINE\",\n        \"themeID\": 1,\n        \"age\": 99,\n        \"country\": \"United States\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"obtrusivemonks@gmail.com\",\n        \"firstName\": \"kathy\",\n        \"lastName\": \"guy\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"ONLINE\",\n        \"themeID\": 1,\n        \"age\": 19,\n        \"country\": \"United States\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"andrew.nguyenvo@gmail.com\",\n        \"firstName\": \"Andrew\",\n        \"lastName\": \"Nguyen Vo\",\n        \"profileImageURL\": \"https://lh3.googleusercontent.com/-d-6IT7CLB3Q/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rfbRZ4mXMRT-QajkkM38jBdiF4rgg/s96-c/photo.jpg\",\n        \"userHash\": \"01050b\",\n        \"joinedDate\": \"2019-10-14T00:18:02.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 0,\n        \"country\": \"\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"coty.dawson@gmail.com\",\n        \"firstName\": \"coty\",\n        \"lastName\": \"dawson\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"fbcef9848426e3a281d2b8d9e213ca80\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 28,\n        \"country\": \"United States\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"long.matthew29@gmail.com\",\n        \"firstName\": \"Matthew\",\n        \"lastName\": \"Long\",\n        \"profileImageURL\": \"https://lh3.googleusercontent.com/a-/AAuE7mBWC6ntky5bEkL29rh3-OnNQFQRQDzYxYwHXyNMHQ=s96-c\",\n        \"userHash\": \"0b\",\n        \"joinedDate\": \"2019-10-18T13:29:04.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 0,\n        \"country\": \"\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"timmy7@gmail.com\",\n        \"firstName\": \"timmy\",\n        \"lastName\": \"smith\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"dd1b9ac0f78bb89362ca862b8f5fa340\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 13,\n        \"country\": \"United States\"\n    }\n]"
+						}
+					]
 				},
 				{
 					"name": "get all online users",
@@ -106,10 +528,134 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "get all online users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/users?online=true",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users"
+									],
+									"query": [
+										{
+											"key": "online",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 19 Oct 2019 20:12:54 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"userName\": null,\n        \"email\": \"cheesecake@gmail.com\",\n        \"firstName\": \"cheese\",\n        \"lastName\": \"cakeeee\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"c9c3d90d5c54fe0b3addb2d0f3ffeb20\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"ONLINE\",\n        \"themeID\": 1,\n        \"age\": 99,\n        \"country\": \"United States\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"obtrusivemonks@gmail.com\",\n        \"firstName\": \"kathy\",\n        \"lastName\": \"guy\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"ONLINE\",\n        \"themeID\": 1,\n        \"age\": 19,\n        \"country\": \"United States\"\n    }\n]"
+						}
+					]
 				},
 				{
 					"name": "get all online users ready to play",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users?online=true&ready=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "online",
+									"value": "true"
+								},
+								{
+									"key": "ready",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get all online users ready to play",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/users?online=true&ready=true",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users"
+									],
+									"query": [
+										{
+											"key": "online",
+											"value": "true"
+										},
+										{
+											"key": "ready",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 19 Oct 2019 20:13:04 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"userName\": null,\n        \"email\": \"obtrusivemonks@gmail.com\",\n        \"firstName\": \"kathy\",\n        \"lastName\": \"guy\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"ONLINE\",\n        \"themeID\": 1,\n        \"age\": 19,\n        \"country\": \"United States\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "get users matching a query",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -132,15 +678,140 @@
 							]
 						}
 					},
-					"response": []
-				},
+					"response": [
+						{
+							"name": "get users matching a query",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/users?query=matt",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users"
+									],
+									"query": [
+										{
+											"key": "query",
+											"value": "matt"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 19 Oct 2019 20:13:12 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"userName\": null,\n        \"email\": \"long.matthew29@gmail.com\",\n        \"firstName\": \"Matthew\",\n        \"lastName\": \"Long\",\n        \"profileImageURL\": \"https://lh3.googleusercontent.com/a-/AAuE7mBWC6ntky5bEkL29rh3-OnNQFQRQDzYxYwHXyNMHQ=s96-c\",\n        \"userHash\": \"0b\",\n        \"joinedDate\": \"2019-10-18T13:29:04.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 0,\n        \"country\": \"\"\n    }\n]"
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "black hand",
+			"item": [
 				{
-					"name": "get users matching a query",
+					"name": "start black hand game",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/api/start-black-hand",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"start-black-hand"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "start black hand game",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/start-black-hand",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"start-black-hand"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 19 Oct 2019 20:13:19 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"gameStartTime\": \"2019-10-19T20:13:19.409+0000\",\n    \"playerRoles\": []\n}"
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "chat",
+			"item": [
+				{
+					"name": "get all chat",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/chat",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"chat"
+							]
 						}
 					},
 					"response": []

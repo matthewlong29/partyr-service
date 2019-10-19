@@ -5,6 +5,7 @@ SET FOREIGN_KEY_CHECKS=0; -- to disable them
 drop trigger if exists set_user_name_equal_to_email;
 
 drop table if exists black_hand_instances;
+drop table if exists black_hand_roles;
 drop table if exists black_hand;
 drop table if exists relationships;
 drop table if exists achievements;
@@ -18,7 +19,7 @@ SET FOREIGN_KEY_CHECKS=1; -- to re-enable them
 -- ** create themes table
 
 CREATE TABLE `themes` (
-  `theme_id` int(11) NOT NULL AUTO_INCREMENT,
+  `theme_id` int NOT NULL AUTO_INCREMENT,
   `theme_name` varchar(32) NOT NULL,
   PRIMARY KEY (`theme_id`),
   UNIQUE KEY `unique_theme_name` (`theme_name`)
@@ -27,7 +28,7 @@ CREATE TABLE `themes` (
 -- ** create partyr_users table
 
 CREATE TABLE `partyr_users` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL AUTO_INCREMENT,
   `user_hash` varchar(254) NOT NULL,
   `user_name` varchar(32),
   `first_name` varchar(254) DEFAULT NULL,
@@ -37,8 +38,8 @@ CREATE TABLE `partyr_users` (
   `joined_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `online_status` varchar(8) DEFAULT 'OFFLINE',
   `ready_to_play_status` varchar(16) DEFAULT 'NOT_READY',
-  `theme_id` int(11) DEFAULT '1',
-  `age` int(11) DEFAULT NULL,
+  `theme_id` int DEFAULT '1',
+  `age` int DEFAULT NULL,
   `country` varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `unique_user_name` (`user_name`),
@@ -56,7 +57,7 @@ CREATE TABLE `partyr_users` (
 -- ** create relationships table
 
 CREATE TABLE `relationships` (
-  `relationship_id` int(11) NOT NULL AUTO_INCREMENT,
+  `relationship_id` int NOT NULL AUTO_INCREMENT,
   `relating_email` varchar(32) NOT NULL,
   `related_email` varchar(32) NOT NULL,
   `relationship_type` varchar(16) NOT NULL,
@@ -68,7 +69,7 @@ CREATE TABLE `relationships` (
 -- ** create achievements table
 
 CREATE TABLE `achievements` (
-  `achievement_id` int(11) NOT NULL AUTO_INCREMENT,
+  `achievement_id` int NOT NULL AUTO_INCREMENT,
   `achievement_name` varchar(32) NOT NULL,
   PRIMARY KEY (`achievement_id`)
 ) ENGINE=InnoDB;
@@ -76,12 +77,12 @@ CREATE TABLE `achievements` (
 -- ** create games table
 
 CREATE TABLE `games` (
-  `game_id` int(11) NOT NULL AUTO_INCREMENT,
+  `game_id` int NOT NULL AUTO_INCREMENT,
   `game_name` varchar(32) NOT NULL,
-  `min_players_num` int(11) NOT NULL,
-  `max_players_num` int(11) NOT NULL,
-  `min_age` int(11) NOT NULL,
-  `average_game_duration` int(11) NOT NULL,
+  `min_players_num` int NOT NULL,
+  `max_players_num` int NOT NULL,
+  `min_age` int NOT NULL,
+  `average_game_duration` int NOT NULL,
   PRIMARY KEY (`game_id`),
   UNIQUE KEY `unique_game_name` (`game_name`)
 ) ENGINE=InnoDB;
@@ -89,17 +90,32 @@ CREATE TABLE `games` (
 -- ** create black_hand table
 
 CREATE TABLE `black_hand` (
-  `game_instance_id` int(11) NOT NULL AUTO_INCREMENT,
-  `number_of_players` int(11) NOT NULL,
+  `game_instance_id` int NOT NULL AUTO_INCREMENT,
+  `number_of_players` int NOT NULL,
   `game_start_time` timestamp NOT NULL,
   `game_end_time` timestamp NOT NULL,
   PRIMARY KEY (`game_instance_id`)
 ) ENGINE=InnoDB;
 
+-- ** create black_hand_roles table
+
+CREATE TABLE `black_hand_roles` (
+  `role_id` int NOT NULL AUTO_INCREMENT,
+  `faction` varchar(32) NOT NULL,
+  `role_name` varchar(32) NOT NULL,
+  `day_ability_description` varchar(1024),
+  `night_ability_description` varchar(1024),
+  `attribute_description` varchar(1024) NOT NULL,
+  `goal_description` varchar(1024) NOT NULL,
+  PRIMARY KEY (`role_id`),
+  UNIQUE KEY `unique_role_name` (`role_name`),
+  CONSTRAINT `limit_faction` CHECK ((`faction` in ('BlackHand', 'Monster', 'Townie')))
+) ENGINE=InnoDB;
+
 -- ** create black_hand_instances table
 
 CREATE TABLE `black_hand_instances` (
-  `game_instance_id` int(11) NOT NULL,
+  `game_instance_id` int NOT NULL,
   `player` varchar(32) NOT NULL,
   PRIMARY KEY (`player`),
   KEY `game_instance_id` (`game_instance_id`),
@@ -110,7 +126,7 @@ CREATE TABLE `black_hand_instances` (
 -- ** create chat table
 
 CREATE TABLE `chat` (
-  `chat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `chat_id` int NOT NULL AUTO_INCREMENT,
   `author` varchar(32) NOT NULL,
   `message` varchar(512) NOT NULL,
   `time_of_message` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
