@@ -1,12 +1,14 @@
 package com.partygames.partygamesservice.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.BlackHandDao;
 import com.partygames.partygamesservice.dao.impl.mapper.BlackHandNumberOfPlayersRowMapper;
-import com.partygames.partygamesservice.dao.impl.mapper.BlackHandRoleRowMapper;
+import com.partygames.partygamesservice.dao.impl.mapper.BlackHandRoleResultSetExtractor;
+import com.partygames.partygamesservice.model.BlackHandFaction;
+import com.partygames.partygamesservice.model.BlackHandFactionRoles.BlackHandRole;
 import com.partygames.partygamesservice.model.BlackHandNumberOfPlayers;
-import com.partygames.partygamesservice.model.BlackHandRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,7 +23,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
   JdbcTemplate jdbcTemplate;
 
   @Autowired
-  BlackHandRoleRowMapper blackHandRoleRowMapper;
+  BlackHandRoleResultSetExtractor blackHandRoleResultSetExtractor;
 
   @Autowired
   BlackHandNumberOfPlayersRowMapper blackHandRequiredNumberOfPlayersRowMapper;
@@ -29,11 +31,11 @@ public class BlackHandDaoImpl implements BlackHandDao {
   /**
    * getBlackHandRoles.
    */
-  public List<BlackHandRole> getBlackHandRoles() {
+  public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles() {
     String query = "CALL `partyrdb`.`get_black_hand_roles`();";
     log.info(query);
 
-    return jdbcTemplate.query(query, blackHandRoleRowMapper);
+    return jdbcTemplate.query(query, blackHandRoleResultSetExtractor);
   }
 
   /**

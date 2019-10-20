@@ -1,12 +1,12 @@
 package com.partygames.partygamesservice.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import com.partygames.partygamesservice.dao.BlackHandDao;
 import com.partygames.partygamesservice.model.BlackHandFaction;
+import com.partygames.partygamesservice.model.BlackHandFactionRoles.BlackHandRole;
 import com.partygames.partygamesservice.model.BlackHandNumberOfPlayers;
-import com.partygames.partygamesservice.model.BlackHandRole;
 import com.partygames.partygamesservice.model.BlackHandSettings;
 import com.partygames.partygamesservice.model.BlackHandSettings.BlackHandPlayerPreferences;
 import com.partygames.partygamesservice.model.BlackHandStartGame;
@@ -29,7 +29,10 @@ public class BlackHandServiceImpl implements BlackHandService {
    */
   public BlackHandStartGame startGame(BlackHandSettings blackHandSettings) {
     BlackHandNumberOfPlayers actualNumber = new BlackHandNumberOfPlayers();
-    List<BlackHandRole> availableRoles = getBlackHandRoles(); // take from this list as user preference
+    HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles = getBlackHandRoles();
+
+    log.info(availableRoles.toString());
+
     BlackHandStartGame blackHandStartGame = new BlackHandStartGame();
     List<BlackHandPlayerPreferences> preferences = blackHandSettings.getPlayerPreferences();
     int totalNumberOfPlayers = preferences.size();
@@ -51,7 +54,7 @@ public class BlackHandServiceImpl implements BlackHandService {
   /**
    * getBlackHandRoles: returns a list containing all black hand game roles.
    */
-  public List<BlackHandRole> getBlackHandRoles() {
+  public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles() {
     return blackHandDao.getBlackHandRoles();
   }
 
@@ -68,20 +71,16 @@ public class BlackHandServiceImpl implements BlackHandService {
    * role, and removes role from the available roles list. Player will be set, but
    * role may not yet be if their preference cannot be met.
    */
-  private void assignPreferredRole(BlackHandStartGame blackHandStartGame, List<BlackHandRole> availableRoles,
-      BlackHandPlayerPreferences playerPreference, BlackHandNumberOfPlayers requiredNumber,
-      BlackHandNumberOfPlayers actualNumber) {
-    Optional<BlackHandRole> playerPreferredRole = availableRoles.stream()
-        .filter(s -> s.getFaction().equals(playerPreference.getPreferredFaction())).findFirst();
-
+  private void assignPreferredRole(BlackHandStartGame blackHandStartGame,
+      HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles, BlackHandPlayerPreferences playerPreference,
+      BlackHandNumberOfPlayers requiredNumber, BlackHandNumberOfPlayers actualNumber) {
     BlackHandPlayer blackHandPlayer = new BlackHandPlayer();
     blackHandPlayer.setPlayer(playerPreference.getPlayer());
 
-    if (playerPreferredRole.isPresent()
+    if (availableRoles.containsKey(playerPreference.getPreferredFaction())
         && isLessThanRequired(playerPreference.getPreferredFaction(), requiredNumber, actualNumber)) {
-      log.info("Found a black hand role for this user matching the desired faction: {}", playerPreferredRole.get());
-      blackHandPlayer.setRole(playerPreferredRole.get());
-      availableRoles.remove(availableRoles.indexOf(playerPreferredRole.get()));
+      blackHandPlayer.setRole(availableRoles.get(playerPreference.getPreferredFaction()).get(0));
+      availableRoles.get(playerPreference.getPreferredFaction()).remove(0);
       incrementNumberOfPlayersPerFaction(playerPreference.getPreferredFaction(), actualNumber);
     }
 
@@ -92,9 +91,9 @@ public class BlackHandServiceImpl implements BlackHandService {
    * assignRemainingRole: scan for instance where a players role has not been set
    * and fill that role with what is missing.
    */
-  private void assignRemainingRole(BlackHandStartGame blackHandStartGame, List<BlackHandRole> availableRoles,
-      BlackHandPlayerPreferences playerPreference, BlackHandNumberOfPlayers requiredNumber,
-      BlackHandNumberOfPlayers actualNumber) {
+  private void assignRemainingRole(BlackHandStartGame blackHandStartGame,
+      HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles, BlackHandPlayerPreferences playerPreference,
+      BlackHandNumberOfPlayers requiredNumber, BlackHandNumberOfPlayers actualNumber) {
     for (BlackHandPlayer blackHandPlayer : blackHandStartGame.getPlayerRoles()) {
       if (blackHandPlayer.getRole() == null) {
         log.info("need to assign a role for {}", blackHandPlayer.getPlayer().getEmail());

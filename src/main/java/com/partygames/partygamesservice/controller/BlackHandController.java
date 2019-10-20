@@ -1,9 +1,11 @@
 package com.partygames.partygamesservice.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
+import com.partygames.partygamesservice.model.BlackHandFaction;
+import com.partygames.partygamesservice.model.BlackHandFactionRoles.BlackHandRole;
 import com.partygames.partygamesservice.model.BlackHandNumberOfPlayers;
-import com.partygames.partygamesservice.model.BlackHandRole;
 import com.partygames.partygamesservice.model.BlackHandSettings;
 import com.partygames.partygamesservice.model.BlackHandStartGame;
 import com.partygames.partygamesservice.service.BlackHandService;
@@ -35,7 +37,7 @@ public class BlackHandController {
    * getBlackHandRoles.
    */
   @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<BlackHandRole> getBlackHandRoles() {
+  public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles() {
     return blackHandService.getBlackHandRoles();
   }
 
