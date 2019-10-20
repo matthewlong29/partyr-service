@@ -31,22 +31,23 @@ public class BlackHandServiceImpl implements BlackHandService {
     BlackHandNumberOfPlayers actualNumber = new BlackHandNumberOfPlayers();
     HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles = getBlackHandRoles();
 
-    log.info(availableRoles.toString());
+    log.info("{};", availableRoles.toString());
 
     BlackHandStartGame blackHandStartGame = new BlackHandStartGame();
     List<BlackHandPlayerPreferences> preferences = blackHandSettings.getPlayerPreferences();
     int totalNumberOfPlayers = preferences.size();
     BlackHandNumberOfPlayers requiredNumber = getBlackHandNumberOfPlayers(totalNumberOfPlayers);
 
-    log.info("required number of players per faction: {}", requiredNumber);
+    log.info("required number of players per faction: {};", requiredNumber);
 
     for (BlackHandPlayerPreferences preference : preferences) {
       log.info("user: {}", preference.getPlayer().getEmail());
       assignPreferredRole(blackHandStartGame, availableRoles, preference, requiredNumber, actualNumber);
-      assignRemainingRole(blackHandStartGame, availableRoles, preference, requiredNumber, actualNumber);
     }
 
-    log.info("actual number of players per faction: {}", actualNumber);
+    assignRemainingRole(blackHandStartGame, availableRoles, requiredNumber, actualNumber);
+
+    log.info("actual number of players per faction: {};", actualNumber);
 
     return blackHandStartGame;
   }
@@ -79,9 +80,12 @@ public class BlackHandServiceImpl implements BlackHandService {
 
     if (availableRoles.containsKey(playerPreference.getPreferredFaction())
         && isLessThanRequired(playerPreference.getPreferredFaction(), requiredNumber, actualNumber)) {
+      log.info("found role for player: {};", availableRoles.get(playerPreference.getPreferredFaction()).get(0));
       blackHandPlayer.setRole(availableRoles.get(playerPreference.getPreferredFaction()).get(0));
       availableRoles.get(playerPreference.getPreferredFaction()).remove(0);
       incrementNumberOfPlayersPerFaction(playerPreference.getPreferredFaction(), actualNumber);
+    } else {
+      log.info("unable to set role for player;");
     }
 
     blackHandStartGame.getPlayerRoles().add(blackHandPlayer);
@@ -90,13 +94,31 @@ public class BlackHandServiceImpl implements BlackHandService {
   /**
    * assignRemainingRole: scan for instance where a players role has not been set
    * and fill that role with what is missing.
+   * 
+   * TODO: refactor..
    */
   private void assignRemainingRole(BlackHandStartGame blackHandStartGame,
-      HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles, BlackHandPlayerPreferences playerPreference,
-      BlackHandNumberOfPlayers requiredNumber, BlackHandNumberOfPlayers actualNumber) {
+      HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles, BlackHandNumberOfPlayers requiredNumber,
+      BlackHandNumberOfPlayers actualNumber) {
     for (BlackHandPlayer blackHandPlayer : blackHandStartGame.getPlayerRoles()) {
       if (blackHandPlayer.getRole() == null) {
-        log.info("need to assign a role for {}", blackHandPlayer.getPlayer().getEmail());
+        log.info("need to assign a role for {};", blackHandPlayer.getPlayer().getEmail());
+        if (requiredNumber.getBlackHandTotal() > actualNumber.getBlackHandTotal()) {
+          log.info("found role for player: {};", availableRoles.get(BlackHandFaction.BlackHand).get(0));
+          blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.BlackHand).get(0));
+          availableRoles.get(BlackHandFaction.BlackHand).remove(0);
+          incrementNumberOfPlayersPerFaction(BlackHandFaction.BlackHand, actualNumber);
+        } else if (requiredNumber.getMonstersTotal() > actualNumber.getMonstersTotal()) {
+          log.info("found role for player: {};", availableRoles.get(BlackHandFaction.Monster).get(0));
+          blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.Monster).get(0));
+          availableRoles.get(BlackHandFaction.Monster).remove(0);
+          incrementNumberOfPlayersPerFaction(BlackHandFaction.Monster, actualNumber);
+        } else if (requiredNumber.getTowniesTotal() > actualNumber.getTowniesTotal()) {
+          log.info("found role for player: {};", availableRoles.get(BlackHandFaction.Townie).get(0));
+          blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.Townie).get(0));
+          availableRoles.get(BlackHandFaction.Townie).remove(0);
+          incrementNumberOfPlayersPerFaction(BlackHandFaction.Townie, actualNumber);
+        }
       }
     }
   }
