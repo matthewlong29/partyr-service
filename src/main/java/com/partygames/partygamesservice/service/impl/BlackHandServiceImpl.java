@@ -6,6 +6,7 @@ import com.partygames.partygamesservice.dao.BlackHandDao;
 import com.partygames.partygamesservice.model.BlackHandRole;
 import com.partygames.partygamesservice.model.BlackHandSettings;
 import com.partygames.partygamesservice.model.BlackHandStartGame;
+import com.partygames.partygamesservice.model.BlackHandSettings.BlackHandPlayerPreferences;
 import com.partygames.partygamesservice.service.BlackHandService;
 import com.partygames.partygamesservice.util.PartyLogger;
 
@@ -22,7 +23,15 @@ public class BlackHandServiceImpl implements BlackHandService {
    */
   public BlackHandStartGame startGame(BlackHandSettings blackHandSettings) {
     PartyLogger.info(blackHandSettings.toString());
+    List<BlackHandRole> availableRoles = getBlackHandRoles();
     BlackHandStartGame blackHandStartGame = new BlackHandStartGame();
+
+    List<BlackHandPlayerPreferences> preferences = blackHandSettings.getPlayerPreferences();
+    PartyLogger.info(preferences.toString());
+
+    for (BlackHandPlayerPreferences preference : preferences) {
+      PartyLogger.info(preference.toString());
+    }
 
     return blackHandStartGame;
   }
