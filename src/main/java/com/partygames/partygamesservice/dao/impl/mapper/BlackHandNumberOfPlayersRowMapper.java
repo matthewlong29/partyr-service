@@ -3,19 +3,19 @@ package com.partygames.partygamesservice.dao.impl.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.partygames.partygamesservice.model.BlackHandRequiredNumberOfPlayers;
+import com.partygames.partygamesservice.model.BlackHandNumberOfPlayers;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BlackHandRequiredNumberOfPlayersRowMapper implements RowMapper<BlackHandRequiredNumberOfPlayers> {
+public class BlackHandNumberOfPlayersRowMapper implements RowMapper<BlackHandNumberOfPlayers> {
   /**
    * mapRow.
    */
   @Override
-  public BlackHandRequiredNumberOfPlayers mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-    BlackHandRequiredNumberOfPlayers blackHandRequiredNumberOfPlayers = new BlackHandRequiredNumberOfPlayers();
+  public BlackHandNumberOfPlayers mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+    BlackHandNumberOfPlayers blackHandRequiredNumberOfPlayers = new BlackHandNumberOfPlayers();
     blackHandRequiredNumberOfPlayers.setMonstersTotal(resultSet.getInt("monster_total"));
     blackHandRequiredNumberOfPlayers.setBlackHandTotal(resultSet.getInt("black_hand_total"));
     blackHandRequiredNumberOfPlayers.setTowniesTotal(resultSet.getInt("townie_total"));

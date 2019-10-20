@@ -3,9 +3,9 @@ package com.partygames.partygamesservice.dao.impl;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.BlackHandDao;
-import com.partygames.partygamesservice.dao.impl.mapper.BlackHandRequiredNumberOfPlayersRowMapper;
+import com.partygames.partygamesservice.dao.impl.mapper.BlackHandNumberOfPlayersRowMapper;
 import com.partygames.partygamesservice.dao.impl.mapper.BlackHandRoleRowMapper;
-import com.partygames.partygamesservice.model.BlackHandRequiredNumberOfPlayers;
+import com.partygames.partygamesservice.model.BlackHandNumberOfPlayers;
 import com.partygames.partygamesservice.model.BlackHandRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
   BlackHandRoleRowMapper blackHandRoleRowMapper;
 
   @Autowired
-  BlackHandRequiredNumberOfPlayersRowMapper blackHandRequiredNumberOfPlayersRowMapper;
+  BlackHandNumberOfPlayersRowMapper blackHandRequiredNumberOfPlayersRowMapper;
 
   /**
    * getBlackHandRoles.
@@ -37,9 +37,9 @@ public class BlackHandDaoImpl implements BlackHandDao {
   }
 
   /**
-   * getBlackHandRequiredNumberOfPlayers.
+   * getBlackHandNumberOfPlayers.
    */
-  public BlackHandRequiredNumberOfPlayers getBlackHandRequiredNumberOfPlayers(int totalNumberOfPlayers) {
+  public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int totalNumberOfPlayers) {
     String query = "CALL `partyrdb`.`get_black_hand_required_number_of_players`('" + totalNumberOfPlayers + "');";
     log.info(query);
 
