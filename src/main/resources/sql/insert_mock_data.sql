@@ -81,7 +81,32 @@ insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
   -- ** add game mock data
 
 insert into `partyrdb`.`games` (`game_name`, `min_players_num`, `max_players_num`, `min_age`, `average_game_duration`)
-  values ("Black Hand", 5, 10, 13, 30);
+  values ("Black Hand", 5, 15, 13, 30);
+
+-- ** add black_hand_required_number_of_players mock data
+
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (5, 1, 1, 3);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (6, 1, 2, 3);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (7, 1, 2, 4);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (8, 1, 2, 5);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (9, 2, 2, 5);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (10, 2, 2, 6);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (11, 2, 2, 7);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (12, 2, 3, 7);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (13, 2, 3, 8);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (14, 2, 4, 8);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (15, 2, 4, 9);
 
 -- ** add black hand roles mock data
 

@@ -3,9 +3,11 @@
 SET FOREIGN_KEY_CHECKS=0; -- to disable them
 
 drop trigger if exists set_user_name_equal_to_email;
+drop trigger if exists verify_valid_number_of_players;
 
 drop table if exists black_hand_instances;
 drop table if exists black_hand_roles;
+drop table if exists black_hand_required_number_of_players;
 drop table if exists black_hand;
 drop table if exists relationships;
 drop table if exists achievements;
@@ -87,6 +89,20 @@ CREATE TABLE `games` (
   UNIQUE KEY `unique_game_name` (`game_name`)
 ) ENGINE=InnoDB;
 
+-- ** create black_hand_required_number_of_players table
+
+CREATE TABLE `black_hand_required_number_of_players` (
+  `player_total` int NOT NULL,
+  `monster_total` int NOT NULL,
+  `black_hand_total` int NOT NULL,
+  `townie_total` int NOT NULL,
+  PRIMARY KEY (`player_total`)
+) ENGINE=InnoDB;
+
+-- CREATE TRIGGER verify_valid_number_of_players AFTER INSERT
+-- ON `black_hand_required_number_of_players`
+--   FOR EACH ROW UPDATE `black_hand_required_number_of_players` SET NEW.`player_total`=NEW.`monster_total`+NEW.`black_hand_total`+NEW.`townie_total`
+
 -- ** create black_hand table
 
 CREATE TABLE `black_hand` (
@@ -94,7 +110,8 @@ CREATE TABLE `black_hand` (
   `number_of_players` int NOT NULL,
   `game_start_time` timestamp NOT NULL,
   `game_end_time` timestamp NOT NULL,
-  PRIMARY KEY (`game_instance_id`)
+  PRIMARY KEY (`game_instance_id`),
+  CONSTRAINT `verify_valid_player_total` FOREIGN KEY (`number_of_players`) REFERENCES `black_hand_required_number_of_players` (`player_total`)
 ) ENGINE=InnoDB;
 
 -- ** create black_hand_roles table
