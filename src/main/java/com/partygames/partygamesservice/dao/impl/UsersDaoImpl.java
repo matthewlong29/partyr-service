@@ -8,12 +8,14 @@ import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.RelationshipStatus;
 import com.partygames.partygamesservice.model.Relationships;
-import com.partygames.partygamesservice.util.PartyLogger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class UsersDaoImpl implements UsersDao {
   @Autowired
@@ -27,7 +29,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public PartyrUser getUserByEmail(String email) {
     String query = "CALL `partyrdb`.`get_user_by_email`('" + email + "');";
-    PartyLogger.query(query);
+    log.info(query);
 
     return jdbcTemplate.query(query, userRowMapper).get(0);
   }
@@ -37,7 +39,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public List<PartyrUser> serchForOnlineUsersReadyToPlayContaining(String queryString) {
     String query = "CALL `partyrdb`.`get_users_ready_to_play`('" + queryString + "');";
-    PartyLogger.query(query);
+    log.info(query);
 
     return jdbcTemplate.query(query, userRowMapper);
   }
@@ -47,7 +49,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public List<PartyrUser> getOnlineUsersReadyToPlay() {
     String query = "CALL `partyrdb`.`get_users_ready_to_play`('');";
-    PartyLogger.query(query);
+    log.info(query);
 
     return jdbcTemplate.query(query, userRowMapper);
   }
@@ -57,7 +59,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public List<PartyrUser> searchForOnlineUsersContaining(String queryString) {
     String query = "CALL `partyrdb`.`get_users_online`('" + queryString + "');";
-    PartyLogger.query(query);
+    log.info(query);
 
     return jdbcTemplate.query(query, userRowMapper);
   }
@@ -67,7 +69,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public List<PartyrUser> getOnlineUsers() {
     String query = "CALL `partyrdb`.`get_users_online`('');";
-    PartyLogger.query(query);
+    log.info(query);
 
     return jdbcTemplate.query(query, userRowMapper);
   }
@@ -77,7 +79,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public List<PartyrUser> searchForAllUsersContaining(String queryString) {
     String query = "CALL `partyrdb`.`get_users`('" + queryString + "');";
-    PartyLogger.query(query);
+    log.info(query);
 
     return jdbcTemplate.query(query.toString(), userRowMapper);
   }
@@ -87,7 +89,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public List<PartyrUser> getAllUsers() {
     String query = "CALL `partyrdb`.`get_users`('');";
-    PartyLogger.query(query);
+    log.info(query);
 
     return jdbcTemplate.query(query, userRowMapper);
   }
@@ -97,7 +99,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public Relationships getBlockedList(String userName) {
     String query = "CALL `partyrdb`.`get_relationships`('BLOCK', '" + userName + "');";
-    PartyLogger.query(query);
+    log.info(query);
 
     Relationships relationships = new Relationships();
     relationships.setBlockedList(jdbcTemplate.query(query, userRowMapper));
@@ -110,7 +112,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public Relationships getFriendsList(String userName) {
     String query = "CALL `partyrdb`.`get_relationships`('FRIEND', '" + userName + "');";
-    PartyLogger.query(query);
+    log.info(query);
 
     Relationships relationships = new Relationships();
     relationships.setFriendsList(jdbcTemplate.query(query, userRowMapper));
@@ -123,7 +125,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public Relationships getOnlineFriendsList(String email) {
     String query = "CALL `partyrdb`.`get_online_friends`('" + email + "');";
-    PartyLogger.query(query);
+    log.info(query);
 
     Relationships relationships = new Relationships();
     relationships.setFriendsList(jdbcTemplate.query(query, userRowMapper));
@@ -145,7 +147,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(RelationshipStatus.BLOCK);
     query.append("');");
 
-    PartyLogger.query(query.toString());
+    log.info(query.toString());
 
     return jdbcTemplate.update(query.toString());
   }
@@ -164,7 +166,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(newRelationship.getRelationshipStatus());
     query.append("');");
 
-    PartyLogger.query(query.toString());
+    log.info(query.toString());
 
     return jdbcTemplate.update(query.toString());
   }
@@ -175,7 +177,7 @@ public class UsersDaoImpl implements UsersDao {
   public int createUserIfNotExist(PartyrUser user) {
     String query = "CALL `partyrdb`.`create_user`('" + user.getUserHash() + "', '" + user.getEmail() + "', '"
         + user.getFirstName().toString() + "', '" + user.getLastName() + "', '" + user.getProfileImageURL() + "');";
-    PartyLogger.query(query);
+    log.info(query);
 
     return jdbcTemplate.update(query);
   }
@@ -195,7 +197,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append("', ");
     query.append(user.getAge());
 
-    PartyLogger.query(query.toString());
+    log.info(query.toString());
 
     return jdbcTemplate.update(query.toString());
   }
@@ -211,7 +213,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(userToUpdate);
     query.append("';");
 
-    PartyLogger.query(query.toString());
+    log.info(query.toString());
 
     return jdbcTemplate.update(query.toString());
   }
@@ -227,7 +229,7 @@ public class UsersDaoImpl implements UsersDao {
     query.append(userToUpdate);
     query.append("';");
 
-    PartyLogger.query(query.toString());
+    log.info(query.toString());
 
     return jdbcTemplate.update(query.toString());
   }

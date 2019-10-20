@@ -6,6 +6,9 @@ spring:
     url: jdbc:mysql://partyrgame.com:3306/partyrdb
     username: root
     password: Partyr@2019
+  output:
+    ansi:
+      enabled: always
 security:
   oauth2:
     client:
@@ -21,4 +24,3 @@ security:
     resource:
       userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
       preferTokenInfo: true
-

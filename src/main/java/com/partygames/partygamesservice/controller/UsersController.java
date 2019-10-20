@@ -6,7 +6,6 @@ import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.Relationships;
 import com.partygames.partygamesservice.service.UsersService;
-import com.partygames.partygamesservice.util.PartyLogger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-// TODO: pass emails in as request body instead of request parameter 
+import lombok.extern.slf4j.Slf4j;
+
+// TODO: pass emails in as request body instead of request parameter
+@Slf4j
 @RestController
 @RequestMapping(value = "/api")
 public class UsersController {
@@ -32,7 +34,7 @@ public class UsersController {
    */
   @GetMapping(value = "/current-user/{email}")
   public PartyrUser getLoggedInUser(@PathVariable String email) {
-    PartyLogger.info("email: " + email);
+    log.info("email: " + email);
 
     return usersService.getCurrentUser(email);
   }

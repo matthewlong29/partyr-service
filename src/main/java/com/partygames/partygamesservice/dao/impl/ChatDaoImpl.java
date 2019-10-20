@@ -5,12 +5,14 @@ import java.util.List;
 import com.partygames.partygamesservice.dao.ChatDao;
 import com.partygames.partygamesservice.dao.impl.mapper.ChatRowMapper;
 import com.partygames.partygamesservice.model.Message;
-import com.partygames.partygamesservice.util.PartyLogger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class ChatDaoImpl implements ChatDao {
   @Autowired
@@ -25,7 +27,7 @@ public class ChatDaoImpl implements ChatDao {
   public int insertMessage(Message message) {
     String query = "CALL `partyrdb`.`save_chat_message`('" + message.getAuthor() + "', '" + message.getContent() + "', '"
         + message.getTimeOfMessage() + "');";
-    PartyLogger.query(query);
+    log.info(query);
 
     return jdbcTemplate.update(query);
   }
@@ -35,7 +37,7 @@ public class ChatDaoImpl implements ChatDao {
    */
   public List<Message> getMessages() {
     String query = "CALL `partyrdb`.`get_all_messages`();";
-    PartyLogger.query(query);
+    log.info(query);
 
     return jdbcTemplate.query(query, chatRowMapper);
   }
