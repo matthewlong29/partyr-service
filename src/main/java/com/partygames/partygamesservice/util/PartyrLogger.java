@@ -3,7 +3,7 @@ package com.partygames.partygamesservice.util;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PartyLogger {
+public class PartyrLogger {
   public static final String ANSI_RESET = "\u001B[0m"; // reset
   public static final String ANSI_RED = "\u001B[31m"; // error
   public static final String ANSI_GREEN = "\u001B[32m"; // query

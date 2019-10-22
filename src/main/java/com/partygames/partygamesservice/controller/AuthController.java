@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.service.AuthService;
-import com.partygames.partygamesservice.util.PartyLogger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +16,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping(value = "/api")
 public class AuthController {
@@ -36,7 +37,7 @@ public class AuthController {
       String idToken = body.get("idToken");
       PartyrUser user = authService.googleSignIn(idToken);
 
-      PartyLogger.info(user.toString()); // TODO: change this method return back to int or bool!!
+      log.info(user.toString()); // TODO: change this method return back to int or bool!!
 
       if (user != null) {
         Cookie authCookie = new Cookie("AUTH_ID_TOKEN", idToken);
@@ -53,7 +54,7 @@ public class AuthController {
         return ResponseEntity.ok(true);
       }
     } catch (Exception e) {
-      PartyLogger.error(e.getMessage());
+      log.error(e.getMessage());
     }
 
     return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
@@ -69,7 +70,7 @@ public class AuthController {
         if (cookie.getName().equalsIgnoreCase("AUTH_ID_TOKEN"))
           authorized = authService.checkAuthToken(cookie.getValue());
     } catch (Exception e) {
-      PartyLogger.error("Error getting id token");
+      log.error("Error getting id token");
     }
     return ResponseEntity.ok(authorized);
   }

@@ -77,3 +77,62 @@ insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
 
 insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
   values ('cheesecake@gmail.com', 'In a time where Adult Swim is straying away from animated', '2019-10-08 20:04:15');
+
+  -- ** add game mock data
+
+insert into `partyrdb`.`games` (`game_name`, `min_players_num`, `max_players_num`, `min_age`, `average_game_duration`)
+  values ("Black Hand", 5, 15, 13, 30);
+
+-- ** add black_hand_required_number_of_players mock data
+
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (5, 1, 1, 3);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (6, 1, 2, 3);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (7, 1, 2, 4);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (8, 1, 2, 5);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (9, 2, 2, 5);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (10, 2, 2, 6);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (11, 2, 2, 7);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (12, 2, 3, 7);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (13, 2, 3, 8);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (14, 2, 4, 8);
+insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, `monster_total`, `black_hand_total`, `townie_total`)
+  values (15, 2, 4, 9);
+
+-- ** add black hand roles mock data
+
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`)
+  values ('Townie', 'Bodyguard', 'Protect one person from death each night.', 'If your target is attacked, both you and your attacker will die instead. If you successfully protect someone, you cant be saved from death. Your counterattack ignores night immunity.', 'Lynch every criminal and evildoer.');
+
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`)
+  values ('Townie', 'Doctor', 'Heal one person each night, preventing them from dying.', 'You may only heal yourself once. You will know if your target is attacked.', 'Lynch every criminal and evildoer.');
+
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `day_ability_description`, `attribute_description`, `goal_description`)
+  values ('Townie', 'Jailor', 'You may choose one person during the day to jail for the night.', 'You may anonymously talk with your prisoner. You may choose to execute your prisoner. The jailed target cannot perform their night ability. While jailed the prisoner is safe from all attacks.', 'Lynch every criminal and evildoer.');
+
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `day_ability_description`, `attribute_description`, `goal_description`)
+  values ('Townie', 'Spy', 'You may bug a players house to see what happens to them that night.', 'You will know who the Black Hand and Monsters visit each night.', 'Lynch every criminal and evildoer.');
+
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`)
+  values ('Townie', 'Vampire Hunter', 'Check for Vampires each night.', 'If you find a Vampire you will stake them in the heart. If a Vampire visits you they will be staked. You can hear Vampires at night. If you kill all Vampires you will become a Vigilante.', 'Lynch every criminal and evildoer.');
+
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `day_ability_description`, `attribute_description`, `goal_description`)
+  values ('BlackHand', 'Forget', 'Choose a person and rewrite their last will at night.', 'If your target dies their last will is replaced with your forgery. You may only perform 3 forgeries. If there are no kill capable Black Hand roles left you will become a Mafioso. You can talk with the other Black Hand at night.', 'Kill anyone that will not submit to the Black Hand.');
+
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`)
+  values ('BlackHand', 'Godfather', 'Kill someone each night.', 'You cant be killed at night. If there is a Mafioso he will attack the target instead of you. You will appear to be a Town member to the Sheriff. You can talk with the other Black Hand at night.', 'Kill anyone that will not submit to the Black Hand.');
+
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`)
+  values ('Monster', 'Vampire', 'Convert others to Vampires at night.', 'Vampires vote at night to bite a target. The youngest Vampire will visit the target at night. You must wait 1 night between conversions.', 'Convert everyone who would oppose you.');
+
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`)
+  values ('Monster', 'Werewolf', 'Transform into a Werewolf during the full moon.', 'As a Werewolf you can not be killed at night. As a Werewolf you will attack your victim and anyone that visits them. Your attack goes through night immunity. As a Werewolf you may choose to stay home and attack anyone who visits you.', 'Kill everyone who would oppose you.');

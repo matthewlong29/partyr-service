@@ -11,12 +11,14 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.partygames.partygamesservice.dao.UsersDao;
 import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.service.AuthService;
-import com.partygames.partygamesservice.util.PartyLogger;
 import com.partygames.partygamesservice.util.SecurityUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class AuthServiceImpl implements AuthService {
   @Autowired
@@ -58,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
         }
       }
     } catch (Exception e) {
-      PartyLogger.error(e.getMessage());
+      log.error(e.getMessage());
     }
 
     return user; // TODO throw exception instead?
@@ -76,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
       try {
         return usersDao.getUserByEmail(payload.getEmail());
       } catch (Exception e) {
-        PartyLogger.error("Could not find user with that email" + payload.getEmail() + "." + e.getMessage());
+        log.error("Could not find user with that email" + payload.getEmail() + "." + e.getMessage());
       }
     }
 
@@ -89,7 +91,7 @@ public class AuthServiceImpl implements AuthService {
       GoogleIdToken idToken = verifier.verify(token);
       return idToken != null;
     } catch (Exception e) {
-      PartyLogger.error("Error verifying auth token");
+      log.error("Error verifying auth token");
     }
     return false;
   }

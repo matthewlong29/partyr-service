@@ -5,12 +5,14 @@ import java.util.List;
 import com.partygames.partygamesservice.dao.ChatDao;
 import com.partygames.partygamesservice.model.Message;
 import com.partygames.partygamesservice.service.ChatService;
-import com.partygames.partygamesservice.util.PartyLogger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ChatServiceImpl implements ChatService {
   private final SimpMessagingTemplate template;
@@ -37,7 +39,7 @@ public class ChatServiceImpl implements ChatService {
    * saveMessage.
    */
   public int saveMessage(Message message) {
-    PartyLogger.info("new chat message: [" + message.toString() + "]");
+    log.info("new chat message: [" + message.toString() + "]");
 
     return chatDao.insertMessage(message);
   }

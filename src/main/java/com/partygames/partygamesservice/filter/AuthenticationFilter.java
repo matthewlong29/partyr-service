@@ -17,11 +17,13 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.partygames.partygamesservice.util.PartyLogger;
 
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class AuthenticationFilter extends OncePerRequestFilter {
   /**
    * shouldNotFilter.
@@ -40,7 +42,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
    */
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
-    PartyLogger.info("filtering");
+    log.info("filtering");
     Cookie[] cookies = request.getCookies();
     String requestTokenHeader = "";
 

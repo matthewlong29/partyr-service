@@ -3,6 +3,9 @@ package com.partygames.partygamesservice.util;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class SecurityUtils {
   public static String encodeHashSha256(String inputStr) {
     try {
@@ -18,7 +21,7 @@ public class SecurityUtils {
       }
       return hexString.toString();
     } catch (Exception e) {
-      PartyLogger.error("Unable to encode string to SHA-256");
+      log.error("Unable to encode string to SHA-256");
     }
 
     return null;

@@ -6,7 +6,6 @@ import com.partygames.partygamesservice.model.PartyrUser;
 import com.partygames.partygamesservice.model.Relationship;
 import com.partygames.partygamesservice.model.Relationships;
 import com.partygames.partygamesservice.service.UsersService;
-import com.partygames.partygamesservice.util.PartyLogger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
+
+// TODO: pass emails in as request body instead of request parameter
+@Slf4j
 @RestController
 @RequestMapping(value = "/api")
 public class UsersController {
@@ -31,7 +34,7 @@ public class UsersController {
    */
   @GetMapping(value = "/current-user/{email}")
   public PartyrUser getLoggedInUser(@PathVariable String email) {
-    PartyLogger.info("email: " + email);
+    log.info("email: " + email);
 
     return usersService.getCurrentUser(email);
   }
@@ -52,11 +55,11 @@ public class UsersController {
    * getRelationships: gets all relationships associated with a user, or only
    * friends (and optionally only online friends), or only blocked users.
    */
-  @GetMapping(value = "/relationships/{userName}")
-  public Relationships getRelationships(@PathVariable String userName,
+  @GetMapping(value = "/relationships/{email}")
+  public Relationships getRelationships(@PathVariable String email,
       @RequestParam(value = "type", required = false, defaultValue = "both") String relationshipStatus,
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly) {
-    return usersService.getRelationships(userName, relationshipStatus, onlineOnly);
+    return usersService.getRelationships(email, relationshipStatus, onlineOnly);
   }
 
   /**
@@ -78,8 +81,8 @@ public class UsersController {
   /**
    * chooseTheme.
    */
-  @GetMapping(value = "/choose-theme/{userToUpdate}/{themeID}")
-  public int chooseTheme(@PathVariable String userToUpdate, @PathVariable int themeID) {
-    return usersService.chooseTheme(userToUpdate, themeID);
+  @GetMapping(value = "/choose-theme/{email}/{themeID}")
+  public int chooseTheme(@PathVariable String email, @PathVariable int themeID) {
+    return usersService.chooseTheme(email, themeID);
   }
 }
