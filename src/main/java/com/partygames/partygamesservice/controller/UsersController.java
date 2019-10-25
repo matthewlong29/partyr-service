@@ -42,7 +42,7 @@ public class UsersController {
    * getAllUsers: returns all users, and optionally only all users that are
    * online. Username and email cannot contain spaces.
    */
-  @GetMapping(value = "/get-all", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<PartyrUser> getAllUsers(
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly,
       @RequestParam(value = "ready", required = false, defaultValue = "false") boolean readyToPlay,
@@ -54,7 +54,7 @@ public class UsersController {
    * getRelationships: gets all relationships associated with a user, or only
    * friends (and optionally only online friends), or only blocked users.
    */
-  @GetMapping(value = "/get-all-relationships")
+  @GetMapping(value = "/all-relationships")
   public Relationships getRelationships(@RequestBody PartyrEmail partyrEmail,
       @RequestParam(value = "type", required = false, defaultValue = "both") String relationshipStatus,
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly) {
