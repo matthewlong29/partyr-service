@@ -139,7 +139,7 @@ public class UsersDaoImpl implements UsersDao {
   public int blockUser(String currentUser, String userToBlock) {
     StringBuilder query = new StringBuilder();
     query.append(
-        "insert into `PartyGamesDatabase`.`Relationships` (`relating_email`, `related_email`, `relationship_type`) values ('");
+        "insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) values ('");
     query.append(currentUser);
     query.append("', '");
     query.append(userToBlock);
@@ -158,10 +158,10 @@ public class UsersDaoImpl implements UsersDao {
   public int createRelationship(Relationship newRelationship) {
     StringBuilder query = new StringBuilder();
     query.append(
-        "insert into `PartyGamesDatabase`.`Relationships` (`relating_email`, `related_email`, `relationship_type`) values ('");
-    query.append(newRelationship.getRelatingName());
+        "insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) values ('");
+    query.append(newRelationship.getRelatingEmail());
     query.append("', '");
-    query.append(newRelationship.getRelatedName());
+    query.append(newRelationship.getRelatedEmail());
     query.append("', '");
     query.append(newRelationship.getRelationshipStatus());
     query.append("');");
@@ -188,7 +188,7 @@ public class UsersDaoImpl implements UsersDao {
   public int createUser(PartyrUser user) {
     StringBuilder query = new StringBuilder();
     query.append(
-        "insert into `PartyGamesDatabase`.`partyr_users` (`user_name`, `email`, `country`, `age`, `password`) values ('");
+        "insert into `partyrdb`.`partyr_users` (`user_name`, `email`, `country`, `age`, `password`) values ('");
     query.append(user.getUserName());
     query.append("', '");
     query.append(user.getEmail());
@@ -207,7 +207,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public int chooseTheme(String userToUpdate, int themeID) {
     StringBuilder query = new StringBuilder();
-    query.append("update `PartyGamesDatabase`.`partyr_users` set `theme_id` = ");
+    query.append("update `partyrdb`.`partyr_users` set `theme_id` = ");
     query.append(themeID);
     query.append(" where `user_name` = '");
     query.append(userToUpdate);
@@ -223,7 +223,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public int changePassword(String userToUpdate, String newPassword) {
     StringBuilder query = new StringBuilder();
-    query.append("update `PartyGamesDatabase`.`partyr_users` set `password` = ");
+    query.append("update `partyrdb`.`partyr_users` set `password` = ");
     query.append(newPassword);
     query.append(" where `user_name` = '");
     query.append(userToUpdate);

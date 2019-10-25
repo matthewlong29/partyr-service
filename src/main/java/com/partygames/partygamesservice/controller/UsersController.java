@@ -2,15 +2,16 @@ package com.partygames.partygamesservice.controller;
 
 import java.util.List;
 
-import com.partygames.partygamesservice.model.users.PartyrUser;
 import com.partygames.partygamesservice.model.relationships.Relationship;
 import com.partygames.partygamesservice.model.relationships.Relationships;
+import com.partygames.partygamesservice.model.users.PartyrEmail;
+import com.partygames.partygamesservice.model.users.PartyrUser;
+import com.partygames.partygamesservice.model.users.ThemeSelect;
 import com.partygames.partygamesservice.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,31 +20,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
-// TODO: pass emails in as request body instead of request parameter
 @Slf4j
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/users")
 public class UsersController {
   @Autowired
   UsersService usersService;
 
   /**
-   * getLoggedInUser.
-   * 
-   * TODO better handle exceptions; TODO pass as request body instead
+   * getLoggedInUser: if all you have is an email address use this endpoint to get
+   * that PartyrUser using that email address.
    */
-  @GetMapping(value = "/current-user/{email}")
-  public PartyrUser getLoggedInUser(@PathVariable String email) {
-    log.info("email: " + email);
+  @GetMapping(value = "/current-user")
+  public PartyrUser getLoggedInUser(@RequestBody PartyrEmail partyrEmail) {
+    log.info("email: " + partyrEmail.getEmail());
 
-    return usersService.getCurrentUser(email);
+    return usersService.getCurrentUser(partyrEmail.getEmail());
   }
 
   /**
    * getAllUsers: returns all users, and optionally only all users that are
    * online. Username and email cannot contain spaces.
    */
-  @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/get-all", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<PartyrUser> getAllUsers(
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly,
       @RequestParam(value = "ready", required = false, defaultValue = "false") boolean readyToPlay,
@@ -55,11 +54,11 @@ public class UsersController {
    * getRelationships: gets all relationships associated with a user, or only
    * friends (and optionally only online friends), or only blocked users.
    */
-  @GetMapping(value = "/relationships/{email}")
-  public Relationships getRelationships(@PathVariable String email,
+  @GetMapping(value = "/get-all-relationships")
+  public Relationships getRelationships(@RequestBody PartyrEmail partyrEmail,
       @RequestParam(value = "type", required = false, defaultValue = "both") String relationshipStatus,
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly) {
-    return usersService.getRelationships(email, relationshipStatus, onlineOnly);
+    return usersService.getRelationships(partyrEmail.getEmail(), relationshipStatus, onlineOnly);
   }
 
   /**
@@ -72,6 +71,8 @@ public class UsersController {
 
   /**
    * createUser.
+   * 
+   * TODO: do we need this endpoint still???
    */
   @PostMapping(value = "/create-user", consumes = MediaType.APPLICATION_JSON_VALUE)
   public int createUser(@RequestBody PartyrUser user) {
@@ -81,8 +82,8 @@ public class UsersController {
   /**
    * chooseTheme.
    */
-  @GetMapping(value = "/choose-theme/{email}/{themeID}")
-  public int chooseTheme(@PathVariable String email, @PathVariable int themeID) {
-    return usersService.chooseTheme(email, themeID);
+  @GetMapping(value = "/choose-theme")
+  public int chooseTheme(@RequestBody ThemeSelect themeSelect) {
+    return usersService.chooseTheme(themeSelect.getEmail(), themeSelect.getThemeStatus().getThemeIndex());
   }
 }
