@@ -1,5 +1,5 @@
 USE `partyrdb`;
-DROP procedure IF EXISTS `select_theme`;
+DROP procedure IF EXISTS `select_username`;
 
 DELIMITER $$
 USE `partyrdb`$$
