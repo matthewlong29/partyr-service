@@ -1,5 +1,6 @@
 package com.partygames.partygamesservice.dao.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
@@ -136,7 +137,7 @@ public class UsersDaoImpl implements UsersDao {
   /**
    * blockUser
    */
-  public int blockUser(String currentUser, String userToBlock) {
+  public int blockUser(String currentUser, String userToBlock) throws SQLException {
     StringBuilder query = new StringBuilder();
     query.append(
         "insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) values ('");
@@ -149,11 +150,18 @@ public class UsersDaoImpl implements UsersDao {
 
     log.info(query.toString());
 
-    return jdbcTemplate.update(query.toString());
+    try {
+      return jdbcTemplate.update(query.toString());
+    } catch (Exception e) {
+      log.error("unable to block user {}: ", userToBlock, e.getMessage());
+    }
+
+    return 0;
   }
 
   /**
-   * createRelationship.
+   * createRelationship: returns the number of rows affected. If unable to create
+   * a relationship then 0 is returned.
    */
   public int createRelationship(Relationship newRelationship) {
     StringBuilder query = new StringBuilder();
@@ -168,27 +176,41 @@ public class UsersDaoImpl implements UsersDao {
 
     log.info(query.toString());
 
-    return jdbcTemplate.update(query.toString());
+    try {
+      return jdbcTemplate.update(query.toString());
+    } catch (Exception e) {
+      log.error("unable to add user {}: ", newRelationship.getRelatingEmail(), e.getMessage());
+    }
+
+    return 0;
   }
 
   /**
-   * createUserIfNotExist
+   * createUserIfNotExist: returns the number of rows affected. if unable to
+   * create user then 0 is returned.
    */
   public int createUserIfNotExist(PartyrUser user) {
     String query = "CALL `partyrdb`.`create_user`('" + user.getUserHash() + "', '" + user.getEmail() + "', '"
         + user.getFirstName().toString() + "', '" + user.getLastName() + "', '" + user.getProfileImageURL() + "');";
     log.info(query);
 
-    return jdbcTemplate.update(query);
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to create user {}: ", user.getEmail(), e.getMessage());
+    }
+
+    return 0;
   }
 
   /**
-   * createUser.
+   * createUser: returns the number of rows affected. if unable to create user
+   * then 0 is returned.
    */
   public int createUser(PartyrUser user) {
     StringBuilder query = new StringBuilder();
-    query.append(
-        "insert into `partyrdb`.`partyr_users` (`user_name`, `email`, `country`, `age`, `password`) values ('");
+    query
+        .append("insert into `partyrdb`.`partyr_users` (`user_name`, `email`, `country`, `age`, `password`) values ('");
     query.append(user.getUserName());
     query.append("', '");
     query.append(user.getEmail());
@@ -199,11 +221,18 @@ public class UsersDaoImpl implements UsersDao {
 
     log.info(query.toString());
 
-    return jdbcTemplate.update(query.toString());
+    try {
+      return jdbcTemplate.update(query.toString());
+    } catch (Exception e) {
+      log.error("unable to create user {}: ", user.getEmail(), e.getMessage());
+    }
+
+    return 0;
   }
 
   /**
-   * chooseTheme.
+   * chooseTheme: returns the number of rows affected. if unable to create user
+   * then 0 is returned.
    */
   public int chooseTheme(String userToUpdate, int themeID) {
     StringBuilder query = new StringBuilder();
@@ -215,22 +244,12 @@ public class UsersDaoImpl implements UsersDao {
 
     log.info(query.toString());
 
-    return jdbcTemplate.update(query.toString());
-  }
+    try {
+      return jdbcTemplate.update(query.toString());
+    } catch (Exception e) {
+      log.error("unable to update theme for user {}: ", userToUpdate, e.getMessage());
+    }
 
-  /**
-   * changePassword.
-   */
-  public int changePassword(String userToUpdate, String newPassword) {
-    StringBuilder query = new StringBuilder();
-    query.append("update `partyrdb`.`partyr_users` set `password` = ");
-    query.append(newPassword);
-    query.append(" where `user_name` = '");
-    query.append(userToUpdate);
-    query.append("';");
-
-    log.info(query.toString());
-
-    return jdbcTemplate.update(query.toString());
+    return 0;
   }
 }

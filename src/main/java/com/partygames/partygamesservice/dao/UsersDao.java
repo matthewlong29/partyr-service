@@ -34,6 +34,4 @@ public interface UsersDao {
   public int createUser(PartyrUser user);
 
   public int chooseTheme(String userToUpdate, int themeID);
-
-  public int changePassword(String userToUpdate, String newPassword);
 }
