@@ -7,6 +7,7 @@ import com.partygames.partygamesservice.model.relationships.Relationships;
 import com.partygames.partygamesservice.model.users.PartyrEmail;
 import com.partygames.partygamesservice.model.users.PartyrUser;
 import com.partygames.partygamesservice.model.users.ThemeSelect;
+import com.partygames.partygamesservice.model.users.UserNameSelect;
 import com.partygames.partygamesservice.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class UsersController {
   }
 
   /**
-   * createRelationship: either add a user as a friend or block them.
+   * createRelationship: either add a user as a friend or block them
    */
   @PostMapping(value = "/create-relationship", consumes = MediaType.APPLICATION_JSON_VALUE)
   public int createRelationship(@RequestBody Relationship newRelationship) {
@@ -80,10 +81,18 @@ public class UsersController {
   }
 
   /**
-   * chooseTheme.
+   * selectTheme: allows the user to select a theme
    */
-  @GetMapping(value = "/choose-theme")
-  public int chooseTheme(@RequestBody ThemeSelect themeSelect) {
-    return usersService.chooseTheme(themeSelect.getEmail(), themeSelect.getThemeStatus().getThemeIndex());
+  @GetMapping(value = "/select-theme")
+  public int selectTheme(@RequestBody ThemeSelect themeSelect) {
+    return usersService.selectTheme(themeSelect.getEmail(), themeSelect.getThemeStatus().getThemeIndex());
+  }
+
+  /**
+   * selectUsername: allows the user to select a username
+   */
+  @GetMapping(value = "/select-username")
+  public int selectUsername(@RequestBody UserNameSelect userNameSelect) {
+    return usersService.selectUsername(userNameSelect.getEmail(), userNameSelect.getUsername());
   }
 }

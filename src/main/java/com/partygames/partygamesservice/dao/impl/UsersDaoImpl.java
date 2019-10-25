@@ -175,10 +175,10 @@ public class UsersDaoImpl implements UsersDao {
   }
 
   /**
-   * chooseTheme: returns the number of rows affected. if unable to create user
-   * then 0 is returned.
+   * selectTheme: returns the number of rows affected. if unable to select a theme
+   * for that user then 0 is returned.
    */
-  public int chooseTheme(String userToUpdate, int themeID) {
+  public int selectTheme(String userToUpdate, int themeID) {
     String query = "CALL `partyrdb`.`select_theme`('" + userToUpdate + "', '" + themeID + "');";
     log.info(query);
 
@@ -186,6 +186,23 @@ public class UsersDaoImpl implements UsersDao {
       return jdbcTemplate.update(query);
     } catch (Exception e) {
       log.error("unable to update theme for user {}: ", userToUpdate, e.getMessage());
+    }
+
+    return 0;
+  }
+
+  /**
+   * selectUserName: returns the number of rows affected. if unable to select a
+   * username for that user then 0 is returned.
+   */
+  public int selectUsername(String userToUpdate, String userName) {
+    String query = "CALL `partyrdb`.`select_username`('" + userToUpdate + "', '" + userName + "');";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to update username for user {}: ", userToUpdate, e.getMessage());
     }
 
     return 0;

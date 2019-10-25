@@ -17,5 +17,7 @@ public interface UsersService {
 
   public int createUser(PartyrUser user);
 
-  public int chooseTheme(String userToUpdate, int themeID);
+  public int selectTheme(String userToUpdate, int themeID);
+
+  public int selectUsername(String userToUpdate, String userName);
 }
