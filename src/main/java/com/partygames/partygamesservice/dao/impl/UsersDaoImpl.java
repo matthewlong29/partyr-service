@@ -155,6 +155,12 @@ public class UsersDaoImpl implements UsersDao {
    * then 0 is returned.
    */
   public int createUser(PartyrUser user) {
+    // dont create a user without an email
+    if (null == user.getEmail()) {
+      log.warn("cannot create a user without an email address");
+      return 0;
+    }
+
     String query = "CALL `partyrdb`.`create_user`('" + user.getUserHash() + "', '" + user.getEmail() + "', '"
         + user.getFirstName() + "', '" + user.getLastName() + "', '" + user.getProfileImageURL() + "');";
     log.info(query);
