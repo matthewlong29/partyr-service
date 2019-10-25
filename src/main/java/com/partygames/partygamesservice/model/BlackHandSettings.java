@@ -2,6 +2,8 @@ package com.partygames.partygamesservice.model;
 
 import java.util.List;
 
+import com.partygames.partygamesservice.model.users.PartyrUser;
+
 import lombok.Data;
 
 @Data

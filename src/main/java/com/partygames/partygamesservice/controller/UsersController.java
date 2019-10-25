@@ -2,9 +2,9 @@ package com.partygames.partygamesservice.controller;
 
 import java.util.List;
 
-import com.partygames.partygamesservice.model.PartyrUser;
-import com.partygames.partygamesservice.model.Relationship;
-import com.partygames.partygamesservice.model.Relationships;
+import com.partygames.partygamesservice.model.users.PartyrUser;
+import com.partygames.partygamesservice.model.relationships.Relationship;
+import com.partygames.partygamesservice.model.relationships.Relationships;
 import com.partygames.partygamesservice.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;

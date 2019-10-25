@@ -1,7 +1,9 @@
-package com.partygames.partygamesservice.model;
+package com.partygames.partygamesservice.model.relationships;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.partygames.partygamesservice.model.users.PartyrUser;
 
 import lombok.Data;
 

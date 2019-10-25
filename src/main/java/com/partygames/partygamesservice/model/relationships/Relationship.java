@@ -1,4 +1,4 @@
-package com.partygames.partygamesservice.model;
+package com.partygames.partygamesservice.model.relationships;
 
 import lombok.Data;
 

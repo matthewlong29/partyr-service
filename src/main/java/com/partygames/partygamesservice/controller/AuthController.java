@@ -6,7 +6,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.partygames.partygamesservice.model.PartyrUser;
+import com.partygames.partygamesservice.model.users.PartyrUser;
 import com.partygames.partygamesservice.service.AuthService;
 
 import org.springframework.beans.factory.annotation.Autowired;

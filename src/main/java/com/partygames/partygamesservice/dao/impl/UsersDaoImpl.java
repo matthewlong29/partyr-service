@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
 import com.partygames.partygamesservice.dao.impl.mapper.UserRowMapper;
-import com.partygames.partygamesservice.model.PartyrUser;
-import com.partygames.partygamesservice.model.Relationship;
-import com.partygames.partygamesservice.model.RelationshipStatus;
-import com.partygames.partygamesservice.model.Relationships;
+import com.partygames.partygamesservice.model.users.PartyrUser;
+import com.partygames.partygamesservice.model.relationships.Relationship;
+import com.partygames.partygamesservice.model.relationships.RelationshipStatus;
+import com.partygames.partygamesservice.model.relationships.Relationships;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

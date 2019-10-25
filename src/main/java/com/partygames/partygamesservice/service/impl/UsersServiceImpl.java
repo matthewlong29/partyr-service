@@ -3,10 +3,10 @@ package com.partygames.partygamesservice.service.impl;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
-import com.partygames.partygamesservice.model.PartyrUser;
-import com.partygames.partygamesservice.model.Relationship;
-import com.partygames.partygamesservice.model.RelationshipStatus;
-import com.partygames.partygamesservice.model.Relationships;
+import com.partygames.partygamesservice.model.users.PartyrUser;
+import com.partygames.partygamesservice.model.relationships.Relationship;
+import com.partygames.partygamesservice.model.relationships.RelationshipStatus;
+import com.partygames.partygamesservice.model.relationships.Relationships;
 import com.partygames.partygamesservice.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;

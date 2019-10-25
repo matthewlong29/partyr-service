@@ -2,9 +2,9 @@ package com.partygames.partygamesservice.service;
 
 import java.util.List;
 
-import com.partygames.partygamesservice.model.PartyrUser;
-import com.partygames.partygamesservice.model.Relationship;
-import com.partygames.partygamesservice.model.Relationships;
+import com.partygames.partygamesservice.model.users.PartyrUser;
+import com.partygames.partygamesservice.model.relationships.Relationship;
+import com.partygames.partygamesservice.model.relationships.Relationships;
 
 public interface UsersService {
   public List<PartyrUser> getAllUsers(boolean onlineOnly, boolean readyToPlay, String queryString);
