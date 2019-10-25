@@ -29,8 +29,6 @@ public interface UsersDao {
 
   public int createRelationship(Relationship newRelationship);
 
-  public int createUserIfNotExist(PartyrUser user);
-
   public int createUser(PartyrUser user);
 
   public int chooseTheme(String userToUpdate, int themeID);

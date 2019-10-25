@@ -1,14 +1,12 @@
 package com.partygames.partygamesservice.dao.impl;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
 import com.partygames.partygamesservice.dao.impl.mapper.UserRowMapper;
-import com.partygames.partygamesservice.model.users.PartyrUser;
 import com.partygames.partygamesservice.model.relationships.Relationship;
-import com.partygames.partygamesservice.model.relationships.RelationshipStatus;
 import com.partygames.partygamesservice.model.relationships.Relationships;
+import com.partygames.partygamesservice.model.users.PartyrUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -135,49 +133,16 @@ public class UsersDaoImpl implements UsersDao {
   }
 
   /**
-   * blockUser
-   */
-  public int blockUser(String currentUser, String userToBlock) throws SQLException {
-    StringBuilder query = new StringBuilder();
-    query.append(
-        "insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) values ('");
-    query.append(currentUser);
-    query.append("', '");
-    query.append(userToBlock);
-    query.append("', '");
-    query.append(RelationshipStatus.BLOCK);
-    query.append("');");
-
-    log.info(query.toString());
-
-    try {
-      return jdbcTemplate.update(query.toString());
-    } catch (Exception e) {
-      log.error("unable to block user {}: ", userToBlock, e.getMessage());
-    }
-
-    return 0;
-  }
-
-  /**
    * createRelationship: returns the number of rows affected. If unable to create
    * a relationship then 0 is returned.
    */
   public int createRelationship(Relationship newRelationship) {
-    StringBuilder query = new StringBuilder();
-    query.append(
-        "insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) values ('");
-    query.append(newRelationship.getRelatingEmail());
-    query.append("', '");
-    query.append(newRelationship.getRelatedEmail());
-    query.append("', '");
-    query.append(newRelationship.getRelationshipStatus());
-    query.append("');");
-
-    log.info(query.toString());
+    String query = "CALL `partyrdb`.`create_relationship`('" + newRelationship.getRelatingEmail() + "', '"
+        + newRelationship.getRelatedEmail() + "', '" + newRelationship.getRelationshipStatus() + "');";
+    log.info(query);
 
     try {
-      return jdbcTemplate.update(query.toString());
+      return jdbcTemplate.update(query);
     } catch (Exception e) {
       log.error("unable to add user {}: ", newRelationship.getRelatingEmail(), e.getMessage());
     }
@@ -186,12 +151,12 @@ public class UsersDaoImpl implements UsersDao {
   }
 
   /**
-   * createUserIfNotExist: returns the number of rows affected. if unable to
-   * create user then 0 is returned.
+   * createUser: returns the number of rows affected. if unable to create user
+   * then 0 is returned.
    */
-  public int createUserIfNotExist(PartyrUser user) {
+  public int createUser(PartyrUser user) {
     String query = "CALL `partyrdb`.`create_user`('" + user.getUserHash() + "', '" + user.getEmail() + "', '"
-        + user.getFirstName().toString() + "', '" + user.getLastName() + "', '" + user.getProfileImageURL() + "');";
+        + user.getFirstName() + "', '" + user.getLastName() + "', '" + user.getProfileImageURL() + "');";
     log.info(query);
 
     try {
@@ -204,48 +169,15 @@ public class UsersDaoImpl implements UsersDao {
   }
 
   /**
-   * createUser: returns the number of rows affected. if unable to create user
-   * then 0 is returned.
-   */
-  public int createUser(PartyrUser user) {
-    StringBuilder query = new StringBuilder();
-    query
-        .append("insert into `partyrdb`.`partyr_users` (`user_name`, `email`, `country`, `age`, `password`) values ('");
-    query.append(user.getUserName());
-    query.append("', '");
-    query.append(user.getEmail());
-    query.append("', '");
-    query.append(user.getCountry());
-    query.append("', ");
-    query.append(user.getAge());
-
-    log.info(query.toString());
-
-    try {
-      return jdbcTemplate.update(query.toString());
-    } catch (Exception e) {
-      log.error("unable to create user {}: ", user.getEmail(), e.getMessage());
-    }
-
-    return 0;
-  }
-
-  /**
    * chooseTheme: returns the number of rows affected. if unable to create user
    * then 0 is returned.
    */
   public int chooseTheme(String userToUpdate, int themeID) {
-    StringBuilder query = new StringBuilder();
-    query.append("update `partyrdb`.`partyr_users` set `theme_id` = ");
-    query.append(themeID);
-    query.append(" where `user_name` = '");
-    query.append(userToUpdate);
-    query.append("';");
-
-    log.info(query.toString());
+    String query = "CALL `partyrdb`.`select_theme`('" + userToUpdate + "', '" + themeID + "');";
+    log.info(query);
 
     try {
-      return jdbcTemplate.update(query.toString());
+      return jdbcTemplate.update(query);
     } catch (Exception e) {
       log.error("unable to update theme for user {}: ", userToUpdate, e.getMessage());
     }
