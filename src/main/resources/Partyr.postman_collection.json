@@ -756,6 +756,99 @@
 					"_postman_isSubFolder": true
 				},
 				{
+					"name": "create user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/create-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"create-user"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "create user",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/users/create-user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"create-user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 25 Oct 2019 19:08:43 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "0"
+						}
+					]
+				},
+				{
 					"name": "get all users",
 					"request": {
 						"method": "GET",
@@ -1149,7 +1242,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/users/choose-theme",
+							"raw": "http://localhost:8080/api/users/select-theme",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1158,7 +1251,7 @@
 							"path": [
 								"api",
 								"users",
-								"choose-theme"
+								"select-theme"
 							]
 						}
 					},
@@ -1185,7 +1278,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/users/choose-theme",
+									"raw": "http://localhost:8080/api/users/select-theme",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1194,7 +1287,7 @@
 									"path": [
 										"api",
 										"users",
-										"choose-theme"
+										"select-theme"
 									]
 								}
 							},
@@ -1212,18 +1305,21 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 25 Oct 2019 19:03:43 GMT"
+									"value": "Fri, 25 Oct 2019 19:25:58 GMT"
 								}
 							],
 							"cookie": [],
-							"body": "0"
+							"body": "1"
 						}
 					]
 				},
 				{
-					"name": "create user",
+					"name": "select a username for a user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -1234,7 +1330,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\n}",
+							"raw": "{\n\t\"email\": \"long.matthew29@gmail.com\",\n\t\"username\": \"coffeelover90000\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1242,7 +1338,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/users/create-user",
+							"raw": "http://localhost:8080/api/users/select-username",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1251,15 +1347,15 @@
 							"path": [
 								"api",
 								"users",
-								"create-user"
+								"select-username"
 							]
 						}
 					},
 					"response": [
 						{
-							"name": "create user",
+							"name": "select a username for a user",
 							"originalRequest": {
-								"method": "POST",
+								"method": "GET",
 								"header": [
 									{
 										"key": "Content-Type",
@@ -1270,7 +1366,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\n}",
+									"raw": "{\n\t\"email\": \"long.matthew29@gmail.com\",\n\t\"username\": \"coffeelover90000\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1278,7 +1374,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/users/create-user",
+									"raw": "http://localhost:8080/api/users/select-username",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1287,7 +1383,7 @@
 									"path": [
 										"api",
 										"users",
-										"create-user"
+										"select-username"
 									]
 								}
 							},
@@ -1305,11 +1401,11 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 25 Oct 2019 19:08:43 GMT"
+									"value": "Fri, 25 Oct 2019 19:26:46 GMT"
 								}
 							],
 							"cookie": [],
-							"body": "0"
+							"body": "1"
 						}
 					]
 				}
