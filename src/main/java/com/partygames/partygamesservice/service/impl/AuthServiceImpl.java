@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
           String uncodedUserHash = user.getEmail().concat(user.getFirstName()).concat(user.getLastName());
           user.setUserHash(SecurityUtils.encodeHashSha256(uncodedUserHash));
 
-          usersDao.createUserIfNotExist(user);
+          usersDao.createUser(user);
 
         }
       }
