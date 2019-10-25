@@ -99,11 +99,4 @@ public class UsersServiceImpl implements UsersService {
   public int chooseTheme(String userToUpdate, int themeID) {
     return usersDao.chooseTheme(userToUpdate, themeID);
   }
-
-  /**
-   * changePassword.
-   */
-  public int changePassword(String userToUpdate, String newPassword) {
-    return usersDao.changePassword(userToUpdate, newPassword);
-  }
 }
