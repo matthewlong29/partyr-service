@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.partygames.partygamesservice.model.BlackHandFaction;
-import com.partygames.partygamesservice.model.BlackHandFactionRoles.BlackHandRole;
+import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
+import com.partygames.partygamesservice.model.blackhand.BlackHandFactionRoles.BlackHandRole;
 
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;

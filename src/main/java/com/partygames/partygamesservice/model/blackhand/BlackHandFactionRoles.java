@@ -1,4 +1,4 @@
-package com.partygames.partygamesservice.model;
+package com.partygames.partygamesservice.model.blackhand;
 
 import java.util.HashMap;
 import java.util.List;

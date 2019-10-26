@@ -3,8 +3,8 @@ package com.partygames.partygamesservice.dao.impl.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.partygames.partygamesservice.model.BlackHandFaction;
-import com.partygames.partygamesservice.model.BlackHandFactionRoles.BlackHandRole;
+import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
+import com.partygames.partygamesservice.model.blackhand.BlackHandFactionRoles.BlackHandRole;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;

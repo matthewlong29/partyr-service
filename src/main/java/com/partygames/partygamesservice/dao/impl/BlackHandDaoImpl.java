@@ -6,9 +6,9 @@ import java.util.List;
 import com.partygames.partygamesservice.dao.BlackHandDao;
 import com.partygames.partygamesservice.dao.impl.mapper.BlackHandNumberOfPlayersRowMapper;
 import com.partygames.partygamesservice.dao.impl.mapper.BlackHandRoleResultSetExtractor;
-import com.partygames.partygamesservice.model.BlackHandFaction;
-import com.partygames.partygamesservice.model.BlackHandFactionRoles.BlackHandRole;
-import com.partygames.partygamesservice.model.BlackHandNumberOfPlayers;
+import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
+import com.partygames.partygamesservice.model.blackhand.BlackHandFactionRoles.BlackHandRole;
+import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
