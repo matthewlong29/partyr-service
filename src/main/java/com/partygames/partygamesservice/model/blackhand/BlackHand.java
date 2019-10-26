@@ -11,7 +11,8 @@ import com.partygames.partygamesservice.model.users.PartyrUser;
 import lombok.Data;
 
 @Data
-public class BlackHandStartGame {
+public class BlackHand {
+  private int gameInstanceID; // unique to each game
   private Timestamp gameStartTime = new Timestamp(new Date().getTime());
   private List<BlackHandPlayer> playerRoles = new ArrayList<>();
 
@@ -19,5 +20,6 @@ public class BlackHandStartGame {
   public static class BlackHandPlayer {
     private PartyrUser player;
     private BlackHandRole role;
+    private List<BlackHandNote> will = new ArrayList<>();
   }
 }

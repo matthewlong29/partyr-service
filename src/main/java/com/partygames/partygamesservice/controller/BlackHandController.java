@@ -7,7 +7,7 @@ import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
 import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
 import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers;
 import com.partygames.partygamesservice.model.blackhand.BlackHandSettings;
-import com.partygames.partygamesservice.model.blackhand.BlackHandStartGame;
+import com.partygames.partygamesservice.model.blackhand.BlackHand;
 import com.partygames.partygamesservice.service.BlackHandService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class BlackHandController {
    * hand.
    */
   @GetMapping(value = "/start", produces = MediaType.APPLICATION_JSON_VALUE)
-  public BlackHandStartGame startBlackHandGame(@RequestBody BlackHandSettings blackHandSettings) {
+  public BlackHand startBlackHandGame(@RequestBody BlackHandSettings blackHandSettings) {
     return blackHandService.startGame(blackHandSettings);
   }
 
