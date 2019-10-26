@@ -4,10 +4,9 @@ import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
 import com.partygames.partygamesservice.dao.impl.mapper.UserRowMapper;
-import com.partygames.partygamesservice.model.PartyrUser;
-import com.partygames.partygamesservice.model.Relationship;
-import com.partygames.partygamesservice.model.RelationshipStatus;
-import com.partygames.partygamesservice.model.Relationships;
+import com.partygames.partygamesservice.model.relationships.Relationship;
+import com.partygames.partygamesservice.model.relationships.Relationships;
+import com.partygames.partygamesservice.model.users.PartyrUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -134,103 +133,78 @@ public class UsersDaoImpl implements UsersDao {
   }
 
   /**
-   * blockUser
-   */
-  public int blockUser(String currentUser, String userToBlock) {
-    StringBuilder query = new StringBuilder();
-    query.append(
-        "insert into `PartyGamesDatabase`.`Relationships` (`relating_email`, `related_email`, `relationship_type`) values ('");
-    query.append(currentUser);
-    query.append("', '");
-    query.append(userToBlock);
-    query.append("', '");
-    query.append(RelationshipStatus.BLOCK);
-    query.append("');");
-
-    log.info(query.toString());
-
-    return jdbcTemplate.update(query.toString());
-  }
-
-  /**
-   * createRelationship.
+   * createRelationship: returns the number of rows affected. If unable to create
+   * a relationship then 0 is returned.
    */
   public int createRelationship(Relationship newRelationship) {
-    StringBuilder query = new StringBuilder();
-    query.append(
-        "insert into `PartyGamesDatabase`.`Relationships` (`relating_email`, `related_email`, `relationship_type`) values ('");
-    query.append(newRelationship.getRelatingName());
-    query.append("', '");
-    query.append(newRelationship.getRelatedName());
-    query.append("', '");
-    query.append(newRelationship.getRelationshipStatus());
-    query.append("');");
-
-    log.info(query.toString());
-
-    return jdbcTemplate.update(query.toString());
-  }
-
-  /**
-   * createUserIfNotExist
-   */
-  public int createUserIfNotExist(PartyrUser user) {
-    String query = "CALL `partyrdb`.`create_user`('" + user.getUserHash() + "', '" + user.getEmail() + "', '"
-        + user.getFirstName().toString() + "', '" + user.getLastName() + "', '" + user.getProfileImageURL() + "');";
+    String query = "CALL `partyrdb`.`create_relationship`('" + newRelationship.getRelatingEmail() + "', '"
+        + newRelationship.getRelatedEmail() + "', '" + newRelationship.getRelationshipStatus() + "');";
     log.info(query);
 
-    return jdbcTemplate.update(query);
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to add user {}: ", newRelationship.getRelatingEmail(), e.getMessage());
+    }
+
+    return 0;
   }
 
   /**
-   * createUser.
+   * createUser: returns the number of rows affected. if unable to create user
+   * then 0 is returned.
    */
   public int createUser(PartyrUser user) {
-    StringBuilder query = new StringBuilder();
-    query.append(
-        "insert into `PartyGamesDatabase`.`partyr_users` (`user_name`, `email`, `country`, `age`, `password`) values ('");
-    query.append(user.getUserName());
-    query.append("', '");
-    query.append(user.getEmail());
-    query.append("', '");
-    query.append(user.getCountry());
-    query.append("', ");
-    query.append(user.getAge());
+    // dont create a user without an email
+    if (null == user.getEmail()) {
+      log.warn("cannot create a user without an email address");
+      return 0;
+    }
 
-    log.info(query.toString());
+    String query = "CALL `partyrdb`.`create_user`('" + user.getUserHash() + "', '" + user.getEmail() + "', '"
+        + user.getFirstName() + "', '" + user.getLastName() + "', '" + user.getProfileImageURL() + "');";
+    log.info(query);
 
-    return jdbcTemplate.update(query.toString());
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to create user {}: ", user.getEmail(), e.getMessage());
+    }
+
+    return 0;
   }
 
   /**
-   * chooseTheme.
+   * selectTheme: returns the number of rows affected. if unable to select a theme
+   * for that user then 0 is returned.
    */
-  public int chooseTheme(String userToUpdate, int themeID) {
-    StringBuilder query = new StringBuilder();
-    query.append("update `PartyGamesDatabase`.`partyr_users` set `theme_id` = ");
-    query.append(themeID);
-    query.append(" where `user_name` = '");
-    query.append(userToUpdate);
-    query.append("';");
+  public int selectTheme(String userToUpdate, int themeID) {
+    String query = "CALL `partyrdb`.`select_theme`('" + userToUpdate + "', '" + themeID + "');";
+    log.info(query);
 
-    log.info(query.toString());
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to update theme for user {}: ", userToUpdate, e.getMessage());
+    }
 
-    return jdbcTemplate.update(query.toString());
+    return 0;
   }
 
   /**
-   * changePassword.
+   * selectUserName: returns the number of rows affected. if unable to select a
+   * username for that user then 0 is returned.
    */
-  public int changePassword(String userToUpdate, String newPassword) {
-    StringBuilder query = new StringBuilder();
-    query.append("update `PartyGamesDatabase`.`partyr_users` set `password` = ");
-    query.append(newPassword);
-    query.append(" where `user_name` = '");
-    query.append(userToUpdate);
-    query.append("';");
+  public int selectUsername(String userToUpdate, String userName) {
+    String query = "CALL `partyrdb`.`select_username`('" + userToUpdate + "', '" + userName + "');";
+    log.info(query);
 
-    log.info(query.toString());
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to update username for user {}: ", userToUpdate, e.getMessage());
+    }
 
-    return jdbcTemplate.update(query.toString());
+    return 0;
   }
 }

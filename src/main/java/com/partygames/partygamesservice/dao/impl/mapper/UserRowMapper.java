@@ -3,8 +3,8 @@ package com.partygames.partygamesservice.dao.impl.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.partygames.partygamesservice.model.OnlineStatus;
-import com.partygames.partygamesservice.model.PartyrUser;
+import com.partygames.partygamesservice.model.users.OnlineStatus;
+import com.partygames.partygamesservice.model.users.PartyrUser;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;

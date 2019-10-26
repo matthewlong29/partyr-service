@@ -3,10 +3,10 @@ package com.partygames.partygamesservice.service.impl;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.UsersDao;
-import com.partygames.partygamesservice.model.PartyrUser;
-import com.partygames.partygamesservice.model.Relationship;
-import com.partygames.partygamesservice.model.RelationshipStatus;
-import com.partygames.partygamesservice.model.Relationships;
+import com.partygames.partygamesservice.model.users.PartyrUser;
+import com.partygames.partygamesservice.model.relationships.Relationship;
+import com.partygames.partygamesservice.model.relationships.RelationshipStatus;
+import com.partygames.partygamesservice.model.relationships.Relationships;
 import com.partygames.partygamesservice.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,16 +94,16 @@ public class UsersServiceImpl implements UsersService {
   }
 
   /**
-   * chooseTheme.
+   * selectTheme.
    */
-  public int chooseTheme(String userToUpdate, int themeID) {
-    return usersDao.chooseTheme(userToUpdate, themeID);
+  public int selectTheme(String userToUpdate, int themeID) {
+    return usersDao.selectTheme(userToUpdate, themeID);
   }
 
   /**
-   * changePassword.
+   * selectUserName.
    */
-  public int changePassword(String userToUpdate, String newPassword) {
-    return usersDao.changePassword(userToUpdate, newPassword);
+  public int selectUsername(String userToUpdate, String username) {
+    return usersDao.selectUsername(userToUpdate, username);
   }
 }

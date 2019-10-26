@@ -2,9 +2,9 @@ package com.partygames.partygamesservice.dao;
 
 import java.util.List;
 
-import com.partygames.partygamesservice.model.Relationship;
-import com.partygames.partygamesservice.model.Relationships;
-import com.partygames.partygamesservice.model.PartyrUser;
+import com.partygames.partygamesservice.model.relationships.Relationship;
+import com.partygames.partygamesservice.model.relationships.Relationships;
+import com.partygames.partygamesservice.model.users.PartyrUser;
 
 public interface UsersDao {
   public PartyrUser getUserByEmail(String email);
@@ -29,11 +29,9 @@ public interface UsersDao {
 
   public int createRelationship(Relationship newRelationship);
 
-  public int createUserIfNotExist(PartyrUser user);
-
   public int createUser(PartyrUser user);
 
-  public int chooseTheme(String userToUpdate, int themeID);
+  public int selectTheme(String userToUpdate, int themeID);
 
-  public int changePassword(String userToUpdate, String newPassword);
+  public int selectUsername(String userToUpdate, String userName);
 }

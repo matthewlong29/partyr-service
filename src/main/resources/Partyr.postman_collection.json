@@ -59,7 +59,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 19 Oct 2019 20:11:23 GMT"
+									"value": "Fri, 25 Oct 2019 19:01:19 GMT"
 								}
 							],
 							"cookie": [],
@@ -73,7 +73,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/game/Black Hand",
+							"raw": "http://localhost:8080/api/game/black hand",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -82,7 +82,7 @@
 							"path": [
 								"api",
 								"game",
-								"Black Hand"
+								"black hand"
 							]
 						}
 					},
@@ -93,7 +93,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/game/Black Hand",
+									"raw": "http://localhost:8080/api/game/black hand",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -102,7 +102,7 @@
 									"path": [
 										"api",
 										"game",
-										"Black Hand"
+										"black hand"
 									]
 								}
 							},
@@ -120,7 +120,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 19 Oct 2019 20:11:44 GMT"
+									"value": "Fri, 25 Oct 2019 19:01:32 GMT"
 								}
 							],
 							"cookie": [],
@@ -139,11 +139,30 @@
 					"item": [
 						{
 							"name": "get all relationships of a user",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"coty.dawson@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com",
+									"raw": "http://localhost:8080/api/users/all-relationships",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -151,8 +170,8 @@
 									"port": "8080",
 									"path": [
 										"api",
-										"relationships",
-										"coty.dawson@gmail.com"
+										"users",
+										"all-relationships"
 									]
 								}
 							},
@@ -161,9 +180,25 @@
 									"name": "get all relationships of a user",
 									"originalRequest": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"email\": \"coty.dawson@gmail.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
 										"url": {
-											"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com",
+											"raw": "http://localhost:8080/api/users/all-relationships",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -171,8 +206,8 @@
 											"port": "8080",
 											"path": [
 												"api",
-												"relationships",
-												"coty.dawson@gmail.com"
+												"users",
+												"all-relationships"
 											]
 										}
 									},
@@ -180,10 +215,6 @@
 									"code": 200,
 									"_postman_previewlanguage": "json",
 									"header": [
-										{
-											"key": "Content-Disposition",
-											"value": "inline;filename=f.txt"
-										},
 										{
 											"key": "Content-Type",
 											"value": "application/json;charset=UTF-8"
@@ -194,7 +225,7 @@
 										},
 										{
 											"key": "Date",
-											"value": "Sat, 19 Oct 2019 20:11:54 GMT"
+											"value": "Fri, 25 Oct 2019 19:01:39 GMT"
 										}
 									],
 									"cookie": [],
@@ -204,11 +235,30 @@
 						},
 						{
 							"name": "get friends of a user",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"long.matthew29@gmail.com\" \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com?type=friend",
+									"raw": "http://localhost:8080/api/users/all-relationships?type=friend",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -216,8 +266,8 @@
 									"port": "8080",
 									"path": [
 										"api",
-										"relationships",
-										"coty.dawson@gmail.com"
+										"users",
+										"all-relationships"
 									],
 									"query": [
 										{
@@ -232,9 +282,25 @@
 									"name": "get friends of a user",
 									"originalRequest": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"email\": \"long.matthew29@gmail.com\" \n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
 										"url": {
-											"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com?type=friend",
+											"raw": "http://localhost:8080/api/users/all-relationships?type=friend",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -242,8 +308,8 @@
 											"port": "8080",
 											"path": [
 												"api",
-												"relationships",
-												"coty.dawson@gmail.com"
+												"users",
+												"all-relationships"
 											],
 											"query": [
 												{
@@ -258,10 +324,6 @@
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
-											"key": "Content-Disposition",
-											"value": "inline;filename=f.txt"
-										},
-										{
 											"key": "Content-Type",
 											"value": "application/json;charset=UTF-8"
 										},
@@ -271,21 +333,40 @@
 										},
 										{
 											"key": "Date",
-											"value": "Sat, 19 Oct 2019 20:12:02 GMT"
+											"value": "Fri, 25 Oct 2019 19:01:48 GMT"
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"friendsList\": [\n        {\n            \"userName\": null,\n            \"email\": \"obtrusivemonks@gmail.com\",\n            \"firstName\": \"kathy\",\n            \"lastName\": \"guy\",\n            \"profileImageURL\": \"http://www.google.com/image.jpg\",\n            \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n            \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n            \"onlineStatus\": \"ONLINE\",\n            \"themeID\": 1,\n            \"age\": 19,\n            \"country\": \"United States\"\n        }\n    ],\n    \"blockedList\": []\n}"
+									"body": "{\n    \"friendsList\": [\n        {\n            \"userName\": null,\n            \"email\": \"andrew.nguyenvo@gmail.com\",\n            \"firstName\": \"Andrew\",\n            \"lastName\": \"Nguyen Vo\",\n            \"profileImageURL\": \"https://lh3.googleusercontent.com/-d-6IT7CLB3Q/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rfbRZ4mXMRT-QajkkM38jBdiF4rgg/s96-c/photo.jpg\",\n            \"userHash\": \"01050b\",\n            \"joinedDate\": \"2019-10-14T00:18:02.000+0000\",\n            \"onlineStatus\": \"OFFLINE\",\n            \"themeID\": 1,\n            \"age\": 0,\n            \"country\": \"\"\n        },\n        {\n            \"userName\": null,\n            \"email\": \"cheesecake@gmail.com\",\n            \"firstName\": \"cheese\",\n            \"lastName\": \"cakeeee\",\n            \"profileImageURL\": \"http://www.google.com/image.jpg\",\n            \"userHash\": \"c9c3d90d5c54fe0b3addb2d0f3ffeb20\",\n            \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n            \"onlineStatus\": \"ONLINE\",\n            \"themeID\": 1,\n            \"age\": 99,\n            \"country\": \"United States\"\n        }\n    ],\n    \"blockedList\": []\n}"
 								}
 							]
 						},
 						{
 							"name": "get all users blocked by a user",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"coty.dawson@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com?type=block",
+									"raw": "http://localhost:8080/api/users/all-relationships?type=block",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -293,8 +374,8 @@
 									"port": "8080",
 									"path": [
 										"api",
-										"relationships",
-										"coty.dawson@gmail.com"
+										"users",
+										"all-relationships"
 									],
 									"query": [
 										{
@@ -309,9 +390,25 @@
 									"name": "get all users blocked by a user",
 									"originalRequest": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"email\": \"coty.dawson@gmail.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
 										"url": {
-											"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com?type=block",
+											"raw": "http://localhost:8080/api/users/all-relationships?type=block",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -319,8 +416,8 @@
 											"port": "8080",
 											"path": [
 												"api",
-												"relationships",
-												"coty.dawson@gmail.com"
+												"users",
+												"all-relationships"
 											],
 											"query": [
 												{
@@ -335,10 +432,6 @@
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
-											"key": "Content-Disposition",
-											"value": "inline;filename=f.txt"
-										},
-										{
 											"key": "Content-Type",
 											"value": "application/json;charset=UTF-8"
 										},
@@ -348,7 +441,7 @@
 										},
 										{
 											"key": "Date",
-											"value": "Sat, 19 Oct 2019 20:12:15 GMT"
+											"value": "Fri, 25 Oct 2019 19:01:56 GMT"
 										}
 									],
 									"cookie": [],
@@ -358,11 +451,30 @@
 						},
 						{
 							"name": "get online friends of a user",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"coty.dawson@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com?type=friend&online=true",
+									"raw": "http://localhost:8080/api/users/all-relationships?type=friend&online=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -370,8 +482,8 @@
 									"port": "8080",
 									"path": [
 										"api",
-										"relationships",
-										"coty.dawson@gmail.com"
+										"users",
+										"all-relationships"
 									],
 									"query": [
 										{
@@ -390,9 +502,25 @@
 									"name": "get online friends of a user",
 									"originalRequest": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"email\": \"coty.dawson@gmail.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
 										"url": {
-											"raw": "http://localhost:8080/api/relationships/coty.dawson@gmail.com?type=friend&online=true",
+											"raw": "http://localhost:8080/api/users/all-relationships?type=friend&online=true",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -400,8 +528,8 @@
 											"port": "8080",
 											"path": [
 												"api",
-												"relationships",
-												"coty.dawson@gmail.com"
+												"users",
+												"all-relationships"
 											],
 											"query": [
 												{
@@ -420,9 +548,98 @@
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
-											"key": "Content-Disposition",
-											"value": "inline;filename=f.txt"
+											"key": "Content-Type",
+											"value": "application/json;charset=UTF-8"
 										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 25 Oct 2019 19:02:04 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"friendsList\": [\n        {\n            \"userName\": null,\n            \"email\": \"obtrusivemonks@gmail.com\",\n            \"firstName\": \"kathy\",\n            \"lastName\": \"guy\",\n            \"profileImageURL\": \"http://www.google.com/image.jpg\",\n            \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n            \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n            \"onlineStatus\": \"ONLINE\",\n            \"themeID\": 1,\n            \"age\": 19,\n            \"country\": \"United States\"\n        }\n    ],\n    \"blockedList\": []\n}"
+								}
+							]
+						},
+						{
+							"name": "create relationship (friend)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"relatingEmail\": \"long.matthew29@gmail.com\",\n    \"relatedEmail\": \"andrew.nguyenvo@gmail.com\",\n    \"relationshipStatus\": \"FRIEND\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/users/create-relationship",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"create-relationship"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "create relationship (friend)",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"relatingEmail\": \"long.matthew29@gmail.com\",\n    \"relatedEmail\": \"andrew.nguyenvo@gmail.com\",\n    \"relationshipStatus\": \"FRIEND\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/users/create-relationship",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"users",
+												"create-relationship"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
 										{
 											"key": "Content-Type",
 											"value": "application/json;charset=UTF-8"
@@ -433,11 +650,104 @@
 										},
 										{
 											"key": "Date",
-											"value": "Sat, 19 Oct 2019 20:12:37 GMT"
+											"value": "Fri, 25 Oct 2019 19:02:12 GMT"
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"friendsList\": [\n        {\n            \"userName\": null,\n            \"email\": \"obtrusivemonks@gmail.com\",\n            \"firstName\": \"kathy\",\n            \"lastName\": \"guy\",\n            \"profileImageURL\": \"http://www.google.com/image.jpg\",\n            \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n            \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n            \"onlineStatus\": \"ONLINE\",\n            \"themeID\": 1,\n            \"age\": 19,\n            \"country\": \"United States\"\n        }\n    ],\n    \"blockedList\": []\n}"
+									"body": "0"
+								}
+							]
+						},
+						{
+							"name": "create relationship (block)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"relatingEmail\": \"long.matthew29@gmail.com\",\n    \"relatedEmail\": \"timmy7@gmail.com\",\n    \"relationshipStatus\": \"BLOCK\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/users/create-relationship",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"create-relationship"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "create relationship (block)",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"relatingEmail\": \"long.matthew29@gmail.com\",\n    \"relatedEmail\": \"timmy7@gmail.com\",\n    \"relationshipStatus\": \"BLOCK\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/users/create-relationship",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"users",
+												"create-relationship"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json;charset=UTF-8"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 25 Oct 2019 19:02:23 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "0"
 								}
 							]
 						}
@@ -446,12 +756,28 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "get all users",
+					"name": "create user",
 					"request": {
-						"method": "GET",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:8080/api/users",
+							"raw": "http://localhost:8080/api/users/create-user",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -459,18 +785,35 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"users"
+								"users",
+								"create-user"
 							]
 						}
 					},
 					"response": [
 						{
-							"name": "get all users",
+							"name": "create user",
 							"originalRequest": {
-								"method": "GET",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "http://localhost:8080/api/users",
+									"raw": "http://localhost:8080/api/users/create-user",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -478,7 +821,8 @@
 									"port": "8080",
 									"path": [
 										"api",
-										"users"
+										"users",
+										"create-user"
 									]
 								}
 							},
@@ -496,11 +840,72 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 19 Oct 2019 20:12:44 GMT"
+									"value": "Fri, 25 Oct 2019 19:08:43 GMT"
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"userName\": null,\n        \"email\": \"cheesecake@gmail.com\",\n        \"firstName\": \"cheese\",\n        \"lastName\": \"cakeeee\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"c9c3d90d5c54fe0b3addb2d0f3ffeb20\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"ONLINE\",\n        \"themeID\": 1,\n        \"age\": 99,\n        \"country\": \"United States\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"obtrusivemonks@gmail.com\",\n        \"firstName\": \"kathy\",\n        \"lastName\": \"guy\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"ONLINE\",\n        \"themeID\": 1,\n        \"age\": 19,\n        \"country\": \"United States\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"andrew.nguyenvo@gmail.com\",\n        \"firstName\": \"Andrew\",\n        \"lastName\": \"Nguyen Vo\",\n        \"profileImageURL\": \"https://lh3.googleusercontent.com/-d-6IT7CLB3Q/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rfbRZ4mXMRT-QajkkM38jBdiF4rgg/s96-c/photo.jpg\",\n        \"userHash\": \"01050b\",\n        \"joinedDate\": \"2019-10-14T00:18:02.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 0,\n        \"country\": \"\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"coty.dawson@gmail.com\",\n        \"firstName\": \"coty\",\n        \"lastName\": \"dawson\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"fbcef9848426e3a281d2b8d9e213ca80\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 28,\n        \"country\": \"United States\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"long.matthew29@gmail.com\",\n        \"firstName\": \"Matthew\",\n        \"lastName\": \"Long\",\n        \"profileImageURL\": \"https://lh3.googleusercontent.com/a-/AAuE7mBWC6ntky5bEkL29rh3-OnNQFQRQDzYxYwHXyNMHQ=s96-c\",\n        \"userHash\": \"0b\",\n        \"joinedDate\": \"2019-10-18T13:29:04.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 0,\n        \"country\": \"\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"timmy7@gmail.com\",\n        \"firstName\": \"timmy\",\n        \"lastName\": \"smith\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"dd1b9ac0f78bb89362ca862b8f5fa340\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 13,\n        \"country\": \"United States\"\n    }\n]"
+							"body": "0"
+						}
+					]
+				},
+				{
+					"name": "get all users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"all"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get all users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/users/all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"all"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 25 Oct 2019 19:02:31 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"userName\": null,\n        \"email\": \"cheesecake@gmail.com\",\n        \"firstName\": \"cheese\",\n        \"lastName\": \"cakeeee\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"c9c3d90d5c54fe0b3addb2d0f3ffeb20\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"ONLINE\",\n        \"themeID\": 1,\n        \"age\": 99,\n        \"country\": \"United States\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"obtrusivemonks@gmail.com\",\n        \"firstName\": \"kathy\",\n        \"lastName\": \"guy\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"ONLINE\",\n        \"themeID\": 1,\n        \"age\": 19,\n        \"country\": \"United States\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"andrew.nguyenvo@gmail.com\",\n        \"firstName\": \"Andrew\",\n        \"lastName\": \"Nguyen Vo\",\n        \"profileImageURL\": \"https://lh3.googleusercontent.com/-d-6IT7CLB3Q/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rfbRZ4mXMRT-QajkkM38jBdiF4rgg/s96-c/photo.jpg\",\n        \"userHash\": \"01050b\",\n        \"joinedDate\": \"2019-10-14T00:18:02.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 0,\n        \"country\": \"\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"coty.dawson@gmail.com\",\n        \"firstName\": \"coty\",\n        \"lastName\": \"dawson\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"fbcef9848426e3a281d2b8d9e213ca80\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 28,\n        \"country\": \"United States\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"long.matthew29@gmail.com\",\n        \"firstName\": \"Matthew\",\n        \"lastName\": \"Long\",\n        \"profileImageURL\": \"https://lh3.googleusercontent.com/a-/AAuE7mBWC6ntky5bEkL29rh3-OnNQFQRQDzYxYwHXyNMHQ=s96-c\",\n        \"userHash\": \"0b\",\n        \"joinedDate\": \"2019-10-18T13:29:04.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 2,\n        \"age\": 0,\n        \"country\": \"\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"timmy7@gmail.com\",\n        \"firstName\": \"timmy\",\n        \"lastName\": \"smith\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"dd1b9ac0f78bb89362ca862b8f5fa340\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 13,\n        \"country\": \"United States\"\n    }\n]"
 						}
 					]
 				},
@@ -510,7 +915,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/users?online=true",
+							"raw": "http://localhost:8080/api/users/all?online=true",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -518,7 +923,8 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"users"
+								"users",
+								"all"
 							],
 							"query": [
 								{
@@ -535,7 +941,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/users?online=true",
+									"raw": "http://localhost:8080/api/users/all?online=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -543,7 +949,8 @@
 									"port": "8080",
 									"path": [
 										"api",
-										"users"
+										"users",
+										"all"
 									],
 									"query": [
 										{
@@ -567,7 +974,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 19 Oct 2019 20:12:54 GMT"
+									"value": "Fri, 25 Oct 2019 19:02:40 GMT"
 								}
 							],
 							"cookie": [],
@@ -581,7 +988,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/users?online=true&ready=true",
+							"raw": "http://localhost:8080/api/users/all?online=true&ready=true",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -589,7 +996,8 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"users"
+								"users",
+								"all"
 							],
 							"query": [
 								{
@@ -610,7 +1018,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/users?online=true&ready=true",
+									"raw": "http://localhost:8080/api/users/all?online=true&ready=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -618,7 +1026,8 @@
 									"port": "8080",
 									"path": [
 										"api",
-										"users"
+										"users",
+										"all"
 									],
 									"query": [
 										{
@@ -632,25 +1041,10 @@
 									]
 								}
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json;charset=UTF-8"
-								},
-								{
-									"key": "Transfer-Encoding",
-									"value": "chunked"
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 19 Oct 2019 20:13:04 GMT"
-								}
-							],
+							"_postman_previewlanguage": null,
+							"header": null,
 							"cookie": [],
-							"body": "[\n    {\n        \"userName\": null,\n        \"email\": \"obtrusivemonks@gmail.com\",\n        \"firstName\": \"kathy\",\n        \"lastName\": \"guy\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"ONLINE\",\n        \"themeID\": 1,\n        \"age\": 19,\n        \"country\": \"United States\"\n    }\n]"
+							"body": null
 						}
 					]
 				},
@@ -660,7 +1054,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/users?query=matt",
+							"raw": "http://localhost:8080/api/users/all?query=d",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -668,12 +1062,13 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"users"
+								"users",
+								"all"
 							],
 							"query": [
 								{
 									"key": "query",
-									"value": "matt"
+									"value": "d"
 								}
 							]
 						}
@@ -685,7 +1080,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/users?query=matt",
+									"raw": "http://localhost:8080/api/users/all?query=d",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -693,12 +1088,13 @@
 									"port": "8080",
 									"path": [
 										"api",
-										"users"
+										"users",
+										"all"
 									],
 									"query": [
 										{
 											"key": "query",
-											"value": "matt"
+											"value": "d"
 										}
 									]
 								}
@@ -717,11 +1113,299 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 19 Oct 2019 20:13:12 GMT"
+									"value": "Fri, 25 Oct 2019 19:03:02 GMT"
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"userName\": null,\n        \"email\": \"long.matthew29@gmail.com\",\n        \"firstName\": \"Matthew\",\n        \"lastName\": \"Long\",\n        \"profileImageURL\": \"https://lh3.googleusercontent.com/a-/AAuE7mBWC6ntky5bEkL29rh3-OnNQFQRQDzYxYwHXyNMHQ=s96-c\",\n        \"userHash\": \"0b\",\n        \"joinedDate\": \"2019-10-18T13:29:04.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 0,\n        \"country\": \"\"\n    }\n]"
+							"body": "[\n    {\n        \"userName\": null,\n        \"email\": \"andrew.nguyenvo@gmail.com\",\n        \"firstName\": \"Andrew\",\n        \"lastName\": \"Nguyen Vo\",\n        \"profileImageURL\": \"https://lh3.googleusercontent.com/-d-6IT7CLB3Q/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rfbRZ4mXMRT-QajkkM38jBdiF4rgg/s96-c/photo.jpg\",\n        \"userHash\": \"01050b\",\n        \"joinedDate\": \"2019-10-14T00:18:02.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 0,\n        \"country\": \"\"\n    },\n    {\n        \"userName\": null,\n        \"email\": \"coty.dawson@gmail.com\",\n        \"firstName\": \"coty\",\n        \"lastName\": \"dawson\",\n        \"profileImageURL\": \"http://www.google.com/image.jpg\",\n        \"userHash\": \"fbcef9848426e3a281d2b8d9e213ca80\",\n        \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n        \"onlineStatus\": \"OFFLINE\",\n        \"themeID\": 1,\n        \"age\": 28,\n        \"country\": \"United States\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "get current user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"long.matthew29@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/current-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"current-user"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get current user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"long.matthew29@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/users/current-user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"current-user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 25 Oct 2019 19:03:18 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"userName\": null,\n    \"email\": \"long.matthew29@gmail.com\",\n    \"firstName\": \"Matthew\",\n    \"lastName\": \"Long\",\n    \"profileImageURL\": \"https://lh3.googleusercontent.com/a-/AAuE7mBWC6ntky5bEkL29rh3-OnNQFQRQDzYxYwHXyNMHQ=s96-c\",\n    \"userHash\": \"0b\",\n    \"joinedDate\": \"2019-10-18T13:29:04.000+0000\",\n    \"onlineStatus\": \"OFFLINE\",\n    \"themeID\": 2,\n    \"age\": 0,\n    \"country\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "select a theme for a user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"long.matthew29@gmail.com\",\n\t\"themeStatus\": \"LIGHT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/select-theme",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"select-theme"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "select a theme for a user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"long.matthew29@gmail.com\",\n\t\"themeStatus\": \"LIGHT\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/users/select-theme",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"select-theme"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 25 Oct 2019 19:25:58 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "1"
+						}
+					]
+				},
+				{
+					"name": "select a username for a user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"long.matthew29@gmail.com\",\n\t\"username\": \"coffeelover90000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/select-username",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"select-username"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "select a username for a user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"long.matthew29@gmail.com\",\n\t\"username\": \"coffeelover90000\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/users/select-username",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"select-username"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 25 Oct 2019 19:26:46 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "1"
 						}
 					]
 				}
@@ -821,11 +1505,11 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sun, 20 Oct 2019 21:02:15 GMT"
+									"value": "Fri, 25 Oct 2019 19:09:04 GMT"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"gameStartTime\": \"2019-10-20T21:02:15.130+0000\",\n    \"playerRoles\": [\n        {\n            \"player\": {\n                \"userName\": null,\n                \"email\": \"long.matthew29@gmail.com\",\n                \"firstName\": \"Matthew\",\n                \"lastName\": \"Long\",\n                \"profileImageURL\": \"https://lh3.googleusercontent.com/a-/AAuE7mBWC6ntky5bEkL29rh3-OnNQFQRQDzYxYwHXyNMHQ=s96-c\",\n                \"userHash\": \"0b\",\n                \"joinedDate\": \"2019-10-18T13:29:04.000+0000\",\n                \"onlineStatus\": \"OFFLINE\",\n                \"themeID\": 1,\n                \"age\": 0,\n                \"country\": \"\"\n            },\n            \"role\": {\n                \"faction\": \"Monster\",\n                \"name\": \"Vampire\",\n                \"dayAbilityDescription\": null,\n                \"nightAbilityDescription\": \"Convert others to Vampires at night.\",\n                \"attributeDescription\": \"Vampires vote at night to bite a target. The youngest Vampire will visit the target at night. You must wait 1 night between conversions.\",\n                \"goalDescription\": \"Convert everyone who would oppose you.\"\n            }\n        },\n        {\n            \"player\": {\n                \"userName\": null,\n                \"email\": \"cheesecake@gmail.com\",\n                \"firstName\": \"cheese\",\n                \"lastName\": \"cakeeee\",\n                \"profileImageURL\": \"http://www.google.com/image.jpg\",\n                \"userHash\": \"c9c3d90d5c54fe0b3addb2d0f3ffeb20\",\n                \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n                \"onlineStatus\": \"ONLINE\",\n                \"themeID\": 1,\n                \"age\": 99,\n                \"country\": \"United States\"\n            },\n            \"role\": {\n                \"faction\": \"BlackHand\",\n                \"name\": \"Forget\",\n                \"dayAbilityDescription\": \"Choose a person and rewrite their last will at night.\",\n                \"nightAbilityDescription\": null,\n                \"attributeDescription\": \"If your target dies their last will is replaced with your forgery. You may only perform 3 forgeries. If there are no kill capable Black Hand roles left you will become a Mafioso. You can talk with the other Black Hand at night.\",\n                \"goalDescription\": \"Kill anyone that will not submit to the Black Hand.\"\n            }\n        },\n        {\n            \"player\": {\n                \"userName\": null,\n                \"email\": \"coty.dawson@gmail.com\",\n                \"firstName\": \"coty\",\n                \"lastName\": \"dawson\",\n                \"profileImageURL\": \"http://www.google.com/image.jpg\",\n                \"userHash\": \"fbcef9848426e3a281d2b8d9e213ca80\",\n                \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n                \"onlineStatus\": \"OFFLINE\",\n                \"themeID\": 1,\n                \"age\": 28,\n                \"country\": \"United States\"\n            },\n            \"role\": {\n                \"faction\": \"Townie\",\n                \"name\": \"Bodyguard\",\n                \"dayAbilityDescription\": null,\n                \"nightAbilityDescription\": \"Protect one person from death each night.\",\n                \"attributeDescription\": \"If your target is attacked, both you and your attacker will die instead. If you successfully protect someone, you cant be saved from death. Your counterattack ignores night immunity.\",\n                \"goalDescription\": \"Lynch every criminal and evildoer.\"\n            }\n        },\n        {\n            \"player\": {\n                \"userName\": null,\n                \"email\": \"timmy7@gmail.com\",\n                \"firstName\": \"timmy\",\n                \"lastName\": \"smith\",\n                \"profileImageURL\": \"http://www.google.com/image.jpg\",\n                \"userHash\": \"dd1b9ac0f78bb89362ca862b8f5fa340\",\n                \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n                \"onlineStatus\": \"OFFLINE\",\n                \"themeID\": 1,\n                \"age\": 13,\n                \"country\": \"United States\"\n            },\n            \"role\": {\n                \"faction\": \"Townie\",\n                \"name\": \"Doctor\",\n                \"dayAbilityDescription\": null,\n                \"nightAbilityDescription\": \"Heal one person each night, preventing them from dying.\",\n                \"attributeDescription\": \"You may only heal yourself once. You will know if your target is attacked.\",\n                \"goalDescription\": \"Lynch every criminal and evildoer.\"\n            }\n        },\n        {\n            \"player\": {\n                \"userName\": null,\n                \"email\": \"obtrusivemonks@gmail.com\",\n                \"firstName\": \"kathy\",\n                \"lastName\": \"guy\",\n                \"profileImageURL\": \"http://www.google.com/image.jpg\",\n                \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n                \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n                \"onlineStatus\": \"ONLINE\",\n                \"themeID\": 1,\n                \"age\": 19,\n                \"country\": \"United States\"\n            },\n            \"role\": {\n                \"faction\": \"Townie\",\n                \"name\": \"Jailor\",\n                \"dayAbilityDescription\": \"You may choose one person during the day to jail for the night.\",\n                \"nightAbilityDescription\": null,\n                \"attributeDescription\": \"You may anonymously talk with your prisoner. You may choose to execute your prisoner. The jailed target cannot perform their night ability. While jailed the prisoner is safe from all attacks.\",\n                \"goalDescription\": \"Lynch every criminal and evildoer.\"\n            }\n        }\n    ]\n}"
+							"body": "{\n    \"gameStartTime\": \"2019-10-25T19:09:04.334+0000\",\n    \"playerRoles\": [\n        {\n            \"player\": {\n                \"userName\": null,\n                \"email\": \"long.matthew29@gmail.com\",\n                \"firstName\": \"Matthew\",\n                \"lastName\": \"Long\",\n                \"profileImageURL\": \"https://lh3.googleusercontent.com/a-/AAuE7mBWC6ntky5bEkL29rh3-OnNQFQRQDzYxYwHXyNMHQ=s96-c\",\n                \"userHash\": \"0b\",\n                \"joinedDate\": \"2019-10-18T13:29:04.000+0000\",\n                \"onlineStatus\": \"OFFLINE\",\n                \"themeID\": 1,\n                \"age\": 0,\n                \"country\": \"\"\n            },\n            \"role\": {\n                \"faction\": \"Monster\",\n                \"name\": \"Vampire\",\n                \"dayAbilityDescription\": null,\n                \"nightAbilityDescription\": \"Convert others to Vampires at night.\",\n                \"attributeDescription\": \"Vampires vote at night to bite a target. The youngest Vampire will visit the target at night. You must wait 1 night between conversions.\",\n                \"goalDescription\": \"Convert everyone who would oppose you.\"\n            }\n        },\n        {\n            \"player\": {\n                \"userName\": null,\n                \"email\": \"cheesecake@gmail.com\",\n                \"firstName\": \"cheese\",\n                \"lastName\": \"cakeeee\",\n                \"profileImageURL\": \"http://www.google.com/image.jpg\",\n                \"userHash\": \"c9c3d90d5c54fe0b3addb2d0f3ffeb20\",\n                \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n                \"onlineStatus\": \"ONLINE\",\n                \"themeID\": 1,\n                \"age\": 99,\n                \"country\": \"United States\"\n            },\n            \"role\": {\n                \"faction\": \"BlackHand\",\n                \"name\": \"Forget\",\n                \"dayAbilityDescription\": \"Choose a person and rewrite their last will at night.\",\n                \"nightAbilityDescription\": null,\n                \"attributeDescription\": \"If your target dies their last will is replaced with your forgery. You may only perform 3 forgeries. If there are no kill capable Black Hand roles left you will become a Mafioso. You can talk with the other Black Hand at night.\",\n                \"goalDescription\": \"Kill anyone that will not submit to the Black Hand.\"\n            }\n        },\n        {\n            \"player\": {\n                \"userName\": null,\n                \"email\": \"coty.dawson@gmail.com\",\n                \"firstName\": \"coty\",\n                \"lastName\": \"dawson\",\n                \"profileImageURL\": \"http://www.google.com/image.jpg\",\n                \"userHash\": \"fbcef9848426e3a281d2b8d9e213ca80\",\n                \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n                \"onlineStatus\": \"OFFLINE\",\n                \"themeID\": 1,\n                \"age\": 28,\n                \"country\": \"United States\"\n            },\n            \"role\": {\n                \"faction\": \"Townie\",\n                \"name\": \"Bodyguard\",\n                \"dayAbilityDescription\": null,\n                \"nightAbilityDescription\": \"Protect one person from death each night.\",\n                \"attributeDescription\": \"If your target is attacked, both you and your attacker will die instead. If you successfully protect someone, you cant be saved from death. Your counterattack ignores night immunity.\",\n                \"goalDescription\": \"Lynch every criminal and evildoer.\"\n            }\n        },\n        {\n            \"player\": {\n                \"userName\": null,\n                \"email\": \"timmy7@gmail.com\",\n                \"firstName\": \"timmy\",\n                \"lastName\": \"smith\",\n                \"profileImageURL\": \"http://www.google.com/image.jpg\",\n                \"userHash\": \"dd1b9ac0f78bb89362ca862b8f5fa340\",\n                \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n                \"onlineStatus\": \"OFFLINE\",\n                \"themeID\": 1,\n                \"age\": 13,\n                \"country\": \"United States\"\n            },\n            \"role\": {\n                \"faction\": \"Townie\",\n                \"name\": \"Doctor\",\n                \"dayAbilityDescription\": null,\n                \"nightAbilityDescription\": \"Heal one person each night, preventing them from dying.\",\n                \"attributeDescription\": \"You may only heal yourself once. You will know if your target is attacked.\",\n                \"goalDescription\": \"Lynch every criminal and evildoer.\"\n            }\n        },\n        {\n            \"player\": {\n                \"userName\": null,\n                \"email\": \"obtrusivemonks@gmail.com\",\n                \"firstName\": \"kathy\",\n                \"lastName\": \"guy\",\n                \"profileImageURL\": \"http://www.google.com/image.jpg\",\n                \"userHash\": \"3bc97cd06a7c868b3b38a5ab85f49c4e\",\n                \"joinedDate\": \"2019-10-14T00:08:34.000+0000\",\n                \"onlineStatus\": \"ONLINE\",\n                \"themeID\": 1,\n                \"age\": 19,\n                \"country\": \"United States\"\n            },\n            \"role\": {\n                \"faction\": \"Townie\",\n                \"name\": \"Jailor\",\n                \"dayAbilityDescription\": \"You may choose one person during the day to jail for the night.\",\n                \"nightAbilityDescription\": null,\n                \"attributeDescription\": \"You may anonymously talk with your prisoner. You may choose to execute your prisoner. The jailed target cannot perform their night ability. While jailed the prisoner is safe from all attacks.\",\n                \"goalDescription\": \"Lynch every criminal and evildoer.\"\n            }\n        }\n    ]\n}"
 						}
 					]
 				},
@@ -884,7 +1568,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sun, 20 Oct 2019 21:05:04 GMT"
+									"value": "Fri, 25 Oct 2019 19:09:13 GMT"
 								}
 							],
 							"cookie": [],
@@ -898,7 +1582,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/game/black-hand/player-total/10",
+							"raw": "http://localhost:8080/api/game/black-hand/player-total/15",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -909,7 +1593,7 @@
 								"game",
 								"black-hand",
 								"player-total",
-								"10"
+								"15"
 							]
 						}
 					},
@@ -920,7 +1604,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/game/black-hand/player-total/10",
+									"raw": "http://localhost:8080/api/game/black-hand/player-total/15",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -931,7 +1615,7 @@
 										"game",
 										"black-hand",
 										"player-total",
-										"10"
+										"15"
 									]
 								}
 							},
@@ -949,11 +1633,11 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sun, 20 Oct 2019 20:57:14 GMT"
+									"value": "Fri, 25 Oct 2019 19:09:21 GMT"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"monstersTotal\": 2,\n    \"blackHandTotal\": 2,\n    \"towniesTotal\": 6\n}"
+							"body": "{\n    \"monstersTotal\": 2,\n    \"blackHandTotal\": 4,\n    \"towniesTotal\": 9\n}"
 						}
 					]
 				}
@@ -1014,11 +1698,11 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sun, 20 Oct 2019 18:36:57 GMT"
+									"value": "Fri, 25 Oct 2019 19:09:30 GMT"
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-13T21:06:33.000+0000\",\n        \"content\": \"Testing\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-13T21:06:47.000+0000\",\n        \"content\": \"\\nHow is everyone\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-15T10:53:41.000+0000\",\n        \"content\": \"Test\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-15T10:54:14.000+0000\",\n        \"content\": \"asdf\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-15T15:16:40.000+0000\",\n        \"content\": \"halloooo\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-15T15:51:54.000+0000\",\n        \"content\": \"sdafjsda\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-15T15:53:11.000+0000\",\n        \"content\": \"chain?\\n\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-15T15:53:14.000+0000\",\n        \"content\": \"\\nhello\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-15T16:00:46.000+0000\",\n        \"content\": \"hahasdhfsh\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-15T16:08:31.000+0000\",\n        \"content\": \"testing still\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-15T16:12:37.000+0000\",\n        \"content\": \"hel\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-17T01:36:10.000+0000\",\n        \"content\": \"testing\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-17T22:11:49.000+0000\",\n        \"content\": \"yo\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-17T22:13:03.000+0000\",\n        \"content\": \"\\nsend\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-17T22:13:50.000+0000\",\n        \"content\": \"deal\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-17T22:14:08.000+0000\",\n        \"content\": \"\\nyoyoyo\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-17T22:16:45.000+0000\",\n        \"content\": \"testing\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-17T22:33:01.000+0000\",\n        \"content\": \"ya\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-17T22:34:06.000+0000\",\n        \"content\": \"yo\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-17T22:36:51.000+0000\",\n        \"content\": \"test\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-17T22:39:47.000+0000\",\n        \"content\": \"ya\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-17T22:59:23.000+0000\",\n        \"content\": \"\\nyessir\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-17T23:50:05.000+0000\",\n        \"content\": \"check\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T07:18:49.000+0000\",\n        \"content\": \"send\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T08:30:28.000+0000\",\n        \"content\": \"testing prod\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T20:28:09.000+0000\",\n        \"content\": \"holy shit\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T20:32:09.000+0000\",\n        \"content\": \"wow\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T20:32:26.000+0000\",\n        \"content\": \"uh oh the order is a little wack\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T20:54:34.000+0000\",\n        \"content\": \"checking\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:23:27.000+0000\",\n        \"content\": \"check check 123\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:23:36.000+0000\",\n        \"content\": \"\\nwhomstve\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:23:51.000+0000\",\n        \"content\": \"\\n&test\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:23:57.000+0000\",\n        \"content\": \"!\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:23:58.000+0000\",\n        \"content\": \"\\n@\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:23:59.000+0000\",\n        \"content\": \"\\n#\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:23:59.000+0000\",\n        \"content\": \"\\n$\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:24:00.000+0000\",\n        \"content\": \"\\n%\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:24:01.000+0000\",\n        \"content\": \"\\n^\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:24:02.000+0000\",\n        \"content\": \"\\n&\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:24:03.000+0000\",\n        \"content\": \"\\n*\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:24:04.000+0000\",\n        \"content\": \"\\n(\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:24:04.000+0000\",\n        \"content\": \"\\n)\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:24:06.000+0000\",\n        \"content\": \"\\n--\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:24:07.000+0000\",\n        \"content\": \"\\n---\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:24:10.000+0000\",\n        \"content\": \"\\n--sadf\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:24:11.000+0000\",\n        \"content\": \"\\n-\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:24:14.000+0000\",\n        \"content\": \"\\n\\\"dsf\\\"\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:24:17.000+0000\",\n        \"content\": \"\\n'df\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T21:24:27.000+0000\",\n        \"content\": \"\\nsingle quotes break the chat\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T22:33:09.000+0000\",\n        \"content\": \"who\"\n    },\n    {\n        \"author\": \"long.matthew29@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T22:56:31.000+0000\",\n        \"content\": \"Heyyyy\"\n    },\n    {\n        \"author\": \"long.matthew29@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T22:56:43.000+0000\",\n        \"content\": \"This working??? \"\n    },\n    {\n        \"author\": \"long.matthew29@gmail.com\",\n        \"timeOfMessage\": \"2019-10-18T22:56:52.000+0000\",\n        \"content\": \"\\nLmaoo this is beautiful on mobile \"\n    }\n]"
+							"body": "[\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-20T22:45:57.000+0000\",\n        \"content\": \"Hello and welcome to the lobby!\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-20T22:46:02.000+0000\",\n        \"content\": \"\\nThis is our chat\"\n    },\n    {\n        \"author\": \"long.matthew29@gmail.com\",\n        \"timeOfMessage\": \"2019-10-20T22:46:19.000+0000\",\n        \"content\": \"Why hello there amdrew. How are you today?\"\n    },\n    {\n        \"author\": \"long.matthew29@gmail.com\",\n        \"timeOfMessage\": \"2019-10-20T22:46:39.000+0000\",\n        \"content\": \"\\nExcuse me. Andrew*\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-20T22:46:43.000+0000\",\n        \"content\": \"Am doing fine thank you Metthew\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-20T22:46:53.000+0000\",\n        \"content\": \"\\nSorry, Matthew*\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-25T00:26:10.000+0000\",\n        \"content\": \"Something\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-25T00:56:51.000+0000\",\n        \"content\": \"welcome to party game\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-25T01:22:31.000+0000\",\n        \"content\": \"hello and welcome\"\n    },\n    {\n        \"author\": \"andrew.nguyenvo@gmail.com\",\n        \"timeOfMessage\": \"2019-10-25T01:38:15.000+0000\",\n        \"content\": \"Hello\"\n    }\n]"
 						}
 					]
 				}
