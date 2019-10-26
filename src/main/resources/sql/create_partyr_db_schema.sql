@@ -124,8 +124,14 @@ CREATE TABLE `black_hand_roles` (
   `night_ability_description` varchar(1024),
   `attribute_description` varchar(1024) NOT NULL,
   `goal_description` varchar(1024) NOT NULL,
+  `role_priority` int NOT NULL,
+  `day_kill` BOOLEAN NOT NULL,
+  `night_kill` BOOLEAN NOT NULL,
+  `day_block` BOOLEAN NOT NULL,
+  `night_block` BOOLEAN NOT NULL,
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `unique_role_name` (`role_name`),
+  UNIQUE KEY `unique_role_priority` (`role_priority`),
   CONSTRAINT `limit_faction` CHECK ((`faction` in ('BlackHand', 'Monster', 'Townie')))
 ) ENGINE=InnoDB;
 
