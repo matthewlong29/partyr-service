@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
-import com.partygames.partygamesservice.model.blackhand.BlackHandFactionRoles.BlackHandRole;
+import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;

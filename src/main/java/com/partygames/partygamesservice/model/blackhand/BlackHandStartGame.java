@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.partygames.partygamesservice.model.blackhand.BlackHandFactionRoles.BlackHandRole;
+import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
 import com.partygames.partygamesservice.model.users.PartyrUser;
 
 import lombok.Data;

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
-import com.partygames.partygamesservice.model.blackhand.BlackHandFactionRoles.BlackHandRole;
+import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
 import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers;
 import com.partygames.partygamesservice.model.blackhand.BlackHandSettings;
 import com.partygames.partygamesservice.model.blackhand.BlackHandStartGame;
