@@ -7,7 +7,7 @@ drop trigger if exists verify_valid_number_of_players;
 
 drop table if exists black_hand_instances;
 drop table if exists black_hand_roles;
-drop table if exists black_hand_required_number_of_players;
+drop table if exists black_hand_number_of_players;
 drop table if exists black_hand;
 drop table if exists relationships;
 drop table if exists achievements;
@@ -37,7 +37,7 @@ CREATE TABLE `partyr_users` (
   `last_name` varchar(254) DEFAULT NULL,
   `email` varchar(64) NOT NULL,
   `profile_image_url` varchar(254) DEFAULT NULL,
-  `joined_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `joined_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `online_status` varchar(8) DEFAULT 'OFFLINE',
   `ready_to_play_status` varchar(16) DEFAULT 'NOT_READY',
   `theme_id` int DEFAULT '1',
@@ -108,8 +108,8 @@ CREATE TABLE `black_hand_required_number_of_players` (
 CREATE TABLE `black_hand` (
   `game_instance_id` int NOT NULL AUTO_INCREMENT,
   `number_of_players` int NOT NULL,
-  `game_start_time` timestamp NOT NULL,
-  `game_end_time` timestamp NOT NULL,
+  `game_start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `game_end_time` timestamp NOT NULL, -- TODO: maybe use this as indicatror for when to purge data?
   PRIMARY KEY (`game_instance_id`),
   CONSTRAINT `verify_valid_player_total` FOREIGN KEY (`number_of_players`) REFERENCES `black_hand_required_number_of_players` (`player_total`)
 ) ENGINE=InnoDB;
@@ -125,7 +125,7 @@ CREATE TABLE `black_hand_roles` (
   `attribute_description` varchar(1024) NOT NULL,
   `goal_description` varchar(1024) NOT NULL,
   `role_priority` int NOT NULL,
-  `day_kill` BOOLEAN NOT NULL,
+  `day_kill` BOOLEAN NOT NULL, -- 1 true else false
   `night_kill` BOOLEAN NOT NULL,
   `day_block` BOOLEAN NOT NULL,
   `night_block` BOOLEAN NOT NULL,
@@ -139,11 +139,14 @@ CREATE TABLE `black_hand_roles` (
 
 CREATE TABLE `black_hand_instances` (
   `game_instance_id` int NOT NULL,
-  `player` varchar(32) NOT NULL,
-  PRIMARY KEY (`player`),
-  KEY `game_instance_id` (`game_instance_id`),
-  CONSTRAINT `set_player_reference` FOREIGN KEY (`player`) REFERENCES `partyr_users` (`email`),
-  CONSTRAINT `set_game_instance_reference` FOREIGN KEY (`game_instance_id`) REFERENCES `black_hand` (`game_instance_id`)
+  `player_email` varchar(32) NOT NULL,
+  `role_name` varchar(32) NOT NULL,
+  `player_status` varchar(5) NOT NULL,
+  PRIMARY KEY (`game_instance_id`, `player_email`),
+  CONSTRAINT `set_player_reference` FOREIGN KEY (`player_email`) REFERENCES `partyr_users` (`email`),
+  CONSTRAINT `set_role_reference` FOREIGN KEY (`role_name`) REFERENCES `black_hand_roles` (`role_name`),
+  CONSTRAINT `set_game_instance_reference` FOREIGN KEY (`game_instance_id`) REFERENCES `black_hand` (`game_instance_id`),
+  CONSTRAINT `limit_player_status` CHECK ((`player_status` in ('ALIVE', 'DEAD')))
 ) ENGINE=InnoDB;
 
 -- ** create chat table
