@@ -121,21 +121,21 @@ insert into `partyrdb`.`games` (`game_name`, `min_players_num`, `max_players_num
 
 -- ** add black_hand mock data
 
-insert into `partyrdb`.`black_hand` (`game_instance_id`, `number_of_players`, `game_start_time`, `game_end_time`) 
-  values (1, 5, now(), now());
+insert into `partyrdb`.`black_hand` (`game_instance_name`, `host_email`, `number_of_players`) 
+  values ('ziploc bags box tablet stand', 'coty.dawson@gmail.com', 5);
 
 -- ** add black_hand_instances mock data
 
-insert into `partyrdb`.`black_hand_instances` (`game_instance_id`, `player_email`, `role_name`, `player_status`) 
-  values (1, 'coty.dawson@gmail.com', 'Bodyguard', 'ALIVE');
-insert into `partyrdb`.`black_hand_instances` (`game_instance_id`, `player_email`, `role_name`, `player_status`) 
-  values (1, 'lanawood@gmail.com', 'Werewolf', 'ALIVE');
-insert into `partyrdb`.`black_hand_instances` (`game_instance_id`, `player_email`, `role_name`, `player_status`) 
-  values (1, 'cheesecake@gmail.com', 'Forget', 'ALIVE');
-insert into `partyrdb`.`black_hand_instances` (`game_instance_id`, `player_email`, `role_name`, `player_status`) 
-  values (1, 'timmy7@gmail.com', 'Doctor', 'ALIVE');
-insert into `partyrdb`.`black_hand_instances` (`game_instance_id`, `player_email`, `role_name`, `player_status`) 
-  values (1, 'obtrusivemonks@gmail.com', 'Jailor', 'ALIVE');
+insert into `partyrdb`.`black_hand_instances` (`game_instance_name`, `player_email`, `preferred_faction`, `role_name`, `player_status`) 
+  values ('ziploc bags box tablet stand', 'coty.dawson@gmail.com', 'Townie', 'Bodyguard', 'ALIVE');
+insert into `partyrdb`.`black_hand_instances` (`game_instance_name`, `player_email`, `preferred_faction`, `role_name`, `player_status`) 
+  values ('ziploc bags box tablet stand', 'lanawood@gmail.com', 'Monster', 'Werewolf', 'ALIVE');
+insert into `partyrdb`.`black_hand_instances` (`game_instance_name`, `player_email`, `preferred_faction`, `role_name`, `player_status`) 
+  values ('ziploc bags box tablet stand', 'cheesecake@gmail.com', 'BlackHand', 'Forget', 'ALIVE');
+insert into `partyrdb`.`black_hand_instances` (`game_instance_name`, `player_email`, `preferred_faction`, `role_name`, `player_status`) 
+  values ('ziploc bags box tablet stand', 'timmy7@gmail.com', 'Monster', 'Doctor', 'ALIVE');
+insert into `partyrdb`.`black_hand_instances` (`game_instance_name`, `player_email`, `preferred_faction`, `role_name`, `player_status`) 
+  values ('ziploc bags box tablet stand', 'obtrusivemonks@gmail.com', 'Monster', 'Jailor', 'ALIVE');
 
   -- ** add game mock data
 

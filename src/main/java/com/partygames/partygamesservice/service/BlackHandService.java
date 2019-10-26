@@ -7,6 +7,7 @@ import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
 import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
 import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers;
 import com.partygames.partygamesservice.model.blackhand.BlackHandSettings;
+import com.partygames.partygamesservice.model.Lobby;
 import com.partygames.partygamesservice.model.blackhand.BlackHand;
 
 public interface BlackHandService {
@@ -15,4 +16,8 @@ public interface BlackHandService {
   public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles();
 
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int playerTotal);
+
+  public int createNewGameLobby(Lobby lobby);
+
+  public int joinGameLobby(Lobby lobby);
 }

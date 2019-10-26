@@ -2,27 +2,27 @@
 
 SET FOREIGN_KEY_CHECKS=0; -- to disable them
 
-drop trigger if exists set_user_name_equal_to_email;
-drop trigger if exists verify_valid_number_of_players;
+DROP TRIGGER IF EXISTS set_user_name_equal_to_email;
+DROP TRIGGER IF EXISTS verify_valid_number_of_players;
 
-drop table if exists black_hand_instances;
-drop table if exists black_hand_roles;
-drop table if exists black_hand_number_of_players;
-drop table if exists black_hand;
-drop table if exists relationships;
-drop table if exists achievements;
-drop table if exists partyr_users;
-drop table if exists themes;
-drop table if exists games;
-drop table if exists chat;
+DROP TABLE IF EXISTS black_hand_instances;
+DROP TABLE IF EXISTS black_hand_roles;
+DROP TABLE IF EXISTS black_hand_required_number_of_players;
+DROP TABLE IF EXISTS black_hand;
+DROP TABLE IF EXISTS relationships;
+DROP TABLE IF EXISTS achievements;
+DROP TABLE IF EXISTS partyr_users;
+DROP TABLE IF EXISTS themes;
+DROP TABLE IF EXISTS games;
+DROP TABLE IF EXISTS chat;
 
 SET FOREIGN_KEY_CHECKS=1; -- to re-enable them
 
 -- ** create themes table
 
 CREATE TABLE `themes` (
-  `theme_id` int NOT NULL AUTO_INCREMENT,
-  `theme_name` varchar(32) NOT NULL,
+  `theme_id` INT NOT NULL AUTO_INCREMENT,
+  `theme_name` VARCHAR(32) NOT NULL,
   PRIMARY KEY (`theme_id`),
   UNIQUE KEY `unique_theme_name` (`theme_name`)
 ) ENGINE=InnoDB;
@@ -30,26 +30,26 @@ CREATE TABLE `themes` (
 -- ** create partyr_users table
 
 CREATE TABLE `partyr_users` (
-  `user_id` int NOT NULL AUTO_INCREMENT,
-  `user_hash` varchar(254) NOT NULL,
-  `user_name` varchar(32),
-  `first_name` varchar(254) DEFAULT NULL,
-  `last_name` varchar(254) DEFAULT NULL,
-  `email` varchar(64) NOT NULL,
-  `profile_image_url` varchar(254) DEFAULT NULL,
-  `joined_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `online_status` varchar(8) DEFAULT 'OFFLINE',
-  `ready_to_play_status` varchar(16) DEFAULT 'NOT_READY',
-  `theme_id` int DEFAULT '1',
-  `age` int DEFAULT NULL,
-  `country` varchar(32) NOT NULL DEFAULT '',
+  `user_id` INT NOT NULL AUTO_INCREMENT,
+  `user_hash` VARCHAR(254) NOT NULL,
+  `user_name` VARCHAR(32),
+  `first_name` VARCHAR(254) DEFAULT NULL,
+  `last_name` VARCHAR(254) DEFAULT NULL,
+  `email` VARCHAR(64) NOT NULL,
+  `profile_image_url` VARCHAR(254) DEFAULT NULL,
+  `joined_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `online_status` VARCHAR(8) DEFAULT 'OFFLINE',
+  `ready_to_play_status` VARCHAR(16) DEFAULT 'NOT_READY',
+  `theme_id` INT DEFAULT '1',
+  `age` INT DEFAULT NULL,
+  `country` VARCHAR(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `unique_user_name` (`user_name`),
   UNIQUE KEY `unique_email` (`email`),
   UNIQUE KEY `unique_user_hash` (`user_hash`),
   CONSTRAINT `set_theme_reference` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`),
-  CONSTRAINT `limit_online_status` CHECK ((`online_status` in ('ONLINE','OFFLINE'))),
-  CONSTRAINT `limit_ready_to_play_status` CHECK ((`ready_to_play_status` in ('READY', 'NOT_READY')))
+  CONSTRAINT `limit_online_status` CHECK ((`online_status` IN ('ONLINE','OFFLINE'))),
+  CONSTRAINT `limit_ready_to_play_status` CHECK ((`ready_to_play_status` IN ('READY', 'NOT_READY')))
 ) ENGINE=InnoDB;
 
 -- CREATE TRIGGER set_user_name_equal_to_email BEFORE INSERT ON partyr_users FOR EACH ROW BEGIN
@@ -59,32 +59,32 @@ CREATE TABLE `partyr_users` (
 -- ** create relationships table
 
 CREATE TABLE `relationships` (
-  `relationship_id` int NOT NULL AUTO_INCREMENT,
-  `relating_email` varchar(32) NOT NULL,
-  `related_email` varchar(32) NOT NULL,
-  `relationship_type` varchar(16) NOT NULL,
+  `relationship_id` INT NOT NULL AUTO_INCREMENT,
+  `relating_email` VARCHAR(32) NOT NULL,
+  `related_email` VARCHAR(32) NOT NULL,
+  `relationship_type` VARCHAR(16) NOT NULL,
   PRIMARY KEY (`relationship_id`),
   UNIQUE KEY `unique_relationship` (`relating_email`,`related_email`),
-  CONSTRAINT `limit_relationship_type` CHECK ((`relationship_type` in ('FRIEND', 'BLOCK')))
+  CONSTRAINT `limit_relationship_type` CHECK ((`relationship_type` IN ('FRIEND', 'BLOCK')))
 ) ENGINE=InnoDB;
 
 -- ** create achievements table
 
 CREATE TABLE `achievements` (
-  `achievement_id` int NOT NULL AUTO_INCREMENT,
-  `achievement_name` varchar(32) NOT NULL,
+  `achievement_id` INT NOT NULL AUTO_INCREMENT,
+  `achievement_name` VARCHAR(32) NOT NULL,
   PRIMARY KEY (`achievement_id`)
 ) ENGINE=InnoDB;
 
 -- ** create games table
 
 CREATE TABLE `games` (
-  `game_id` int NOT NULL AUTO_INCREMENT,
-  `game_name` varchar(32) NOT NULL,
-  `min_players_num` int NOT NULL,
-  `max_players_num` int NOT NULL,
-  `min_age` int NOT NULL,
-  `average_game_duration` int NOT NULL,
+  `game_id` INT NOT NULL AUTO_INCREMENT,
+  `game_name` VARCHAR(32) NOT NULL,
+  `min_players_num` INT NOT NULL,
+  `max_players_num` INT NOT NULL,
+  `min_age` INT NOT NULL,
+  `average_game_duration` INT NOT NULL,
   PRIMARY KEY (`game_id`),
   UNIQUE KEY `unique_game_name` (`game_name`)
 ) ENGINE=InnoDB;
@@ -92,10 +92,10 @@ CREATE TABLE `games` (
 -- ** create black_hand_required_number_of_players table
 
 CREATE TABLE `black_hand_required_number_of_players` (
-  `player_total` int NOT NULL,
-  `monster_total` int NOT NULL,
-  `black_hand_total` int NOT NULL,
-  `townie_total` int NOT NULL,
+  `player_total` INT NOT NULL,
+  `monster_total` INT NOT NULL,
+  `black_hand_total` INT NOT NULL,
+  `townie_total` INT NOT NULL,
   PRIMARY KEY (`player_total`)
 ) ENGINE=InnoDB;
 
@@ -106,25 +106,27 @@ CREATE TABLE `black_hand_required_number_of_players` (
 -- ** create black_hand table
 
 CREATE TABLE `black_hand` (
-  `game_instance_id` int NOT NULL AUTO_INCREMENT,
-  `number_of_players` int NOT NULL,
-  `game_start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `game_end_time` timestamp NOT NULL, -- TODO: maybe use this as indicatror for when to purge data?
-  PRIMARY KEY (`game_instance_id`),
-  CONSTRAINT `verify_valid_player_total` FOREIGN KEY (`number_of_players`) REFERENCES `black_hand_required_number_of_players` (`player_total`)
+  `game_instance_name` VARCHAR(32) NOT NULL,
+  `host_email` VARCHAR(32) NOT NULL,
+  `number_of_players` INT NOT NULL,
+  `game_started` BOOLEAN NOT NULL DEFAULT 0,
+  `game_start_time` TIMESTAMP,
+  `game_end_time` TIMESTAMP, -- TODO: maybe use this as indicatror for when to purge data?
+  PRIMARY KEY (`game_instance_name`),
+  CONSTRAINT `set_player_reference` FOREIGN KEY (`host_email`) REFERENCES `partyr_users` (`email`)
 ) ENGINE=InnoDB;
 
 -- ** create black_hand_roles table
 
 CREATE TABLE `black_hand_roles` (
-  `role_id` int NOT NULL AUTO_INCREMENT,
-  `faction` varchar(32) NOT NULL,
-  `role_name` varchar(32) NOT NULL,
-  `day_ability_description` varchar(1024),
-  `night_ability_description` varchar(1024),
-  `attribute_description` varchar(1024) NOT NULL,
-  `goal_description` varchar(1024) NOT NULL,
-  `role_priority` int NOT NULL,
+  `role_id` INT NOT NULL AUTO_INCREMENT,
+  `faction` VARCHAR(32) NOT NULL,
+  `role_name` VARCHAR(32) NOT NULL,
+  `day_ability_description` VARCHAR(1024),
+  `night_ability_description` VARCHAR(1024),
+  `attribute_description` VARCHAR(1024) NOT NULL,
+  `goal_description` VARCHAR(1024) NOT NULL,
+  `role_priority` INT NOT NULL,
   `day_kill` BOOLEAN NOT NULL, -- 1 true else false
   `night_kill` BOOLEAN NOT NULL,
   `day_block` BOOLEAN NOT NULL,
@@ -132,30 +134,32 @@ CREATE TABLE `black_hand_roles` (
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `unique_role_name` (`role_name`),
   UNIQUE KEY `unique_role_priority` (`role_priority`),
-  CONSTRAINT `limit_faction` CHECK ((`faction` in ('BlackHand', 'Monster', 'Townie')))
+  CONSTRAINT `limit_faction` CHECK ((`faction` IN ('BlackHand', 'Monster', 'Townie')))
 ) ENGINE=InnoDB;
 
 -- ** create black_hand_instances table
 
 CREATE TABLE `black_hand_instances` (
-  `game_instance_id` int NOT NULL,
-  `player_email` varchar(32) NOT NULL,
-  `role_name` varchar(32) NOT NULL,
-  `player_status` varchar(5) NOT NULL,
-  PRIMARY KEY (`game_instance_id`, `player_email`),
-  CONSTRAINT `set_player_reference` FOREIGN KEY (`player_email`) REFERENCES `partyr_users` (`email`),
+  `game_instance_name` VARCHAR(32) NOT NULL,
+  `player_email` VARCHAR(32) NOT NULL,
+  `preferred_faction` VARCHAR(32), 
+  `role_name` VARCHAR(32),
+  `player_status` VARCHAR(5),
+  PRIMARY KEY (`game_instance_name`, `player_email`),
+  UNIQUE KEY `unique_role_per_game` (`player_email`,`role_name`),
+  CONSTRAINT `set_player_email_reference` FOREIGN KEY (`player_email`) REFERENCES `partyr_users` (`email`),
   CONSTRAINT `set_role_reference` FOREIGN KEY (`role_name`) REFERENCES `black_hand_roles` (`role_name`),
-  CONSTRAINT `set_game_instance_reference` FOREIGN KEY (`game_instance_id`) REFERENCES `black_hand` (`game_instance_id`),
-  CONSTRAINT `limit_player_status` CHECK ((`player_status` in ('ALIVE', 'DEAD')))
+  CONSTRAINT `set_game_instance_reference` FOREIGN KEY (`game_instance_name`) REFERENCES `black_hand` (`game_instance_name`),
+  CONSTRAINT `limit_player_status` CHECK ((`player_status` IN ('ALIVE', 'DEAD')))
 ) ENGINE=InnoDB;
 
 -- ** create chat table
 
 CREATE TABLE `chat` (
-  `chat_id` int NOT NULL AUTO_INCREMENT,
-  `author` varchar(32) NOT NULL,
-  `message` varchar(512) NOT NULL,
-  `time_of_message` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `chat_id` INT NOT NULL AUTO_INCREMENT,
+  `author` VARCHAR(32) NOT NULL,
+  `message` VARCHAR(512) NOT NULL,
+  `time_of_message` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`chat_id`),
   CONSTRAINT `set_author_reference` FOREIGN KEY (`author`) REFERENCES `partyr_users` (`email`)
 ) ENGINE=InnoDB;

@@ -6,6 +6,7 @@ import java.util.List;
 import com.partygames.partygamesservice.dao.BlackHandDao;
 import com.partygames.partygamesservice.dao.impl.mapper.BlackHandNumberOfPlayersRowMapper;
 import com.partygames.partygamesservice.dao.impl.mapper.BlackHandRoleResultSetExtractor;
+import com.partygames.partygamesservice.model.Lobby;
 import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
 import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
 import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers;
@@ -27,6 +28,28 @@ public class BlackHandDaoImpl implements BlackHandDao {
 
   @Autowired
   BlackHandNumberOfPlayersRowMapper blackHandRequiredNumberOfPlayersRowMapper;
+
+  /**
+   * createNewGameLobby.
+   */
+  public int createNewGameLobby(Lobby lobby) {
+    String query = "CALL `partyrdb`.`create_black_hand_lobby`('" + lobby.getLobbyName() + "', '" + lobby.getPlayerEmail()
+    + "');";
+    log.info(query);
+
+    return jdbcTemplate.update(query);
+  }
+
+  /**
+   * joinGameLobby.
+   */
+  public int joinGameLobby(Lobby lobby) {
+    String query = "CALL `partyrdb`.`join_black_hand_lobby`('" + lobby.getLobbyName() + "', '" + lobby.getPlayerEmail()
+        + "');";
+    log.info(query);
+
+    return jdbcTemplate.update(query);
+  }
 
   /**
    * getBlackHandRoles.
