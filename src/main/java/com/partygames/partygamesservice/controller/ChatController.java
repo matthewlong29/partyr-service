@@ -21,7 +21,6 @@ public class ChatController {
    */
   @MessageMapping("/send/lobby-chat")
   public void onReceivedMessage(Message chatMessage) {
-    System.out.println("Entering lobby chat");
     chatService.saveMessage(chatMessage);
     chatService.sendMessageToChat("/chat/lobby", chatMessage);
   }
