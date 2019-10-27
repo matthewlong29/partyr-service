@@ -1,16 +1,18 @@
 package com.partygames.partygamesservice.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.BlackHandDao;
-import com.partygames.partygamesservice.model.BlackHandFaction;
-import com.partygames.partygamesservice.model.BlackHandFactionRoles.BlackHandRole;
-import com.partygames.partygamesservice.model.BlackHandNumberOfPlayers;
-import com.partygames.partygamesservice.model.BlackHandSettings;
-import com.partygames.partygamesservice.model.BlackHandSettings.BlackHandPlayerPreferences;
-import com.partygames.partygamesservice.model.BlackHandStartGame;
-import com.partygames.partygamesservice.model.BlackHandStartGame.BlackHandPlayer;
+import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
+import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
+import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers;
+import com.partygames.partygamesservice.model.blackhand.BlackHandSettings;
+import com.partygames.partygamesservice.model.blackhand.BlackHandSettings.BlackHandPlayerPreferences;
+import com.partygames.partygamesservice.model.Lobby;
+import com.partygames.partygamesservice.model.blackhand.BlackHand;
+import com.partygames.partygamesservice.model.blackhand.BlackHand.BlackHandPlayer;
 import com.partygames.partygamesservice.service.BlackHandService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +26,24 @@ public class BlackHandServiceImpl implements BlackHandService {
   @Autowired
   BlackHandDao blackHandDao;
 
+  public int createNewGameLobby(Lobby lobby) {
+    return blackHandDao.createNewGameLobby(lobby);
+  }
+
+  public int joinGameLobby(Lobby lobby) {
+    return blackHandDao.joinGameLobby(lobby);
+  }
+
   /**
    * startGame: returns data necessary to start a game of black
    */
-  public BlackHandStartGame startGame(BlackHandSettings blackHandSettings) {
+  public BlackHand startGame(BlackHandSettings blackHandSettings) {
     BlackHandNumberOfPlayers actualNumber = new BlackHandNumberOfPlayers();
     HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles = getBlackHandRoles();
 
     log.info("{};", availableRoles.toString());
 
-    BlackHandStartGame blackHandStartGame = new BlackHandStartGame();
+    BlackHand blackHand = new BlackHand();
     List<BlackHandPlayerPreferences> preferences = blackHandSettings.getPlayerPreferences();
     int totalNumberOfPlayers = preferences.size();
     BlackHandNumberOfPlayers requiredNumber = getBlackHandNumberOfPlayers(totalNumberOfPlayers);
@@ -42,14 +52,14 @@ public class BlackHandServiceImpl implements BlackHandService {
 
     for (BlackHandPlayerPreferences preference : preferences) {
       log.info("user: {}", preference.getPlayer().getEmail());
-      assignPreferredRole(blackHandStartGame, availableRoles, preference, requiredNumber, actualNumber);
+      assignPreferredRole(blackHand, availableRoles, preference, requiredNumber, actualNumber);
     }
 
-    assignRemainingRole(blackHandStartGame, availableRoles, requiredNumber, actualNumber);
+    assignRemainingRole(blackHand, availableRoles, requiredNumber, actualNumber);
 
     log.info("actual number of players per faction: {};", actualNumber);
 
-    return blackHandStartGame;
+    return blackHand;
   }
 
   /**
@@ -72,9 +82,9 @@ public class BlackHandServiceImpl implements BlackHandService {
    * role, and removes role from the available roles list. Player will be set, but
    * role may not yet be if their preference cannot be met.
    */
-  private void assignPreferredRole(BlackHandStartGame blackHandStartGame,
-      HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles, BlackHandPlayerPreferences playerPreference,
-      BlackHandNumberOfPlayers requiredNumber, BlackHandNumberOfPlayers actualNumber) {
+  private void assignPreferredRole(BlackHand blackHand, HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles,
+      BlackHandPlayerPreferences playerPreference, BlackHandNumberOfPlayers requiredNumber,
+      BlackHandNumberOfPlayers actualNumber) {
     BlackHandPlayer blackHandPlayer = new BlackHandPlayer();
     blackHandPlayer.setPlayer(playerPreference.getPlayer());
 
@@ -88,7 +98,7 @@ public class BlackHandServiceImpl implements BlackHandService {
       log.info("unable to set role for player;");
     }
 
-    blackHandStartGame.getPlayerRoles().add(blackHandPlayer);
+    blackHand.getPlayerRoles().add(blackHandPlayer);
   }
 
   /**
@@ -97,10 +107,9 @@ public class BlackHandServiceImpl implements BlackHandService {
    * 
    * TODO: refactor..
    */
-  private void assignRemainingRole(BlackHandStartGame blackHandStartGame,
-      HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles, BlackHandNumberOfPlayers requiredNumber,
-      BlackHandNumberOfPlayers actualNumber) {
-    for (BlackHandPlayer blackHandPlayer : blackHandStartGame.getPlayerRoles()) {
+  private void assignRemainingRole(BlackHand blackHand, HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles,
+      BlackHandNumberOfPlayers requiredNumber, BlackHandNumberOfPlayers actualNumber) {
+    for (BlackHandPlayer blackHandPlayer : blackHand.getPlayerRoles()) {
       if (blackHandPlayer.getRole() == null) {
         log.info("need to assign a role for {};", blackHandPlayer.getPlayer().getEmail());
         if (requiredNumber.getBlackHandTotal() > actualNumber.getBlackHandTotal()) {

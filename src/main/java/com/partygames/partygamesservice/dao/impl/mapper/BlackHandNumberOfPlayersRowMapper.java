@@ -3,7 +3,7 @@ package com.partygames.partygamesservice.dao.impl.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.partygames.partygamesservice.model.BlackHandNumberOfPlayers;
+import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
