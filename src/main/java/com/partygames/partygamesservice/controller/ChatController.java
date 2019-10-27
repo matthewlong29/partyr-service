@@ -19,10 +19,10 @@ public class ChatController {
   /**
    * onReceivedMessage.
    */
-  @MessageMapping("/send/message")
+  @MessageMapping("/send/lobby-chat")
   public void onReceivedMessage(Message chatMessage) {
     chatService.saveMessage(chatMessage);
-    chatService.sendMessageToChat("/chat", chatMessage);
+    chatService.sendMessageToChat("/chat/lobby", chatMessage);
   }
 
   /**

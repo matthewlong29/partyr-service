@@ -1,6 +1,7 @@
 package com.partygames.partygamesservice.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.partygames.partygamesservice.model.relationships.Relationship;
 import com.partygames.partygamesservice.model.relationships.Relationships;
@@ -32,11 +33,12 @@ public class UsersController {
    * getLoggedInUser: if all you have is an email address use this endpoint to get
    * that PartyrUser using that email address.
    */
-  @GetMapping(value = "/current-user")
-  public PartyrUser getLoggedInUser(@RequestBody PartyrEmail partyrEmail) {
-    log.info("email: " + partyrEmail.getEmail());
+  @PostMapping(path = "/current-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public PartyrUser getLoggedInUser(@RequestBody Map<String, String> body) {
+    String email = body.get("partyrEmail");
+    log.info("email: " + email);
 
-    return usersService.getCurrentUser(partyrEmail.getEmail());
+    return usersService.getCurrentUser(email);
   }
 
   /**
@@ -55,11 +57,12 @@ public class UsersController {
    * getRelationships: gets all relationships associated with a user, or only
    * friends (and optionally only online friends), or only blocked users.
    */
-  @GetMapping(value = "/all-relationships")
-  public Relationships getRelationships(@RequestBody PartyrEmail partyrEmail,
+  @PostMapping(value = "/all-relationships")
+  public Relationships getRelationships(@RequestBody Map<String, String> body,
       @RequestParam(value = "type", required = false, defaultValue = "both") String relationshipStatus,
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly) {
-    return usersService.getRelationships(partyrEmail.getEmail(), relationshipStatus, onlineOnly);
+    String email = body.get("partyrEmail");
+    return usersService.getRelationships(email, relationshipStatus, onlineOnly);
   }
 
   /**
@@ -83,7 +86,7 @@ public class UsersController {
   /**
    * selectTheme: allows the user to select a theme
    */
-  @GetMapping(value = "/select-theme")
+  @PostMapping(value = "/select-theme")
   public int selectTheme(@RequestBody ThemeSelect themeSelect) {
     return usersService.selectTheme(themeSelect.getEmail(), themeSelect.getThemeStatus().getThemeIndex());
   }
@@ -91,8 +94,8 @@ public class UsersController {
   /**
    * selectUsername: allows the user to select a username
    */
-  @GetMapping(value = "/select-username")
-  public int selectUsername(@RequestBody UserNameSelect userNameSelect) {
-    return usersService.selectUsername(userNameSelect.getEmail(), userNameSelect.getUsername());
+  @PostMapping(value = "/select-username")
+  public int selectUsername(@RequestBody Map<String, String> body) {
+    return usersService.selectUsername(body.get("email"), body.get("username"));
   }
 }

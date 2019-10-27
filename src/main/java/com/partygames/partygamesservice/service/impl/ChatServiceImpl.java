@@ -32,7 +32,7 @@ public class ChatServiceImpl implements ChatService {
    * sendMessageToChat.
    */
   public void sendMessageToChat(String destination, Message message) {
-    this.template.convertAndSend("/chat", message.getContent());
+    this.template.convertAndSend(destination, message);
   }
 
   /**
