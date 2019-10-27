@@ -6,9 +6,10 @@ import java.util.List;
 import com.partygames.partygamesservice.dao.BlackHandDao;
 import com.partygames.partygamesservice.dao.impl.mapper.BlackHandNumberOfPlayersRowMapper;
 import com.partygames.partygamesservice.dao.impl.mapper.BlackHandRoleResultSetExtractor;
-import com.partygames.partygamesservice.model.BlackHandFaction;
-import com.partygames.partygamesservice.model.BlackHandFactionRoles.BlackHandRole;
-import com.partygames.partygamesservice.model.BlackHandNumberOfPlayers;
+import com.partygames.partygamesservice.model.Lobby;
+import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
+import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
+import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,6 +28,40 @@ public class BlackHandDaoImpl implements BlackHandDao {
 
   @Autowired
   BlackHandNumberOfPlayersRowMapper blackHandRequiredNumberOfPlayersRowMapper;
+
+  /**
+   * createNewGameLobby.
+   */
+  public int createNewGameLobby(Lobby lobby) {
+    String query = "CALL `partyrdb`.`create_black_hand_lobby`('" + lobby.getLobbyName() + "', '" + lobby.getPlayerEmail()
+    + "');";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to create game lobby {}: ", lobby.getLobbyName(), e.getMessage());
+    }
+
+    return 0;
+  }
+
+  /**
+   * joinGameLobby.
+   */
+  public int joinGameLobby(Lobby lobby) {
+    String query = "CALL `partyrdb`.`join_black_hand_lobby`('" + lobby.getLobbyName() + "', '" + lobby.getPlayerEmail()
+        + "');";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to join game lobby {}: ", lobby.getLobbyName(), e.getMessage());
+    }
+
+    return 0;
+  }
 
   /**
    * getBlackHandRoles.
