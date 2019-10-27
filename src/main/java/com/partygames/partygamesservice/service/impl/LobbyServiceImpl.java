@@ -1,6 +1,9 @@
 package com.partygames.partygamesservice.service.impl;
 
+import java.util.List;
+
 import com.partygames.partygamesservice.dao.LobbyDao;
+import com.partygames.partygamesservice.model.Room;
 import com.partygames.partygamesservice.service.LobbyService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +15,23 @@ public class LobbyServiceImpl implements LobbyService {
   LobbyDao lobbyDao;
 
   /**
-   * createNewGameLobby.
+   * createNewGameRoom.
    */
-  public int createNewGameLobby(String partyrEmail, String roomName, String gameName) {
-    return lobbyDao.createNewGameLobby(partyrEmail, roomName, gameName);
+  public int createNewGameRoom(String partyrEmail, String roomName, String gameName) {
+    return lobbyDao.createNewGameRoom(partyrEmail, roomName, gameName);
   }
 
   /**
-   * joinGameLobby.
+   * joinGameRoom.
    */
-  public int joinGameLobby(String partyrEmail, String roomName) {
-    return lobbyDao.joinGameLobby(partyrEmail, roomName);
+  public int joinGameRoom(String partyrEmail, String roomName) {
+    return lobbyDao.joinGameRoom(partyrEmail, roomName);
+  }
+
+  /**
+   * getRooms.
+   */
+  public List<Room> getRooms() {
+    return lobbyDao.getRooms();
   }
 }

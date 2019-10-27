@@ -1,6 +1,10 @@
 package com.partygames.partygamesservice.dao.impl;
 
+import java.util.List;
+
 import com.partygames.partygamesservice.dao.LobbyDao;
+import com.partygames.partygamesservice.dao.impl.mapper.RoomRowMapper;
+import com.partygames.partygamesservice.model.Room;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,10 +18,13 @@ public class LobbyDaoImpl implements LobbyDao {
   @Autowired
   JdbcTemplate jdbcTemplate;
 
+  @Autowired
+  RoomRowMapper roomRowMapper;
+
   /**
-   * createNewGameLobby.
+   * createNewGameRoom.
    */
-  public int createNewGameLobby(String partyrEmail, String roomName, String gameName) {
+  public int createNewGameRoom(String partyrEmail, String roomName, String gameName) {
     String query = "CALL `partyrdb`.`create_room`('" + roomName + "', '" + partyrEmail + "', '" + gameName
         + "');";
     log.info(query);
@@ -32,9 +39,9 @@ public class LobbyDaoImpl implements LobbyDao {
   }
 
   /**
-   * joinGameLobby.
+   * joinGameRoom.
    */
-  public int joinGameLobby(String partyrEmail, String roomName) {
+  public int joinGameRoom(String partyrEmail, String roomName) {
     String query = "CALL `partyrdb`.`join_black_hand_room`('" + roomName + "', '" + partyrEmail + "');";
     log.info(query);
 
@@ -45,5 +52,15 @@ public class LobbyDaoImpl implements LobbyDao {
     }
 
     return 0;
+  }
+
+  /**
+   * getRooms.
+   */
+  public List<Room> getRooms() {
+    String query = "CALL `partyrdb`.`get_lobby`();";
+    log.info(query);
+
+    return jdbcTemplate.query(query, roomRowMapper);
   }
 }

@@ -1,13 +1,13 @@
 package com.partygames.partygamesservice.model;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.opencensus.common.Timestamp;
 import lombok.Data;
 
 @Data
-public class Lobby {
+public class Room {
   private String gameRoomName;
   private String gameName;
   private String hostEmail;
