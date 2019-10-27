@@ -30,7 +30,7 @@ public class BlackHandController {
    * startBlackHandGame: returns json needed to start a new game of the black
    * hand.
    */
-  @GetMapping(value = "/start", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/start", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public BlackHand startBlackHandGame(@RequestBody BlackHandSettings blackHandSettings) {
     return blackHandService.startGame(blackHandSettings);
   }
@@ -43,7 +43,6 @@ public class BlackHandController {
     return blackHandService.getBlackHandRoles();
   }
 
-  
   /**
    * getBlackHandNumberOfPlayers.
    */
