@@ -33,10 +33,10 @@ public class UsersController {
    * that PartyrUser using that email address.
    */
   @GetMapping(value = "/current-user")
-  public PartyrUser getLoggedInUser(@RequestBody PartyrEmail partyrEmail) {
-    log.info("email: " + partyrEmail.getEmail());
+  public PartyrUser getLoggedInUser(@RequestParam() String partyrEmail) {
+    log.info("email: " + partyrEmail);
 
-    return usersService.getCurrentUser(partyrEmail.getEmail());
+    return usersService.getCurrentUser(partyrEmail);
   }
 
   /**
