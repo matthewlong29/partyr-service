@@ -5,7 +5,7 @@ DELIMITER $$
 USE `partyrdb`$$
 CREATE PROCEDURE `select_theme` (
 	IN i_theme_id int,
-    IN i_email VARCHAR(64)
+  IN i_email VARCHAR(32)
 )
 BEGIN
  update `partyrdb`.`partyr_users` 

@@ -35,7 +35,7 @@ public class UsersController {
    */
   @PostMapping(path = "/current-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public PartyrUser getLoggedInUser(@RequestBody Map<String, String> body) {
-    String email = body.get("partyrEmail");
+    String email = body.get("email");
     log.info("email: " + email);
 
     return usersService.getCurrentUser(email);
@@ -61,7 +61,8 @@ public class UsersController {
   public Relationships getRelationships(@RequestBody Map<String, String> body,
       @RequestParam(value = "type", required = false, defaultValue = "both") String relationshipStatus,
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly) {
-    String email = body.get("partyrEmail");
+    String email = body.get("email");
+
     return usersService.getRelationships(email, relationshipStatus, onlineOnly);
   }
 

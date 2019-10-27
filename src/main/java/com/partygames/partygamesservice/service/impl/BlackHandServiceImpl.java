@@ -1,18 +1,16 @@
 package com.partygames.partygamesservice.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.BlackHandDao;
-import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
-import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
-import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers;
-import com.partygames.partygamesservice.model.blackhand.BlackHandSettings;
-import com.partygames.partygamesservice.model.blackhand.BlackHandSettings.BlackHandPlayerPreferences;
-import com.partygames.partygamesservice.model.Lobby;
 import com.partygames.partygamesservice.model.blackhand.BlackHand;
 import com.partygames.partygamesservice.model.blackhand.BlackHand.BlackHandPlayer;
+import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
+import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers;
+import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
+import com.partygames.partygamesservice.model.blackhand.BlackHandSettings;
+import com.partygames.partygamesservice.model.blackhand.BlackHandSettings.BlackHandPlayerPreferences;
 import com.partygames.partygamesservice.service.BlackHandService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 public class BlackHandServiceImpl implements BlackHandService {
   @Autowired
   BlackHandDao blackHandDao;
-
-  public int createNewGameLobby(Lobby lobby) {
-    return blackHandDao.createNewGameLobby(lobby);
-  }
-
-  public int joinGameLobby(Lobby lobby) {
-    return blackHandDao.joinGameLobby(lobby);
-  }
 
   /**
    * startGame: returns data necessary to start a game of black

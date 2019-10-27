@@ -1,9 +1,9 @@
 USE `partyrdb`;
-DROP procedure IF EXISTS `get_users_online`;
+DROP procedure IF EXISTS `get_online_users`;
 
 DELIMITER $$
 USE `partyrdb`$$
-CREATE PROCEDURE `get_users_online`(
+CREATE PROCEDURE `get_online_users`(
   IN i_query_string VARCHAR(255)
 )
 BEGIN

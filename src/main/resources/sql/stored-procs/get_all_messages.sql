@@ -6,7 +6,7 @@ USE `partyrdb`$$
 CREATE PROCEDURE `get_all_messages` ()
 BEGIN
 	SELECT `chat`.`chat_id`,
-		`chat`.`author`,
+		`chat`.`email`,
 		`chat`.`message`,
 		`chat`.`time_of_message`
 	FROM `partyrdb`.`chat` ORDER BY `chat`.`time_of_message`;

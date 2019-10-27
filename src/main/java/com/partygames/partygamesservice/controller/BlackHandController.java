@@ -3,12 +3,11 @@ package com.partygames.partygamesservice.controller;
 import java.util.HashMap;
 import java.util.List;
 
-import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
-import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
-import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers;
-import com.partygames.partygamesservice.model.blackhand.BlackHandSettings;
-import com.partygames.partygamesservice.model.Lobby;
 import com.partygames.partygamesservice.model.blackhand.BlackHand;
+import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
+import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers;
+import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
+import com.partygames.partygamesservice.model.blackhand.BlackHandSettings;
 import com.partygames.partygamesservice.service.BlackHandService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,21 +48,5 @@ public class BlackHandController {
   @GetMapping(value = "/player-total/{playerTotal}", produces = MediaType.APPLICATION_JSON_VALUE)
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(@PathVariable int playerTotal) {
     return blackHandService.getBlackHandNumberOfPlayers(playerTotal);
-  }
-
-  /**
-   * createLobby.
-   */
-  @PostMapping(value = "/create-lobby")
-  public int createLobby(@RequestBody Lobby lobby) {
-    return blackHandService.createNewGameLobby(lobby);
-  }
-
-  /**
-   * joinLobby.
-   */
-  @PostMapping(value = "/join-lobby")
-  public int joinLobby(@RequestBody Lobby lobby) {
-    return blackHandService.joinGameLobby(lobby);
   }
 }

@@ -25,9 +25,15 @@ public class ChatDaoImpl implements ChatDao {
    * insertMessage.
    */
   public int insertMessage(Message message) {
-    String query = "CALL `partyrdb`.`save_chat_message`('" + message.getAuthor() + "', '" + message.getContent() + "', '"
+    String query = "CALL `partyrdb`.`save_chat_message`('" + message.getEmail() + "', '" + message.getContent() + "', '"
         + message.getTimeOfMessage() + "');";
     log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to save message {}; error: {}", message.getContent(), e.getMessage());
+    }
 
     return jdbcTemplate.update(query);
   }
