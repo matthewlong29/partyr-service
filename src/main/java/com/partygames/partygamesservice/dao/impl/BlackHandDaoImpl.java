@@ -37,7 +37,13 @@ public class BlackHandDaoImpl implements BlackHandDao {
     + "');";
     log.info(query);
 
-    return jdbcTemplate.update(query);
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to create game lobby {}: ", lobby.getLobbyName(), e.getMessage());
+    }
+
+    return 0;
   }
 
   /**
@@ -48,7 +54,13 @@ public class BlackHandDaoImpl implements BlackHandDao {
         + "');";
     log.info(query);
 
-    return jdbcTemplate.update(query);
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to join game lobby {}: ", lobby.getLobbyName(), e.getMessage());
+    }
+
+    return 0;
   }
 
   /**
