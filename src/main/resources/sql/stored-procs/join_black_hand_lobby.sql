@@ -3,7 +3,7 @@ DROP procedure IF EXISTS `join_black_hand_lobby`;
 
 DELIMITER $$
 USE `partyrdb`$$
-CREATE PROCEDURE `join_black_hand_lobby` (
+CREATE DEFINER=`root`@`%` PROCEDURE `join_black_hand_lobby`(
   IN i_lobby_name VARCHAR(32),
   IN i_player_email VARCHAR(32)
 )
@@ -15,6 +15,8 @@ BEGIN
     i_lobby_name,
     i_player_email
   );
+  UPDATE `partyrdb`.`black_hand` SET `number_of_players` = `number_of_players` + 1 WHERE
+    `game_instance_name` = i_lobby_name;
 END$$
 
 DELIMITER ;
