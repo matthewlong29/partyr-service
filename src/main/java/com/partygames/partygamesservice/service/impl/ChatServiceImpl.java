@@ -3,7 +3,7 @@ package com.partygames.partygamesservice.service.impl;
 import java.util.List;
 
 import com.partygames.partygamesservice.dao.ChatDao;
-import com.partygames.partygamesservice.model.Message;
+import com.partygames.partygamesservice.model.ChatMessage;
 import com.partygames.partygamesservice.service.ChatService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,39 +15,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class ChatServiceImpl implements ChatService {
-  private final SimpMessagingTemplate template;
-
   @Autowired
   ChatDao chatDao;
 
   /**
-   * ChatServiceImpl.
-   */
-  @Autowired
-  ChatServiceImpl(SimpMessagingTemplate template) {
-    this.template = template;
-  }
-
-  /**
-   * sendMessageToChat.
-   */
-  public void sendMessageToChat(String destination, Message message) {
-    this.template.convertAndSend(destination, message);
-  }
-
-  /**
    * saveMessage.
    */
-  public int saveMessage(Message message) {
-    log.info("new chat message: [" + message.toString() + "]");
+  public int saveChatMessage(ChatMessage chatMessage) {
+    log.info("new chat chatMessage: [" + chatMessage.toString() + "]");
 
-    return chatDao.insertMessage(message);
+    return chatDao.insertChatMessage(chatMessage);
   }
 
   /**
    * getMessages.
    */
-  public List<Message> getMessages() {
-    return chatDao.getMessages();
+  public List<ChatMessage> getChatMessages() {
+    return chatDao.getChatMessages();
   }
 }

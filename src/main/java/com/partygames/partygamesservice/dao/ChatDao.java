@@ -2,10 +2,10 @@ package com.partygames.partygamesservice.dao;
 
 import java.util.List;
 
-import com.partygames.partygamesservice.model.Message;
+import com.partygames.partygamesservice.model.ChatMessage;
 
 public interface ChatDao {
-  public int insertMessage(Message message);
+  public int insertChatMessage(ChatMessage chatMessage);
 
-  public List<Message> getMessages();
+  public List<ChatMessage> getChatMessages();
 }

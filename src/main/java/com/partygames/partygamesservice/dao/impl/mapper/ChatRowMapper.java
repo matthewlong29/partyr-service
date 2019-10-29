@@ -3,23 +3,25 @@ package com.partygames.partygamesservice.dao.impl.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.partygames.partygamesservice.model.Message;
+import com.partygames.partygamesservice.model.ChatMessage;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ChatRowMapper implements RowMapper<Message> {
+public class ChatRowMapper implements RowMapper<ChatMessage> {
   /**
    * mapRow.
+   * 
+   * TODO update chat stored proc....
    */
   @Override
-  public Message mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-    Message message = new Message();
-    message.setEmail(resultSet.getString("email"));
-    message.setContent(resultSet.getString("message"));
-    message.setTimeOfMessage(resultSet.getTimestamp("time_of_message"));
+  public ChatMessage mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+    ChatMessage chat = new ChatMessage();
+    chat.setEmail(resultSet.getString("email"));
+    chat.setContent(resultSet.getString("chat_message"));
+    chat.setTimeOfMessage(resultSet.getTimestamp("time_of_chat_message"));
 
-    return message;
+    return chat;
   }
 }

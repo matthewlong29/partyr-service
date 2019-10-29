@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message {
+public class ChatMessage {
   private String email;
   private Timestamp timeOfMessage = new Timestamp(new Date().getTime());
   private String content;

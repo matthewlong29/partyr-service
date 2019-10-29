@@ -1,22 +1,41 @@
-package com.partygames.partygamesservice.websocketeventlistener;
+package com.partygames.partygamesservice.service.impl;
 
-import com.partygames.partygamesservice.model.Message;
+import com.partygames.partygamesservice.model.ChatMessage;
+import com.partygames.partygamesservice.service.MessageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component
-public class WebSocketEventListener {
+@Service
+public class MessageServiceImpl implements MessageService {
+  private final SimpMessagingTemplate template;
+
   @Autowired
   private SimpMessageSendingOperations messagingTemplate;
+
+  /**
+   * MessageServiceImpl.
+   */
+  @Autowired
+  MessageServiceImpl(SimpMessagingTemplate template) {
+    this.template = template;
+  }
+
+  /**
+   * sendMessage.
+   */
+  public void sendMessage(String destination, ChatMessage chatMessage) {
+    this.template.convertAndSend(destination, chatMessage);
+  }
 
   /**
    * handleWebSocketConnectListener.
@@ -37,7 +56,7 @@ public class WebSocketEventListener {
     if (username != null) {
       log.info("User Disconnected : " + username);
 
-      Message chatMessage = new Message();
+      ChatMessage chatMessage = new ChatMessage();
       messagingTemplate.convertAndSend("/topic/public", chatMessage);
     }
   }
