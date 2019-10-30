@@ -1,13 +1,15 @@
 package com.partygames.partygamesservice.service.impl;
 
+import java.util.List;
+
 import com.partygames.partygamesservice.model.ChatMessage;
+import com.partygames.partygamesservice.model.Room;
 import com.partygames.partygamesservice.service.MessageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
@@ -19,9 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 public class MessageServiceImpl implements MessageService {
   private final SimpMessagingTemplate template;
 
-  @Autowired
-  private SimpMessageSendingOperations messagingTemplate;
-
   /**
    * MessageServiceImpl.
    */
@@ -31,10 +30,17 @@ public class MessageServiceImpl implements MessageService {
   }
 
   /**
-   * sendMessage.
+   * sendChatMessage.
    */
-  public void sendMessage(String destination, ChatMessage chatMessage) {
-    this.template.convertAndSend(destination, chatMessage);
+  public void sendChatMessage(ChatMessage chatMessage) {
+    this.template.convertAndSend("/chat/room", chatMessage);
+  }
+
+  /**
+   * sendRoomMessage: sends a list of rooms to the client
+   */
+  public void sendRoomMessage(List<Room> rooms) {
+    this.template.convertAndSend("/lobby/rooms", rooms);
   }
 
   /**
@@ -42,7 +48,8 @@ public class MessageServiceImpl implements MessageService {
    */
   @EventListener
   public void handleWebSocketConnectListener(SessionConnectedEvent event) {
-    log.info("Received a new web socket connection");
+    log.info("received a new web socket connection. time: {}; user: {}; message: {}; source: {}", event.getTimestamp(),
+        event.getUser(), event.getMessage(), event.getSource());
   }
 
   /**
@@ -50,14 +57,7 @@ public class MessageServiceImpl implements MessageService {
    */
   @EventListener
   public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
-    StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-    String username = (String) headerAccessor.getSessionAttributes().get("username");
-
-    if (username != null) {
-      log.info("User Disconnected : " + username);
-
-      ChatMessage chatMessage = new ChatMessage();
-      messagingTemplate.convertAndSend("/topic/public", chatMessage);
-    }
+    log.info("received a new web socket connection. time: {}; user: {}; message: {}; source: {}", event.getTimestamp(),
+        event.getUser(), event.getMessage(), event.getSource());
   }
 }

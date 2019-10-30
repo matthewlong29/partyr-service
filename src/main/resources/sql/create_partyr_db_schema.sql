@@ -158,10 +158,10 @@ CREATE TABLE `black_hand_rooms` (
 -- ** create chat table
 
 CREATE TABLE `chat` (
-  `chat_id` INT NOT NULL AUTO_INCREMENT,
+  `chat_message__id` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(32) NOT NULL,
-  `message` VARCHAR(512) NOT NULL,
-  `time_of_message` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`chat_id`),
+  `chat_message` VARCHAR(512) NOT NULL,
+  `time_of_chat_message` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`chatmessage__id`),
   CONSTRAINT `set_author_reference` FOREIGN KEY (`email`) REFERENCES `partyr_users` (`email`)
 ) ENGINE=InnoDB;

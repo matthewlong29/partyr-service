@@ -29,9 +29,8 @@ public class ChatController {
   @MessageMapping("/lobby")
   public void onReceivedChatMessage(ChatMessage chatMessage) {
     log.info(chatMessage.toString());
-    chatMessage.setEmail("long.matthew29@gmail.com"); // TODO remove
-    // chatService.saveMessage(chatMessage);
-    messageService.sendMessage("/chat/room", chatMessage);
+    chatService.saveChatMessage(chatMessage);
+    messageService.sendChatMessage(chatMessage);
   }
 
   /**
