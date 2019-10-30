@@ -1,7 +1,7 @@
 let stompClient = null;
 
-let sendTo = "";
-let subscribeTo = "";
+let sendTo = "/app/join-room";
+let subscribeTo = "/lobby/rooms";
 
 function setConnected(connected) {
   $("#connect").prop("disabled", connected);
@@ -16,7 +16,7 @@ function connect() {
     setConnected(true);
     console.log("Connected: " + frame);
     stompClient.subscribe(subscribeTo, function(message) {
-      showMessage(message.body);
+      showMessage(message);
     });
   });
 }
@@ -30,15 +30,11 @@ function disconnect() {
 }
 
 function sendJSON() {
-  const message = {
-    email: "long.matthew29@gmail.com",
-    content: $("#message").val()
-  };
-  stompClient.send(sendTo, {}, JSON.stringify(message));
+  stompClient.send(sendTo, {}, $("#message").val());
 }
 
 function showMessage(message) {
-  $("#jsonMessage").append("<tr><td>" + message + "</td></tr>");
+  $("#jsonMessage").append("<tr><td>" + JSON.stringify(message.body) + "</td></tr>");
 }
 
 $(() => {
