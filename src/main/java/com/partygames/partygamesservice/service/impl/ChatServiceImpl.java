@@ -7,7 +7,6 @@ import com.partygames.partygamesservice.model.ChatMessage;
 import com.partygames.partygamesservice.service.ChatService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;

@@ -5,6 +5,7 @@ import java.util.List;
 import com.partygames.partygamesservice.model.ChatMessage;
 import com.partygames.partygamesservice.service.ChatService;
 import com.partygames.partygamesservice.service.MessageService;
+import com.partygames.partygamesservice.util.WebsocketConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,7 +27,7 @@ public class ChatController {
   /**
    * onReceivedMessage.
    */
-  @MessageMapping("/lobby")
+  @MessageMapping(WebsocketConstants.CHAT_SEND)
   public void onReceivedChatMessage(ChatMessage chatMessage) {
     log.info(chatMessage.toString());
     chatService.saveChatMessage(chatMessage);

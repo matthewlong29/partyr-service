@@ -6,6 +6,7 @@ import java.util.Map;
 import com.partygames.partygamesservice.model.Room;
 import com.partygames.partygamesservice.service.LobbyService;
 import com.partygames.partygamesservice.service.MessageService;
+import com.partygames.partygamesservice.util.WebsocketConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,7 +31,7 @@ public class LobbyController {
    * @param body {"roomName": "best game of black hand ever4", "gameName": "Black
    *             Hand", "email": "timmy7@gmail.com"}
    */
-  @MessageMapping("/create-room")
+  @MessageMapping(WebsocketConstants.ROOM_CREATE_SEND)
   public void createRoom(Map<String, String> body) {
     log.info("body: {}", body.toString());
 
@@ -49,7 +50,7 @@ public class LobbyController {
    * @param body {"roomName": "best game of black hand ever4", "email":
    *             "timmy7@gmail.com"}
    */
-  @MessageMapping("/join-room")
+  @MessageMapping(WebsocketConstants.ROOM_JOIN_SEND)
   public void joinRoom(Map<String, String> body) {
     log.info("body: {}", body.toString());
 

@@ -5,10 +5,8 @@ import java.util.Map;
 
 import com.partygames.partygamesservice.model.relationships.Relationship;
 import com.partygames.partygamesservice.model.relationships.Relationships;
-import com.partygames.partygamesservice.model.users.PartyrEmail;
 import com.partygames.partygamesservice.model.users.PartyrUser;
 import com.partygames.partygamesservice.model.users.ThemeSelect;
-import com.partygames.partygamesservice.model.users.UserNameSelect;
 import com.partygames.partygamesservice.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
