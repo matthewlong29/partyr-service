@@ -30,7 +30,13 @@ public class UsersDaoImpl implements UsersDao {
     String query = "CALL `partyrdb`.`get_user_by_email`('" + email + "');";
     log.info(query);
 
-    return jdbcTemplate.query(query, userRowMapper).get(0);
+    try {
+      return jdbcTemplate.query(query, userRowMapper).get(0);  
+    } catch (Exception e) {
+      log.error("unable to find user by email of {}; error: {}", email, e.getMessage());
+    }
+
+    return new PartyrUser(); // TODO throw exception and provide error status code instead?
   }
 
   /**
@@ -57,7 +63,7 @@ public class UsersDaoImpl implements UsersDao {
    * searchForOnlineUsersContaining.
    */
   public List<PartyrUser> searchForOnlineUsersContaining(String queryString) {
-    String query = "CALL `partyrdb`.`get_users_online`('" + queryString + "');";
+    String query = "CALL `partyrdb`.`get_online_users`('" + queryString + "');";
     log.info(query);
 
     return jdbcTemplate.query(query, userRowMapper);
@@ -67,7 +73,7 @@ public class UsersDaoImpl implements UsersDao {
    * getOnlineUsers.
    */
   public List<PartyrUser> getOnlineUsers() {
-    String query = "CALL `partyrdb`.`get_users_online`('');";
+    String query = "CALL `partyrdb`.`get_online_users`('');";
     log.info(query);
 
     return jdbcTemplate.query(query, userRowMapper);
@@ -144,7 +150,7 @@ public class UsersDaoImpl implements UsersDao {
     try {
       return jdbcTemplate.update(query);
     } catch (Exception e) {
-      log.error("unable to add user {}: ", newRelationship.getRelatingEmail(), e.getMessage());
+      log.error("unable to add user {}; error: {}", newRelationship.getRelatingEmail(), e.getMessage());
     }
 
     return 0;
@@ -168,7 +174,7 @@ public class UsersDaoImpl implements UsersDao {
     try {
       return jdbcTemplate.update(query);
     } catch (Exception e) {
-      log.error("unable to create user {}: ", user.getEmail(), e.getMessage());
+      log.error("unable to create user {}; error: {}", user.getEmail(), e.getMessage());
     }
 
     return 0;
@@ -185,7 +191,7 @@ public class UsersDaoImpl implements UsersDao {
     try {
       return jdbcTemplate.update(query);
     } catch (Exception e) {
-      log.error("unable to update theme for user {}: ", userToUpdate, e.getMessage());
+      log.error("unable to update theme for user {}; error: {}", userToUpdate, e.getMessage());
     }
 
     return 0;
@@ -202,7 +208,7 @@ public class UsersDaoImpl implements UsersDao {
     try {
       return jdbcTemplate.update(query);
     } catch (Exception e) {
-      log.error("unable to update username for user {}: ", userToUpdate, e.getMessage());
+      log.error("unable to update username for user {}; error: {}", userToUpdate, e.getMessage());
     }
 
     return 0;

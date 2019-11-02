@@ -2,12 +2,10 @@ package com.partygames.partygamesservice.service;
 
 import java.util.List;
 
-import com.partygames.partygamesservice.model.Message;
+import com.partygames.partygamesservice.model.ChatMessage;
 
 public interface ChatService {
-  public List<Message> getMessages();
+  public List<ChatMessage> getChatMessages();
 
-  public int saveMessage(Message message);
-
-  public void sendMessageToChat(String destination, Message message);
+  public int saveChatMessage(ChatMessage chatMessage);
 }

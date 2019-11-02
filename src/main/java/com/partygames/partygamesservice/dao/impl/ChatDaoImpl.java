@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.partygames.partygamesservice.dao.ChatDao;
 import com.partygames.partygamesservice.dao.impl.mapper.ChatRowMapper;
-import com.partygames.partygamesservice.model.Message;
+import com.partygames.partygamesservice.model.ChatMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,10 +24,16 @@ public class ChatDaoImpl implements ChatDao {
   /**
    * insertMessage.
    */
-  public int insertMessage(Message message) {
-    String query = "CALL `partyrdb`.`save_chat_message`('" + message.getAuthor() + "', '" + message.getContent() + "', '"
-        + message.getTimeOfMessage() + "');";
+  public int insertChatMessage(ChatMessage chatMessage) {
+    String query = "CALL `partyrdb`.`save_chat_message`('" + chatMessage.getEmail() + "', '" + chatMessage.getContent()
+        + "', '" + chatMessage.getTimeOfMessage() + "');";
     log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to save chat message {}; error: {}", chatMessage.getContent(), e.getMessage());
+    }
 
     return jdbcTemplate.update(query);
   }
@@ -35,8 +41,8 @@ public class ChatDaoImpl implements ChatDao {
   /**
    * getMessages.
    */
-  public List<Message> getMessages() {
-    String query = "CALL `partyrdb`.`get_all_messages`();";
+  public List<ChatMessage> getChatMessages() {
+    String query = "CALL `partyrdb`.`get_all_chat_messages`();";
     log.info(query);
 
     return jdbcTemplate.query(query, chatRowMapper);

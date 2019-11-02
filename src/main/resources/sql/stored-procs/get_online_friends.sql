@@ -7,7 +7,7 @@ CREATE PROCEDURE `get_online_friends` (
   IN i_email VARCHAR(64)   
 )
 BEGIN
-	SELECT
+  SELECT
 	  `partyr_users`.`user_id`,
 	  `partyr_users`.`user_hash`,
 	  `partyr_users`.`user_name`,
@@ -26,9 +26,9 @@ BEGIN
 	  relationships ON (
 	    relationships.related_email = partyr_users.email
 	  ) WHERE relating_email = i_email 
-	      AND relationship_type = 'FRIEND' 
-        AND online_status = 'ONLINE'
-        ORDER BY first_name;
+	    AND relationship_type = 'FRIEND'
+      AND online_status = 'ONLINE'
+    ORDER BY first_name;
 END$$
 
 DELIMITER ;

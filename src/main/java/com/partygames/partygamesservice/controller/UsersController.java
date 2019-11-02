@@ -5,10 +5,8 @@ import java.util.Map;
 
 import com.partygames.partygamesservice.model.relationships.Relationship;
 import com.partygames.partygamesservice.model.relationships.Relationships;
-import com.partygames.partygamesservice.model.users.PartyrEmail;
 import com.partygames.partygamesservice.model.users.PartyrUser;
 import com.partygames.partygamesservice.model.users.ThemeSelect;
-import com.partygames.partygamesservice.model.users.UserNameSelect;
 import com.partygames.partygamesservice.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ public class UsersController {
    */
   @PostMapping(path = "/current-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public PartyrUser getLoggedInUser(@RequestBody Map<String, String> body) {
-    String email = body.get("partyrEmail");
+    String email = body.get("email");
     log.info("email: " + email);
 
     return usersService.getCurrentUser(email);
@@ -61,7 +59,8 @@ public class UsersController {
   public Relationships getRelationships(@RequestBody Map<String, String> body,
       @RequestParam(value = "type", required = false, defaultValue = "both") String relationshipStatus,
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly) {
-    String email = body.get("partyrEmail");
+    String email = body.get("email");
+
     return usersService.getRelationships(email, relationshipStatus, onlineOnly);
   }
 

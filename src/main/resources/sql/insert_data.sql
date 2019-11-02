@@ -47,25 +47,25 @@ insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `rela
 
 -- ** add chat mock data
 
-insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
+insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
   values ('coty.dawson@gmail.com', 'yes?', '2019-10-08 20:04:06');
-insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
+insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
   values ('timmy7@gmail.com', 'but its dark and bitter blend of nihilism with oddly uplifting existentialism', '2019-10-08 20:04:07');
-insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
+insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
   values ('coty.dawson@gmail.com', 'It hits hard, Morty, then it slowly fades, leaving you stranded in a failing marriage. I did it.', '2019-10-08 20:04:08');
-insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
+insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
   values ('coty.dawson@gmail.com', 'woooooo', '2019-10-08 20:04:09');
-insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
+insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
   values ('timmy7@gmail.com', 'Rick has traveled across the universe and a myriad of different dimensions, and his hysterically anxious grandson often gets dragged along.', '2019-10-08 20:04:10');
-insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
+insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
   values ('coty.dawson@gmail.com', 'chattting and stuff woo', '2019-10-08 20:04:11');
-insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
+insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
   values ('coty.dawson@gmail.com', 'Listen Morty, I hate to break it to you, but what people calls “love” is just a chemical reaction that compels animals to breed. ', '2019-10-08 20:04:12');
-insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
+insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
   values ('coty.dawson@gmail.com', 'They’ve both seen some serious stuff, especially considering they survived the destruction of their own universe and lived to bury their own bodies in an alternate reality they went on to live in.', '2019-10-08 20:04:13');
-insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
+insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
   values ('timmy7@gmail.com', 'get you pumped for the rest', '2019-10-08 20:04:14');
-insert into `partyrdb`.`chat` (`author`, `message`, `time_of_message`)
+insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
   values ('cheesecake@gmail.com', 'In a time where Adult Swim is straying away from animated', '2019-10-08 20:04:15');
 
 -- ** add black_hand_required_number_of_players mock data
@@ -117,27 +117,22 @@ insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_abilit
 -- ** add games mock data
 
 insert into `partyrdb`.`games` (`game_name`, `min_players_num`, `max_players_num`, `min_age`, `average_game_duration`) 
-  values ('BlackHand', 5, 15, 18, 30);
+  values ('Black Hand', 5, 15, 18, 30);
 
--- ** add black_hand mock data
+-- ** add lobby mock data
 
-insert into `partyrdb`.`black_hand` (`game_instance_name`, `host_email`, `number_of_players`) 
-  values ('ziploc bags box tablet stand', 'coty.dawson@gmail.com', 5);
+insert into `partyrdb`.`lobby` (`game_room_name`, `game_name`, `host_email`, `number_of_players`) 
+  values ('ziploc bags box tablet stand', 'Black Hand', 'coty.dawson@gmail.com', 5);
 
--- ** add black_hand_instances mock data
+-- ** add black_hand_rooms mock data
 
-insert into `partyrdb`.`black_hand_instances` (`game_instance_name`, `player_email`, `preferred_faction`, `role_name`, `player_status`) 
+insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `email`, `preferred_faction`, `role_name`, `player_status`) 
   values ('ziploc bags box tablet stand', 'coty.dawson@gmail.com', 'Townie', 'Bodyguard', 'ALIVE');
-insert into `partyrdb`.`black_hand_instances` (`game_instance_name`, `player_email`, `preferred_faction`, `role_name`, `player_status`) 
+insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `email`, `preferred_faction`, `role_name`, `player_status`) 
   values ('ziploc bags box tablet stand', 'lanawood@gmail.com', 'Monster', 'Werewolf', 'ALIVE');
-insert into `partyrdb`.`black_hand_instances` (`game_instance_name`, `player_email`, `preferred_faction`, `role_name`, `player_status`) 
+insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `email`, `preferred_faction`, `role_name`, `player_status`) 
   values ('ziploc bags box tablet stand', 'cheesecake@gmail.com', 'BlackHand', 'Forget', 'ALIVE');
-insert into `partyrdb`.`black_hand_instances` (`game_instance_name`, `player_email`, `preferred_faction`, `role_name`, `player_status`) 
+insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `email`, `preferred_faction`, `role_name`, `player_status`) 
   values ('ziploc bags box tablet stand', 'timmy7@gmail.com', 'Monster', 'Doctor', 'ALIVE');
-insert into `partyrdb`.`black_hand_instances` (`game_instance_name`, `player_email`, `preferred_faction`, `role_name`, `player_status`) 
+insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `email`, `preferred_faction`, `role_name`, `player_status`) 
   values ('ziploc bags box tablet stand', 'obtrusivemonks@gmail.com', 'Monster', 'Jailor', 'ALIVE');
-
-  -- ** add game mock data
-
-insert into `partyrdb`.`games` (`game_name`, `min_players_num`, `max_players_num`, `min_age`, `average_game_duration`)
-  values ("Black Hand", 5, 15, 13, 30);

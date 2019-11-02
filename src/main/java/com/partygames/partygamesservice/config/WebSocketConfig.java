@@ -1,5 +1,7 @@
 package com.partygames.partygamesservice.config;
 
+import com.partygames.partygamesservice.util.WebsocketConstants;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -14,12 +16,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
    */
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/ws/socket").setAllowedOrigins("*").withSockJS();
+    registry.addEndpoint(WebsocketConstants.ENDPOINT).setAllowedOrigins("*").withSockJS();
   }
 
   @Override
   public void configureMessageBroker(MessageBrokerRegistry registry) {
-    registry.enableSimpleBroker("/chat", "/public");
-    registry.setApplicationDestinationPrefixes("/app");
+    registry.enableSimpleBroker(WebsocketConstants.CHAT_BROKER, WebsocketConstants.LOBBY_BROKER);
+    registry.setApplicationDestinationPrefixes(WebsocketConstants.PREFIX);
   }
 }
