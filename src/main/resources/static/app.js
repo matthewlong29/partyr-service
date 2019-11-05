@@ -1,41 +1,70 @@
 let stompClient = null;
 
-let sendTo = "/app/join-room";
 let subscribeTo = "/lobby/rooms";
+let sendTo = "/app/join-room";
 
-function setConnected(connected) {
+const setConnected = connected => {
   $("#connect").prop("disabled", connected);
   $("#disconnect").prop("disabled", !connected);
   $("#jsonMessage").html("");
-}
+};
 
-function connect() {
+const connect = () => {
   let socket = new SockJS("/ws/socket");
   stompClient = Stomp.over(socket);
-  stompClient.connect({}, function(frame) {
+  stompClient.connect({}, frame => {
     setConnected(true);
     console.log("Connected: " + frame);
-    stompClient.subscribe(subscribeTo, function(message) {
+    stompClient.subscribe(subscribeTo, message => {
       showMessage(message);
     });
   });
-}
+};
 
-function disconnect() {
+const disconnect = () => {
   if (stompClient !== null) {
     stompClient.disconnect();
   }
   setConnected(false);
   console.log("Disconnected");
-}
+};
 
-function sendJSON() {
+const sendJSON = () => {
   stompClient.send(sendTo, {}, $("#message").val());
-}
+};
 
-function showMessage(message) {
-  $("#jsonMessage").append("<tr><td>" + JSON.stringify(message.body) + "</td></tr>");
-}
+const showMessage = message => {
+  $("#jsonMessage").append("<pre>" + syntaxHighlight(message.body) + "</pre>");
+};
+
+const syntaxHighlight = json => {
+  json = JSON.parse(json);
+  if (typeof json != "string") {
+    json = JSON.stringify(json, null, 2);
+  }
+  json = json
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+  return json.replace(
+    /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+    match => {
+      var cls = "number";
+      if (/^"/.test(match)) {
+        if (/:$/.test(match)) {
+          cls = "key";
+        } else {
+          cls = "string";
+        }
+      } else if (/true|false/.test(match)) {
+        cls = "boolean";
+      } else if (/null/.test(match)) {
+        cls = "null";
+      }
+      return '<span class="' + cls + '">' + match + "</span>";
+    }
+  );
+};
 
 $(() => {
   $("form").on("submit", e => {
