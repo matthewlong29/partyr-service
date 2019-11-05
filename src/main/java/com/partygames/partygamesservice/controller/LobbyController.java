@@ -63,7 +63,41 @@ public class LobbyController {
   }
 
   /**
-   * getLobby
+   * leaveRoom.
+   * 
+   * @param body {"roomName": "best game of black hand ever4", "email":
+   *             "timmy7@gmail.com"}
+   */
+  @MessageMapping(WebsocketConstants.ROOM_LEAVE_SEND)
+  public void leaveRoom(Map<String, String> body) {
+    log.info("body: {}", body.toString());
+
+    String email = body.get("email");
+    String roomName = body.get("roomName");
+
+    lobbyService.leaveGameRoom(email, roomName);
+
+    messageService.sendRoomMessage(lobbyService.getRooms());
+  }
+
+  /**
+   * deleteRoom.
+   * 
+   * @param body {"roomName": "best game of black hand ever4"}
+   */
+  @MessageMapping(WebsocketConstants.ROOM_DELETE_SEND)
+  public void deleteRoom(Map<String, String> body) {
+    log.info("body: {}", body.toString());
+
+    String roomName = body.get("roomName");
+
+    lobbyService.deleteGameRoom(roomName);
+
+    messageService.sendRoomMessage(lobbyService.getRooms());
+  }
+
+  /**
+   * getLobby.
    */
   @GetMapping(value = "/api/game/rooms", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Room> getRooms() {

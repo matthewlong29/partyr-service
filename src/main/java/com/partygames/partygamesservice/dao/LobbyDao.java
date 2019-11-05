@@ -9,5 +9,9 @@ public interface LobbyDao {
 
   public int joinGameRoom(String partyrEmail, String roomName);
 
+  public int leaveGameRoom(String partyrEmail, String roomName);
+
+  public int deleteGameRoom(String roomName);
+
   public List<Room> getRooms();
 }

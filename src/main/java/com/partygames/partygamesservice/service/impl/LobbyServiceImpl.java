@@ -29,6 +29,20 @@ public class LobbyServiceImpl implements LobbyService {
   }
 
   /**
+   * leaveGameRoom.
+   */
+  public int leaveGameRoom(String partyrEmail, String roomName) {
+    return lobbyDao.leaveGameRoom(partyrEmail, roomName);
+  }
+
+  /**
+   * deleteGameRoom.
+   */
+  public int deleteGameRoom(String roomName) {
+    return lobbyDao.deleteGameRoom(roomName);
+  }
+
+  /**
    * getRooms.
    */
   public List<Room> getRooms() {

@@ -55,6 +55,38 @@ public class LobbyDaoImpl implements LobbyDao {
   }
 
   /**
+   * leaveGameRoom.
+   */
+  public int leaveGameRoom(String partyrEmail, String roomName) {
+    String query = "CALL `partyrdb`.`leave_black_hand_room`('" + roomName + "', '" + partyrEmail + "');";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to leave game lobby {}; error: {}", roomName, e.getMessage());
+    }
+
+    return 0;
+  }
+
+  /**
+   * deleteGameRoom.
+   */
+  public int deleteGameRoom(String roomName) {
+    String query = "CALL `partyrdb`.`delete_black_hand_room`('" + roomName + "');";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to delete game lobby {}; error: {}", roomName, e.getMessage());
+    }
+
+    return 0;
+  }
+
+  /**
    * getRooms.
    */
   public List<Room> getRooms() {
