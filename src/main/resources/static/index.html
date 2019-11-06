@@ -3,11 +3,6 @@
   <head>
     <title>WebSocket Testing</title>
     <link href="/main.css" rel="stylesheet" />
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
-      crossorigin="anonymous"
-    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="/app.js"></script>
@@ -15,22 +10,10 @@
   <body>
     <div id="main-content">
       <h3>socket configuration</h3>
-      <div>
-        <form id="subscribeTo">
-          <input type="text" placeholder="/chat/room" />
-          <button class="btn btn--stripe" type="submit">
-            subscribe to
-          </button>
-        </form>
-      </div>
-      <div>
-        <form id="sendTo">
-          <input type="text" placeholder="/app/lobby" />
-          <button class="btn btn--stripe" type="submit">
-            send to
-          </button>
-        </form>
-      </div>
+      <h4>select what to subscribe</h4>
+      <div id="subscribeToOptions"></div>
+      <h4>select where to send</h4>
+      <div id="sendToOptions"></div>
       <h3>socket connection</h3>
       <div>
         <div class="connection-container">

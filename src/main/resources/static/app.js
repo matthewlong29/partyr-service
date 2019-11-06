@@ -1,14 +1,27 @@
 let stompClient = null;
+let subscribeTo = "";
+let sendTo = "";
+let sendToOptions = [
+  "/app/send-chat",
+  "/app/create-room",
+  "/app/join-room",
+  "/app/leave-room",
+  "/app/delete-room"
+];
+let subscribeToOptions = ["/chat/room", "/lobby/rooms"];
 
-let subscribeTo = "/lobby/rooms";
-let sendTo = "/app/join-room";
-
+/**
+ * setConnected.
+ */
 const setConnected = connected => {
-  $("#connect").prop("disabled", connected);
-  $("#disconnect").prop("disabled", !connected);
-  $("#jsonMessage").html("");
+  document.querySelector("#connect").disabled = connected;
+  document.querySelector("#disconnect").disabled = !connected;
+  document.querySelector("#jsonMessage").innerHTML = "";
 };
 
+/**
+ * connect.
+ */
 const connect = () => {
   let socket = new SockJS("/ws/socket");
   stompClient = Stomp.over(socket);
@@ -21,6 +34,9 @@ const connect = () => {
   });
 };
 
+/**
+ * disconnect.
+ */
 const disconnect = () => {
   if (stompClient !== null) {
     stompClient.disconnect();
@@ -29,14 +45,25 @@ const disconnect = () => {
   console.log("Disconnected");
 };
 
+/**
+ * sendJSON.
+ */
 const sendJSON = () => {
-  stompClient.send(sendTo, {}, $("#message").val());
+  stompClient.send(sendTo, {}, document.querySelector("#message").value);
 };
 
+/**
+ * showMessage.
+ */
 const showMessage = message => {
-  $("#jsonMessage").append("<pre>" + syntaxHighlight(message.body) + "</pre>");
+  document.querySelector("#jsonMessage").innerHTML += `<pre>${syntaxHighlight(
+    message.body
+  )}</pre>`;
 };
 
+/**
+ * syntaxHighlight.
+ */
 const syntaxHighlight = json => {
   json = JSON.parse(json);
   if (typeof json != "string") {
@@ -66,25 +93,63 @@ const syntaxHighlight = json => {
   );
 };
 
-$(() => {
-  $("form").on("submit", e => {
-    e.preventDefault();
+/**
+ * getSendTo.
+ */
+const getSendTo = () => {
+  console.log(sendToOptions);
+  let html = "";
+  sendToOptions.forEach(button => {
+    html += `<button class="btn btn--stripe" onclick="setSendTo('${button}')">${button}</button>`;
   });
-  $("#connect").click(() => {
+  document.querySelector("#sendToOptions").innerHTML = html;
+};
+
+/**
+ * setSendTo.
+ */
+const setSendTo = selectedSendTo => {
+  sendTo = selectedSendTo;
+  console.log(`selected to send to: ${sendTo}`);
+};
+
+/**
+ * getSubscribeTo.
+ */
+const getSubscribeTo = () => {
+  console.log(subscribeToOptions);
+  let html = "";
+  subscribeToOptions.forEach(button => {
+    html += `<button class="btn btn--stripe" onclick="setSubscribeTo('${button}')">${button}</button>`;
+  });
+  document.querySelector("#subscribeToOptions").innerHTML = html;
+};
+
+/**
+ * setSubscribeTo.
+ */
+const setSubscribeTo = selectedSubscribeTo => {
+  subscribeTo = selectedSubscribeTo;
+  console.log(`selected to subscribe to: ${subscribeTo}`);
+};
+
+/**
+ * onPageLoad.
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  getSendTo();
+  getSubscribeTo();
+
+  document.querySelector("#connect").addEventListener("click", () => {
     connect();
   });
-  $("#disconnect").click(() => {
+
+  document.querySelector("#disconnect").addEventListener("click", () => {
     disconnect();
   });
-  $("#send").click(() => {
+
+  document.querySelector("#send").addEventListener("click", e => {
+    e.preventDefault();
     sendJSON();
-  });
-  $("#subscribeTo").on("submit", () => {
-    subscribeTo = $("#subscribeTo input").val();
-    console.log(subscribeTo);
-  });
-  $("#sendTo").on("submit", () => {
-    sendTo = $("#sendTo input").val();
-    console.log(sendTo);
   });
 });

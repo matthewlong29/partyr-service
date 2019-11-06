@@ -26,16 +26,13 @@ form {
   flex-grow: 2;
 }
 
-#subscribeTo input,
-#sendTo input {
-  margin: 8px;
-  padding: 8px;
-  border-radius: 6px;
-  border: 2px solid #666;
-  flex-grow: 2;
+#subscribeTo,
+#sendTo {
+  display: flex;
 }
 
-h3 {
+h3,
+h4 {
   margin: 8px;
 }
 
@@ -66,7 +63,6 @@ h3 {
   line-height: normal;
   cursor: pointer;
   -moz-user-select: text;
-  display: block;
   text-decoration: none;
   padding: 6px 24px 18px;
   background-color: #fff;
