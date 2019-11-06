@@ -15,22 +15,10 @@
   <body>
     <div id="main-content">
       <h3>socket configuration</h3>
-      <div>
-        <form id="subscribeTo">
-          <input type="text" placeholder="/chat/room" />
-          <button class="btn btn--stripe" type="submit">
-            subscribe to
-          </button>
-        </form>
-      </div>
-      <div>
-        <form id="sendTo">
-          <input type="text" placeholder="/app/lobby" />
-          <button class="btn btn--stripe" type="submit">
-            send to
-          </button>
-        </form>
-      </div>
+      <h4>select what to subscribe</h4>
+      <div id="subscribeToOptions"></div>
+      <h4>select where to send</h4>
+      <div id="sendToOptions"></div>
       <h3>socket connection</h3>
       <div>
         <div class="connection-container">
