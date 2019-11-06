@@ -14,9 +14,9 @@ let subscribeToOptions = ["/chat/room", "/lobby/rooms"];
  * setConnected.
  */
 const setConnected = connected => {
-  $("#connect").prop("disabled", connected);
-  $("#disconnect").prop("disabled", !connected);
-  $("#jsonMessage").html("");
+  document.querySelector("#connect").disabled = connected;
+  document.querySelector("#disconnect").disabled = !connected;
+  document.querySelector("#jsonMessage").innerHTML = "";
 };
 
 /**
@@ -49,14 +49,16 @@ const disconnect = () => {
  * sendJSON.
  */
 const sendJSON = () => {
-  stompClient.send(sendTo, {}, $("#message").val());
+  stompClient.send(sendTo, {}, document.querySelector("#message").value);
 };
 
 /**
  * showMessage.
  */
 const showMessage = message => {
-  $("#jsonMessage").append("<pre>" + syntaxHighlight(message.body) + "</pre>");
+  document.querySelector("#jsonMessage").innerHTML += `<pre>${syntaxHighlight(
+    message.body
+  )}</pre>`;
 };
 
 /**
@@ -134,17 +136,19 @@ const setSubscribeTo = selectedSubscribeTo => {
 /**
  * onPageLoad.
  */
-$(() => {
+document.addEventListener("DOMContentLoaded", () => {
   getSendTo();
   getSubscribeTo();
 
-  $("#connect").click(() => {
+  document.querySelector("#connect").addEventListener("click", () => {
     connect();
   });
-  $("#disconnect").click(() => {
+
+  document.querySelector("#disconnect").addEventListener("click", () => {
     disconnect();
   });
-  $("#send").click(e => {
+
+  document.querySelector("#send").addEventListener("click", e => {
     e.preventDefault();
     sendJSON();
   });
