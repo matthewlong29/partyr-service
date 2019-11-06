@@ -17,14 +17,16 @@ BEGIN
     
   SELECT `host_email` INTO hostEmail FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
   SELECT `number_of_players` INTO numOfPlayers FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
-    
+  
   IF numOfPlayers = 1 THEN
     DELETE FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
   ELSEIF hostEmail = i_email THEN
     SELECT `email` INTO newHostEmail FROM `partyrdb`.`black_hand_rooms` WHERE `game_room_name` = i_room_name limit 1;
-	UPDATE `partyrdb`.`lobby` SET `number_of_players` = `number_of_players` - 1, `host_email` = newHostEmail WHERE
-      `game_room_name` = i_room_name;
+	  UPDATE `partyrdb`.`lobby` SET `host_email` = newHostEmail WHERE `game_room_name` = i_room_name;
   END IF;
+
+  SELECT count(*) INTO numOfPlayers FROM `partyrdb`.`black_hand_rooms` WHERE `game_room_name` = i_room_name;
+  UPDATE `partyrdb`.`lobby` SET `number_of_players` = numOfPlayers WHERE `game_room_name` = i_room_name;
 END$$
 
 DELIMITER ;
