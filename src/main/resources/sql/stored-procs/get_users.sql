@@ -17,7 +17,7 @@ BEGIN
     `partyr_users`.`profile_image_url`,
     `partyr_users`.`joined_date`,
     `partyr_users`.`online_status`,
-    `partyr_users`.`ready_to_play_status`,
+    `partyr_users`.`ready_status`,
     `partyr_users`.`theme_id`,
     `partyr_users`.`age`,
     `partyr_users`.`country`

@@ -39,7 +39,7 @@ CREATE TABLE `partyr_users` (
   `profile_image_url` VARCHAR(254) DEFAULT NULL,
   `joined_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `online_status` VARCHAR(8) DEFAULT 'OFFLINE',
-  `ready_to_play_status` VARCHAR(16) DEFAULT 'NOT_READY',
+  `ready_status` VARCHAR(16) DEFAULT 'NOT_READY',
   `theme_id` INT DEFAULT '1',
   `age` INT DEFAULT NULL,
   `country` VARCHAR(32) NOT NULL DEFAULT '',
@@ -49,7 +49,7 @@ CREATE TABLE `partyr_users` (
   UNIQUE KEY `unique_user_hash` (`user_hash`),
   CONSTRAINT `set_theme_reference` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`),
   CONSTRAINT `limit_online_status` CHECK ((`online_status` IN ('ONLINE','OFFLINE'))),
-  CONSTRAINT `limit_ready_to_play_status` CHECK ((`ready_to_play_status` IN ('READY', 'NOT_READY')))
+  CONSTRAINT `limit_ready_status` CHECK ((`ready_status` IN ('READY', 'NOT_READY')))
 ) ENGINE=InnoDB;
 
 -- CREATE TRIGGER set_user_name_equal_to_email BEFORE INSERT ON partyr_users FOR EACH ROW BEGIN
@@ -162,6 +162,6 @@ CREATE TABLE `chat` (
   `email` VARCHAR(32) NOT NULL,
   `chat_message` VARCHAR(512) NOT NULL,
   `time_of_chat_message` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`chatmessage__id`),
+  PRIMARY KEY (`chat_message__id`),
   CONSTRAINT `set_author_reference` FOREIGN KEY (`email`) REFERENCES `partyr_users` (`email`)
 ) ENGINE=InnoDB;
