@@ -39,25 +39,6 @@ public class UsersDaoImpl implements UsersDao {
     return new PartyrUser(); // TODO throw exception and provide error status code instead?
   }
 
-  /**
-   * serchForOnlineUsersReadyToPlayContaining.
-   */
-  public List<PartyrUser> serchForOnlineUsersReadyToPlayContaining(String queryString) {
-    String query = "CALL `partyrdb`.`get_users_ready_to_play`('" + queryString + "');";
-    log.info(query);
-
-    return jdbcTemplate.query(query, userRowMapper);
-  }
-
-  /**
-   * getOnlineUsersReadyToPlay.
-   */
-  public List<PartyrUser> getOnlineUsersReadyToPlay() {
-    String query = "CALL `partyrdb`.`get_users_ready_to_play`('');";
-    log.info(query);
-
-    return jdbcTemplate.query(query, userRowMapper);
-  }
 
   /**
    * searchForOnlineUsersContaining.

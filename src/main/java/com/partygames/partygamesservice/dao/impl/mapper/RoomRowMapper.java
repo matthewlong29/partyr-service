@@ -17,7 +17,9 @@ public class RoomRowMapper implements RowMapper<Room> {
     room.setGameRoomName(resultSet.getString("game_room_name"));
     room.setGameName(resultSet.getString("game_name"));
     room.setHostEmail(resultSet.getString("host_email"));
-    room.setPlayers(Arrays.asList(resultSet.getString("partyr_users").split(",")));
+    // room.setPlayers(Arrays.asList(resultSet.getString("partyr_users").split(",")));
+    // room.setPlayersReady(Arrays.asList(resultSet.getString("partyr_users").split(",")));
+    // room.setPlayersNotReady(Arrays.asList(resultSet.getString("partyr_users").split(",")));
     room.setNumberOfPlayers(resultSet.getInt("number_of_players"));
     room.setGameStarted(resultSet.getInt("game_started") == 0 ? true : false);
     room.setGameStartTime(resultSet.getTimestamp("game_start_time"));

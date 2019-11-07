@@ -7,7 +7,7 @@ import com.partygames.partygamesservice.model.relationships.Relationship;
 import com.partygames.partygamesservice.model.relationships.Relationships;
 
 public interface UsersService {
-  public List<PartyrUser> getAllUsers(boolean onlineOnly, boolean readyToPlay, String queryString);
+  public List<PartyrUser> getAllUsers(boolean onlineOnly, String queryString);
 
   public PartyrUser getCurrentUser(String email);
 

@@ -16,7 +16,6 @@ public class PartyrUser {
   private String userHash;
   private Timestamp joinedDate;
   private OnlineStatus onlineStatus;
-  private ReadyStatus readyStatus;
   private int themeID;
   private int age;
   private String country;

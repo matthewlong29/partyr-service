@@ -9,7 +9,7 @@ BEGIN
     `lobby`.`game_room_name`,
     `lobby`.`game_name`,
     `lobby`.`host_email`,
-    GROUP_CONCAT(`black_hand_rooms`.`email`) AS 'partyr_users',
+    GROUP_CONCAT(`black_hand_rooms`.`email`, ':', `preferred_faction`) AS 'partyr_users',
     `lobby`.`number_of_players`,
     `lobby`.`game_started`,
     `lobby`.`game_start_time`,
