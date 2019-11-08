@@ -42,6 +42,13 @@ public class LobbyServiceImpl implements LobbyService {
     return lobbyDao.deleteGameRoom(roomName);
   }
 
+    /**
+   * toggleReadyStatus.
+   */
+  public int toggleReadyStatus(String partyrEmail, String roomName) {
+    return lobbyDao.toggleReadyStatus(partyrEmail, roomName);
+  }
+
   /**
    * getRooms.
    */

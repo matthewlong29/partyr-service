@@ -97,6 +97,24 @@ public class LobbyController {
   }
 
   /**
+   * toggleReadyStatus.
+   * 
+   * @param body {"roomName": "best game of black hand ever4", "email":
+   *             "timmy7@gmail.com"}
+   */
+  @MessageMapping(WebsocketConstants.ROOM_TOGGLE_READY_STATUS)
+  public void toggleReadyStatus(Map<String, String> body) {
+    log.info("body: {}", body.toString());
+
+    String email = body.get("email");
+    String roomName = body.get("roomName");
+
+    lobbyService.toggleReadyStatus(email, roomName);
+
+    messageService.sendRoomMessage(lobbyService.getRooms());
+  }
+
+  /**
    * getLobby.
    */
   @GetMapping(value = "/api/game/rooms", produces = MediaType.APPLICATION_JSON_VALUE)

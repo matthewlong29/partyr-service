@@ -87,6 +87,22 @@ public class LobbyDaoImpl implements LobbyDao {
   }
 
   /**
+   * toggleReadyStatus.
+   */
+  public int toggleReadyStatus(String partyrEmail, String roomName) {
+    String query = "CALL `partyrdb`.`toggle_ready_status`('" + roomName + "', '" + partyrEmail + "');";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to leave game lobby {}; error: {}", roomName, e.getMessage());
+    }
+
+    return 0;
+  }
+
+  /**
    * getRooms.
    */
   public List<Room> getRooms() {

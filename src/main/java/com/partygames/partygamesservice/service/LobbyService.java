@@ -13,5 +13,7 @@ public interface LobbyService {
 
   public int deleteGameRoom(String roomName);
 
+  public int toggleReadyStatus(String partyrEmail, String roomName);
+
   public List<Room> getRooms();
 }

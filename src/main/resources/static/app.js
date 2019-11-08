@@ -6,7 +6,8 @@ let sendToOptions = [
   "/app/create-room",
   "/app/join-room",
   "/app/leave-room",
-  "/app/delete-room"
+  "/app/delete-room",
+  "/app/toggle-ready-status"
 ];
 let subscribeToOptions = ["/chat/room", "/lobby/rooms"];
 
