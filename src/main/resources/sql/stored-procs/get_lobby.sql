@@ -6,17 +6,34 @@ USE `partyrdb`$$
 CREATE PROCEDURE `get_lobby` ()
 BEGIN
   SELECT 
-    `lobby`.`game_room_name`,
-    `lobby`.`game_name`,
-    `lobby`.`host_email`,
-    GROUP_CONCAT(`black_hand_rooms`.`email`, ':', `preferred_faction`) AS 'partyr_users',
-    `lobby`.`number_of_players`,
-    `lobby`.`game_started`,
-    `lobby`.`game_start_time`,
-    `lobby`.`game_end_time`
-  FROM `partyrdb`.`lobby` INNER JOIN `partyrdb`.`black_hand_rooms` ON 
-	`lobby`.`game_room_name` = `black_hand_rooms`.`game_room_name` 
-	GROUP BY `lobby`.`game_room_name`;
+    T1.`game_room_name`,
+    T1.`game_name`,
+    T1.`host_email`,
+    T2.`players_ready`,
+    T3.`players_not_ready`,
+    T1.`number_of_players`,
+    T1.`game_started`,
+    T1.`game_start_time`,
+    T1.`game_end_time`
+  FROM
+    (select * from `lobby`) T1
+    LEFT OUTER JOIN (
+    SELECT 
+      `black_hand_rooms`.`game_room_name`, 
+      GROUP_CONCAT(`black_hand_rooms`.`email`) AS 'players_ready' 
+      from `black_hand_rooms` 
+        where `black_hand_rooms`.`ready_status` = 'READY'
+      group by `black_hand_rooms`.`game_room_name`
+    ) T2 ON T1.`game_room_name` = T2.`game_room_name`
+    LEFT OUTER JOIN (
+    SELECT 
+      `black_hand_rooms`.`game_room_name`, 
+      GROUP_CONCAT(`black_hand_rooms`.`email`) AS 'players_not_ready'
+      from `black_hand_rooms` 
+        where `black_hand_rooms`.`ready_status` = 'NOT_READY' 
+      group by `black_hand_rooms`.`game_room_name`
+    ) T3 ON T1.`game_room_name` = T3.`game_room_name`
+  ORDER BY `game_name`, `game_room_name`;
 END$$
 
 DELIMITER ;
