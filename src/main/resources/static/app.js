@@ -56,9 +56,10 @@ const sendJSON = () => {
  * showMessage.
  */
 const showMessage = message => {
-  document.querySelector("#jsonMessage").innerHTML += `<pre>${syntaxHighlight(
-    message.body
-  )}</pre>`;
+  let newMessages =
+    `<pre>${syntaxHighlight(message.body)}</pre>` +
+    document.querySelector("#jsonMessage").innerHTML;
+  document.querySelector("#jsonMessage").innerHTML = newMessages;
 };
 
 /**
