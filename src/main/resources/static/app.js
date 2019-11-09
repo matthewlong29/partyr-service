@@ -113,6 +113,9 @@ const getSendTo = () => {
 const setSendTo = selectedSendTo => {
   sendTo = selectedSendTo;
   console.log(`selected to send to: ${sendTo}`);
+  document.querySelector(
+    ".send-message"
+  ).innerHTML = `select where to send [${sendTo}]`;
 };
 
 /**
@@ -133,6 +136,9 @@ const getSubscribeTo = () => {
 const setSubscribeTo = selectedSubscribeTo => {
   subscribeTo = selectedSubscribeTo;
   console.log(`selected to subscribe to: ${subscribeTo}`);
+  document.querySelector(
+    ".subscribe-message"
+  ).innerHTML = `select what to subscribe [${subscribeTo}]`;
 };
 
 /**
@@ -142,11 +148,19 @@ document.addEventListener("DOMContentLoaded", () => {
   getSendTo();
   getSubscribeTo();
 
+  document.querySelector(
+    ".subscribe-message"
+  ).innerHTML = `select what to subscribe`;
+  document.querySelector(".send-message").innerHTML = "select where to send";
+
   document.querySelector("#connect").addEventListener("click", () => {
     connect();
   });
 
   document.querySelector("#disconnect").addEventListener("click", () => {
+    document.querySelector(".send-message").innerHTML = "select what to send";
+    document.querySelector(".subscribe-message").innerHTML =
+      "select what to subscribe";
     disconnect();
   });
 
