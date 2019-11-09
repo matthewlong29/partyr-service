@@ -98,7 +98,7 @@ public class LobbyController {
    * 
    * @param body {"roomName": "game 1", "username": "timmy7"}
    */
-  @MessageMapping(WebsocketConstants.ROOM_TOGGLE_READY_STATUS)
+  @MessageMapping(WebsocketConstants.ROOM_TOGGLE_READY_STATUS_SEND)
   public void toggleReadyStatus(Map<String, String> body) {
     log.info("body: {}", body.toString());
 

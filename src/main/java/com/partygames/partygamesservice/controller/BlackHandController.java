@@ -8,7 +8,7 @@ import com.partygames.partygamesservice.model.blackhand.BlackHandFaction;
 import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers;
 import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
 import com.partygames.partygamesservice.model.blackhand.BlackHandSettings;
-import com.partygames.partygamesservice.service.BlackHandService;
+import com.partygames.partygamesservice.service.BlackHandInitializeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/game/black-hand")
 public class BlackHandController {
   @Autowired
-  BlackHandService blackHandService;
+  BlackHandInitializeService blackHandInitializeService;
 
   /**
    * startBlackHandGame: returns json needed to start a new game of the black
@@ -31,7 +31,7 @@ public class BlackHandController {
    */
   @PostMapping(value = "/start", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public BlackHand startBlackHandGame(@RequestBody BlackHandSettings blackHandSettings) {
-    return blackHandService.startGame(blackHandSettings);
+    return blackHandInitializeService.startGame(blackHandSettings);
   }
 
   /**
@@ -39,7 +39,7 @@ public class BlackHandController {
    */
   @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
   public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles() {
-    return blackHandService.getBlackHandRoles();
+    return blackHandInitializeService.getBlackHandRoles();
   }
 
   /**
@@ -47,6 +47,6 @@ public class BlackHandController {
    */
   @GetMapping(value = "/player-total/{playerTotal}", produces = MediaType.APPLICATION_JSON_VALUE)
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(@PathVariable int playerTotal) {
-    return blackHandService.getBlackHandNumberOfPlayers(playerTotal);
+    return blackHandInitializeService.getBlackHandNumberOfPlayers(playerTotal);
   }
 }

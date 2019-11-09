@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.partygames.partygamesservice.model.ChatMessage;
 import com.partygames.partygamesservice.model.Room;
+import com.partygames.partygamesservice.model.blackhand.BlackHand;
 import com.partygames.partygamesservice.service.MessageService;
 import com.partygames.partygamesservice.util.WebsocketConstants;
 
@@ -41,6 +42,13 @@ public class MessageServiceImpl implements MessageService {
    */
   public void sendRoomMessage(List<Room> rooms) {
     this.template.convertAndSend(WebsocketConstants.LOBBY_SUBSCRIBE, rooms);
+  }
+
+  /**
+   * sendBlackHandMessage: sends a BlackHand object to the current game.
+   */
+  public void sendBlackHandMessage(BlackHand blackHand) {
+    this.template.convertAndSend(WebsocketConstants.BLACK_HAND_SUBSCRIBE, blackHand);
   }
 
   /**

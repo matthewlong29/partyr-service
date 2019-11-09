@@ -9,10 +9,12 @@ import com.partygames.partygamesservice.model.blackhand.BlackHandNumberOfPlayers
 import com.partygames.partygamesservice.model.blackhand.BlackHandRole;
 import com.partygames.partygamesservice.model.blackhand.BlackHandSettings;
 
-public interface BlackHandService {
+public interface BlackHandInitializeService {
   public BlackHand startGame(BlackHandSettings blackHandSettings);
 
   public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles();
 
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int playerTotal);
+
+  public List<String> getPlayers(BlackHandSettings blackHandSettings);
 }
