@@ -27,7 +27,9 @@ public interface UsersDao {
 
   public int createUser(PartyrUser user);
 
-  public int selectTheme(String userToUpdate, int themeID);
+  public int selectTheme(String userToUpdate, String themeName);
+
+  public List<String> getThemes();
 
   public int selectUsername(String userToUpdate, String username);
 }

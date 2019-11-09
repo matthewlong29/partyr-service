@@ -82,7 +82,7 @@ public class AuthServiceImpl implements AuthService {
       }
     }
 
-    return new PartyrUser(); // TODO throw exception isntead?
+    return new PartyrUser(); // TODO throw exception instead?
   }
 
   @Override

@@ -19,5 +19,7 @@ public interface UsersService {
 
   public int selectTheme(String userToUpdate, String chosenTheme);
 
+  public List<String> getThemes();
+
   public int selectUsername(String userToUpdate, String username);
 }

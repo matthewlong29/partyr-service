@@ -165,8 +165,8 @@ public class UsersDaoImpl implements UsersDao {
    * selectTheme: returns the number of rows affected. if unable to select a theme
    * for that user then 0 is returned.
    */
-  public int selectTheme(String userToUpdate, int themeID) {
-    String query = "CALL `partyrdb`.`select_theme`('" + userToUpdate + "', '" + themeID + "');";
+  public int selectTheme(String userToUpdate, String themeName) {
+    String query = "CALL `partyrdb`.`select_theme`('" + userToUpdate + "', '" + themeName + "');";
     log.info(query);
 
     try {
@@ -176,6 +176,16 @@ public class UsersDaoImpl implements UsersDao {
     }
 
     return 0;
+  }
+
+  /**
+   * getThemes.
+   */
+  public List<String> getThemes() {
+    String query = "CALL `partyrdb`.`get_themes`();";
+    log.info(query);
+
+    return jdbcTemplate.queryForList(query, String.class);
   }
 
   /**

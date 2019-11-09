@@ -39,14 +39,14 @@ CREATE TABLE `partyr_users` (
   `profile_image_url` VARCHAR(254) DEFAULT NULL,
   `joined_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `online_status` VARCHAR(8) DEFAULT 'OFFLINE',
-  `theme_id` INT DEFAULT '1',
+  `theme_name` VARCHAR(32) DEFAULT 'light',
   `age` INT DEFAULT NULL,
   `country` VARCHAR(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `unique_username` (`username`),
   UNIQUE KEY `unique_email` (`email`),
   UNIQUE KEY `unique_user_hash` (`user_hash`),
-  CONSTRAINT `set_theme_reference` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`),
+  CONSTRAINT `set_theme_reference` FOREIGN KEY (`theme_name`) REFERENCES `themes` (`theme_name`),
   CONSTRAINT `limit_online_status` CHECK ((`online_status` IN ('ONLINE','OFFLINE')))
 ) ENGINE=InnoDB;
 

@@ -6,7 +6,6 @@ import java.util.Map;
 import com.partygames.partygamesservice.model.relationships.Relationship;
 import com.partygames.partygamesservice.model.relationships.Relationships;
 import com.partygames.partygamesservice.model.users.PartyrUser;
-import com.partygames.partygamesservice.model.users.ThemeSelect;
 import com.partygames.partygamesservice.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +53,7 @@ public class UsersController {
    * getRelationships: gets all relationships associated with a user, or only
    * friends (and optionally only online friends), or only blocked users.
    */
-  @PostMapping(value = "/all-relationships")
+  @PostMapping(value = "/all-relationships", consumes = MediaType.APPLICATION_JSON_VALUE)
   public Relationships getRelationships(@RequestBody Map<String, String> body,
       @RequestParam(value = "type", required = false, defaultValue = "both") String relationshipStatus,
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly) {
@@ -72,27 +71,28 @@ public class UsersController {
   }
 
   /**
-   * createUser.
-   * 
-   * TODO: do we need this endpoint still???
+   * selectTheme: allows the user to select a theme
    */
-  @PostMapping(value = "/create-user", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public int createUser(@RequestBody PartyrUser user) {
-    return usersService.createUser(user);
+  @PostMapping(value = "/select-theme", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public int selectTheme(@RequestBody Map<String, String> body) {
+    String email = body.get("email");
+    String chosenTheme = body.get("themeName");
+
+    return usersService.selectTheme(email, chosenTheme);
   }
 
   /**
-   * selectTheme: allows the user to select a theme
+   * 
    */
-  @PostMapping(value = "/select-theme")
-  public int selectTheme(@RequestBody ThemeSelect themeSelect) {
-    return usersService.selectTheme(themeSelect.getEmail(), themeSelect.getThemeStatus().getThemeIndex());
+  @GetMapping(value = "/themes", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<String> getThemes() {
+    return usersService.getThemes();
   }
 
   /**
    * selectUsername: allows the user to select a username
    */
-  @PostMapping(value = "/select-username")
+  @PostMapping(value = "/select-username", consumes = MediaType.APPLICATION_JSON_VALUE)
   public int selectUsername(@RequestBody Map<String, String> body) {
     return usersService.selectUsername(body.get("email"), body.get("username"));
   }

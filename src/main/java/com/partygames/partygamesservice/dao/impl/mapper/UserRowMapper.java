@@ -25,7 +25,7 @@ public class UserRowMapper implements RowMapper<PartyrUser> {
     user.setUserHash(resultSet.getString("user_hash"));
     user.setJoinedDate(resultSet.getTimestamp("joined_date"));
     user.setOnlineStatus(OnlineStatus.valueOf(resultSet.getString("online_status")));
-    user.setThemeID(resultSet.getInt("theme_id"));
+    user.setThemeName(resultSet.getString("theme_name"));
     user.setAge(resultSet.getInt("age"));
     user.setCountry(resultSet.getString("country"));
 

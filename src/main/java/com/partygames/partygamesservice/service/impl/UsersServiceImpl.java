@@ -90,8 +90,15 @@ public class UsersServiceImpl implements UsersService {
   /**
    * selectTheme.
    */
-  public int selectTheme(String userToUpdate, int themeID) {
-    return usersDao.selectTheme(userToUpdate, themeID);
+  public int selectTheme(String userToUpdate, String chosenTheme) {
+    return usersDao.selectTheme(userToUpdate, chosenTheme);
+  }
+
+  /**
+   * getThemes.
+   */
+  public List<String> getThemes() {
+    return usersDao.getThemes();
   }
 
   /**
