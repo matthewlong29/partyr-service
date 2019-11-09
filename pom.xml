@@ -9,7 +9,7 @@
     <relativePath />
     <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.partygames</groupId>
+  <groupId>com.partyrgame</groupId>
   <artifactId>party-games-service</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>demo</name>
