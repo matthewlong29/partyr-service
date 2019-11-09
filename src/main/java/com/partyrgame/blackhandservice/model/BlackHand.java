@@ -17,7 +17,7 @@ public class BlackHand {
   private int numOfBlackHandRemaining;
   private int numOfTownieRemaining;
   private int numOfMonsterRemaining;
-  private BlackHandNote lastPlayerToDieWill = new BlackHandNote();
+  private List<BlackHandNote> lastPlayerToDie = new ArrayList<>();
   private BlackHandFaction winningFaction;
   private BlackHandTrial playerOnTrial = new BlackHandTrial();
   private List<BlackHandPlayer> players = new ArrayList<>();
@@ -31,7 +31,7 @@ public class BlackHand {
     private int numberOfKillStrikes;
     private int turnPriority;
     private BlackHandRole role;
-    private List<BlackHandNote> will = new ArrayList<>();
+    private List<BlackHandNote> notes = new ArrayList<>();
   }
 
   @Data
