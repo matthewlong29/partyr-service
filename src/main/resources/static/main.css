@@ -16,6 +16,7 @@ body {
 .connection-container,
 form {
   display: flex;
+  align-items: flex-start;
 }
 
 #message {
