@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import com.partygames.partygamesservice.model.users.OnlineStatus;
 import com.partygames.partygamesservice.model.users.PartyrUser;
-import com.partygames.partygamesservice.model.ReadyStatus;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ public class UserRowMapper implements RowMapper<PartyrUser> {
   @Override
   public PartyrUser mapRow(ResultSet resultSet, int rowNum) throws SQLException {
     PartyrUser user = new PartyrUser();
-    user.setUserName(resultSet.getString("user_name"));
+    user.setUsername(resultSet.getString("username"));
     user.setEmail(resultSet.getString("email"));
     user.setFirstName(resultSet.getString("first_name"));
     user.setLastName(resultSet.getString("last_name"));

@@ -12,7 +12,7 @@ BEGIN
 	SELECT
 	  `partyr_users`.`user_id`,
 		`partyr_users`.`user_hash`,
-		`partyr_users`.`user_name`,
+		`partyr_users`.`username`,
 		`partyr_users`.`first_name`,
 		`partyr_users`.`last_name`,
 		`partyr_users`.`email`,

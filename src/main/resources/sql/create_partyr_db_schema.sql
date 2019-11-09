@@ -2,7 +2,7 @@
 
 SET FOREIGN_KEY_CHECKS=0; -- to disable them
 
-DROP TRIGGER IF EXISTS set_user_name_equal_to_email;
+DROP TRIGGER IF EXISTS set_username_equal_to_email;
 DROP TRIGGER IF EXISTS verify_valid_number_of_players;
 
 DROP TABLE IF EXISTS black_hand_rooms;
@@ -32,7 +32,7 @@ CREATE TABLE `themes` (
 CREATE TABLE `partyr_users` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
   `user_hash` VARCHAR(254) NOT NULL,
-  `user_name` VARCHAR(32),
+  `username` VARCHAR(32),
   `first_name` VARCHAR(254) DEFAULT NULL,
   `last_name` VARCHAR(254) DEFAULT NULL,
   `email` VARCHAR(64) NOT NULL,
@@ -43,15 +43,15 @@ CREATE TABLE `partyr_users` (
   `age` INT DEFAULT NULL,
   `country` VARCHAR(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `unique_user_name` (`user_name`),
+  UNIQUE KEY `unique_username` (`username`),
   UNIQUE KEY `unique_email` (`email`),
   UNIQUE KEY `unique_user_hash` (`user_hash`),
   CONSTRAINT `set_theme_reference` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`),
   CONSTRAINT `limit_online_status` CHECK ((`online_status` IN ('ONLINE','OFFLINE')))
 ) ENGINE=InnoDB;
 
--- CREATE TRIGGER set_user_name_equal_to_email BEFORE INSERT ON partyr_users FOR EACH ROW BEGIN
---   IF (NEW.user_name = null) SET NEW.user_name = NEW.email; END IF;
+-- CREATE TRIGGER set_username_equal_to_email BEFORE INSERT ON partyr_users FOR EACH ROW BEGIN
+--   IF (NEW.username = null) SET NEW.username = NEW.email; END IF;
 -- END;
 
 -- ** create relationships table

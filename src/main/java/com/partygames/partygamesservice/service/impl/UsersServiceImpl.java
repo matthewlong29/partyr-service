@@ -52,22 +52,22 @@ public class UsersServiceImpl implements UsersService {
   /**
    * getRelationships.
    */
-  public Relationships getRelationships(String userName, String relationshipStatus, boolean onlineOnly) {
+  public Relationships getRelationships(String username, String relationshipStatus, boolean onlineOnly) {
     if (relationshipStatus.equalsIgnoreCase(RelationshipStatus.FRIEND.toString()) && onlineOnly) {
-      log.info("GETTING ALL ONLINE FRIENDS OF: " + userName);
-      return usersDao.getOnlineFriendsList(userName);
+      log.info("GETTING ALL ONLINE FRIENDS OF: " + username);
+      return usersDao.getOnlineFriendsList(username);
     } else if (relationshipStatus.equalsIgnoreCase(RelationshipStatus.FRIEND.toString()) && !onlineOnly) {
-      log.info("GETTING ALL FRIENDS OF: " + userName);
-      return usersDao.getFriendsList(userName);
+      log.info("GETTING ALL FRIENDS OF: " + username);
+      return usersDao.getFriendsList(username);
     } else if (relationshipStatus.equalsIgnoreCase(RelationshipStatus.BLOCK.toString())) {
-      log.info("GETTING ALL ACCOUNTS BLOCKED BY: " + userName);
-      return usersDao.getBlockedList(userName);
+      log.info("GETTING ALL ACCOUNTS BLOCKED BY: " + username);
+      return usersDao.getBlockedList(username);
     } else {
-      log.info("GETTING ALL RELATIONSHIPS OF: " + userName);
+      log.info("GETTING ALL RELATIONSHIPS OF: " + username);
 
       Relationships relationships = new Relationships();
-      relationships.setFriendsList(usersDao.getFriendsList(userName).getFriendsList());
-      relationships.setBlockedList(usersDao.getBlockedList(userName).getBlockedList());
+      relationships.setFriendsList(usersDao.getFriendsList(username).getFriendsList());
+      relationships.setBlockedList(usersDao.getBlockedList(username).getBlockedList());
 
       return relationships;
     }
@@ -95,7 +95,7 @@ public class UsersServiceImpl implements UsersService {
   }
 
   /**
-   * selectUserName.
+   * selectUsername.
    */
   public int selectUsername(String userToUpdate, String username) {
     return usersDao.selectUsername(userToUpdate, username);

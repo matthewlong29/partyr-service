@@ -83,8 +83,8 @@ public class UsersDaoImpl implements UsersDao {
   /**
    * getBlockedList.
    */
-  public Relationships getBlockedList(String userName) {
-    String query = "CALL `partyrdb`.`get_relationships`('BLOCK', '" + userName + "');";
+  public Relationships getBlockedList(String username) {
+    String query = "CALL `partyrdb`.`get_relationships`('BLOCK', '" + username + "');";
     log.info(query);
 
     Relationships relationships = new Relationships();
@@ -96,8 +96,8 @@ public class UsersDaoImpl implements UsersDao {
   /**
    * getFriendsList.
    */
-  public Relationships getFriendsList(String userName) {
-    String query = "CALL `partyrdb`.`get_relationships`('FRIEND', '" + userName + "');";
+  public Relationships getFriendsList(String username) {
+    String query = "CALL `partyrdb`.`get_relationships`('FRIEND', '" + username + "');";
     log.info(query);
 
     Relationships relationships = new Relationships();
@@ -179,11 +179,11 @@ public class UsersDaoImpl implements UsersDao {
   }
 
   /**
-   * selectUserName: returns the number of rows affected. if unable to select a
+   * selectUsername: returns the number of rows affected. if unable to select a
    * username for that user then 0 is returned.
    */
-  public int selectUsername(String userToUpdate, String userName) {
-    String query = "CALL `partyrdb`.`select_username`('" + userToUpdate + "', '" + userName + "');";
+  public int selectUsername(String userToUpdate, String username) {
+    String query = "CALL `partyrdb`.`select_username`('" + userToUpdate + "', '" + username + "');";
     log.info(query);
 
     try {

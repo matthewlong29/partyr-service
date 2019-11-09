@@ -17,11 +17,11 @@ public interface UsersDao {
 
   public List<PartyrUser> getAllUsers();
 
-  public Relationships getBlockedList(String userName);
+  public Relationships getBlockedList(String username);
 
-  public Relationships getFriendsList(String userName);
+  public Relationships getFriendsList(String username);
 
-  public Relationships getOnlineFriendsList(String userName);
+  public Relationships getOnlineFriendsList(String username);
 
   public int createRelationship(Relationship newRelationship);
 
@@ -29,5 +29,5 @@ public interface UsersDao {
 
   public int selectTheme(String userToUpdate, int themeID);
 
-  public int selectUsername(String userToUpdate, String userName);
+  public int selectUsername(String userToUpdate, String username);
 }

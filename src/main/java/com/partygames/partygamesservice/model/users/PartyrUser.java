@@ -8,7 +8,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class PartyrUser {
-  private String userName;
+  private String username;
   private String email;
   private String firstName;
   private String lastName;

@@ -5,11 +5,11 @@ DELIMITER $$
 USE `partyrdb`$$
 CREATE PROCEDURE `select_username`(
   IN i_email VARCHAR(64),
-  IN i_user_name VARCHAR(32)
+  IN i_username VARCHAR(32)
 )
 BEGIN
   update `partyrdb`.`partyr_users` 
-  set `user_name` = i_user_name where `email` = i_email;
+  set `username` = i_username where `email` = i_email;
 END$$
 
 DELIMITER ;

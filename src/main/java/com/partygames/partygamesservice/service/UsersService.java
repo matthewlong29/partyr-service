@@ -11,13 +11,13 @@ public interface UsersService {
 
   public PartyrUser getCurrentUser(String email);
 
-  public Relationships getRelationships(String userName, String relationshipStatus, boolean onlineOnly);
+  public Relationships getRelationships(String username, String relationshipStatus, boolean onlineOnly);
 
   public int createRelationship(Relationship newRelationship);
 
   public int createUser(PartyrUser user);
 
-  public int selectTheme(String userToUpdate, int themeID);
+  public int selectTheme(String userToUpdate, String chosenTheme);
 
-  public int selectUsername(String userToUpdate, String userName);
+  public int selectUsername(String userToUpdate, String username);
 }

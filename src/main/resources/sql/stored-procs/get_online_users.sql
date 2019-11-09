@@ -10,7 +10,7 @@ BEGIN
 	SELECT
     `partyr_users`.`user_id`,
 		`partyr_users`.`user_hash`,
-		`partyr_users`.`user_name`,
+		`partyr_users`.`username`,
 		`partyr_users`.`first_name`,
 		`partyr_users`.`last_name`,
 		`partyr_users`.`email`,
@@ -22,7 +22,7 @@ BEGIN
 		`partyr_users`.`country`
     FROM partyr_users WHERE 
       online_status = 'ONLINE' AND (
-        user_name LIKE concat('%', i_query_string, '%') or 
+        username LIKE concat('%', i_query_string, '%') or 
         first_name LIKE concat('%', i_query_string, '%') or 
         last_name LIKE concat('%', i_query_string, '%') or 
         email LIKE concat('%', i_query_string, '%')
