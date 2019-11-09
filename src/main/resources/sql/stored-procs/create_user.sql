@@ -1,5 +1,5 @@
 USE `partyrdb`;
-DROP procedure IF EXISTS `get_users`;
+DROP procedure IF EXISTS `get_users`; -- TODO change to insert
 
 DELIMITER $$
 USE `partyrdb`$$

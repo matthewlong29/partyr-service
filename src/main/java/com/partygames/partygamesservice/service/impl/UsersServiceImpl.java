@@ -29,9 +29,9 @@ public class UsersServiceImpl implements UsersService {
 
   /**
    * getAllUsers: returns all users and optionally: only online users, users ready
-   * to play, and users with user name or email containing a passed in query
-   * string value (no spaces are allowed in username and email). note: cannot be
-   * ready to play and offline.
+   * to play, and users with username or email containing a passed in query string
+   * value (no spaces are allowed in username and email). note: cannot be ready to
+   * play and offline.
    */
   public List<PartyrUser> getAllUsers(boolean isOnlineOnly, String queryString) {
     if (isOnlineOnly && !queryString.isEmpty()) {

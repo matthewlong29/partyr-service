@@ -28,18 +28,17 @@ public class LobbyController {
   /**
    * createRoom.
    * 
-   * @param body {"roomName": "best game of black hand ever4", "gameName": "Black
-   *             Hand", "email": "timmy7@gmail.com"}
+   * @param body {"roomName": "game 1", "gameName": "Black Hand", "username": "timmy7"}
    */
   @MessageMapping(WebsocketConstants.ROOM_CREATE_SEND)
   public void createRoom(Map<String, String> body) {
     log.info("body: {}", body.toString());
 
-    String email = body.get("email");
+    String username = body.get("username");
     String roomName = body.get("roomName");
     String gameName = body.get("gameName");
 
-    lobbyService.createNewGameRoom(email, roomName, gameName);
+    lobbyService.createNewGameRoom(username, roomName, gameName);
 
     messageService.sendRoomMessage(lobbyService.getRooms());
   }
@@ -47,17 +46,16 @@ public class LobbyController {
   /**
    * joinRoom.
    * 
-   * @param body {"roomName": "best game of black hand ever4", "email":
-   *             "timmy7@gmail.com"}
+   * @param body {"roomName": "game 1", "username": "timmy7"}
    */
   @MessageMapping(WebsocketConstants.ROOM_JOIN_SEND)
   public void joinRoom(Map<String, String> body) {
     log.info("body: {}", body.toString());
 
-    String email = body.get("email");
+    String username = body.get("username");
     String roomName = body.get("roomName");
 
-    lobbyService.joinGameRoom(email, roomName);
+    lobbyService.joinGameRoom(username, roomName);
 
     messageService.sendRoomMessage(lobbyService.getRooms());
   }
@@ -65,17 +63,16 @@ public class LobbyController {
   /**
    * leaveRoom.
    * 
-   * @param body {"roomName": "best game of black hand ever4", "email":
-   *             "timmy7@gmail.com"}
+   * @param body {"roomName": "game 1", "username": "timmy7"}
    */
   @MessageMapping(WebsocketConstants.ROOM_LEAVE_SEND)
   public void leaveRoom(Map<String, String> body) {
     log.info("body: {}", body.toString());
 
-    String email = body.get("email");
+    String username = body.get("username");
     String roomName = body.get("roomName");
 
-    lobbyService.leaveGameRoom(email, roomName);
+    lobbyService.leaveGameRoom(username, roomName);
 
     messageService.sendRoomMessage(lobbyService.getRooms());
   }
@@ -83,7 +80,7 @@ public class LobbyController {
   /**
    * deleteRoom.
    * 
-   * @param body {"roomName": "best game of black hand ever4"}
+   * @param body {"roomName": "game 1"}
    */
   @MessageMapping(WebsocketConstants.ROOM_DELETE_SEND)
   public void deleteRoom(Map<String, String> body) {
@@ -99,17 +96,16 @@ public class LobbyController {
   /**
    * toggleReadyStatus.
    * 
-   * @param body {"roomName": "best game of black hand ever4", "email":
-   *             "timmy7@gmail.com"}
+   * @param body {"roomName": "game 1", "username": "timmy7"}
    */
   @MessageMapping(WebsocketConstants.ROOM_TOGGLE_READY_STATUS)
   public void toggleReadyStatus(Map<String, String> body) {
     log.info("body: {}", body.toString());
 
-    String email = body.get("email");
+    String username = body.get("username");
     String roomName = body.get("roomName");
 
-    lobbyService.toggleReadyStatus(email, roomName);
+    lobbyService.toggleReadyStatus(username, roomName);
 
     messageService.sendRoomMessage(lobbyService.getRooms());
   }

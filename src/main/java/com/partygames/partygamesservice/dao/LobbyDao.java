@@ -5,15 +5,15 @@ import java.util.List;
 import com.partygames.partygamesservice.model.Room;
 
 public interface LobbyDao {
-  public int createNewGameRoom(String partyrEmail, String roomName, String gameName);
+  public int createNewGameRoom(String username, String roomName, String gameName);
 
-  public int joinGameRoom(String partyrEmail, String roomName);
+  public int joinGameRoom(String username, String roomName);
 
-  public int leaveGameRoom(String partyrEmail, String roomName);
+  public int leaveGameRoom(String username, String roomName);
 
   public int deleteGameRoom(String roomName);
 
-  public int toggleReadyStatus(String partyrEmail, String roomName);
+  public int toggleReadyStatus(String username, String roomName);
 
   public List<Room> getRooms();
 }

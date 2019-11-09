@@ -26,6 +26,9 @@ public class ChatController {
 
   /**
    * onReceivedMessage.
+   * 
+   * @param body {"username": "timmy7", "content": "woo"}
+   * 
    */
   @MessageMapping(WebsocketConstants.CHAT_SEND)
   public void onReceivedChatMessage(ChatMessage chatMessage) {

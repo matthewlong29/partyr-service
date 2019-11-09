@@ -29,6 +29,9 @@ public class UsersController {
   /**
    * getLoggedInUser: if all you have is an email address use this endpoint to get
    * that PartyrUser using that email address.
+   * 
+   * @param body {"email": "cheesecake@gmail.com"}
+   * 
    */
   @PostMapping(path = "/current-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public PartyrUser getLoggedInUser(@RequestBody Map<String, String> body) {
@@ -52,18 +55,23 @@ public class UsersController {
   /**
    * getRelationships: gets all relationships associated with a user, or only
    * friends (and optionally only online friends), or only blocked users.
+   * 
+   * @param body {"username": "cheesecake"}
+   * 
    */
   @PostMapping(value = "/all-relationships", consumes = MediaType.APPLICATION_JSON_VALUE)
   public Relationships getRelationships(@RequestBody Map<String, String> body,
       @RequestParam(value = "type", required = false, defaultValue = "both") String relationshipStatus,
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly) {
-    String email = body.get("email");
+    String username = body.get("username");
 
-    return usersService.getRelationships(email, relationshipStatus, onlineOnly);
+    return usersService.getRelationships(username, relationshipStatus, onlineOnly);
   }
 
   /**
    * createRelationship: either add a user as a friend or block them
+   * 
+   * @param body {"relatingUsername": "timmy7", "relatedUsername": "coty", "relationshipStatus": "FRIEND"}
    */
   @PostMapping(value = "/create-relationship", consumes = MediaType.APPLICATION_JSON_VALUE)
   public int createRelationship(@RequestBody Relationship newRelationship) {
@@ -71,14 +79,16 @@ public class UsersController {
   }
 
   /**
-   * selectTheme: allows the user to select a theme
+   * selectTheme: allows the user to select a theme.
+   * 
+   * @param body {"username": "timmy7", "chosenTheme": "dark"}
    */
   @PostMapping(value = "/select-theme", consumes = MediaType.APPLICATION_JSON_VALUE)
   public int selectTheme(@RequestBody Map<String, String> body) {
-    String email = body.get("email");
+    String username = body.get("username");
     String chosenTheme = body.get("themeName");
 
-    return usersService.selectTheme(email, chosenTheme);
+    return usersService.selectTheme(username, chosenTheme);
   }
 
   /**
@@ -90,7 +100,9 @@ public class UsersController {
   }
 
   /**
-   * selectUsername: allows the user to select a username
+   * selectUsername: allows the user to select a username,
+   * 
+   * @param body {"email": "timmy7@gmail.com", "username": "timmy8"}
    */
   @PostMapping(value = "/select-username", consumes = MediaType.APPLICATION_JSON_VALUE)
   public int selectUsername(@RequestBody Map<String, String> body) {

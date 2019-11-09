@@ -46,7 +46,6 @@ public class AuthServiceImpl implements AuthService {
 
         if (idToken != null && user != null) {
           Payload payload = idToken.getPayload();
-
           user.setEmail(payload.getEmail());
           user.setFirstName((String) payload.get("given_name"));
           user.setLastName((String) payload.get("family_name"));
@@ -56,7 +55,6 @@ public class AuthServiceImpl implements AuthService {
           user.setUserHash(SecurityUtils.encodeHashSha256(uncodedUserHash));
 
           usersDao.createUser(user);
-
         }
       }
     } catch (Exception e) {

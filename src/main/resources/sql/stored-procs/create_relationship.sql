@@ -1,21 +1,21 @@
 USE `partyrdb`;
-DROP procedure IF EXISTS `create_relationship`;
+DROP procedure IF EXISTS `create_relationship`; -- TODO change to insert
 
 DELIMITER $$
 USE `partyrdb`$$
 CREATE PROCEDURE `create_relationship` (
-  IN i_relating_email VARCHAR(64),
-  IN i_related_email VARCHAR(64),
+  IN i_relating_username VARCHAR(64),
+  IN i_related_username VARCHAR(64),
   IN i_relationship_type VARCHAR(16)
 )
 BEGIN
   insert into `partyrdb`.`relationships` (
-	  `relating_email`, 
-    `related_email`, 
+	  `relating_username`, 
+    `related_username`, 
     `relationship_type`
   ) values (
-	  i_relating_email,
-	  i_related_email,
+	  i_relating_username,
+	  i_related_username,
 	  i_relationship_type
   );
 END$$

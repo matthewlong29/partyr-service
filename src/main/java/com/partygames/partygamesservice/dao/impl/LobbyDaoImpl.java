@@ -24,8 +24,8 @@ public class LobbyDaoImpl implements LobbyDao {
   /**
    * createNewGameRoom.
    */
-  public int createNewGameRoom(String partyrEmail, String roomName, String gameName) {
-    String query = "CALL `partyrdb`.`create_room`('" + roomName + "', '" + partyrEmail + "', '" + gameName
+  public int createNewGameRoom(String username, String roomName, String gameName) {
+    String query = "CALL `partyrdb`.`create_room`('" + roomName + "', '" + username + "', '" + gameName
         + "');";
     log.info(query);
 
@@ -41,8 +41,8 @@ public class LobbyDaoImpl implements LobbyDao {
   /**
    * joinGameRoom.
    */
-  public int joinGameRoom(String partyrEmail, String roomName) {
-    String query = "CALL `partyrdb`.`join_black_hand_room`('" + roomName + "', '" + partyrEmail + "');";
+  public int joinGameRoom(String username, String roomName) {
+    String query = "CALL `partyrdb`.`join_black_hand_room`('" + roomName + "', '" + username + "');";
     log.info(query);
 
     try {
@@ -57,8 +57,8 @@ public class LobbyDaoImpl implements LobbyDao {
   /**
    * leaveGameRoom.
    */
-  public int leaveGameRoom(String partyrEmail, String roomName) {
-    String query = "CALL `partyrdb`.`leave_black_hand_room`('" + roomName + "', '" + partyrEmail + "');";
+  public int leaveGameRoom(String username, String roomName) {
+    String query = "CALL `partyrdb`.`leave_black_hand_room`('" + roomName + "', '" + username + "');";
     log.info(query);
 
     try {
@@ -89,8 +89,8 @@ public class LobbyDaoImpl implements LobbyDao {
   /**
    * toggleReadyStatus.
    */
-  public int toggleReadyStatus(String partyrEmail, String roomName) {
-    String query = "CALL `partyrdb`.`toggle_ready_status`('" + roomName + "', '" + partyrEmail + "');";
+  public int toggleReadyStatus(String username, String roomName) {
+    String query = "CALL `partyrdb`.`toggle_ready_status`('" + roomName + "', '" + username + "');";
     log.info(query);
 
     try {

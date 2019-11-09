@@ -58,11 +58,11 @@ CREATE TABLE `partyr_users` (
 
 CREATE TABLE `relationships` (
   `relationship_id` INT NOT NULL AUTO_INCREMENT,
-  `relating_email` VARCHAR(32) NOT NULL,
-  `related_email` VARCHAR(32) NOT NULL,
+  `relating_username` VARCHAR(32) NOT NULL,
+  `related_username` VARCHAR(32) NOT NULL,
   `relationship_type` VARCHAR(16) NOT NULL,
   PRIMARY KEY (`relationship_id`),
-  UNIQUE KEY `unique_relationship` (`relating_email`,`related_email`),
+  UNIQUE KEY `unique_relationship` (`relating_username`,`related_username`),
   CONSTRAINT `limit_relationship_type` CHECK ((`relationship_type` IN ('FRIEND', 'BLOCK')))
 ) ENGINE=InnoDB;
 
@@ -106,13 +106,13 @@ CREATE TABLE `black_hand_required_number_of_players` (
 CREATE TABLE `lobby` (
   `game_room_name` VARCHAR(32) NOT NULL,
   `game_name` VARCHAR(32) NOT NULL,
-  `host_email` VARCHAR(32) NOT NULL,
+  `host_username` VARCHAR(32) NOT NULL,
   `number_of_players` INT NOT NULL,
   `game_started` BOOLEAN NOT NULL DEFAULT 0,
   `game_start_time` TIMESTAMP,
   `game_end_time` TIMESTAMP, -- TODO: maybe use this as indicatror for when to purge data?
   PRIMARY KEY (`game_room_name`),
-  CONSTRAINT `set_player_reference` FOREIGN KEY (`host_email`) REFERENCES `partyr_users` (`email`),
+  CONSTRAINT `set_player_reference` FOREIGN KEY (`host_username`) REFERENCES `partyr_users` (`username`),
   CONSTRAINT `set_game_name_reference` FOREIGN KEY (`game_name`) REFERENCES `games` (`game_name`)
 ) ENGINE=InnoDB;
 
@@ -141,14 +141,14 @@ CREATE TABLE `black_hand_roles` (
 
 CREATE TABLE `black_hand_rooms` (
   `game_room_name` VARCHAR(32) NOT NULL,
-  `email` VARCHAR(32) NOT NULL,
+  `username` VARCHAR(32) NOT NULL,
   `ready_status` VARCHAR(16) DEFAULT 'NOT_READY',
   `preferred_faction` VARCHAR(32), 
   `role_name` VARCHAR(32),
   `player_status` VARCHAR(5),
-  PRIMARY KEY (`game_room_name`, `email`),
-  UNIQUE KEY `unique_role_per_game` (`email`,`role_name`),
-  CONSTRAINT `set_player_email_reference` FOREIGN KEY (`email`) REFERENCES `partyr_users` (`email`),
+  PRIMARY KEY (`game_room_name`, `username`),
+  UNIQUE KEY `unique_role_per_game` (`username`,`role_name`),
+  CONSTRAINT `set_player_username_reference` FOREIGN KEY (`username`) REFERENCES `partyr_users` (`username`),
   CONSTRAINT `set_role_reference` FOREIGN KEY (`role_name`) REFERENCES `black_hand_roles` (`role_name`),
   CONSTRAINT `set_game_instance_reference` FOREIGN KEY (`game_room_name`) REFERENCES `lobby` (`game_room_name`),
   CONSTRAINT `limit_player_status` CHECK ((`player_status` IN ('ALIVE', 'DEAD'))),
@@ -159,9 +159,9 @@ CREATE TABLE `black_hand_rooms` (
 
 CREATE TABLE `chat` (
   `chat_message__id` INT NOT NULL AUTO_INCREMENT,
-  `email` VARCHAR(32) NOT NULL,
+  `username` VARCHAR(32) NOT NULL,
   `chat_message` VARCHAR(512) NOT NULL,
   `time_of_chat_message` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`chat_message__id`),
-  CONSTRAINT `set_author_reference` FOREIGN KEY (`email`) REFERENCES `partyr_users` (`email`)
+  CONSTRAINT `set_author_reference` FOREIGN KEY (`username`) REFERENCES `partyr_users` (`username`)
 ) ENGINE=InnoDB;

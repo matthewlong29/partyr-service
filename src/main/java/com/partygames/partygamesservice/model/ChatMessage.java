@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChatMessage {
-  private String email;
+  private String username;
   private Timestamp timeOfMessage = new Timestamp(new Date().getTime());
   private String content;
 }

@@ -109,8 +109,8 @@ public class UsersDaoImpl implements UsersDao {
   /**
    * getOnlineFriendsList.
    */
-  public Relationships getOnlineFriendsList(String email) {
-    String query = "CALL `partyrdb`.`get_online_friends`('" + email + "');";
+  public Relationships getOnlineFriendsList(String username) {
+    String query = "CALL `partyrdb`.`get_online_friends`('" + username + "');";
     log.info(query);
 
     Relationships relationships = new Relationships();
@@ -124,14 +124,14 @@ public class UsersDaoImpl implements UsersDao {
    * a relationship then 0 is returned.
    */
   public int createRelationship(Relationship newRelationship) {
-    String query = "CALL `partyrdb`.`create_relationship`('" + newRelationship.getRelatingEmail() + "', '"
-        + newRelationship.getRelatedEmail() + "', '" + newRelationship.getRelationshipStatus() + "');";
+    String query = "CALL `partyrdb`.`create_relationship`('" + newRelationship.getRelatingUsername() + "', '"
+        + newRelationship.getRelatedUsername() + "', '" + newRelationship.getRelationshipStatus() + "');";
     log.info(query);
 
     try {
       return jdbcTemplate.update(query);
     } catch (Exception e) {
-      log.error("unable to add user {}; error: {}", newRelationship.getRelatingEmail(), e.getMessage());
+      log.error("unable to add user {}; error: {}", newRelationship.getRelatingUsername(), e.getMessage());
     }
 
     return 0;

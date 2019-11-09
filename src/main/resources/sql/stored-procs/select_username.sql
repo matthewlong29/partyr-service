@@ -1,5 +1,5 @@
 USE `partyrdb`;
-DROP procedure IF EXISTS `select_username`;
+DROP procedure IF EXISTS `select_username`; -- TODO change to update
 
 DELIMITER $$
 USE `partyrdb`$$

@@ -41,7 +41,7 @@ public class BlackHandServiceImpl implements BlackHandService {
     log.info("required number of players per faction: {};", requiredNumber);
 
     for (BlackHandPlayerPreferences preference : preferences) {
-      log.info("user: {}", preference.getPlayer().getEmail());
+      log.info("user: {}", preference.getPlayer().getUsername());
       assignPreferredRole(blackHand, availableRoles, preference, requiredNumber, actualNumber);
     }
 
@@ -101,7 +101,7 @@ public class BlackHandServiceImpl implements BlackHandService {
       BlackHandNumberOfPlayers requiredNumber, BlackHandNumberOfPlayers actualNumber) {
     for (BlackHandPlayer blackHandPlayer : blackHand.getPlayerRoles()) {
       if (blackHandPlayer.getRole() == null) {
-        log.info("need to assign a role for {};", blackHandPlayer.getPlayer().getEmail());
+        log.info("need to assign a role for {};", blackHandPlayer.getPlayer().getUsername());
         if (requiredNumber.getBlackHandTotal() > actualNumber.getBlackHandTotal()) {
           log.info("found role for player: {};", availableRoles.get(BlackHandFaction.BlackHand).get(0));
           blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.BlackHand).get(0));

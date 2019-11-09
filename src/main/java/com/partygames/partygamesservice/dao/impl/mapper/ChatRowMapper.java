@@ -18,7 +18,7 @@ public class ChatRowMapper implements RowMapper<ChatMessage> {
   @Override
   public ChatMessage mapRow(ResultSet resultSet, int rowNum) throws SQLException {
     ChatMessage chat = new ChatMessage();
-    chat.setEmail(resultSet.getString("email"));
+    chat.setUsername(resultSet.getString("username"));
     chat.setContent(resultSet.getString("chat_message"));
     chat.setTimeOfMessage(resultSet.getTimestamp("time_of_chat_message"));
 

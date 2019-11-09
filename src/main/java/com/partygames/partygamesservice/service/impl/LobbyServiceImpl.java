@@ -17,22 +17,22 @@ public class LobbyServiceImpl implements LobbyService {
   /**
    * createNewGameRoom.
    */
-  public int createNewGameRoom(String partyrEmail, String roomName, String gameName) {
-    return lobbyDao.createNewGameRoom(partyrEmail, roomName, gameName);
+  public int createNewGameRoom(String username, String roomName, String gameName) {
+    return lobbyDao.createNewGameRoom(username, roomName, gameName);
   }
 
   /**
    * joinGameRoom.
    */
-  public int joinGameRoom(String partyrEmail, String roomName) {
-    return lobbyDao.joinGameRoom(partyrEmail, roomName);
+  public int joinGameRoom(String username, String roomName) {
+    return lobbyDao.joinGameRoom(username, roomName);
   }
 
   /**
    * leaveGameRoom.
    */
-  public int leaveGameRoom(String partyrEmail, String roomName) {
-    return lobbyDao.leaveGameRoom(partyrEmail, roomName);
+  public int leaveGameRoom(String username, String roomName) {
+    return lobbyDao.leaveGameRoom(username, roomName);
   }
 
   /**
@@ -45,8 +45,8 @@ public class LobbyServiceImpl implements LobbyService {
     /**
    * toggleReadyStatus.
    */
-  public int toggleReadyStatus(String partyrEmail, String roomName) {
-    return lobbyDao.toggleReadyStatus(partyrEmail, roomName);
+  public int toggleReadyStatus(String username, String roomName) {
+    return lobbyDao.toggleReadyStatus(username, roomName);
   }
 
   /**

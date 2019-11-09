@@ -4,30 +4,17 @@ DROP procedure IF EXISTS `get_online_friends`;
 DELIMITER $$
 USE `partyrdb`$$
 CREATE PROCEDURE `get_online_friends` (
-  IN i_email VARCHAR(64)   
+  IN i_username VARCHAR(64)   
 )
 BEGIN
-  SELECT
-	  `partyr_users`.`user_id`,
-	  `partyr_users`.`user_hash`,
-	  `partyr_users`.`username`,
-	  `partyr_users`.`first_name`,
-	  `partyr_users`.`last_name`,
-	  `partyr_users`.`email`,
-	  `partyr_users`.`profile_image_url`,
-	  `partyr_users`.`joined_date`,
-	  `partyr_users`.`online_status`,
-	  `partyr_users`.`theme_name`,
-	  `partyr_users`.`age`,
-	  `partyr_users`.`country`
-	FROM partyr_users 
+  SELECT * FROM partyr_users 
 	LEFT JOIN
 	  relationships ON (
-	    relationships.related_email = partyr_users.email
-	  ) WHERE relating_email = i_email 
+	    relationships.related_username = partyr_users.username
+	  ) WHERE relating_username = i_username 
 	    AND relationship_type = 'FRIEND'
       AND online_status = 'ONLINE'
-    ORDER BY first_name;
+    ORDER BY username;
 END$$
 
 DELIMITER ;

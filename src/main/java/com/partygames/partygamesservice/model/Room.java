@@ -9,7 +9,7 @@ import lombok.Data;
 public class Room {
   private String gameRoomName;
   private String gameName;
-  private String hostEmail;
+  private String hostUsername;
   private List<String> playersReady = new ArrayList<>();
   private List<String> playersNotReady = new ArrayList<>();
   private int numberOfPlayers;

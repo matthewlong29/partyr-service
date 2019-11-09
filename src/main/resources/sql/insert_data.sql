@@ -22,51 +22,51 @@ insert into `partyrdb`.`partyr_users` ( `user_hash`, `username`, `first_name`, `
 
 -- ** relationships mock data
 
-insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) 
-  values ('coty.dawson@gmail.com', 'obtrusivemonks@gmail.com', 'FRIEND');
-insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) 
-  values ('coty.dawson@gmail.com', 'cheesecake@gmail.com', 'FRIEND');
-insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) 
-  values ('timmy7@gmail.com', 'cheesecake@gmail.com', 'FRIEND');
-insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) 
-  values ('lanawood@gmail.com', 'cheesecake@gmail.com', 'FRIEND');
-insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) 
-  values ('cheesecake@gmail.com', 'lanawood@gmail.com', 'FRIEND');
-insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) 
-  values ('obtrusivemonks@gmail.com', 'timmy7@gmail.com', 'FRIEND');
-insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) 
-  values ('coty.dawson@gmail.com', 'twobyfour@gmail.com', 'BLOCK');
-insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) 
-  values ('timmy7@gmail.com', 'twobyfour@gmail.com', 'BLOCK');
-insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) 
-  values ('cheesecake@gmail.com', 'twobyfour@gmail.com', 'BLOCK');
-insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) 
-  values ('obtrusivemonks@gmail.com', 'twobyfour@gmail.com', 'BLOCK');
-insert into `partyrdb`.`relationships` (`relating_email`, `related_email`, `relationship_type`) 
-  values ('lanawood@gmail.com', 'twobyfour@gmail.com', 'BLOCK');
+insert into `partyrdb`.`relationships` (`relating_username`, `related_username`, `relationship_type`) 
+  values ('coty.dawson', 'obtrusivemonks', 'FRIEND');
+insert into `partyrdb`.`relationships` (`relating_username`, `related_username`, `relationship_type`) 
+  values ('coty.dawson', 'cheesecake', 'FRIEND');
+insert into `partyrdb`.`relationships` (`relating_username`, `related_username`, `relationship_type`) 
+  values ('timmy7', 'cheesecake', 'FRIEND');
+insert into `partyrdb`.`relationships` (`relating_username`, `related_username`, `relationship_type`) 
+  values ('lanawood', 'cheesecake', 'FRIEND');
+insert into `partyrdb`.`relationships` (`relating_username`, `related_username`, `relationship_type`) 
+  values ('cheesecake', 'lanawood', 'FRIEND');
+insert into `partyrdb`.`relationships` (`relating_username`, `related_username`, `relationship_type`) 
+  values ('obtrusivemonks', 'timmy7', 'FRIEND');
+insert into `partyrdb`.`relationships` (`relating_username`, `related_username`, `relationship_type`) 
+  values ('coty.dawson', 'twobyfour', 'BLOCK');
+insert into `partyrdb`.`relationships` (`relating_username`, `related_username`, `relationship_type`) 
+  values ('timmy7', 'twobyfour', 'BLOCK');
+insert into `partyrdb`.`relationships` (`relating_username`, `related_username`, `relationship_type`) 
+  values ('cheesecake', 'twobyfour', 'BLOCK');
+insert into `partyrdb`.`relationships` (`relating_username`, `related_username`, `relationship_type`) 
+  values ('obtrusivemonks', 'twobyfour', 'BLOCK');
+insert into `partyrdb`.`relationships` (`relating_username`, `related_username`, `relationship_type`) 
+  values ('lanawood', 'twobyfour', 'BLOCK');
 
 -- ** add chat mock data
 
-insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
-  values ('coty.dawson@gmail.com', 'yes?', '2019-10-08 20:04:06');
-insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
-  values ('timmy7@gmail.com', 'but its dark and bitter blend of nihilism with oddly uplifting existentialism', '2019-10-08 20:04:07');
-insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
-  values ('coty.dawson@gmail.com', 'It hits hard, Morty, then it slowly fades, leaving you stranded in a failing marriage. I did it.', '2019-10-08 20:04:08');
-insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
-  values ('coty.dawson@gmail.com', 'woooooo', '2019-10-08 20:04:09');
-insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
-  values ('timmy7@gmail.com', 'Rick has traveled across the universe and a myriad of different dimensions, and his hysterically anxious grandson often gets dragged along.', '2019-10-08 20:04:10');
-insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
-  values ('coty.dawson@gmail.com', 'chattting and stuff woo', '2019-10-08 20:04:11');
-insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
-  values ('coty.dawson@gmail.com', 'Listen Morty, I hate to break it to you, but what people calls “love” is just a chemical reaction that compels animals to breed. ', '2019-10-08 20:04:12');
-insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
-  values ('coty.dawson@gmail.com', 'They’ve both seen some serious stuff, especially considering they survived the destruction of their own universe and lived to bury their own bodies in an alternate reality they went on to live in.', '2019-10-08 20:04:13');
-insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
-  values ('timmy7@gmail.com', 'get you pumped for the rest', '2019-10-08 20:04:14');
-insert into `partyrdb`.`chat` (`email`, `chat_message`, `time_of_chat_message`)
-  values ('cheesecake@gmail.com', 'In a time where Adult Swim is straying away from animated', '2019-10-08 20:04:15');
+insert into `partyrdb`.`chat` (`username`, `chat_message`, `time_of_chat_message`)
+  values ('coty', 'yes?', '2019-10-08 20:04:06');
+insert into `partyrdb`.`chat` (`username`, `chat_message`, `time_of_chat_message`)
+  values ('timmy7', 'but its dark and bitter blend of nihilism with oddly uplifting existentialism', '2019-10-08 20:04:07');
+insert into `partyrdb`.`chat` (`username`, `chat_message`, `time_of_chat_message`)
+  values ('coty', 'It hits hard, Morty, then it slowly fades, leaving you stranded in a failing marriage. I did it.', '2019-10-08 20:04:08');
+insert into `partyrdb`.`chat` (`username`, `chat_message`, `time_of_chat_message`)
+  values ('coty', 'woooooo', '2019-10-08 20:04:09');
+insert into `partyrdb`.`chat` (`username`, `chat_message`, `time_of_chat_message`)
+  values ('timmy7', 'Rick has traveled across the universe and a myriad of different dimensions, and his hysterically anxious grandson often gets dragged along.', '2019-10-08 20:04:10');
+insert into `partyrdb`.`chat` (`username`, `chat_message`, `time_of_chat_message`)
+  values ('coty', 'chattting and stuff woo', '2019-10-08 20:04:11');
+insert into `partyrdb`.`chat` (`username`, `chat_message`, `time_of_chat_message`)
+  values ('coty', 'Listen Morty, I hate to break it to you, but what people calls “love” is just a chemical reaction that compels animals to breed. ', '2019-10-08 20:04:12');
+insert into `partyrdb`.`chat` (`username`, `chat_message`, `time_of_chat_message`)
+  values ('coty', 'They’ve both seen some serious stuff, especially considering they survived the destruction of their own universe and lived to bury their own bodies in an alternate reality they went on to live in.', '2019-10-08 20:04:13');
+insert into `partyrdb`.`chat` (`username`, `chat_message`, `time_of_chat_message`)
+  values ('timmy7', 'get you pumped for the rest', '2019-10-08 20:04:14');
+insert into `partyrdb`.`chat` (`username`, `chat_message`, `time_of_chat_message`)
+  values ('cheesecake', 'In a time where Adult Swim is straying away from animated', '2019-10-08 20:04:15');
 
 -- ** add black_hand_required_number_of_players mock data
 
@@ -121,18 +121,18 @@ insert into `partyrdb`.`games` (`game_name`, `min_players_num`, `max_players_num
 
 -- ** add lobby mock data
 
-insert into `partyrdb`.`lobby` (`game_room_name`, `game_name`, `host_email`, `number_of_players`) 
-  values ('ziploc bags box tablet stand', 'Black Hand', 'coty.dawson@gmail.com', 5);
+insert into `partyrdb`.`lobby` (`game_room_name`, `game_name`, `host_username`, `number_of_players`) 
+  values ('ziploc bags box tablet stand', 'Black Hand', 'coty', 5);
 
 -- ** add black_hand_rooms mock data
 
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `email`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'coty.dawson@gmail.com', 'Townie', 'Bodyguard', 'ALIVE');
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `email`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'lanawood@gmail.com', 'Monster', 'Werewolf', 'ALIVE');
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `email`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'cheesecake@gmail.com', 'BlackHand', 'Forget', 'ALIVE');
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `email`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'timmy7@gmail.com', 'Monster', 'Doctor', 'ALIVE');
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `email`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'obtrusivemonks@gmail.com', 'Monster', 'Jailor', 'ALIVE');
+insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
+  values ('ziploc bags box tablet stand', 'coty', 'Townie', 'Bodyguard', 'ALIVE');
+insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
+  values ('ziploc bags box tablet stand', 'lanawood', 'Monster', 'Werewolf', 'ALIVE');
+insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
+  values ('ziploc bags box tablet stand', 'cheesecake', 'BlackHand', 'Forget', 'ALIVE');
+insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
+  values ('ziploc bags box tablet stand', 'timmy7', 'Monster', 'Doctor', 'ALIVE');
+insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
+  values ('ziploc bags box tablet stand', 'obtrusivemonks', 'Monster', 'Jailor', 'ALIVE');

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Relationship {
-  private String relatingEmail;
-  private String relatedEmail;
+  private String relatingUsername;
+  private String relatedUsername;
   private RelationshipStatus relationshipStatus;
 }
