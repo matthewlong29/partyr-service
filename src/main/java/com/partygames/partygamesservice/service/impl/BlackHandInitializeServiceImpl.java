@@ -44,6 +44,10 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
     int totalNumberOfPlayers = preferences.size();
     BlackHandNumberOfPlayers requiredNumber = getBlackHandNumberOfPlayers(totalNumberOfPlayers);
 
+    blackHand.setNumOfBlackHandRemaining(requiredNumber.getBlackHandTotal());
+    blackHand.setNumOfMonsterRemaining(requiredNumber.getMonstersTotal());
+    blackHand.setNumOfTownieRemaining(requiredNumber.getTowniesTotal());
+
     log.info("required number of players per faction: {};", requiredNumber);
 
     for (BlackHandPlayerPreferences preference : preferences) {
