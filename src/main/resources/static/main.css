@@ -32,6 +32,12 @@ form {
   display: flex;
 }
 
+.subscribe-message span,
+.send-message span {
+  font-weight: bolder;
+  color: #c24038;
+}
+
 h3,
 h4 {
   margin: 8px;
@@ -149,5 +155,14 @@ pre {
   color: #e06c75;
 }
 
-.json-hover {
+button.accordion {
+  width: calc(100% - 1rem);
+}
+
+pre.panel {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
 }
