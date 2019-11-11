@@ -19,4 +19,6 @@ public class WebsocketConstants {
   public final static String ROOM_JOIN_SEND = "/join-room";
   public final static String ROOM_LEAVE_SEND = "/leave-room";
   public final static String ROOM_DELETE_SEND = "/delete-room";
+
+  public final static String ROOM_TOGGLE_READY_STATUS = "/toggle-ready-status";
 }

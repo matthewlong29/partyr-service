@@ -46,9 +46,8 @@ public class UsersController {
   @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<PartyrUser> getAllUsers(
       @RequestParam(value = "online", required = false, defaultValue = "false") boolean onlineOnly,
-      @RequestParam(value = "ready", required = false, defaultValue = "false") boolean readyToPlay,
       @RequestParam(value = "query", required = false, defaultValue = "") String queryString) {
-    return usersService.getAllUsers(onlineOnly, readyToPlay, queryString);
+    return usersService.getAllUsers(onlineOnly, queryString);
   }
 
   /**

@@ -6,7 +6,8 @@ let sendToOptions = [
   "/app/create-room",
   "/app/join-room",
   "/app/leave-room",
-  "/app/delete-room"
+  "/app/delete-room",
+  "/app/toggle-ready-status"
 ];
 let subscribeToOptions = ["/chat/room", "/lobby/rooms"];
 
@@ -56,9 +57,10 @@ const sendJSON = () => {
  * showMessage.
  */
 const showMessage = message => {
-  document.querySelector("#jsonMessage").innerHTML += `<pre>${syntaxHighlight(
-    message.body
-  )}</pre>`;
+  let newMessages =
+    `<pre>${syntaxHighlight(message.body)}</pre>` +
+    document.querySelector("#jsonMessage").innerHTML;
+  document.querySelector("#jsonMessage").innerHTML = newMessages;
 };
 
 /**

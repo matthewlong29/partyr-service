@@ -7,18 +7,18 @@ insert into `partyrdb`.`themes` (`theme_name`) values ('lemon_in_water');
 
 -- ** partyr_user mock data
 
-insert into `partyrdb`.`partyr_users` ( `user_hash`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `ready_to_play_status`, `age`, `country`)
-  values ('fbcef9848426e3a281d2b8d9e213ca80', 'coty', 'dawson', 'coty.dawson@gmail.com', 'http://www.google.com/image.jpg', 'OFFLINE', 'NOT_READY', 28, 'United States');
-insert into `partyrdb`.`partyr_users` ( `user_hash`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `ready_to_play_status`, `age`, `country`)
-  values ('dd1b9ac0f78bb89362ca862b8f5fa340', 'timmy', 'smith', 'timmy7@gmail.com', 'http://www.google.com/image.jpg', 'OFFLINE', 'NOT_READY', 13, 'United States');
-insert into `partyrdb`.`partyr_users` ( `user_hash`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `ready_to_play_status`, `age`, `country`)
-  values ('c9c3d90d5c54fe0b3addb2d0f3ffeb20', 'cheese', 'cakeeee', 'cheesecake@gmail.com', 'http://www.google.com/image.jpg', 'ONLINE', 'NOT_READY', 99, 'United States');
-insert into `partyrdb`.`partyr_users` ( `user_hash`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `ready_to_play_status`, `age`, `country`)
-  values ('3bc97cd06a7c868b3b38a5ab85f49c4e', 'kathy', 'guy', 'obtrusivemonks@gmail.com', 'http://www.google.com/image.jpg', 'ONLINE', 'READY', 19, 'United States');
-insert into `partyrdb`.`partyr_users` ( `user_hash`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `ready_to_play_status`, `age`, `country`)
-  values ('3bc96cd06a7ca682ab38a5ad85f49c4e', 'lana', 'wood', 'lanawood@gmail.com', 'http://www.google.com/image.jpg', 'ONLINE', 'READY', 21, 'United States');
-insert into `partyrdb`.`partyr_users` ( `user_hash`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `ready_to_play_status`, `age`, `country`)
-  values ('3bc96cd06a7c86a2a838a58d85f49c4e', 'billy', 'twobyfour', 'twobyfour@gmail.com', 'http://www.google.com/image.jpg', 'ONLINE', 'READY', 69, 'United States');
+insert into `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `age`, `country`)
+  values ('fbcef9848426e3a281d2b8d9e213ca80', 'coty', 'coty', 'dawson', 'coty.dawson@gmail.com', 'http://www.google.com/image.jpg', 'OFFLINE', 28, 'United States');
+insert into `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `age`, `country`)
+  values ('dd1b9ac0f78bb89362ca862b8f5fa340', 'timmy7', 'timmy', 'smith', 'timmy7@gmail.com', 'http://www.google.com/image.jpg', 'OFFLINE', 13, 'United States');
+insert into `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `age`, `country`)
+  values ('c9c3d90d5c54fe0b3addb2d0f3ffeb20', 'cheesecake', 'cheese', 'cakeeee', 'cheesecake@gmail.com', 'http://www.google.com/image.jpg', 'ONLINE', 99, 'United States');
+insert into `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `age`, `country`)
+  values ('3bc97cd06a7c868b3b38a5ab85f49c4e', 'obtrusivemonks', 'kathy', 'guy', 'obtrusivemonks@gmail.com', 'http://www.google.com/image.jpg', 'ONLINE', 19, 'United States');
+insert into `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `age`, `country`)
+  values ('3bc96cd06a7ca682ab38a5ad85f49c4e', 'lanawood', 'lana', 'wood', 'lanawood@gmail.com', 'http://www.google.com/image.jpg', 'ONLINE', 21, 'United States');
+insert into `partyrdb`.`partyr_users` ( `user_hash`, `user_name`, `first_name`, `last_name`, `email`, `profile_image_url`, `online_status`, `age`, `country`)
+  values ('3bc96cd06a7c86a2a838a58d85f49c4e', 'twobyfour', 'billy', 'twobyfour', 'twobyfour@gmail.com', 'http://www.google.com/image.jpg', 'ONLINE', 69, 'United States');
 
 -- ** relationships mock data
 

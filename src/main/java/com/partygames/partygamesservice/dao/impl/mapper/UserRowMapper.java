@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import com.partygames.partygamesservice.model.users.OnlineStatus;
 import com.partygames.partygamesservice.model.users.PartyrUser;
+import com.partygames.partygamesservice.model.ReadyStatus;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;

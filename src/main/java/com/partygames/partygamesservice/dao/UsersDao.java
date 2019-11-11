@@ -9,10 +9,6 @@ import com.partygames.partygamesservice.model.users.PartyrUser;
 public interface UsersDao {
   public PartyrUser getUserByEmail(String email);
 
-  public List<PartyrUser> serchForOnlineUsersReadyToPlayContaining(String queryString);
-
-  public List<PartyrUser> getOnlineUsersReadyToPlay();
-
   public List<PartyrUser> searchForOnlineUsersContaining(String queryString);
 
   public List<PartyrUser> getOnlineUsers();
