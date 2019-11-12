@@ -8,7 +8,7 @@ BEGIN
   SELECT 
     T1.`game_room_name`,
     T1.`game_name`,
-    T1.`host_email`,
+    T1.`host_username`,
     T2.`players_ready`,
     T3.`players_not_ready`,
     T1.`number_of_players`,
@@ -20,7 +20,7 @@ BEGIN
     LEFT OUTER JOIN (
     SELECT 
       `black_hand_rooms`.`game_room_name`, 
-      GROUP_CONCAT(`black_hand_rooms`.`email`) AS 'players_ready' 
+      GROUP_CONCAT(`black_hand_rooms`.`username`) AS 'players_ready' 
       from `black_hand_rooms` 
         where `black_hand_rooms`.`ready_status` = 'READY'
       group by `black_hand_rooms`.`game_room_name`
@@ -28,7 +28,7 @@ BEGIN
     LEFT OUTER JOIN (
     SELECT 
       `black_hand_rooms`.`game_room_name`, 
-      GROUP_CONCAT(`black_hand_rooms`.`email`) AS 'players_not_ready'
+      GROUP_CONCAT(`black_hand_rooms`.`username`) AS 'players_not_ready'
       from `black_hand_rooms` 
         where `black_hand_rooms`.`ready_status` = 'NOT_READY' 
       group by `black_hand_rooms`.`game_room_name`

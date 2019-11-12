@@ -5,24 +5,24 @@ DELIMITER $$
 USE `partyrdb`$$
 CREATE DEFINER=`root`@`%` PROCEDURE `leave_black_hand_room`(
   IN i_room_name VARCHAR(32),
-  IN i_email VARCHAR(32)
+  IN i_username VARCHAR(32)
 )
 BEGIN
-  DECLARE hostEmail VARCHAR(32);
-  DECLARE newHostEmail VARCHAR(32);
+  DECLARE hostUsername VARCHAR(32);
+  DECLARE newHostUsername VARCHAR(32);
   DECLARE numOfPlayers int;
 
   DELETE FROM `partyrdb`.`black_hand_rooms` WHERE 
-	`game_room_name` = i_room_name AND `email` = i_email;
+	`game_room_name` = i_room_name AND `username` = i_username;
     
-  SELECT `host_email` INTO hostEmail FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
+  SELECT `host_username` INTO hostUsername FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
   SELECT `number_of_players` INTO numOfPlayers FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
   
   IF numOfPlayers = 1 THEN
     DELETE FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
-  ELSEIF hostEmail = i_email THEN
-    SELECT `email` INTO newHostEmail FROM `partyrdb`.`black_hand_rooms` WHERE `game_room_name` = i_room_name limit 1;
-	  UPDATE `partyrdb`.`lobby` SET `host_email` = newHostEmail WHERE `game_room_name` = i_room_name;
+  ELSEIF hostUsername = i_username THEN
+    SELECT `username` INTO newHostUsername FROM `partyrdb`.`black_hand_rooms` WHERE `game_room_name` = i_room_name limit 1;
+	  UPDATE `partyrdb`.`lobby` SET `host_username` = newHostUsername WHERE `game_room_name` = i_room_name;
   END IF;
 
   SELECT count(*) INTO numOfPlayers FROM `partyrdb`.`black_hand_rooms` WHERE `game_room_name` = i_room_name;

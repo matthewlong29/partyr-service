@@ -2,12 +2,34 @@ let stompClient = null;
 let subscribeTo = "";
 let sendTo = "";
 let sendToOptions = [
-  "/app/send-chat",
-  "/app/create-room",
-  "/app/join-room",
-  "/app/leave-room",
-  "/app/delete-room",
-  "/app/toggle-ready-status"
+  {
+    send: "/app/send-chat",
+    example: '{"username": "coty", "content": "woo"}'
+  },
+  {
+    send: "/app/create-room",
+    example:
+      '{"roomName": "ziploc bags box tablet stand", "gameName": "Black Hand", "username": "timmy7"}'
+  },
+  {
+    send: "/app/join-room",
+    example:
+      '{"roomName": "ziploc bags box tablet stand", "username": "cheesecake"}'
+  },
+  {
+    send: "/app/leave-room",
+    example:
+      '{"roomName": "ziploc bags box tablet stand", "username": "obtrusivemonks"}'
+  },
+  {
+    send: "/app/delete-room",
+    example: '{"roomName": "ziploc bags box tablet stand"}'
+  },
+  {
+    send: "/app/toggle-ready-status",
+    example:
+      '{"roomName": "ziploc bags box tablet stand", "username": "lanawood"}'
+  }
 ];
 let subscribeToOptions = ["/chat/room", "/lobby/rooms"];
 
@@ -100,11 +122,16 @@ const syntaxHighlight = json => {
  */
 const getSendTo = () => {
   console.log(sendToOptions);
-  let html = "";
+  let buttons = "";
+  let togglePanels = "";
   sendToOptions.forEach(button => {
-    html += `<button class="btn btn--stripe" onclick="setSendTo('${button}')">${button}</button>`;
+    buttons += `<button class="btn btn--stripe" onclick="setSendTo('${button.send}')">${button.send}</button>`;
+    togglePanels += `<button class="accordion btn btn--stripe btn--large">${
+      button.send
+    }</button><pre class="panel">${syntaxHighlight(button.example)}</pre>`;
   });
-  document.querySelector("#sendToOptions").innerHTML = html;
+  document.querySelector("#sendToOptions").innerHTML = buttons;
+  document.querySelector("#accordion").innerHTML = togglePanels;
 };
 
 /**
@@ -113,6 +140,9 @@ const getSendTo = () => {
 const setSendTo = selectedSendTo => {
   sendTo = selectedSendTo;
   console.log(`selected to send to: ${sendTo}`);
+  document.querySelector(
+    ".send-message"
+  ).innerHTML = `select where to send <span>[${sendTo}]</span>`;
 };
 
 /**
@@ -133,6 +163,9 @@ const getSubscribeTo = () => {
 const setSubscribeTo = selectedSubscribeTo => {
   subscribeTo = selectedSubscribeTo;
   console.log(`selected to subscribe to: ${subscribeTo}`);
+  document.querySelector(
+    ".subscribe-message"
+  ).innerHTML = `select what to subscribe to <span>[${subscribeTo}]</span>`;
 };
 
 /**
@@ -142,11 +175,20 @@ document.addEventListener("DOMContentLoaded", () => {
   getSendTo();
   getSubscribeTo();
 
+  document.querySelector(
+    ".subscribe-message"
+  ).innerHTML = `select what to subscribe to`;
+  document.querySelector(".send-message").innerHTML = "select where to send to";
+
   document.querySelector("#connect").addEventListener("click", () => {
     connect();
   });
 
   document.querySelector("#disconnect").addEventListener("click", () => {
+    document.querySelector(".send-message").innerHTML =
+      "select where to send to";
+    document.querySelector(".subscribe-message").innerHTML =
+      "select what to subscribe to";
     disconnect();
   });
 
@@ -154,4 +196,18 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     sendJSON();
   });
+
+  const accordion = document.getElementsByClassName("accordion");
+
+  for (let i = 0; i < accordion.length; i++) {
+    accordion[i].onclick = function() {
+      this.classList.toggle("active");
+      let panel = this.nextElementSibling;
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = `${panel.scrollHeight}px`;
+      }
+    };
+  }
 });

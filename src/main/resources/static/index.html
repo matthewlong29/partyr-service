@@ -10,9 +10,9 @@
   <body>
     <div id="main-content">
       <h3>socket configuration</h3>
-      <h4>select what to subscribe</h4>
+      <h4 class="subscribe-message"></h4>
       <div id="subscribeToOptions"></div>
-      <h4>select where to send</h4>
+      <h4 class="send-message"></h4>
       <div id="sendToOptions"></div>
       <h3>socket connection</h3>
       <div>
@@ -29,10 +29,12 @@
             disconnect
           </button>
         </div>
-        <h3>input message</h3>
         <div>
+          <h3>example input messages</h3>
+          <div id="accordion"></div>
+          <h3>input message</h3>
           <form>
-            <input type="text" id="message" />
+            <textarea type="text" id="message" rows="10"></textarea>
             <button id="send" class="btn btn--stripe" type="submit">
               send
             </button>
