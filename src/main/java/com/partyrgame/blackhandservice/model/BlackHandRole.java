@@ -10,6 +10,7 @@ public class BlackHandRole {
   private String nightAbilityDescription;
   private String attributeDescription;
   private String goalDescription;
+  private String spritePath;
   private int rolePriority;
   private boolean canDayKill;
   private boolean canNightKill;

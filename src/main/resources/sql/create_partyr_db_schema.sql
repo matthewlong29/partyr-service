@@ -126,6 +126,7 @@ CREATE TABLE `black_hand_roles` (
   `night_ability_description` VARCHAR(1024),
   `attribute_description` VARCHAR(1024) NOT NULL,
   `goal_description` VARCHAR(1024) NOT NULL,
+  `sprite_path` VARCHAR(1024) DEFAULT '/',
   `role_priority` INT NOT NULL,
   `day_kill` BOOLEAN NOT NULL, -- 1 true else false
   `night_kill` BOOLEAN NOT NULL,
