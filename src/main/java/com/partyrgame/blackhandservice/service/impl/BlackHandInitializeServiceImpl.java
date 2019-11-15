@@ -76,6 +76,14 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
    * of Monsters, BlackHands, and Townies.
    */
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int playerTotal) {
+    if (playerTotal < 5) {
+      log.info("At least 5 players are needed to play the Black Hand!");
+      playerTotal = 5;
+    } else if (playerTotal > 15) {
+      log.info("At most 15 players can play the Black Hand!");
+      playerTotal = 15;
+    }
+
     return blackHandDao.getBlackHandNumberOfPlayers(playerTotal);
   }
 
