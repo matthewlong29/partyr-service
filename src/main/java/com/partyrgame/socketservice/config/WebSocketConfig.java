@@ -1,6 +1,6 @@
 package com.partyrgame.socketservice.config;
 
-import com.partyrgame.util.WebsocketConstants;
+import com.partyrgame.socketservice.util.WebsocketConstants;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

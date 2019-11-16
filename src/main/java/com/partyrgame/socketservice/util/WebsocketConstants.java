@@ -1,4 +1,4 @@
-package com.partyrgame.util;
+package com.partyrgame.socketservice.util;
 
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.partyrgame.util;
+package com.partyrgame.blackhandservice.util;
 
 import org.springframework.stereotype.Component;
 

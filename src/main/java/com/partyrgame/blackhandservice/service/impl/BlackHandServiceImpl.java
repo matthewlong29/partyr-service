@@ -7,7 +7,7 @@ import com.partyrgame.blackhandservice.model.PlayerTurn;
 import com.partyrgame.blackhandservice.service.BlackHandDayService;
 import com.partyrgame.blackhandservice.service.BlackHandNightService;
 import com.partyrgame.blackhandservice.service.BlackHandService;
-import com.partyrgame.util.BlackHandConstants;
+import com.partyrgame.blackhandservice.util.BlackHandConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -6,7 +6,7 @@ import java.util.Map;
 import com.partyrgame.roomservice.model.Room;
 import com.partyrgame.roomservice.service.LobbyService;
 import com.partyrgame.socketservice.service.MessageService;
-import com.partyrgame.util.WebsocketConstants;
+import com.partyrgame.socketservice.util.WebsocketConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

@@ -6,7 +6,7 @@ import com.partyrgame.blackhandservice.model.BlackHand;
 import com.partyrgame.chatservice.model.ChatMessage;
 import com.partyrgame.roomservice.model.Room;
 import com.partyrgame.socketservice.service.MessageService;
-import com.partyrgame.util.WebsocketConstants;
+import com.partyrgame.socketservice.util.WebsocketConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;

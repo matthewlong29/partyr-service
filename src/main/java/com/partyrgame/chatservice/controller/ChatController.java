@@ -5,7 +5,7 @@ import java.util.List;
 import com.partyrgame.chatservice.model.ChatMessage;
 import com.partyrgame.chatservice.service.ChatService;
 import com.partyrgame.socketservice.service.MessageService;
-import com.partyrgame.util.WebsocketConstants;
+import com.partyrgame.socketservice.util.WebsocketConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
