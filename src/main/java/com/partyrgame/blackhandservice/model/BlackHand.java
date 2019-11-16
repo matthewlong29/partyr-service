@@ -14,6 +14,7 @@ public class BlackHand {
   private String phase; // NOTE DAY or NIGHT
   private List<String> playersTurnRemaining; // list of players who have not completed their turn
                                              // once this is empty, or timer reaches 0. evaluate end of phase
+  private List<PlayerTurn> playerTurns = new ArrayList<>();
   private int numOfBlackHandRemaining;
   private int numOfTownieRemaining;
   private int numOfMonsterRemaining;
