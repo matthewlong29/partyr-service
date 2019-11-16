@@ -16,5 +16,5 @@ public interface BlackHandInitializeService {
 
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int playerTotal);
 
-  public List<String> getPlayers(BlackHandSettings blackHandSettings);
+  public List<String> getPlayers(List<BlackHandSettings.BlackHandPlayerPreferences> playerPreferences);
 }
