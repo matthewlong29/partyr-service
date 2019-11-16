@@ -1,4 +1,4 @@
-package com.partyrgame.controller;
+package com.partyrgame.blackhandservice.controller;
 
 import java.util.HashMap;
 import java.util.List;
