@@ -5,7 +5,7 @@ SET FOREIGN_KEY_CHECKS=0; -- to disable them
 DROP TRIGGER IF EXISTS set_username_equal_to_email;
 DROP TRIGGER IF EXISTS verify_valid_number_of_players;
 
-DROP TABLE IF EXISTS black_hand_rooms;
+DROP TABLE IF EXISTS black_hand_games;
 DROP TABLE IF EXISTS black_hand_roles;
 DROP TABLE IF EXISTS black_hand_required_number_of_players;
 DROP TABLE IF EXISTS lobby;
@@ -138,9 +138,9 @@ CREATE TABLE `black_hand_roles` (
   CONSTRAINT `limit_faction` CHECK ((`faction` IN ('BlackHand', 'Monster', 'Townie')))
 ) ENGINE=InnoDB;
 
--- ** create black_hand_rooms table
+-- ** create black_hand_games table
 
-CREATE TABLE `black_hand_rooms` (
+CREATE TABLE `black_hand_games` (
   `game_room_name` VARCHAR(32) NOT NULL,
   `username` VARCHAR(32) NOT NULL,
   `ready_status` VARCHAR(16) DEFAULT 'NOT_READY',

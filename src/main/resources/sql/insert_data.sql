@@ -124,15 +124,15 @@ insert into `partyrdb`.`games` (`game_name`, `min_players_num`, `max_players_num
 insert into `partyrdb`.`lobby` (`game_room_name`, `game_name`, `host_username`, `number_of_players`) 
   values ('ziploc bags box tablet stand', 'Black Hand', 'coty', 5);
 
--- ** add black_hand_rooms mock data
+-- ** add black_hand_games mock data
 
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
+insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
   values ('ziploc bags box tablet stand', 'coty', 'Townie', 'Bodyguard', 'ALIVE');
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
+insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
   values ('ziploc bags box tablet stand', 'lanawood', 'Monster', 'Changeling', 'ALIVE');
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
+insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
   values ('ziploc bags box tablet stand', 'cheesecake', 'BlackHand', 'Darkfinger', 'ALIVE');
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
+insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
   values ('ziploc bags box tablet stand', 'timmy7', 'Monster', 'Illusionist', 'ALIVE');
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
+insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
   values ('ziploc bags box tablet stand', 'obtrusivemonks', 'Monster', 'Peacekeeper', 'ALIVE');

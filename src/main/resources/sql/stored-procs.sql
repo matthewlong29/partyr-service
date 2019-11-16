@@ -1,0 +1,383 @@
+USE `partyrdb`;
+
+DROP PROCEDURE IF EXISTS `create_relationship`;
+DROP PROCEDURE IF EXISTS `create_room`;
+DROP PROCEDURE IF EXISTS `create_user`;
+DROP PROCEDURE IF EXISTS `delete_black_hand_room`;
+DROP PROCEDURE IF EXISTS `get_all_chat_messages`;
+DROP PROCEDURE IF EXISTS `get_black_hand_game_by_name`;
+DROP PROCEDURE IF EXISTS `get_black_hand_required_number_of_players`;
+DROP PROCEDURE IF EXISTS `get_black_hand_roles`;
+DROP PROCEDURE IF EXISTS `get_game`;
+DROP PROCEDURE IF EXISTS `get_games`;
+DROP PROCEDURE IF EXISTS `get_lobby`;
+DROP PROCEDURE IF EXISTS `get_online_friends`;
+DROP PROCEDURE IF EXISTS `get_online_users`;
+DROP PROCEDURE IF EXISTS `get_relationships`;
+DROP PROCEDURE IF EXISTS `get_themes`;
+DROP PROCEDURE IF EXISTS `get_user_by_email`;
+DROP PROCEDURE IF EXISTS `get_users`;
+DROP PROCEDURE IF EXISTS `join_black_hand_room`;
+DROP PROCEDURE IF EXISTS `leave_black_hand_room`;
+DROP PROCEDURE IF EXISTS `save_chat_message`;
+DROP PROCEDURE IF EXISTS `select_theme`;
+DROP PROCEDURE IF EXISTS `select_username`;
+DROP PROCEDURE IF EXISTS `toggle_ready_status`;
+
+DELIMITER $$
+USE `partyrdb`$$
+
+-- ** create_relationship
+
+CREATE PROCEDURE `create_relationship` (
+  IN i_relating_username VARCHAR(64),
+  IN i_related_username VARCHAR(64),
+  IN i_relationship_type VARCHAR(16)
+)
+BEGIN
+  insert into `partyrdb`.`relationships` (
+	  `relating_username`, 
+    `related_username`, 
+    `relationship_type`
+  ) values (
+	  i_relating_username,
+	  i_related_username,
+	  i_relationship_type
+  );
+END$$
+
+
+-- ** create_room
+
+CREATE PROCEDURE `create_room`(
+  IN i_room_name VARCHAR(32),
+  IN i_username VARCHAR(32),
+  IN i_game_name VARCHAR(32)
+)
+BEGIN
+  INSERT INTO `partyrdb`.`lobby`(
+    `game_room_name`,
+    `game_name`,
+    `host_username`,
+	  `number_of_players`
+  ) VALUES(
+    i_room_name,
+    i_game_name,
+    i_username,
+    1
+  );
+  INSERT INTO `partyrdb`.`black_hand_rooms` (
+    `game_room_name`,
+    `username`
+  ) VALUES (
+    i_room_name,
+    i_username
+  );
+END$$
+
+
+-- ** create_user
+
+CREATE PROCEDURE `create_user`(
+	IN i_user_hash VARCHAR(254),
+  IN i_email VARCHAR(64),
+  IN i_first_name VARCHAR(254),
+  IN i_last_name VARCHAR(254),
+  IN i_profile_image_url VARCHAR(254)
+)
+BEGIN
+	INSERT INTO `partyrdb`.`partyr_users` ( 
+		`user_hash`, 
+    `first_name`, 
+    `last_name`, 
+    `email`, 
+    `profile_image_url`
+	) VALUES (
+		i_user_hash,
+    i_first_name, 
+    i_last_name, 
+    i_email, 
+    i_profile_image_url
+	);
+END$$
+
+-- ** delete_black_hand_room
+
+CREATE PROCEDURE `delete_black_hand_room` (
+  IN i_room_name VARCHAR(32)
+)
+BEGIN
+  DELETE FROM `partyrdb`.`black_hand_rooms` WHERE `game_room_name` = i_room_name;
+  DELETE FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
+END$$
+
+-- ** get_all_chat_messages
+
+CREATE PROCEDURE `get_all_chat_messages`()
+BEGIN
+	SELECT * FROM `partyrdb`.`chat` ORDER BY `chat`.`time_of_chat_message`;
+END$$
+
+-- ** get_black_hand_game_by_name
+
+CREATE PROCEDURE `get_black_hand_game_by_name` (
+  IN i_game_room_name VARCHAR(32)   
+)
+BEGIN
+  SELECT * FROM `partyrdb`.`black_hand_rooms` WHERE `black_hand_rooms`.`game_room_name` = i_game_room_name;
+END$$
+
+-- ** get_black_hand_required_number_of_players
+
+CREATE PROCEDURE `get_black_hand_required_number_of_players` (
+  IN i_player_total INT
+)
+BEGIN
+  SELECT * FROM black_hand_required_number_of_players 
+    WHERE `black_hand_required_number_of_players`.`player_total` = i_player_total;
+END$$
+
+-- ** get_black_hand_roles
+
+CREATE PROCEDURE `get_black_hand_roles` ()
+BEGIN
+  SELECT * FROM black_hand_roles;
+END$$
+
+-- ** get_game
+
+CREATE PROCEDURE `get_game` (
+  IN i_game_name VARCHAR(255)
+)
+BEGIN
+  SELECT * FROM games where game_name = i_game_name;
+END$$
+
+-- ** get_games
+
+CREATE PROCEDURE `get_games` ()
+BEGIN
+  SELECT 
+    `games`.`game_id`,
+    `games`.`game_name`,
+    `games`.`min_players_num`,
+    `games`.`max_players_num`,
+    `games`.`min_age`,
+    `games`.`average_game_duration`
+  FROM games;
+END$$
+
+-- ** get_lobby
+
+CREATE PROCEDURE `get_lobby` ()
+BEGIN
+  SELECT 
+    T1.`game_room_name`,
+    T1.`game_name`,
+    T1.`host_username`,
+    T2.`players_ready`,
+    T3.`players_not_ready`,
+    T1.`number_of_players`,
+    T1.`game_started`,
+    T1.`game_start_time`,
+    T1.`game_end_time`
+  FROM
+    (select * from `lobby`) T1
+    LEFT OUTER JOIN (
+    SELECT 
+      `black_hand_rooms`.`game_room_name`, 
+      GROUP_CONCAT(`black_hand_rooms`.`username`) AS 'players_ready' 
+      from `black_hand_rooms` 
+        where `black_hand_rooms`.`ready_status` = 'READY'
+      group by `black_hand_rooms`.`game_room_name`
+    ) T2 ON T1.`game_room_name` = T2.`game_room_name`
+    LEFT OUTER JOIN (
+    SELECT 
+      `black_hand_rooms`.`game_room_name`, 
+      GROUP_CONCAT(`black_hand_rooms`.`username`) AS 'players_not_ready'
+      from `black_hand_rooms` 
+        where `black_hand_rooms`.`ready_status` = 'NOT_READY' 
+      group by `black_hand_rooms`.`game_room_name`
+    ) T3 ON T1.`game_room_name` = T3.`game_room_name`
+  ORDER BY `game_name`, `game_room_name`;
+END$$
+
+-- ** get_online_friends
+
+CREATE PROCEDURE `get_online_friends` (
+  IN i_username VARCHAR(64)   
+)
+BEGIN
+  SELECT * FROM partyr_users 
+	LEFT JOIN
+	  relationships ON (
+	    relationships.related_username = partyr_users.username
+	  ) WHERE relating_username = i_username 
+	    AND relationship_type = 'FRIEND'
+      AND online_status = 'ONLINE'
+    ORDER BY username;
+END$$
+
+-- ** get_online_users
+
+CREATE PROCEDURE `get_online_users`(
+  IN i_query_string VARCHAR(255)
+)
+BEGIN
+	SELECT * FROM partyr_users WHERE 
+      online_status = 'ONLINE' AND (
+        username LIKE concat('%', i_query_string, '%') or 
+        first_name LIKE concat('%', i_query_string, '%') or 
+        last_name LIKE concat('%', i_query_string, '%') or 
+        email LIKE concat('%', i_query_string, '%')
+      )
+    ORDER BY first_name;
+END$$
+
+-- ** get_relationships
+
+CREATE PROCEDURE `get_relationships` (
+	IN i_relationship_type VARCHAR(32),
+  IN i_username VARCHAR(64)    
+)
+BEGIN
+	SELECT * FROM partyr_users 
+	LEFT JOIN
+		relationships ON (
+			relationships.related_username = partyr_users.username
+		) WHERE relating_username = i_username AND relationship_type = i_relationship_type ORDER BY username;
+END$$
+
+-- ** get_themes
+
+CREATE PROCEDURE `get_themes` ()
+BEGIN
+  SELECT `theme_name` FROM `partyrdb`.`themes`;
+END$$
+
+-- ** get_user_by_email
+
+CREATE PROCEDURE `get_user_by_email` (
+	IN i_email VARCHAR(64)
+)
+BEGIN
+  SELECT * FROM `partyrdb`.`partyr_users` WHERE email = i_email;
+END$$
+
+-- ** get_users
+
+CREATE PROCEDURE `get_users` (
+  IN i_query_string VARCHAR(255)
+)
+BEGIN
+	SELECT * FROM `partyrdb`.`partyr_users` WHERE
+    username LIKE concat('%', i_query_string, '%') or 
+    first_name LIKE concat('%', i_query_string, '%') or 
+    last_name LIKE concat('%', i_query_string, '%') or 
+    email LIKE concat('%', i_query_string, '%')
+  ORDER BY online_status desc, first_name;
+END$$
+
+-- ** join_black_hand_room
+
+CREATE PROCEDURE `join_black_hand_room`(
+  IN i_room_name VARCHAR(32),
+  IN i_username VARCHAR(32)
+)
+BEGIN
+  DECLARE numOfPlayers int;
+   
+  INSERT INTO `partyrdb`.`black_hand_rooms` (
+    `game_room_name`,
+    `username`
+  ) VALUES (
+    i_room_name,
+    i_username
+  );
+  
+  SELECT count(*) INTO numOfPlayers FROM `partyrdb`.`black_hand_rooms` WHERE `game_room_name` = i_room_name;
+  UPDATE `partyrdb`.`lobby` SET `number_of_players` = numOfPlayers WHERE `game_room_name` = i_room_name;
+END$$
+
+-- ** leave_black_hand_room
+
+CREATE PROCEDURE `leave_black_hand_room`(
+  IN i_room_name VARCHAR(32),
+  IN i_username VARCHAR(32)
+)
+BEGIN
+  DECLARE hostUsername VARCHAR(32);
+  DECLARE newHostUsername VARCHAR(32);
+  DECLARE numOfPlayers int;
+
+  DELETE FROM `partyrdb`.`black_hand_rooms` WHERE 
+	`game_room_name` = i_room_name AND `username` = i_username;
+    
+  SELECT `host_username` INTO hostUsername FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
+  SELECT `number_of_players` INTO numOfPlayers FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
+  
+  IF numOfPlayers = 1 THEN
+    DELETE FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
+  ELSEIF hostUsername = i_username THEN
+    SELECT `username` INTO newHostUsername FROM `partyrdb`.`black_hand_rooms` WHERE `game_room_name` = i_room_name limit 1;
+	  UPDATE `partyrdb`.`lobby` SET `host_username` = newHostUsername WHERE `game_room_name` = i_room_name;
+  END IF;
+
+  SELECT count(*) INTO numOfPlayers FROM `partyrdb`.`black_hand_rooms` WHERE `game_room_name` = i_room_name;
+  UPDATE `partyrdb`.`lobby` SET `number_of_players` = numOfPlayers WHERE `game_room_name` = i_room_name;
+END$$
+
+-- ** save_chat_message
+
+CREATE PROCEDURE `save_chat_message`(
+  IN i_username VARCHAR(32),
+  IN i_chat_message VARCHAR(512),
+  IN i_time_of_chat_message TIMESTAMP
+)
+BEGIN
+  INSERT INTO `partyrdb`.`chat`(
+    `username`,
+    `chat_message`,
+    `time_of_chat_message`
+  ) VALUES (
+    i_username,
+    i_chat_message,
+    i_time_of_chat_message
+  );
+END$$
+
+-- ** select_theme
+
+CREATE PROCEDURE `select_theme`(
+  IN i_username VARCHAR(32),
+  IN i_theme_name VARCHAR(32)
+)
+BEGIN
+ update `partyrdb`.`partyr_users` 
+ set `theme_name` = i_theme_name where `username` = i_username;
+END$$
+
+-- ** select_username
+
+CREATE PROCEDURE `select_username`(
+  IN i_email VARCHAR(64),
+  IN i_username VARCHAR(32)
+)
+BEGIN
+  update `partyrdb`.`partyr_users` 
+  set `username` = i_username where `email` = i_email;
+END$$
+
+-- ** toggle_ready_status
+
+CREATE PROCEDURE `toggle_ready_status`(
+  IN i_room_name VARCHAR(32),
+  IN i_username VARCHAR(32)
+)
+BEGIN
+  UPDATE `partyrdb`.`black_hand_rooms`
+	  SET `ready_status` = IF(`ready_status` = 'READY', 'NOT_READY', 'READY')
+  WHERE `game_room_name` = i_room_name AND `username` = i_username;
+END$$
+
+DELIMITER ;
