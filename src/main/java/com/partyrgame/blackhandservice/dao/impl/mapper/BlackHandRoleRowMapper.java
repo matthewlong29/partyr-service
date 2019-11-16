@@ -23,6 +23,7 @@ public class BlackHandRoleRowMapper implements RowMapper<BlackHandRole> {
     blackHandRole.setNightAbilityDescription(resultSet.getString("night_ability_description"));
     blackHandRole.setAttributeDescription(resultSet.getString("attribute_description"));
     blackHandRole.setGoalDescription(resultSet.getString("goal_description"));
+    blackHandRole.setSpritePath(resultSet.getString("sprite_path"));
     blackHandRole.setRolePriority(resultSet.getInt("role_priority"));
     blackHandRole.setCanDayKill(convertToBoolean(resultSet.getInt("day_kill")));
     blackHandRole.setCanNightKill(convertToBoolean(resultSet.getInt("night_kill")));
