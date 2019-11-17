@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
+import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
 import com.partyrgame.blackhandservice.model.PlayerTurn;
 import com.partyrgame.blackhandservice.service.BlackHandDayService;
@@ -29,10 +30,26 @@ public class BlackHandServiceImpl implements BlackHandService {
   BlackHandNightService blackHandNightService;
 
   /**
-   * getBlackHandGameByRoom.
+   * getBlackHandRawDetails.
    */
-  public List<BlackHandGame> getBlackHandGameByRoom(String roomName) {
-    return blackHandDao.getBlackHandGameByRoom(roomName);
+  public List<BlackHandGame> getBlackHandRawDetails(String roomName) {
+    return blackHandDao.getBlackHandRawDetails(roomName);
+  }
+
+  /**
+   * getBlackHandDetails.
+   */
+  public BlackHand getBlackHandDetails(String roomName) {
+    return blackHandDao.getBlackHandDetails(roomName);
+  }
+
+  /**
+   * setPreferredFaction.
+   */
+  public BlackHand setPreferredFaction(String username, String roomName, String preferredFaction) {
+    blackHandDao.setPreferredFaction(username, roomName, preferredFaction);
+
+    return blackHandDao.getBlackHandDetails(roomName);
   }
 
   /**

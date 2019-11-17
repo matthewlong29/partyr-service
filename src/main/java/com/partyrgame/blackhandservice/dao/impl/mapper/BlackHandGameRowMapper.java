@@ -27,6 +27,9 @@ public class BlackHandGameRowMapper implements RowMapper<BlackHandGame> {
     blackHandGame.setRoleName(resultSet.getString("role_name"));
     blackHandGame.setPlayerStatus(PlayerStatus.valueOf(resultSet.getString("player_status")));
     blackHandGame.setNote(resultSet.getString("note"));
+    blackHandGame.setNumberOfBlocksAgainst(resultSet.getInt("number_of_blocks_against"));
+    blackHandGame.setNumberOfKillStrikesAgainst(resultSet.getInt("number_of_kill_strikes_against"));
+    blackHandGame.setTurnPriority(resultSet.getInt("turn_priority"));
 
     return blackHandGame;
   }

@@ -146,16 +146,21 @@ CREATE TABLE `black_hand_games` (
   `display_name` VARCHAR(32),
   `preferred_faction` VARCHAR(32), 
   `role_name` VARCHAR(32),
+  `number_of_blocks_against` INT DEFAULT 0,
+  `number_of_kill_strikes_against` INT DEFAULT 0,
+  `turn_priority` INT DEFAULT 0,
   `player_status` VARCHAR(5) DEFAULT 'ALIVE',
   `ready_status` VARCHAR(16) DEFAULT 'NOT_READY',
   `note` VARCHAR(1024),
   PRIMARY KEY (`game_room_name`, `username`),
   UNIQUE KEY `unique_role_per_game` (`username`,`role_name`),
+  UNIQUE KEY `unique_display_name_per_game` (`display_name`,`game_room_name`),
   CONSTRAINT `set_player_username_reference` FOREIGN KEY (`username`) REFERENCES `partyr_users` (`username`),
   CONSTRAINT `set_role_reference` FOREIGN KEY (`role_name`) REFERENCES `black_hand_roles` (`role_name`),
   CONSTRAINT `set_game_instance_reference` FOREIGN KEY (`game_room_name`) REFERENCES `lobby` (`game_room_name`),
   CONSTRAINT `limit_player_status` CHECK ((`player_status` IN ('ALIVE', 'DEAD'))),
-  CONSTRAINT `limit_ready_status` CHECK ((`ready_status` IN ('READY', 'NOT_READY')))
+  CONSTRAINT `limit_ready_status` CHECK ((`ready_status` IN ('READY', 'NOT_READY'))),
+  CONSTRAINT `limit_preferred_faction` CHECK ((`preferred_faction`) IN ('BlackHand', 'Monster', 'Townie'))
 ) ENGINE=InnoDB;
 
 -- ** create chat table

@@ -23,23 +23,24 @@ DROP PROCEDURE IF EXISTS `save_chat_message`;
 DROP PROCEDURE IF EXISTS `select_theme`;
 DROP PROCEDURE IF EXISTS `select_username`;
 DROP PROCEDURE IF EXISTS `toggle_ready_status`;
+DROP PROCEDURE IF EXISTS `set_black_hand_preferred_faction`;
 
 DELIMITER $$
 USE `partyrdb`$$
 
 -- ** create_relationship
 
-CREATE PROCEDURE `create_relationship` (
+CREATE PROCEDURE `create_relationship`(
   IN i_relating_username VARCHAR(64),
   IN i_related_username VARCHAR(64),
   IN i_relationship_type VARCHAR(16)
 )
 BEGIN
-  insert into `partyrdb`.`relationships` (
+  INSERT INTO `partyrdb`.`relationships`(
 	  `relating_username`, 
     `related_username`, 
     `relationship_type`
-  ) values (
+  ) VALUES (
 	  i_relating_username,
 	  i_related_username,
 	  i_relationship_type
@@ -60,13 +61,13 @@ BEGIN
     `game_name`,
     `host_username`,
 	  `number_of_players`
-  ) VALUES(
+  ) VALUES (
     i_room_name,
     i_game_name,
     i_username,
     1
   );
-  INSERT INTO `partyrdb`.`black_hand_games` (
+  INSERT INTO `partyrdb`.`black_hand_games`(
     `game_room_name`,
     `username`
   ) VALUES (
@@ -86,7 +87,7 @@ CREATE PROCEDURE `create_user`(
   IN i_profile_image_url VARCHAR(254)
 )
 BEGIN
-	INSERT INTO `partyrdb`.`partyr_users` ( 
+	INSERT INTO `partyrdb`.`partyr_users`( 
 		`user_hash`, 
     `first_name`, 
     `last_name`, 
@@ -103,7 +104,7 @@ END$$
 
 -- ** delete_black_hand_room
 
-CREATE PROCEDURE `delete_black_hand_room` (
+CREATE PROCEDURE `delete_black_hand_room`(
   IN i_room_name VARCHAR(32)
 )
 BEGIN
@@ -120,7 +121,7 @@ END$$
 
 -- ** get_black_hand_game
 
-CREATE PROCEDURE `get_black_hand_game` (
+CREATE PROCEDURE `get_black_hand_game`(
   IN i_game_room_name VARCHAR(32)   
 )
 BEGIN
@@ -129,7 +130,7 @@ END$$
 
 -- ** get_black_hand_required_number_of_players
 
-CREATE PROCEDURE `get_black_hand_required_number_of_players` (
+CREATE PROCEDURE `get_black_hand_required_number_of_players`(
   IN i_player_total INT
 )
 BEGIN
@@ -139,14 +140,14 @@ END$$
 
 -- ** get_black_hand_roles
 
-CREATE PROCEDURE `get_black_hand_roles` ()
+CREATE PROCEDURE `get_black_hand_roles`()
 BEGIN
   SELECT * FROM black_hand_roles;
 END$$
 
 -- ** get_game
 
-CREATE PROCEDURE `get_game` (
+CREATE PROCEDURE `get_game`(
   IN i_game_name VARCHAR(255)
 )
 BEGIN
@@ -155,7 +156,7 @@ END$$
 
 -- ** get_games
 
-CREATE PROCEDURE `get_games` ()
+CREATE PROCEDURE `get_games`()
 BEGIN
   SELECT 
     `games`.`game_id`,
@@ -169,7 +170,7 @@ END$$
 
 -- ** get_lobby
 
-CREATE PROCEDURE `get_lobby` ()
+CREATE PROCEDURE `get_lobby`()
 BEGIN
   SELECT 
     T1.`game_room_name`,
@@ -204,7 +205,7 @@ END$$
 
 -- ** get_online_friends
 
-CREATE PROCEDURE `get_online_friends` (
+CREATE PROCEDURE `get_online_friends`(
   IN i_username VARCHAR(64)   
 )
 BEGIN
@@ -225,18 +226,18 @@ CREATE PROCEDURE `get_online_users`(
 )
 BEGIN
 	SELECT * FROM partyr_users WHERE 
-      online_status = 'ONLINE' AND (
-        username LIKE concat('%', i_query_string, '%') or 
-        first_name LIKE concat('%', i_query_string, '%') or 
-        last_name LIKE concat('%', i_query_string, '%') or 
-        email LIKE concat('%', i_query_string, '%')
-      )
-    ORDER BY first_name;
+    online_status = 'ONLINE' AND (
+      username LIKE concat('%', i_query_string, '%') or 
+      first_name LIKE concat('%', i_query_string, '%') or 
+      last_name LIKE concat('%', i_query_string, '%') or 
+      email LIKE concat('%', i_query_string, '%')
+    )
+  ORDER BY first_name;
 END$$
 
 -- ** get_relationships
 
-CREATE PROCEDURE `get_relationships` (
+CREATE PROCEDURE `get_relationships`(
 	IN i_relationship_type VARCHAR(32),
   IN i_username VARCHAR(64)    
 )
@@ -250,14 +251,14 @@ END$$
 
 -- ** get_themes
 
-CREATE PROCEDURE `get_themes` ()
+CREATE PROCEDURE `get_themes`()
 BEGIN
   SELECT `theme_name` FROM `partyrdb`.`themes`;
 END$$
 
 -- ** get_user_by_email
 
-CREATE PROCEDURE `get_user_by_email` (
+CREATE PROCEDURE `get_user_by_email`(
 	IN i_email VARCHAR(64)
 )
 BEGIN
@@ -266,7 +267,7 @@ END$$
 
 -- ** get_users
 
-CREATE PROCEDURE `get_users` (
+CREATE PROCEDURE `get_users`(
   IN i_query_string VARCHAR(255)
 )
 BEGIN
@@ -287,7 +288,7 @@ CREATE PROCEDURE `join_black_hand_room`(
 BEGIN
   DECLARE numOfPlayers int;
    
-  INSERT INTO `partyrdb`.`black_hand_games` (
+  INSERT INTO `partyrdb`.`black_hand_games`(
     `game_room_name`,
     `username`
   ) VALUES (
@@ -377,6 +378,19 @@ CREATE PROCEDURE `toggle_ready_status`(
 BEGIN
   UPDATE `partyrdb`.`black_hand_games`
 	  SET `ready_status` = IF(`ready_status` = 'READY', 'NOT_READY', 'READY')
+  WHERE `game_room_name` = i_room_name AND `username` = i_username;
+END$$
+
+-- ** set_black_hand_preferred_faction
+
+CREATE PROCEDURE `set_black_hand_preferred_faction`(
+  IN i_room_name VARCHAR(32),
+  IN i_username VARCHAR(32),
+  IN i_preferred_faction VARCHAR(32)
+)
+BEGIN
+  UPDATE `partyrdb`.`black_hand_games`
+	  SET `preferred_faction` = i_preferred_faction
   WHERE `game_room_name` = i_room_name AND `username` = i_username;
 END$$
 

@@ -6,7 +6,9 @@ import java.util.List;
 import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.dao.impl.mapper.BlackHandGameRowMapper;
 import com.partyrgame.blackhandservice.dao.impl.mapper.BlackHandNumberOfPlayersRowMapper;
+import com.partyrgame.blackhandservice.dao.impl.mapper.BlackHandResultSetExtractor;
 import com.partyrgame.blackhandservice.dao.impl.mapper.BlackHandRoleResultSetExtractor;
+import com.partyrgame.blackhandservice.model.BlackHand;
 import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
 import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
@@ -33,14 +35,44 @@ public class BlackHandDaoImpl implements BlackHandDao {
   @Autowired
   BlackHandGameRowMapper blackHandGameRowMapper;
 
+  @Autowired
+  BlackHandResultSetExtractor blackHandResultSetExtractor;
+
   /**
-   * getBlackHandGameByRoom;
+   * getBlackHandRawDetails;
    */
-  public List<BlackHandGame> getBlackHandGameByRoom(String roomName) {
+  public List<BlackHandGame> getBlackHandRawDetails(String roomName) {
     String query = "CALL `partyrdb`.get_black_hand_game('" + roomName + "')";
     log.info(query);
 
     return jdbcTemplate.query(query, blackHandGameRowMapper);
+  }
+
+  /**
+   * getBlackHandDetails
+   */
+  public BlackHand getBlackHandDetails(String roomName) {
+    String query = "CALL `partyrdb`.get_black_hand_game('" + roomName + "')";
+    log.info(query);
+
+    return jdbcTemplate.query(query, blackHandResultSetExtractor);
+  }
+
+  /**
+   * setPreferredFaction.
+   */
+  public int setPreferredFaction(String username, String roomName, String preferredFaction) {
+    String query = "CALL `partyrdb`.`set_black_hand_preferred_faction`('" + roomName + "', '" + username + "', '"
+        + preferredFaction + "')";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to update faction preference for user {}; error: {}", username, e.getMessage());
+    }
+
+    return 0;
   }
 
   /**

@@ -14,4 +14,7 @@ public class BlackHandGame {
   private PlayerStatus playerStatus;
   private ReadyStatus readyStatus;
   private String note;
+  private int numberOfBlocksAgainst;
+  private int numberOfKillStrikesAgainst;
+  private int turnPriority;
 }

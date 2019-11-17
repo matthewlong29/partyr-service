@@ -34,6 +34,11 @@ let sendToOptions = [
     send: "/app/start-black-hand",
     example:
       '{ "gameRoomName": "ziploc bags box tablet stand", "lengthOfDay": 5, "lengthOfNight": 5, "chatOnly": true, "playerPreferences": [ { "username": "lanawood", "displayName": "billyyyy", "preferredFaction": "Townie" }, { "username": "cheesecake", "displayName": "some cake", "preferredFaction": "Townie" }, { "username": "coty", "displayName": "cody", "preferredFaction": "Monster" }, { "username": "timmy7", "displayName": "timmy8", "preferredFaction": "Townie" }, { "username": "obtrusivemonks", "displayName": "monkey", "preferredFaction": "Townie" } ] }'
+  },
+  {
+    send: "/app/select-preferred-faction",
+    example:
+      '{ "roomName": "ziploc bags box tablet stand", "username": "cheesecake", "preferredFaction": "Townie" }'
   }
 ];
 let subscribeToOptions = ["/chat/room", "/lobby/rooms", "/game/black-hand"];
