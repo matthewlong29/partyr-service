@@ -38,8 +38,6 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
     BlackHand blackHand = new BlackHand();
     blackHand.setGameRoomName(blackHandSettings.getGameRoomName());
     blackHand.setPlayersTurnRemaining(getPlayers(blackHandSettings.getPlayerPreferences()));
-    blackHand.setLengthOfDay(blackHandSettings.getLengthOfDay());
-    blackHand.setLengthOfNight(blackHandSettings.getLengthOfNight());
 
     List<BlackHandPlayerPreferences> preferences = blackHandSettings.getPlayerPreferences();
     int totalNumberOfPlayers = preferences.size();

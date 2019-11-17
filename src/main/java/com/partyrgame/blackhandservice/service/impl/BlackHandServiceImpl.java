@@ -2,7 +2,9 @@ package com.partyrgame.blackhandservice.service.impl;
 
 import java.util.List;
 
+import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
+import com.partyrgame.blackhandservice.model.BlackHandGame;
 import com.partyrgame.blackhandservice.model.PlayerTurn;
 import com.partyrgame.blackhandservice.service.BlackHandDayService;
 import com.partyrgame.blackhandservice.service.BlackHandNightService;
@@ -10,18 +12,28 @@ import com.partyrgame.blackhandservice.service.BlackHandService;
 import com.partyrgame.blackhandservice.util.BlackHandConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Data
+@Service
 public class BlackHandServiceImpl implements BlackHandService {
+  @Autowired
+  BlackHandDao blackHandDao;
+
   @Autowired
   BlackHandDayService blackHandDayService;
 
   @Autowired
   BlackHandNightService blackHandNightService;
+
+  /**
+   * getBlackHandGameByRoom.
+   */
+  public List<BlackHandGame> getBlackHandGameByRoom(String roomName) {
+    return blackHandDao.getBlackHandGameByRoom(roomName);
+  }
 
   /**
    * completePhase.

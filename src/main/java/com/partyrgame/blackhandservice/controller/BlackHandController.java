@@ -5,10 +5,12 @@ import java.util.List;
 
 import com.partyrgame.blackhandservice.model.BlackHand;
 import com.partyrgame.blackhandservice.model.BlackHandFaction;
+import com.partyrgame.blackhandservice.model.BlackHandGame;
 import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
 import com.partyrgame.blackhandservice.model.BlackHandRole;
 import com.partyrgame.blackhandservice.model.BlackHandSettings;
 import com.partyrgame.blackhandservice.service.BlackHandInitializeService;
+import com.partyrgame.blackhandservice.service.BlackHandService;
 import com.partyrgame.socketservice.service.MessageService;
 import com.partyrgame.socketservice.util.WebsocketConstants;
 
@@ -31,7 +33,18 @@ public class BlackHandController {
   BlackHandInitializeService blackHandInitializeService;
 
   @Autowired
+  BlackHandService blackHandService;
+
+  @Autowired
   MessageService messageService;
+
+  /**
+   * getBlackHandGameByRoom.
+   */
+  @GetMapping(value = "/details/{roomName}")
+  public List<BlackHandGame> getBlackHandGameByRoom(@PathVariable String roomName) {
+    return blackHandService.getBlackHandGameByRoom(roomName);
+  }
 
   /**
    * getBlackHandRoles.

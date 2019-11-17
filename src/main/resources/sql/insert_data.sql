@@ -126,13 +126,13 @@ insert into `partyrdb`.`lobby` (`game_room_name`, `game_name`, `host_username`, 
 
 -- ** add black_hand_games mock data
 
-insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'coty', 'Townie', 'Bodyguard', 'ALIVE');
-insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'lanawood', 'Monster', 'Changeling', 'ALIVE');
-insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'cheesecake', 'BlackHand', 'Darkfinger', 'ALIVE');
-insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'timmy7', 'Monster', 'Illusionist', 'ALIVE');
-insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'obtrusivemonks', 'Monster', 'Peacekeeper', 'ALIVE');
+insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`) 
+  values ('ziploc bags box tablet stand', 'coty');
+insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`) 
+  values ('ziploc bags box tablet stand', 'lanawood');
+insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`) 
+  values ('ziploc bags box tablet stand', 'cheesecake');
+insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`) 
+  values ('ziploc bags box tablet stand', 'timmy7');
+insert into `partyrdb`.`black_hand_games` (`game_room_name`, `username`) 
+  values ('ziploc bags box tablet stand', 'obtrusivemonks');

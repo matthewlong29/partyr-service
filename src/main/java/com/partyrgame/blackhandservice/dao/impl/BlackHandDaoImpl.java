@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.partyrgame.blackhandservice.dao.BlackHandDao;
+import com.partyrgame.blackhandservice.dao.impl.mapper.BlackHandGameRowMapper;
 import com.partyrgame.blackhandservice.dao.impl.mapper.BlackHandNumberOfPlayersRowMapper;
 import com.partyrgame.blackhandservice.dao.impl.mapper.BlackHandRoleResultSetExtractor;
 import com.partyrgame.blackhandservice.model.BlackHandFaction;
+import com.partyrgame.blackhandservice.model.BlackHandGame;
 import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
 import com.partyrgame.blackhandservice.model.BlackHandRole;
 
@@ -27,6 +29,19 @@ public class BlackHandDaoImpl implements BlackHandDao {
 
   @Autowired
   BlackHandNumberOfPlayersRowMapper blackHandRequiredNumberOfPlayersRowMapper;
+
+  @Autowired
+  BlackHandGameRowMapper blackHandGameRowMapper;
+
+  /**
+   * getBlackHandGameByRoom;
+   */
+  public List<BlackHandGame> getBlackHandGameByRoom(String roomName) {
+    String query = "CALL `partyrdb`.get_black_hand_game('" + roomName + "')";
+    log.info(query);
+
+    return jdbcTemplate.query(query, blackHandGameRowMapper);
+  }
 
   /**
    * getBlackHandRoles.
