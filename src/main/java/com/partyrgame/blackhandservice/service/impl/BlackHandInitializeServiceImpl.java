@@ -1,201 +1,204 @@
-// package com.partyrgame.blackhandservice.service.impl;
+package com.partyrgame.blackhandservice.service.impl;
 
-// import java.util.Comparator;
-// import java.util.HashMap;
-// import java.util.List;
-// import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
-// import com.partyrgame.blackhandservice.dao.BlackHandDao;
-// import com.partyrgame.blackhandservice.model.BlackHand;
-// import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
-// import com.partyrgame.blackhandservice.model.BlackHandFaction;
-// import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
-// import com.partyrgame.blackhandservice.model.BlackHandRole;
-// import com.partyrgame.blackhandservice.model.BlackHandSettings;
-// import com.partyrgame.blackhandservice.model.BlackHandSettings.BlackHandPlayerPreferences;
-// import com.partyrgame.blackhandservice.service.BlackHandInitializeService;
+import com.partyrgame.blackhandservice.dao.BlackHandDao;
+import com.partyrgame.blackhandservice.model.BlackHand;
+import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
+import com.partyrgame.blackhandservice.model.BlackHandFaction;
+import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
+import com.partyrgame.blackhandservice.model.BlackHandRole;
+import com.partyrgame.blackhandservice.service.BlackHandInitializeService;
+import com.partyrgame.blackhandservice.service.BlackHandService;
+import com.partyrgame.blackhandservice.util.BlackHandConstants;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-// import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 
-// @Slf4j
-// @Service
-// public class BlackHandInitializeServiceImpl implements BlackHandInitializeService {
-//   @Autowired
-//   BlackHandDao blackHandDao;
+@Slf4j
+@Service
+public class BlackHandInitializeServiceImpl implements BlackHandInitializeService {
+  @Autowired
+  BlackHandService blackHandService;
 
-//   /**
-//    * startGame: returns data necessary to start a game of black
-//    */
-//   public BlackHand startGame(BlackHandSettings blackHandSettings) {
-//     BlackHandNumberOfPlayers actualNumber = new BlackHandNumberOfPlayers();
-//     HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles = getBlackHandRoles();
+  @Autowired
+  BlackHandDao blackHandDao;
 
-//     log.info("{};", availableRoles.toString());
+  /**
+   * startGame: returns data necessary to start a game of black.
+   * 
+   * TODO: update lobby schema to include start time for a game; 
+   * TODO: update get_black_hand_game stored proc to also return start time for game
+   * TODO: consider adding more to lobby table (i.e. phase, numRemaining, lastPlayerToDie, playerOnTrial, etc...?)
+   */
+  public BlackHand startGame(String roomName) {
+    BlackHandNumberOfPlayers actualNumber = new BlackHandNumberOfPlayers();
+    HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles = getBlackHandRoles();
 
-//     BlackHand blackHand = new BlackHand();
-//     blackHand.setGameRoomName(blackHandSettings.getGameRoomName());
-//     blackHand.setPlayersTurnRemaining(getPlayers(blackHandSettings.getPlayerPreferences()));
+    log.info("available roles: {}", availableRoles.toString());
 
-//     List<BlackHandPlayerPreferences> preferences = blackHandSettings.getPlayerPreferences();
-//     int totalNumberOfPlayers = preferences.size();
-//     BlackHandNumberOfPlayers requiredNumber = getBlackHandNumberOfPlayers(totalNumberOfPlayers);
+    BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
 
-//     blackHand.setNumOfBlackHandRemaining(requiredNumber.getBlackHandTotal());
-//     blackHand.setNumOfMonsterRemaining(requiredNumber.getMonstersTotal());
-//     blackHand.setNumOfTownieRemaining(requiredNumber.getTowniesTotal());
+    log.info("black hand game: {}", blackHand.toString());
 
-//     log.info("required number of players per faction: {};", requiredNumber);
+    blackHand.setGameRoomName(roomName);
+    blackHand.setPhase(BlackHandConstants.DAY); // start game in DAY phase
+    blackHand.setPlayersTurnRemaining(getAllPlayerUsernames(blackHand.getPlayers()));
 
-//     for (BlackHandPlayerPreferences preference : preferences) {
-//       log.info("user: {}", preference.getUsername());
-//       assignPreferredRole(blackHand, availableRoles, preference, requiredNumber, actualNumber);
-//     }
+    List<BlackHand.BlackHandPlayer> players = blackHand.getPlayers();
+    int totalNumberOfPlayers = players.size();
 
-//     assignRemainingRole(blackHand, availableRoles, requiredNumber, actualNumber);
+    BlackHandNumberOfPlayers requiredNumber = getBlackHandNumberOfPlayers(totalNumberOfPlayers);
+    blackHand.setNumOfBlackHandRemaining(requiredNumber.getBlackHandTotal());
+    blackHand.setNumOfMonsterRemaining(requiredNumber.getMonstersTotal());
+    blackHand.setNumOfTownieRemaining(requiredNumber.getTowniesTotal());
 
-//     log.info("actual number of players per faction: {};", actualNumber);
+    log.info("required number of players per faction: {};", requiredNumber);
 
-//     sortPlayersByRolePriority(blackHand.getPlayers());
+    for (BlackHand.BlackHandPlayer player : players) {
+      log.info("user: {}", player.getUsername());
+      assignPreferredRole(blackHand, availableRoles, player, requiredNumber, actualNumber);
+    }
 
-//     return blackHand;
-//   }
+    assignRemainingRole(blackHand, availableRoles, requiredNumber, actualNumber);
 
-//   /**
-//    * getBlackHandRoles: returns a list containing all black hand game roles.
-//    */
-//   public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles() {
-//     return blackHandDao.getBlackHandRoles();
-//   }
+    log.info("actual number of players per faction: {};", actualNumber);
 
-//   /**
-//    * getBlackHandNumberOfPlayers: returns an object containing the required number
-//    * of Monsters, BlackHands, and Townies.
-//    */
-//   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int playerTotal) {
-//     if (playerTotal < 5) {
-//       log.info("At least 5 players are needed to play the Black Hand!");
-//       playerTotal = 5;
-//     } else if (playerTotal > 15) {
-//       log.info("At most 15 players can play the Black Hand!");
-//       playerTotal = 15;
-//     }
+    sortPlayersByRolePriority(blackHand.getPlayers());
 
-//     return blackHandDao.getBlackHandNumberOfPlayers(playerTotal);
-//   }
+    return blackHand;
+  }
 
-//   /**
-//    * getPlayers.
-//    */
-//   public List<String> getPlayers(List<BlackHandSettings.BlackHandPlayerPreferences> playerPreferences) {
-//     return playerPreferences.stream().map(player -> player.getUsername()).collect(Collectors.toList());
-//   }
+  /**
+   * getBlackHandRoles: returns a list containing all black hand game roles.
+   */
+  public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles() {
+    return blackHandDao.getBlackHandRoles();
+  }
 
-//   /**
-//    * findFirstAvailableFaction: scans list of available roles, sets player that
-//    * role, and removes role from the available roles list. Player will be set, but
-//    * role may not yet be if their preference cannot be met.
-//    */
-//   private void assignPreferredRole(BlackHand blackHand, HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles,
-//       BlackHandPlayerPreferences playerPreference, BlackHandNumberOfPlayers requiredNumber,
-//       BlackHandNumberOfPlayers actualNumber) {
-//     BlackHandPlayer blackHandPlayer = new BlackHandPlayer();
-//     blackHandPlayer.setUsername(playerPreference.getUsername());
-//     blackHandPlayer.setAlive(true); // initialize player to be alive
-//     blackHandPlayer.setDisplayName(playerPreference.getDisplayName());
+  /**
+   * getBlackHandNumberOfPlayers: returns an object containing the required number
+   * of Monsters, BlackHands, and Townies.
+   */
+  public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int playerTotal) {
+    if (playerTotal < 5) {
+      log.info("At least 5 players are needed to play the Black Hand!");
+      playerTotal = 5;
+    } else if (playerTotal > 15) {
+      log.info("At most 15 players can play the Black Hand!");
+      playerTotal = 15;
+    }
 
-//     if (availableRoles.containsKey(playerPreference.getPreferredFaction())
-//         && isLessThanRequired(playerPreference.getPreferredFaction(), requiredNumber, actualNumber)) {
-//       log.info("found role for player: {};", availableRoles.get(playerPreference.getPreferredFaction()).get(0));
-//       blackHandPlayer.setRole(availableRoles.get(playerPreference.getPreferredFaction()).get(0));
-//       blackHandPlayer
-//           .setTurnPriority(availableRoles.get(playerPreference.getPreferredFaction()).get(0).getRolePriority());
-//       availableRoles.get(playerPreference.getPreferredFaction()).remove(0);
-//       incrementNumberOfPlayersPerFaction(playerPreference.getPreferredFaction(), actualNumber);
-//     } else {
-//       log.info("unable to set role for player;");
-//     }
+    return blackHandDao.getBlackHandNumberOfPlayers(playerTotal);
+  }
 
-//     blackHand.getPlayers().add(blackHandPlayer);
-//   }
+  /**
+   * getPlayers.
+   */
+  public List<String> getAllPlayerUsernames(List<BlackHand.BlackHandPlayer> players) {
+    return players.stream().map(player -> player.getUsername()).collect(Collectors.toList());
+  }
 
-//   /**
-//    * assignRemainingRole: scan for instance where a players role has not been set
-//    * and fill that role with what is missing.
-//    * 
-//    * TODO: refactor..
-//    */
-//   private void assignRemainingRole(BlackHand blackHand, HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles,
-//       BlackHandNumberOfPlayers requiredNumber, BlackHandNumberOfPlayers actualNumber) {
-//     for (BlackHandPlayer blackHandPlayer : blackHand.getPlayers()) {
-//       if (blackHandPlayer.getRole() == null) {
-//         log.info("need to assign a role for {};", blackHandPlayer.getUsername());
-//         if (requiredNumber.getBlackHandTotal() > actualNumber.getBlackHandTotal()) {
-//           log.info("found role for player: {};", availableRoles.get(BlackHandFaction.BlackHand).get(0));
-//           blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.BlackHand).get(0));
-//           blackHandPlayer.setTurnPriority(availableRoles.get(BlackHandFaction.BlackHand).get(0).getRolePriority());
-//           availableRoles.get(BlackHandFaction.BlackHand).remove(0);
-//           incrementNumberOfPlayersPerFaction(BlackHandFaction.BlackHand, actualNumber);
-//         } else if (requiredNumber.getMonstersTotal() > actualNumber.getMonstersTotal()) {
-//           log.info("found role for player: {};", availableRoles.get(BlackHandFaction.Monster).get(0));
-//           blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.Monster).get(0));
-//           blackHandPlayer.setTurnPriority(availableRoles.get(BlackHandFaction.Monster).get(0).getRolePriority());
-//           availableRoles.get(BlackHandFaction.Monster).remove(0);
-//           incrementNumberOfPlayersPerFaction(BlackHandFaction.Monster, actualNumber);
-//         } else if (requiredNumber.getTowniesTotal() > actualNumber.getTowniesTotal()) {
-//           log.info("found role for player: {};", availableRoles.get(BlackHandFaction.Townie).get(0));
-//           blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.Townie).get(0));
-//           blackHandPlayer.setTurnPriority(availableRoles.get(BlackHandFaction.Townie).get(0).getRolePriority());
-//           availableRoles.get(BlackHandFaction.Townie).remove(0);
-//           incrementNumberOfPlayersPerFaction(BlackHandFaction.Townie, actualNumber);
-//         }
-//       }
-//     }
-//   }
+  /**
+   * findFirstAvailableFaction: scans list of available roles, sets player that
+   * role, and removes role from the available roles list. Player will be set, but
+   * role may not yet be if their preference cannot be met.
+   */
+  private void assignPreferredRole(BlackHand blackHand, HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles,
+      BlackHand.BlackHandPlayer player, BlackHandNumberOfPlayers requiredNumber,
+      BlackHandNumberOfPlayers actualNumber) {
+    if (availableRoles.containsKey(player.getPreferredFaction())
+        && isLessThanRequired(player.getPreferredFaction(), requiredNumber, actualNumber)) {
+      log.info("found role for player: {};", availableRoles.get(player.getPreferredFaction()).get(0));
+      player.setRole(availableRoles.get(player.getPreferredFaction()).get(0));
+      player.setTurnPriority(availableRoles.get(player.getPreferredFaction()).get(0).getRolePriority());
+      availableRoles.get(player.getPreferredFaction()).remove(0);
+      incrementNumberOfPlayersPerFaction(player.getPreferredFaction(), actualNumber);
+    } else {
+      log.info("unable to set role for player;");
+    }
+  }
 
-//   /**
-//    * sortPlayersByRolePriority.
-//    */
-//   private void sortPlayersByRolePriority(List<BlackHand.BlackHandPlayer> blackHandPlayers) {
-//     blackHandPlayers.sort(Comparator.comparing(BlackHand.BlackHandPlayer::getTurnPriority));
-//   }
+  /**
+   * assignRemainingRole: scan for instance where a players role has not been set
+   * and fill that role with what is missing.
+   * 
+   * TODO: refactor..
+   */
+  private void assignRemainingRole(BlackHand blackHand, HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles,
+      BlackHandNumberOfPlayers requiredNumber, BlackHandNumberOfPlayers actualNumber) {
+    for (BlackHandPlayer blackHandPlayer : blackHand.getPlayers()) {
+      if (blackHandPlayer.getRole() == null) {
+        log.info("need to assign a role for {};", blackHandPlayer.getUsername());
+        if (requiredNumber.getBlackHandTotal() > actualNumber.getBlackHandTotal()) {
+          log.info("found role for player: {};", availableRoles.get(BlackHandFaction.BlackHand).get(0));
+          blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.BlackHand).get(0));
+          blackHandPlayer.setTurnPriority(availableRoles.get(BlackHandFaction.BlackHand).get(0).getRolePriority());
+          availableRoles.get(BlackHandFaction.BlackHand).remove(0);
+          incrementNumberOfPlayersPerFaction(BlackHandFaction.BlackHand, actualNumber);
+        } else if (requiredNumber.getMonstersTotal() > actualNumber.getMonstersTotal()) {
+          log.info("found role for player: {};", availableRoles.get(BlackHandFaction.Monster).get(0));
+          blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.Monster).get(0));
+          blackHandPlayer.setTurnPriority(availableRoles.get(BlackHandFaction.Monster).get(0).getRolePriority());
+          availableRoles.get(BlackHandFaction.Monster).remove(0);
+          incrementNumberOfPlayersPerFaction(BlackHandFaction.Monster, actualNumber);
+        } else if (requiredNumber.getTowniesTotal() > actualNumber.getTowniesTotal()) {
+          log.info("found role for player: {};", availableRoles.get(BlackHandFaction.Townie).get(0));
+          blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.Townie).get(0));
+          blackHandPlayer.setTurnPriority(availableRoles.get(BlackHandFaction.Townie).get(0).getRolePriority());
+          availableRoles.get(BlackHandFaction.Townie).remove(0);
+          incrementNumberOfPlayersPerFaction(BlackHandFaction.Townie, actualNumber);
+        }
+      }
+    }
+  }
 
-//   /**
-//    * incrementNumberOfPlayersPerFaction.
-//    */
-//   private void incrementNumberOfPlayersPerFaction(BlackHandFaction faction, BlackHandNumberOfPlayers actualNumber) {
-//     switch (faction) {
-//     case BlackHand:
-//       actualNumber.incrementBlackHandTotal();
-//       break;
-//     case Monster:
-//       actualNumber.incrementMonstersTotal();
-//       break;
-//     case Townie:
-//       actualNumber.incrementTowniesTotal();
-//       break;
-//     default:
-//       break; // invalid faction
-//     }
-//   }
+  /**
+   * sortPlayersByRolePriority.
+   */
+  private void sortPlayersByRolePriority(List<BlackHand.BlackHandPlayer> blackHandPlayers) {
+    blackHandPlayers.sort(Comparator.comparing(BlackHand.BlackHandPlayer::getTurnPriority));
+  }
 
-//   /**
-//    * isLessThanRequired: returns true if the actual number of players per faction
-//    * is less than the required number of players per faction.
-//    */
-//   private boolean isLessThanRequired(BlackHandFaction faction, BlackHandNumberOfPlayers requiredNumber,
-//       BlackHandNumberOfPlayers actualNumber) {
-//     switch (faction) {
-//     case BlackHand:
-//       return requiredNumber.getBlackHandTotal() > actualNumber.getBlackHandTotal();
-//     case Monster:
-//       return requiredNumber.getMonstersTotal() > actualNumber.getMonstersTotal();
-//     case Townie:
-//       return requiredNumber.getTowniesTotal() > actualNumber.getTowniesTotal();
-//     default:
-//       return false; // invalid faction
-//     }
-//   }
-// }
+  /**
+   * incrementNumberOfPlayersPerFaction.
+   */
+  private void incrementNumberOfPlayersPerFaction(BlackHandFaction faction, BlackHandNumberOfPlayers actualNumber) {
+    switch (faction) {
+    case BlackHand:
+      actualNumber.incrementBlackHandTotal();
+      break;
+    case Monster:
+      actualNumber.incrementMonstersTotal();
+      break;
+    case Townie:
+      actualNumber.incrementTowniesTotal();
+      break;
+    default:
+      break; // invalid faction
+    }
+  }
+
+  /**
+   * isLessThanRequired: returns true if the actual number of players per faction
+   * is less than the required number of players per faction.
+   */
+  private boolean isLessThanRequired(BlackHandFaction faction, BlackHandNumberOfPlayers requiredNumber,
+      BlackHandNumberOfPlayers actualNumber) {
+    switch (faction) {
+    case BlackHand:
+      return requiredNumber.getBlackHandTotal() > actualNumber.getBlackHandTotal();
+    case Monster:
+      return requiredNumber.getMonstersTotal() > actualNumber.getMonstersTotal();
+    case Townie:
+      return requiredNumber.getTowniesTotal() > actualNumber.getTowniesTotal();
+    default:
+      return false; // invalid faction
+    }
+  }
+}

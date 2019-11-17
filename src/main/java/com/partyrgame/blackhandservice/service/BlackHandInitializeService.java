@@ -1,20 +1,19 @@
-// package com.partyrgame.blackhandservice.service;
+package com.partyrgame.blackhandservice.service;
 
-// import java.util.HashMap;
-// import java.util.List;
+import java.util.HashMap;
+import java.util.List;
 
-// import com.partyrgame.blackhandservice.model.BlackHand;
-// import com.partyrgame.blackhandservice.model.BlackHandFaction;
-// import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
-// import com.partyrgame.blackhandservice.model.BlackHandRole;
-// import com.partyrgame.blackhandservice.model.BlackHandSettings;
+import com.partyrgame.blackhandservice.model.BlackHand;
+import com.partyrgame.blackhandservice.model.BlackHandFaction;
+import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
+import com.partyrgame.blackhandservice.model.BlackHandRole;
 
-// public interface BlackHandInitializeService {
-//   public BlackHand startGame(BlackHandSettings blackHandSettings);
+public interface BlackHandInitializeService {
+  public BlackHand startGame(String roomName);
 
-//   public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles();
+  public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles();
 
-//   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int playerTotal);
+  public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int playerTotal);
 
-//   public List<String> getPlayers(List<BlackHandSettings.BlackHandPlayerPreferences> playerPreferences);
-// }
+  public List<String> getAllPlayerUsernames(List<BlackHand.BlackHandPlayer> players);
+}

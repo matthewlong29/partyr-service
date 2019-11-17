@@ -1,10 +1,15 @@
 package com.partyrgame.blackhandservice.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.partyrgame.blackhandservice.model.BlackHand;
+import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
+import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
+import com.partyrgame.blackhandservice.model.BlackHandRole;
+import com.partyrgame.blackhandservice.service.BlackHandInitializeService;
 import com.partyrgame.blackhandservice.service.BlackHandService;
 import com.partyrgame.socketservice.service.MessageService;
 import com.partyrgame.socketservice.util.WebsocketConstants;
@@ -14,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(value = "/api/game/black-hand")
 public class BlackHandController {
-  // @Autowired
-  // BlackHandInitializeService blackHandInitializeService;
+  @Autowired
+  BlackHandInitializeService blackHandInitializeService;
 
   @Autowired
   BlackHandService blackHandService;
@@ -46,12 +52,9 @@ public class BlackHandController {
    */
   @GetMapping(value = "/details/{roomName}", produces = MediaType.APPLICATION_JSON_VALUE)
   public BlackHand getBlackHandDetails(@PathVariable String roomName) {
+    log.info("game details: {}", blackHandService.getBlackHandDetails(roomName).toString());
     return blackHandService.getBlackHandDetails(roomName);
   }
-
-  // CALL `partyrdb`.`set_black_hand_preferred_faction`(<{IN i_room_name
-  // VARCHAR(32)}>, <{IN i_username VARCHAR(32)}>, <{IN i_preferred_faction
-  // VARCHAR(32)}>);
 
   /**
    * setPreferredFaction.
@@ -77,31 +80,33 @@ public class BlackHandController {
   /**
    * getBlackHandRoles.
    */
-  // @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
-  // public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles() {
-  // return blackHandInitializeService.getBlackHandRoles();
-  // }
+  @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
+  public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles() {
+    return blackHandInitializeService.getBlackHandRoles();
+  }
 
   /**
    * getBlackHandNumberOfPlayers.
    */
-  // @GetMapping(value = "/player-total/{playerTotal}", produces =
-  // MediaType.APPLICATION_JSON_VALUE)
-  // public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(@PathVariable int
-  // playerTotal) {
-  // return blackHandInitializeService.getBlackHandNumberOfPlayers(playerTotal);
-  // }
+  @GetMapping(value = "/player-total/{playerTotal}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(@PathVariable int playerTotal) {
+    return blackHandInitializeService.getBlackHandNumberOfPlayers(playerTotal);
+  }
 
   /**
    * startBlackHandGame: returns json needed to start a new game of the black
    * hand.
+   * 
+   * @param body {"roomName": "game 1"}
    */
-  // @MessageMapping(WebsocketConstants.BLACK_HAND_START_SEND)
-  // public void startBlackHandGame(@RequestBody BlackHandSettings
-  // blackHandSettings) {
-  // BlackHand newBlackHandGame =
-  // blackHandInitializeService.startGame(blackHandSettings);
-  // log.info(newBlackHandGame.toString());
-  // messageService.sendBlackHandMessage(newBlackHandGame);
-  // }
+  @MessageMapping(WebsocketConstants.BLACK_HAND_START_SEND)
+  public void startBlackHandGame(@RequestBody Map<String, String> body) {
+    log.info("body: {}", body.toString());
+
+    String roomName = body.get("roomName");
+
+    BlackHand blackHand = blackHandInitializeService.startGame(roomName);
+
+    messageService.sendBlackHandMessage(blackHand);
+  }
 }
