@@ -21,7 +21,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
   @Override
   public void configureMessageBroker(MessageBrokerRegistry registry) {
-    registry.enableSimpleBroker(WebsocketConstants.CHAT_BROKER, WebsocketConstants.LOBBY_BROKER);
+    registry.enableSimpleBroker(WebsocketConstants.CHAT_BROKER, WebsocketConstants.LOBBY_BROKER,
+        WebsocketConstants.GAME_BROKER);
     registry.setApplicationDestinationPrefixes(WebsocketConstants.PREFIX);
   }
 }
