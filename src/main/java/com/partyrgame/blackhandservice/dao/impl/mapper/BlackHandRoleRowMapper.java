@@ -25,10 +25,8 @@ public class BlackHandRoleRowMapper implements RowMapper<BlackHandRole> {
     blackHandRole.setGoalDescription(resultSet.getString("goal_description"));
     blackHandRole.setSpritePath(resultSet.getString("sprite_path"));
     blackHandRole.setRolePriority(resultSet.getInt("role_priority"));
-    blackHandRole.setCanDayKill(convertToBoolean(resultSet.getInt("day_kill")));
-    blackHandRole.setCanNightKill(convertToBoolean(resultSet.getInt("night_kill")));
-    blackHandRole.setCanDayBlock(convertToBoolean(resultSet.getInt("day_block")));
-    blackHandRole.setCanNightBlock(convertToBoolean(resultSet.getInt("night_block")));
+    blackHandRole.setCanAttack(convertToBoolean(resultSet.getInt("can_attack")));
+    blackHandRole.setCanBlock(convertToBoolean(resultSet.getInt("can_block")));
 
     return blackHandRole;
   }

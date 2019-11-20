@@ -32,6 +32,7 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
   /**
    * startGame: returns data necessary to start a game of black.
    * 
+   * TODO: add randomization for assigning roles
    * TODO: update lobby schema to include start time for a game; 
    * TODO: update get_black_hand_game stored proc to also return start time for game
    * TODO: consider adding more to lobby table (i.e. phase, numRemaining, lastPlayerToDie, playerOnTrial, etc...?)

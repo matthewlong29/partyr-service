@@ -128,10 +128,8 @@ CREATE TABLE `black_hand_roles` (
   `goal_description` VARCHAR(1024) NOT NULL,
   `sprite_path` VARCHAR(1024) DEFAULT '/',
   `role_priority` INT NOT NULL,
-  `day_kill` BOOLEAN NOT NULL, -- 1 true else false
-  `night_kill` BOOLEAN NOT NULL,
-  `day_block` BOOLEAN NOT NULL,
-  `night_block` BOOLEAN NOT NULL,
+  `can_attack` BOOLEAN NOT NULL, -- 1 true else false
+  `can_block` BOOLEAN NOT NULL,
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `unique_role_name` (`role_name`),
   UNIQUE KEY `unique_role_priority` (`role_priority`),
