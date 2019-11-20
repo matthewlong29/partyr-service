@@ -31,13 +31,18 @@ let sendToOptions = [
       '{"roomName": "ziploc bags box tablet stand", "username": "lanawood"}'
   },
   {
-    send: "/app/start-black-hand",
-    example: '{ "roomName": "ziploc bags box tablet stand"}'
+    send: "/app/select-display-name",
+    example:
+      '{"roomName": "ziploc bags box tablet stand", "username": "cheesecake", "displayName": "cheese"}'
   },
   {
     send: "/app/select-preferred-faction",
     example:
       '{"roomName": "ziploc bags box tablet stand", "username": "cheesecake", "preferredFaction": "Townie"}'
+  },
+  {
+    send: "/app/start-black-hand",
+    example: '{ "roomName": "ziploc bags box tablet stand"}'
   }
 ];
 let subscribeToOptions = ["/chat/room", "/lobby/rooms", "/game/black-hand"];

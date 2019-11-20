@@ -16,6 +16,8 @@ public interface BlackHandDao {
 
   public int setPreferredFaction(String username, String roomName, String preferredFaction);
 
+  public int selectDisplayName(String username, String roomName, String displayName);
+
   public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles();
 
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int totalNumberOfPlayers);

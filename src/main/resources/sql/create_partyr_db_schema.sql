@@ -104,14 +104,14 @@ CREATE TABLE `black_hand_required_number_of_players` (
 -- ** create lobby table
 
 CREATE TABLE `lobby` (
-  `game_room_name` VARCHAR(32) NOT NULL,
+  `room_name` VARCHAR(32) NOT NULL,
   `game_name` VARCHAR(32) NOT NULL,
   `host_username` VARCHAR(32) NOT NULL,
   `number_of_players` INT NOT NULL,
   `game_started` BOOLEAN NOT NULL DEFAULT 0,
   `game_start_time` TIMESTAMP,
   `game_end_time` TIMESTAMP, -- TODO: maybe use this as indicatror for when to purge data?
-  PRIMARY KEY (`game_room_name`),
+  PRIMARY KEY (`room_name`),
   CONSTRAINT `set_player_reference` FOREIGN KEY (`host_username`) REFERENCES `partyr_users` (`username`),
   CONSTRAINT `set_game_name_reference` FOREIGN KEY (`game_name`) REFERENCES `games` (`game_name`)
 ) ENGINE=InnoDB;
@@ -139,23 +139,28 @@ CREATE TABLE `black_hand_roles` (
 -- ** create black_hand_games table
 
 CREATE TABLE `black_hand_games` (
-  `game_room_name` VARCHAR(32) NOT NULL,
+  `room_name` VARCHAR(32) NOT NULL,
   `username` VARCHAR(32) NOT NULL,
   `display_name` VARCHAR(32),
   `preferred_faction` VARCHAR(32), 
   `role_name` VARCHAR(32),
-  `number_of_blocks_against` INT DEFAULT 0,
-  `number_of_kill_strikes_against` INT DEFAULT 0,
+  `blocks_against` INT DEFAULT 0,
+  `attacks_against` INT DEFAULT 0,
+  `turn_completed` BOOLEAN DEFAULT 0, -- 1 true else false
+  `attacking_player` VARCHAR(32),
+  `blocking_player` VARCHAR(32),
   `turn_priority` INT DEFAULT 0,
   `player_status` VARCHAR(5) DEFAULT 'ALIVE',
   `ready_status` VARCHAR(16) DEFAULT 'NOT_READY',
   `note` VARCHAR(1024),
-  PRIMARY KEY (`game_room_name`, `username`),
+  PRIMARY KEY (`room_name`, `username`),
   UNIQUE KEY `unique_role_per_game` (`username`,`role_name`),
-  UNIQUE KEY `unique_display_name_per_game` (`display_name`,`game_room_name`),
+  UNIQUE KEY `unique_display_name_per_game` (`display_name`,`room_name`),
   CONSTRAINT `set_player_username_reference` FOREIGN KEY (`username`) REFERENCES `partyr_users` (`username`),
+  CONSTRAINT `set_attacking_player_reference` FOREIGN KEY (`attacking_player`) REFERENCES `partyr_users` (`username`),
+  CONSTRAINT `set_blocking_player_reference` FOREIGN KEY (`blocking_player`) REFERENCES `partyr_users` (`username`),
   CONSTRAINT `set_role_reference` FOREIGN KEY (`role_name`) REFERENCES `black_hand_roles` (`role_name`),
-  CONSTRAINT `set_game_instance_reference` FOREIGN KEY (`game_room_name`) REFERENCES `lobby` (`game_room_name`),
+  CONSTRAINT `set_game_instance_reference` FOREIGN KEY (`room_name`) REFERENCES `lobby` (`room_name`),
   CONSTRAINT `limit_player_status` CHECK ((`player_status` IN ('ALIVE', 'DEAD'))),
   CONSTRAINT `limit_ready_status` CHECK ((`ready_status` IN ('READY', 'NOT_READY'))),
   CONSTRAINT `limit_preferred_faction` CHECK ((`preferred_faction`) IN ('BlackHand', 'Monster', 'Townie'))

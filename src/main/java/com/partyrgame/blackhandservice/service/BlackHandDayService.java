@@ -1,5 +1,8 @@
 package com.partyrgame.blackhandservice.service;
 
-public interface BlackHandDayService {
+import com.partyrgame.blackhandservice.model.BlackHand;
+import com.partyrgame.blackhandservice.model.PlayerTurn;
 
+public interface BlackHandDayService {
+  public BlackHand submitPlayerTurn(PlayerTurn turn);
 }

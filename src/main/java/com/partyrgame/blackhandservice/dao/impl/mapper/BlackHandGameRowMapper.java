@@ -19,7 +19,7 @@ public class BlackHandGameRowMapper implements RowMapper<BlackHandGame> {
   @Override
   public BlackHandGame mapRow(ResultSet resultSet, int rowNum) throws SQLException {
     BlackHandGame blackHandGame = new BlackHandGame();
-    blackHandGame.setGameRoomName(resultSet.getString("game_room_name"));
+    blackHandGame.setGameRoomName(resultSet.getString("room_name"));
     blackHandGame.setUsername(resultSet.getString("username"));
     blackHandGame.setDisplayName(resultSet.getString("display_name"));
     blackHandGame.setReadyStatus(ReadyStatus.valueOf(resultSet.getString("ready_status")));
@@ -27,8 +27,8 @@ public class BlackHandGameRowMapper implements RowMapper<BlackHandGame> {
     blackHandGame.setRoleName(resultSet.getString("role_name"));
     blackHandGame.setPlayerStatus(PlayerStatus.valueOf(resultSet.getString("player_status")));
     blackHandGame.setNote(resultSet.getString("note"));
-    blackHandGame.setNumberOfBlocksAgainst(resultSet.getInt("number_of_blocks_against"));
-    blackHandGame.setNumberOfKillStrikesAgainst(resultSet.getInt("number_of_kill_strikes_against"));
+    blackHandGame.setBlocksAgainst(resultSet.getInt("blocks_against"));
+    blackHandGame.setAttacksAgainst(resultSet.getInt("attacks_against"));
     blackHandGame.setTurnPriority(resultSet.getInt("turn_priority"));
 
     return blackHandGame;

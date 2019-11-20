@@ -14,4 +14,6 @@ public interface BlackHandService {
   public BlackHand setPreferredFaction(String username, String roomName, String preferredFaction);
 
   public BlackHand completePhase(BlackHand blackHand, List<PlayerTurn> playerTurns) throws Exception;
+
+  public BlackHand selectDisplayName(String username, String roomName, String displayName);
 }

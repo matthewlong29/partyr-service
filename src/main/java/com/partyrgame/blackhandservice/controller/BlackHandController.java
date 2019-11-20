@@ -78,6 +78,27 @@ public class BlackHandController {
   }
 
   /**
+   * selectDisplayName.
+   * 
+   * @param body {"roomName": "game 1", "username": "cheesecake",
+   *             "preferredFaction": "Monster"}
+   */
+  @MessageMapping(WebsocketConstants.BLACK_HAND_SELECT_DISPLAY_NAME)
+  public void selectDisplayName(Map<String, String> body) {
+    log.info("body: {}", body.toString());
+
+    String username = body.get("username");
+    String roomName = body.get("roomName");
+    String displayName = body.get("displayName");
+
+    blackHandService.selectDisplayName(username, roomName, displayName);
+
+    BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
+
+    messageService.sendBlackHandMessage(blackHand);
+  }
+
+  /**
    * getBlackHandRoles.
    */
   @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)

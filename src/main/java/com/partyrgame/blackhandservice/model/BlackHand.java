@@ -16,9 +16,7 @@ public class BlackHand {
   private String gameRoomName;
   private Timestamp gameStartTime; // TODO: set in startGame method of BlackHandInitializeService
   private String phase; // NOTE DAY or NIGHT (start with DAY phase)
-  private List<String> playersTurnRemaining; // list of players who have not completed their turn
-                                             // once this is empty, or timer reaches 0 (frontend). evaluate end of phase
-  private List<PlayerTurn> playerTurns = new ArrayList<>();
+  private List<String> playersTurnRemaining = new ArrayList<>(); // list of players who have not completed their turn
   private int numOfBlackHandRemaining;
   private int numOfTownieRemaining;
   private int numOfMonsterRemaining;
@@ -35,8 +33,8 @@ public class BlackHand {
     private String displayName;
     private BlackHandFaction preferredFaction;
     private PlayerStatus playerStatus; // ALIVE or DEAD
-    private int numberOfBlocksAgainst;
-    private int numberOfKillStrikesAgainst;
+    private int blocksAgainst;
+    private int attacksAgainst;
     private int turnPriority;
     private BlackHandRole role;
     private List<BlackHandNote> notes = new ArrayList<>();
@@ -47,6 +45,22 @@ public class BlackHand {
    */
   public void addPlayer(BlackHandPlayer player) {
     this.players.add(player);
+  }
+
+  /**
+   * addPlayerNotCompletedTurn: if a player hasn't completed his turn yet they're
+   * added to this list.
+   */
+  public void addPlayerNotCompletedTurn(String displayName) {
+    playersTurnRemaining.add(displayName);
+  }
+
+  /**
+   * removePlayerWhenCompletedTurn: when a player completes his turn remove him
+   * from the list.
+   */
+  public void removePlayerWhenCompletedTurn(String displayName) {
+    playersTurnRemaining.remove(displayName);
   }
 
   @Data

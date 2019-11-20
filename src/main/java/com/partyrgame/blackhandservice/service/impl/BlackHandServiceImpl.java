@@ -54,6 +54,12 @@ public class BlackHandServiceImpl implements BlackHandService {
     return blackHandDao.getBlackHandDetails(roomName);
   }
 
+  public BlackHand selectDisplayName(String username, String roomName, String displayName) {
+    blackHandDao.selectDisplayName(username, roomName, displayName);
+
+    return blackHandDao.getBlackHandDetails(roomName);
+  }
+
   /**
    * completePhase.
    */

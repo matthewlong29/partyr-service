@@ -32,10 +32,11 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
   /**
    * startGame: returns data necessary to start a game of black.
    * 
-   * TODO: add randomization for assigning roles
-   * TODO: update lobby schema to include start time for a game; 
-   * TODO: update get_black_hand_game stored proc to also return start time for game
-   * TODO: consider adding more to lobby table (i.e. phase, numRemaining, lastPlayerToDie, playerOnTrial, etc...?)
+   * TODO: if displayName is null then set it equal to username; TODO: add
+   * randomization for assigning roles; TODO: update lobby schema to include start
+   * time for a game; TODO: update get_black_hand_game stored proc to also return
+   * start time for game TODO: consider adding more to lobby table (i.e. phase,
+   * numRemaining, lastPlayerToDie, playerOnTrial, etc...?)
    */
   public BlackHand startGame(String roomName) {
     BlackHandNumberOfPlayers actualNumber = new BlackHandNumberOfPlayers();
@@ -49,7 +50,7 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
 
     blackHand.setGameRoomName(roomName);
     blackHand.setPhase(BlackHandConstants.DAY); // start game in DAY phase
-    blackHand.setPlayersTurnRemaining(getAllPlayerUsernames(blackHand.getPlayers()));
+    blackHand.setPlayersTurnRemaining(getAllPlayersDisplayNames(blackHand.getPlayers()));
 
     List<BlackHand.BlackHandPlayer> players = blackHand.getPlayers();
     int totalNumberOfPlayers = players.size();
@@ -99,10 +100,20 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
   }
 
   /**
-   * getPlayers.
+   * getAllPlayerUsernames.
    */
   public List<String> getAllPlayerUsernames(List<BlackHand.BlackHandPlayer> players) {
     return players.stream().map(player -> player.getUsername()).collect(Collectors.toList());
+  }
+
+  /**
+   * getAllPlayersDisplayNames: if a players display name was not set then their
+   * username will be returned.
+   */
+  public List<String> getAllPlayersDisplayNames(List<BlackHand.BlackHandPlayer> players) {
+    return players.stream()
+        .map(player -> player.getDisplayName() == null ? player.getUsername() : player.getDisplayName())
+        .collect(Collectors.toList());
   }
 
   /**

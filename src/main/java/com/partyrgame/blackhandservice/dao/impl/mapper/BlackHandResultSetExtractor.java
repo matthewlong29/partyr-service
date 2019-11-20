@@ -32,8 +32,8 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
       player.setDisplayName(blackHandGameRawDetails.getDisplayName());
       player.setPreferredFaction(blackHandGameRawDetails.getPreferredFaction());
       player.setPlayerStatus(blackHandGameRawDetails.getPlayerStatus());
-      player.setNumberOfBlocksAgainst(blackHandGameRawDetails.getNumberOfBlocksAgainst());
-      player.setNumberOfKillStrikesAgainst(blackHandGameRawDetails.getNumberOfKillStrikesAgainst());
+      player.setBlocksAgainst(blackHandGameRawDetails.getBlocksAgainst());
+      player.setAttacksAgainst(blackHandGameRawDetails.getAttacksAgainst());
       player.setTurnPriority(blackHandGameRawDetails.getTurnPriority());
 
       blackHand.addPlayer(player);

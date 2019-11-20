@@ -57,7 +57,7 @@ CREATE PROCEDURE `create_room`(
 )
 BEGIN
   INSERT INTO `partyrdb`.`lobby`(
-    `game_room_name`,
+    `room_name`,
     `game_name`,
     `host_username`,
 	  `number_of_players`
@@ -68,7 +68,7 @@ BEGIN
     1
   );
   INSERT INTO `partyrdb`.`black_hand_games`(
-    `game_room_name`,
+    `room_name`,
     `username`
   ) VALUES (
     i_room_name,
@@ -108,8 +108,8 @@ CREATE PROCEDURE `delete_black_hand_room`(
   IN i_room_name VARCHAR(32)
 )
 BEGIN
-  DELETE FROM `partyrdb`.`black_hand_games` WHERE `game_room_name` = i_room_name;
-  DELETE FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
+  DELETE FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name;
+  DELETE FROM `partyrdb`.`lobby` WHERE `room_name` = i_room_name;
 END$$
 
 -- ** get_all_chat_messages
@@ -122,10 +122,10 @@ END$$
 -- ** get_black_hand_game
 
 CREATE PROCEDURE `get_black_hand_game`(
-  IN i_game_room_name VARCHAR(32)   
+  IN i_room_name VARCHAR(32)   
 )
 BEGIN
-  SELECT * FROM `partyrdb`.`black_hand_games` WHERE `black_hand_games`.`game_room_name` = i_game_room_name;
+  SELECT * FROM `partyrdb`.`black_hand_games` WHERE `black_hand_games`.`room_name` = i_room_name;
 END$$
 
 -- ** get_black_hand_required_number_of_players
@@ -173,7 +173,7 @@ END$$
 CREATE PROCEDURE `get_lobby`()
 BEGIN
   SELECT 
-    T1.`game_room_name`,
+    T1.`room_name`,
     T1.`game_name`,
     T1.`host_username`,
     T2.`players_ready`,
@@ -186,21 +186,21 @@ BEGIN
     (select * from `lobby`) T1
     LEFT OUTER JOIN (
     SELECT 
-      `black_hand_games`.`game_room_name`, 
+      `black_hand_games`.`room_name`, 
       GROUP_CONCAT(`black_hand_games`.`username`) AS 'players_ready' 
       from `black_hand_games` 
         where `black_hand_games`.`ready_status` = 'READY'
-      group by `black_hand_games`.`game_room_name`
-    ) T2 ON T1.`game_room_name` = T2.`game_room_name`
+      group by `black_hand_games`.`room_name`
+    ) T2 ON T1.`room_name` = T2.`room_name`
     LEFT OUTER JOIN (
     SELECT 
-      `black_hand_games`.`game_room_name`, 
+      `black_hand_games`.`room_name`, 
       GROUP_CONCAT(`black_hand_games`.`username`) AS 'players_not_ready'
       from `black_hand_games` 
         where `black_hand_games`.`ready_status` = 'NOT_READY' 
-      group by `black_hand_games`.`game_room_name`
-    ) T3 ON T1.`game_room_name` = T3.`game_room_name`
-  ORDER BY `game_name`, `game_room_name`;
+      group by `black_hand_games`.`room_name`
+    ) T3 ON T1.`room_name` = T3.`room_name`
+  ORDER BY `game_name`, `room_name`;
 END$$
 
 -- ** get_online_friends
@@ -289,15 +289,15 @@ BEGIN
   DECLARE numOfPlayers int;
    
   INSERT INTO `partyrdb`.`black_hand_games`(
-    `game_room_name`,
+    `room_name`,
     `username`
   ) VALUES (
     i_room_name,
     i_username
   );
   
-  SELECT count(*) INTO numOfPlayers FROM `partyrdb`.`black_hand_games` WHERE `game_room_name` = i_room_name;
-  UPDATE `partyrdb`.`lobby` SET `number_of_players` = numOfPlayers WHERE `game_room_name` = i_room_name;
+  SELECT count(*) INTO numOfPlayers FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name;
+  UPDATE `partyrdb`.`lobby` SET `number_of_players` = numOfPlayers WHERE `room_name` = i_room_name;
 END$$
 
 -- ** leave_black_hand_room
@@ -312,20 +312,20 @@ BEGIN
   DECLARE numOfPlayers int;
 
   DELETE FROM `partyrdb`.`black_hand_games` WHERE 
-	`game_room_name` = i_room_name AND `username` = i_username;
+	`room_name` = i_room_name AND `username` = i_username;
     
-  SELECT `host_username` INTO hostUsername FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
-  SELECT `number_of_players` INTO numOfPlayers FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
+  SELECT `host_username` INTO hostUsername FROM `partyrdb`.`lobby` WHERE `room_name` = i_room_name;
+  SELECT `number_of_players` INTO numOfPlayers FROM `partyrdb`.`lobby` WHERE `room_name` = i_room_name;
   
   IF numOfPlayers = 1 THEN
-    DELETE FROM `partyrdb`.`lobby` WHERE `game_room_name` = i_room_name;
+    DELETE FROM `partyrdb`.`lobby` WHERE `room_name` = i_room_name;
   ELSEIF hostUsername = i_username THEN
-    SELECT `username` INTO newHostUsername FROM `partyrdb`.`black_hand_games` WHERE `game_room_name` = i_room_name limit 1;
-	  UPDATE `partyrdb`.`lobby` SET `host_username` = newHostUsername WHERE `game_room_name` = i_room_name;
+    SELECT `username` INTO newHostUsername FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name limit 1;
+	  UPDATE `partyrdb`.`lobby` SET `host_username` = newHostUsername WHERE `room_name` = i_room_name;
   END IF;
 
-  SELECT count(*) INTO numOfPlayers FROM `partyrdb`.`black_hand_games` WHERE `game_room_name` = i_room_name;
-  UPDATE `partyrdb`.`lobby` SET `number_of_players` = numOfPlayers WHERE `game_room_name` = i_room_name;
+  SELECT count(*) INTO numOfPlayers FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name;
+  UPDATE `partyrdb`.`lobby` SET `number_of_players` = numOfPlayers WHERE `room_name` = i_room_name;
 END$$
 
 -- ** save_chat_message
@@ -378,7 +378,7 @@ CREATE PROCEDURE `toggle_ready_status`(
 BEGIN
   UPDATE `partyrdb`.`black_hand_games`
 	  SET `ready_status` = IF(`ready_status` = 'READY', 'NOT_READY', 'READY')
-  WHERE `game_room_name` = i_room_name AND `username` = i_username;
+  WHERE `room_name` = i_room_name AND `username` = i_username;
 END$$
 
 -- ** set_black_hand_preferred_faction
@@ -391,7 +391,20 @@ CREATE PROCEDURE `set_black_hand_preferred_faction`(
 BEGIN
   UPDATE `partyrdb`.`black_hand_games`
 	  SET `preferred_faction` = i_preferred_faction
-  WHERE `game_room_name` = i_room_name AND `username` = i_username;
+  WHERE `room_name` = i_room_name AND `username` = i_username;
+END$$
+
+-- ** set_black_hand_display_name
+
+CREATE PROCEDURE `set_black_hand_display_name`(
+  IN i_room_name VARCHAR(32),
+  IN i_username VARCHAR(32),
+  IN i_display_name VARCHAR(32)
+)
+BEGIN
+  UPDATE `partyrdb`.`black_hand_games`
+	  SET `display_name` = i_display_name
+  WHERE `room_name` = i_room_name AND `username` = i_username;
 END$$
 
 DELIMITER ;

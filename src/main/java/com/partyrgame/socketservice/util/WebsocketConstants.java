@@ -34,5 +34,8 @@ public class WebsocketConstants {
   public final static String BLACK_HAND_BROKER = "/game";
 
   public final static String BLACK_HAND_SELECT_PREFERRED_FACTION = "/select-preferred-faction";
+
+  public final static String BLACK_HAND_SELECT_DISPLAY_NAME = "/select-display-name";
+
   public final static String BLACK_HAND_START_SEND = "/start-black-hand";
 }

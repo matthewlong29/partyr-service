@@ -76,6 +76,23 @@ public class BlackHandDaoImpl implements BlackHandDao {
   }
 
   /**
+   * selectDisplayName.
+   */
+  public int selectDisplayName(String username, String roomName, String displayName) {
+    String query = "CALL `partyrdb`.`set_black_hand_display_name`('" + roomName + "', '" + username + "', '"
+        + displayName + "')";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to update display name for user {}; error: {}", username, e.getMessage());
+    }
+
+    return 0;
+  }
+
+  /**
    * getBlackHandRoles.
    */
   public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles() {
