@@ -12,4 +12,6 @@ public interface MessageService {
   public void sendRoomMessage(List<Room> rooms);
 
   public void sendBlackHandMessage(BlackHand blackHand);
+
+  public void sendOfferMessage(String offer, String channel);
 }

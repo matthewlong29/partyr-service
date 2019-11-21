@@ -52,6 +52,16 @@ public class MessageServiceImpl implements MessageService {
   }
 
   /**
+   * sendOfferMessage: sends
+   */
+  public void sendOfferMessage(String offer, String channel) {
+    String queue = WebsocketConstants.BLACK_HAND_BROKER + "/" + channel;
+    log.info("sending offer to " + queue);
+
+    this.template.convertAndSend(queue, offer);
+  }
+
+  /**
    * handleWebSocketConnectListener.
    */
   @EventListener
