@@ -13,6 +13,7 @@ import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
 import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
 import com.partyrgame.blackhandservice.model.BlackHandRole;
+import com.partyrgame.blackhandservice.model.PlayerTurn;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -87,6 +88,24 @@ public class BlackHandDaoImpl implements BlackHandDao {
       return jdbcTemplate.update(query);
     } catch (Exception e) {
       log.error("unable to update display name for user {}; error: {}", username, e.getMessage());
+    }
+
+    return 0;
+  }
+
+  /**
+   * submitPlayerTurn.
+   */
+  public int submitPlayerTurn(PlayerTurn turn) {
+    String query = "CALL `partyrdb`.`submit_black_hand_player_turn`('" + turn.getRoomName() + "', '"
+        + turn.getUsername() + "', '" + turn.getAttacking() + "', '" + turn.getBlocking() + "', '" + turn.getNote()
+        + "')";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to submit turn for user {}; error: {}", turn.getUsername(), e.getMessage());
     }
 
     return 0;

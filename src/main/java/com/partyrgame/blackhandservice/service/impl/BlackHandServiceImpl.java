@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
-import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
 import com.partyrgame.blackhandservice.model.PlayerTurn;
 import com.partyrgame.blackhandservice.service.BlackHandDayService;
@@ -54,6 +53,9 @@ public class BlackHandServiceImpl implements BlackHandService {
     return blackHandDao.getBlackHandDetails(roomName);
   }
 
+  /**
+   * selectDisplayName.
+   */
   public BlackHand selectDisplayName(String username, String roomName, String displayName) {
     blackHandDao.selectDisplayName(username, roomName, displayName);
 

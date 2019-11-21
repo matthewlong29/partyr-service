@@ -1,5 +1,6 @@
 package com.partyrgame.blackhandservice.service.impl;
 
+import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
 import com.partyrgame.blackhandservice.model.PlayerTurn;
 import com.partyrgame.blackhandservice.service.BlackHandDayService;
@@ -13,12 +14,15 @@ public class BlackHandDayServiceImpl implements BlackHandDayService {
   @Autowired
   BlackHandService blackHandService;
 
+  @Autowired
+  BlackHandDao blackHandDao;
+
   /**
    * submitPlayerTurn.
    */
   public BlackHand submitPlayerTurn(PlayerTurn turn) {
-    BlackHand blackHand = blackHandService.getBlackHandDetails(turn.getRoomName());
+    blackHandDao.submitPlayerTurn(turn);
 
-    return blackHand;
+    return blackHandService.getBlackHandDetails(turn.getRoomName());
   }
 }

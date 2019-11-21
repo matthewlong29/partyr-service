@@ -38,4 +38,6 @@ public class WebsocketConstants {
   public final static String BLACK_HAND_SELECT_DISPLAY_NAME = "/select-display-name";
 
   public final static String BLACK_HAND_START_SEND = "/start-black-hand";
+
+  public final static String BLACK_HAND_SUBMIT_TURN = "/submit-turn";
 }

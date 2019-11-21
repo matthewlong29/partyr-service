@@ -32,11 +32,17 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
   /**
    * startGame: returns data necessary to start a game of black.
    * 
-   * TODO: if displayName is null then set it equal to username; TODO: add
-   * randomization for assigning roles; TODO: update lobby schema to include start
-   * time for a game; TODO: update get_black_hand_game stored proc to also return
-   * start time for game TODO: consider adding more to lobby table (i.e. phase,
-   * numRemaining, lastPlayerToDie, playerOnTrial, etc...?)
+   * TODO: if displayName is null then set it equal to username;
+   * 
+   * TODO: add randomization for assigning roles;
+   * 
+   * TODO: update lobby schema to include start time for a game;
+   * 
+   * TODO: update get_black_hand_game stored proc to also return start time for
+   * game
+   * 
+   * TODO: consider adding more to lobby table (i.e. phase, numRemaining,
+   * lastPlayerToDie, playerOnTrial, etc...?)
    */
   public BlackHand startGame(String roomName) {
     BlackHandNumberOfPlayers actualNumber = new BlackHandNumberOfPlayers();
@@ -120,6 +126,8 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
    * findFirstAvailableFaction: scans list of available roles, sets player that
    * role, and removes role from the available roles list. Player will be set, but
    * role may not yet be if their preference cannot be met.
+   * 
+   * TODO: update db when assigning player
    */
   private void assignPreferredRole(BlackHand blackHand, HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles,
       BlackHand.BlackHandPlayer player, BlackHandNumberOfPlayers requiredNumber,
@@ -141,6 +149,8 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
    * and fill that role with what is missing.
    * 
    * TODO: refactor..
+   * 
+   * TODO: update db when assigning player
    */
   private void assignRemainingRole(BlackHand blackHand, HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles,
       BlackHandNumberOfPlayers requiredNumber, BlackHandNumberOfPlayers actualNumber) {

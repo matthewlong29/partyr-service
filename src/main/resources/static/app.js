@@ -42,7 +42,12 @@ let sendToOptions = [
   },
   {
     send: "/app/start-black-hand",
-    example: '{ "roomName": "ziploc bags box tablet stand"}'
+    example: '{"roomName": "ziploc bags box tablet stand"}'
+  },
+  {
+    send: "/app/submit-turn",
+    example:
+      '{"roomName": "ziploc bags box tablet stand", "username": "cheesecake", "attacking": "coty", "blocking": "", "note": "on the first night i attacked cody."}'
   }
 ];
 let subscribeToOptions = ["/chat/room", "/lobby/rooms", "/game/black-hand"];

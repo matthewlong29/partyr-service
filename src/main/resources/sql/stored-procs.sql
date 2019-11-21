@@ -24,6 +24,8 @@ DROP PROCEDURE IF EXISTS `select_theme`;
 DROP PROCEDURE IF EXISTS `select_username`;
 DROP PROCEDURE IF EXISTS `toggle_ready_status`;
 DROP PROCEDURE IF EXISTS `set_black_hand_preferred_faction`;
+DROP PROCEDURE IF EXISTS `set_black_hand_display_name`;
+DROP PROCEDURE IF EXISTS `submit_black_hand_player_turn`;
 
 DELIMITER $$
 USE `partyrdb`$$
@@ -354,8 +356,8 @@ CREATE PROCEDURE `select_theme`(
   IN i_theme_name VARCHAR(32)
 )
 BEGIN
- update `partyrdb`.`partyr_users` 
- set `theme_name` = i_theme_name where `username` = i_username;
+ UPDATE `partyrdb`.`partyr_users` 
+ SET `theme_name` = i_theme_name WHERE `username` = i_username;
 END$$
 
 -- ** select_username
@@ -365,8 +367,8 @@ CREATE PROCEDURE `select_username`(
   IN i_username VARCHAR(32)
 )
 BEGIN
-  update `partyrdb`.`partyr_users` 
-  set `username` = i_username where `email` = i_email;
+  UPDATE `partyrdb`.`partyr_users` 
+  SET `username` = i_username WHERE `email` = i_email;
 END$$
 
 -- ** toggle_ready_status
@@ -405,6 +407,37 @@ BEGIN
   UPDATE `partyrdb`.`black_hand_games`
 	  SET `display_name` = i_display_name
   WHERE `room_name` = i_room_name AND `username` = i_username;
+END$$
+
+-- ** submit_black_hand_player_turn
+
+CREATE PROCEDURE `submit_black_hand_player_turn`(
+  IN i_room_name VARCHAR(32),
+  IN i_username VARCHAR(32),
+  IN i_attacking_player VARCHAR(32),
+  IN i_blocking_player VARCHAR(32),
+  IN i_note VARCHAR(1024)
+)
+BEGIN
+  DECLARE attackingPlayerExists INT;
+  DECLARE blockingPlayerExists INT;
+
+  SELECT EXISTS(SELECT * FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_attacking_player) INTO attackingPlayerExists;
+  SELECT EXISTS(SELECT * FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_blocking_player) INTO blockingPlayerExists;
+
+  IF (attackingPlayerExists = 1 AND blockingPlayerExists = 1) THEN
+    UPDATE `partyrdb`.`black_hand_games`
+      SET `attacking_player` = i_attacking_player, `blocking_player` = i_blocking_player, `note` = i_note
+    WHERE `room_name` = i_room_name AND `username` = i_username;
+  ELSEIF (attackingPlayerExists <> 1 AND blockingPlayerExists = 1) THEN
+    UPDATE `partyrdb`.`black_hand_games`
+      SET `blocking_player` = i_blocking_player, `note` = i_note
+    WHERE `room_name` = i_room_name AND `username` = i_username;
+  ELSEIF (attackingPlayerExists = 1 AND blockingPlayerExists <> 1) THEN
+    UPDATE `partyrdb`.`black_hand_games`
+      SET `attacking_player` = i_attacking_player, `note` = i_note
+    WHERE `room_name` = i_room_name AND `username` = i_username;
+  END IF;
 END$$
 
 DELIMITER ;

@@ -9,6 +9,8 @@ import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
 import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
 import com.partyrgame.blackhandservice.model.BlackHandRole;
+import com.partyrgame.blackhandservice.model.PlayerTurn;
+import com.partyrgame.blackhandservice.service.BlackHandDayService;
 import com.partyrgame.blackhandservice.service.BlackHandInitializeService;
 import com.partyrgame.blackhandservice.service.BlackHandService;
 import com.partyrgame.socketservice.service.MessageService;
@@ -34,6 +36,9 @@ public class BlackHandController {
 
   @Autowired
   BlackHandService blackHandService;
+
+  @Autowired
+  BlackHandDayService blackHandDayService;
 
   @Autowired
   MessageService messageService;
@@ -127,6 +132,23 @@ public class BlackHandController {
     String roomName = body.get("roomName");
 
     BlackHand blackHand = blackHandInitializeService.startGame(roomName);
+
+    messageService.sendBlackHandMessage(blackHand);
+  }
+
+  /**
+   * startBlackHandGame: returns json needed to start a new game of the black
+   * hand.
+   * 
+   * @param body {"roomName": "game 1", "username": "cheesecake", "attacking":
+   *             "cody", "blocking": "", "note": "on the first night i attacked
+   *             cody."}
+   */
+  @MessageMapping(WebsocketConstants.BLACK_HAND_SUBMIT_TURN)
+  public void startBlackHandGame(@RequestBody PlayerTurn turn) {
+    log.info("player turn: {}", turn);
+
+    BlackHand blackHand = blackHandDayService.submitPlayerTurn(turn);
 
     messageService.sendBlackHandMessage(blackHand);
   }
