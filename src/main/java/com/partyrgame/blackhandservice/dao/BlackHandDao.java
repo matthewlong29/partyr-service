@@ -23,7 +23,7 @@ public interface BlackHandDao {
 
   public int setRoleForPlayer(String username, String roomName, String roleName);
 
-  public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles();
+  public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles(); // TODO cache what is returned here to minimize dao calls
 
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int totalNumberOfPlayers);
 }

@@ -436,21 +436,28 @@ BEGIN
   DECLARE attackingPlayerExists INT;
   DECLARE blockingPlayerExists INT;
 
+  DECLARE attacksAgainst INT;
+  DECLARE blocksAgainst INT;
+
   SELECT EXISTS(SELECT * FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_attacking_player) INTO attackingPlayerExists;
   SELECT EXISTS(SELECT * FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_blocking_player) INTO blockingPlayerExists;
 
+  SELECT `attacks_against` INTO attacksAgainst FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_attacking_player;
+  SELECT `blocks_against` INTO blocksAgainst FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_blocking_player;
+
   IF (attackingPlayerExists = 1 AND blockingPlayerExists = 1) THEN
     UPDATE `partyrdb`.`black_hand_games`
-      SET `attacking_player` = i_attacking_player, `blocking_player` = i_blocking_player, `note` = i_note
-    WHERE `room_name` = i_room_name AND `username` = i_username;
+      SET `attacking_player` = i_attacking_player, `blocking_player` = i_blocking_player, `note` = i_note WHERE `room_name` = i_room_name AND `username` = i_username;
+    UPDATE `partyrdb`.`black_hand_games` SET `attacks_against` = (attacksAgainst + 1) WHERE `username` = i_attacking_player;
+    UPDATE `partyrdb`.`black_hand_games` SET `blocks_against` = (blocksAgainst + 1) WHERE `username` = i_blocking_player;
   ELSEIF (attackingPlayerExists <> 1 AND blockingPlayerExists = 1) THEN
     UPDATE `partyrdb`.`black_hand_games`
-      SET `blocking_player` = i_blocking_player, `note` = i_note
-    WHERE `room_name` = i_room_name AND `username` = i_username;
+      SET `blocking_player` = i_blocking_player, `note` = i_note WHERE `room_name` = i_room_name AND `username` = i_username;
+    UPDATE `partyrdb`.`black_hand_games` SET `blocks_against` = (blocksAgainst + 1) WHERE `username` = i_blocking_player;
   ELSEIF (attackingPlayerExists = 1 AND blockingPlayerExists <> 1) THEN
     UPDATE `partyrdb`.`black_hand_games`
-      SET `attacking_player` = i_attacking_player, `note` = i_note
-    WHERE `room_name` = i_room_name AND `username` = i_username;
+      SET `attacking_player` = i_attacking_player, `note` = i_note WHERE `room_name` = i_room_name AND `username` = i_username;
+    UPDATE `partyrdb`.`black_hand_games` SET `attacks_against` = (attacksAgainst + 1) WHERE `username` = i_attacking_player;
   END IF;
 END$$
 
