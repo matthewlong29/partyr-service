@@ -21,6 +21,8 @@ public interface BlackHandDao {
 
   public int submitPlayerTurn(PlayerTurn turn);
 
+  public int setRoleForPlayer(String username, String roomName, String roleName);
+
   public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles();
 
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int totalNumberOfPlayers);

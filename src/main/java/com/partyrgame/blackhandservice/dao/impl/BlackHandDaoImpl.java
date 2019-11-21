@@ -60,6 +60,23 @@ public class BlackHandDaoImpl implements BlackHandDao {
   }
 
   /**
+   * setRoleForPlayer.
+   */
+  public int setRoleForPlayer(String username, String roomName, String roleName) {
+    String query = "CALL `partyrdb`.`set_black_hand_role_name`('" + roomName + "', '" + username + "', '" + roleName
+        + "')";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to update role name for user {}; error: {}", username, e.getMessage());
+    }
+
+    return 0;
+  }
+
+  /**
    * setPreferredFaction.
    */
   public int setPreferredFaction(String username, String roomName, String preferredFaction) {

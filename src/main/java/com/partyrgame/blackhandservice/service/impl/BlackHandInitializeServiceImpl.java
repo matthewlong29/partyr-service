@@ -54,7 +54,7 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
 
     log.info("black hand game: {}", blackHand.toString());
 
-    blackHand.setGameRoomName(roomName);
+    blackHand.setRoomName(roomName);
     blackHand.setPhase(BlackHandConstants.DAY); // start game in DAY phase
     blackHand.setPlayersTurnRemaining(getAllPlayersDisplayNames(blackHand.getPlayers()));
 
@@ -137,6 +137,7 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
       log.info("found role for player: {};", availableRoles.get(player.getPreferredFaction()).get(0));
       player.setRole(availableRoles.get(player.getPreferredFaction()).get(0));
       player.setTurnPriority(availableRoles.get(player.getPreferredFaction()).get(0).getRolePriority());
+      blackHandDao.setRoleForPlayer(player.getUsername(), blackHand.getRoomName(), player.getRole().getName());
       availableRoles.get(player.getPreferredFaction()).remove(0);
       incrementNumberOfPlayersPerFaction(player.getPreferredFaction(), actualNumber);
     } else {
@@ -154,28 +155,30 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
    */
   private void assignRemainingRole(BlackHand blackHand, HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles,
       BlackHandNumberOfPlayers requiredNumber, BlackHandNumberOfPlayers actualNumber) {
-    for (BlackHandPlayer blackHandPlayer : blackHand.getPlayers()) {
-      if (blackHandPlayer.getRole() == null) {
-        log.info("need to assign a role for {};", blackHandPlayer.getUsername());
+    for (BlackHandPlayer player : blackHand.getPlayers()) {
+      if (player.getRole() == null) {
+        log.info("need to assign a role for {};", player.getUsername());
         if (requiredNumber.getBlackHandTotal() > actualNumber.getBlackHandTotal()) {
           log.info("found role for player: {};", availableRoles.get(BlackHandFaction.BlackHand).get(0));
-          blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.BlackHand).get(0));
-          blackHandPlayer.setTurnPriority(availableRoles.get(BlackHandFaction.BlackHand).get(0).getRolePriority());
+          player.setRole(availableRoles.get(BlackHandFaction.BlackHand).get(0));
+          player.setTurnPriority(availableRoles.get(BlackHandFaction.BlackHand).get(0).getRolePriority());
           availableRoles.get(BlackHandFaction.BlackHand).remove(0);
           incrementNumberOfPlayersPerFaction(BlackHandFaction.BlackHand, actualNumber);
         } else if (requiredNumber.getMonstersTotal() > actualNumber.getMonstersTotal()) {
           log.info("found role for player: {};", availableRoles.get(BlackHandFaction.Monster).get(0));
-          blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.Monster).get(0));
-          blackHandPlayer.setTurnPriority(availableRoles.get(BlackHandFaction.Monster).get(0).getRolePriority());
+          player.setRole(availableRoles.get(BlackHandFaction.Monster).get(0));
+          player.setTurnPriority(availableRoles.get(BlackHandFaction.Monster).get(0).getRolePriority());
           availableRoles.get(BlackHandFaction.Monster).remove(0);
           incrementNumberOfPlayersPerFaction(BlackHandFaction.Monster, actualNumber);
         } else if (requiredNumber.getTowniesTotal() > actualNumber.getTowniesTotal()) {
           log.info("found role for player: {};", availableRoles.get(BlackHandFaction.Townie).get(0));
-          blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.Townie).get(0));
-          blackHandPlayer.setTurnPriority(availableRoles.get(BlackHandFaction.Townie).get(0).getRolePriority());
+          player.setRole(availableRoles.get(BlackHandFaction.Townie).get(0));
+          player.setTurnPriority(availableRoles.get(BlackHandFaction.Townie).get(0).getRolePriority());
           availableRoles.get(BlackHandFaction.Townie).remove(0);
           incrementNumberOfPlayersPerFaction(BlackHandFaction.Townie, actualNumber);
         }
+
+        blackHandDao.setRoleForPlayer(player.getUsername(), blackHand.getRoomName(), player.getRole().getName());
       }
     }
   }
@@ -183,8 +186,8 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
   /**
    * sortPlayersByRolePriority.
    */
-  private void sortPlayersByRolePriority(List<BlackHand.BlackHandPlayer> blackHandPlayers) {
-    blackHandPlayers.sort(Comparator.comparing(BlackHand.BlackHandPlayer::getTurnPriority));
+  private void sortPlayersByRolePriority(List<BlackHand.BlackHandPlayer> players) {
+    players.sort(Comparator.comparing(BlackHand.BlackHandPlayer::getTurnPriority));
   }
 
   /**

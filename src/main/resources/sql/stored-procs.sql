@@ -23,6 +23,7 @@ DROP PROCEDURE IF EXISTS `save_chat_message`;
 DROP PROCEDURE IF EXISTS `select_theme`;
 DROP PROCEDURE IF EXISTS `select_username`;
 DROP PROCEDURE IF EXISTS `toggle_ready_status`;
+DROP PROCEDURE IF EXISTS `set_black_hand_role_name`;
 DROP PROCEDURE IF EXISTS `set_black_hand_preferred_faction`;
 DROP PROCEDURE IF EXISTS `set_black_hand_display_name`;
 DROP PROCEDURE IF EXISTS `submit_black_hand_player_turn`;
@@ -380,6 +381,19 @@ CREATE PROCEDURE `toggle_ready_status`(
 BEGIN
   UPDATE `partyrdb`.`black_hand_games`
 	  SET `ready_status` = IF(`ready_status` = 'READY', 'NOT_READY', 'READY')
+  WHERE `room_name` = i_room_name AND `username` = i_username;
+END$$
+
+-- ** set_black_hand_role_name
+
+CREATE PROCEDURE `set_black_hand_role_name`(
+  IN i_room_name VARCHAR(32),
+  IN i_username VARCHAR(32),
+  IN i_role_name VARCHAR(32)
+)
+BEGIN
+  UPDATE `partyrdb`.`black_hand_games`
+	  SET `role_name` = i_role_name
   WHERE `room_name` = i_room_name AND `username` = i_username;
 END$$
 

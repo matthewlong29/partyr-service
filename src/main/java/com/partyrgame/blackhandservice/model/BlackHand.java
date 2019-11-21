@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BlackHand {
-  private String gameRoomName;
+  private String roomName;
   private Timestamp gameStartTime; // TODO: set in startGame method of BlackHandInitializeService
   private String phase; // NOTE DAY or NIGHT (start with DAY phase)
   private List<String> playersTurnRemaining = new ArrayList<>(); // list of players who have not completed their turn
