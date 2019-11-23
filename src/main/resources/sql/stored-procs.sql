@@ -134,7 +134,9 @@ BEGIN
     `black_hand_games`.`room_name`,
     `black_hand_games`.`username`,
     `black_hand_games`.`display_name`,
+    `black_hand_games`.`phase`,
     `black_hand_games`.`preferred_faction`,
+    `black_hand_games`.`actual_faction`,
     `black_hand_games`.`role_name`,
     `black_hand_games`.`blocks_against`,
     `black_hand_games`.`attacks_against`,
@@ -511,7 +513,7 @@ BEGIN
   SELECT `attacks_against` INTO attacksAgainst FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_attacking_player;
   SELECT `blocks_against` INTO blocksAgainst FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_blocking_player;
 
-  SELECT `turn_completed` INTO turnCompleted FROM `partyrdb`.`turn_completed` WHERE `room_name` = i_room_name and `username` = i_username;
+  SELECT `turn_completed` INTO turnCompleted FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_username;
 
   IF (turnCompleted = 0) THEN
     IF (attackingPlayerExists = 1 AND blockingPlayerExists = 1) THEN

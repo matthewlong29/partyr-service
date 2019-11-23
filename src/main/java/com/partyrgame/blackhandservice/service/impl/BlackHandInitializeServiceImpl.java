@@ -1,6 +1,5 @@
 package com.partyrgame.blackhandservice.service.impl;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,16 +44,21 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
    * lastPlayerToDie, playerOnTrial, etc...?)
    */
   public BlackHand startGame(String roomName) {
+    BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
+
+    if (null != blackHand.getGameStartTime()) {
+      log.info("this game [{}] has already started [{}]", blackHand.getRoomName(), blackHand.getGameStartTime());
+
+      return blackHand;
+    }
+
     lobbyDao.startGame(roomName);
 
     BlackHandNumberOfPlayers actualNumber = new BlackHandNumberOfPlayers();
     HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles = getBlackHandRoles();
 
-    log.info("available roles: {}", availableRoles.toString());
-
-    BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
-
-    log.info("black hand game: {}", blackHand.toString());
+    log.debug("available roles: {}", availableRoles.toString());
+    log.debug("black hand game: {}", blackHand.toString());
 
     blackHand.setRoomName(roomName);
     blackHand.setPhase(BlackHandConstants.DAY); // start game in DAY phase
@@ -68,10 +72,10 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
     blackHand.setNumOfMonsterRemaining(requiredNumber.getMonstersTotal());
     blackHand.setNumOfTownieRemaining(requiredNumber.getTowniesTotal());
 
-    log.info("required number of players per faction: {};", requiredNumber);
+    log.debug("required number of players per faction: {};", requiredNumber);
 
     for (BlackHand.BlackHandPlayer player : players) {
-      log.info("user: {}", player.getUsername());
+      log.debug("user: {}", player.getUsername());
       assignPreferredRole(blackHand, availableRoles, player, requiredNumber, actualNumber);
     }
 
@@ -81,7 +85,7 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
       log.error("exception occurred when trying to assign role to player: {}", e.getMessage());
     }
 
-    log.info("actual number of players per faction: {};", actualNumber);
+    log.debug("actual number of players per faction: {};", actualNumber);
 
     blackHandDao.updateBlackHandGame(roomName, BlackHandConstants.DAY);
 
@@ -101,10 +105,10 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
    */
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int playerTotal) {
     if (playerTotal < 5) {
-      log.info("At least 5 players are needed to play the Black Hand!");
+      log.info("at least 5 players are needed to play the Black Hand!");
       playerTotal = 5;
     } else if (playerTotal > 15) {
-      log.info("At most 15 players can play the Black Hand!");
+      log.info("at most 15 players can play the Black Hand!");
       playerTotal = 15;
     }
 

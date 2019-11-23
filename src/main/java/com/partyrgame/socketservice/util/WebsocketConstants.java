@@ -38,5 +38,7 @@ public class WebsocketConstants {
   public final static String BLACK_HAND_START_SEND = "/start-black-hand";
   public final static String BLACK_HAND_SUBMIT_TURN = "/submit-turn";
   public final static String BLACK_HAND_EVALUATE_DAY = "/evaluate-day";
+  public final static String BLACK_HAND_SUBMIT_VOTE = "/submit-vote";
+  public final static String BLACK_HAND_EVALUATE_TRIAL = "/evaluate-trial";
   public final static String BLACK_HAND_EVALUATE_NIGHT = "/evaluate-night";
 }

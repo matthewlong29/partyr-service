@@ -12,7 +12,9 @@ public class BlackHandGame {
   private String gameRoomName;
   private String username;
   private String displayName;
+  private String phase;
   private BlackHandFaction preferredFaction;
+  private BlackHandFaction actualFaction;
   private String roleName;
   private PlayerStatus playerStatus;
   private ReadyStatus readyStatus;
