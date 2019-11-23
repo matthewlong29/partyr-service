@@ -19,11 +19,13 @@ DROP PROCEDURE IF EXISTS `get_user_by_email`;
 DROP PROCEDURE IF EXISTS `get_users`;
 DROP PROCEDURE IF EXISTS `join_black_hand_room`;
 DROP PROCEDURE IF EXISTS `leave_black_hand_room`;
+DROP PROCEDURE IF EXISTS `start_game`;
 DROP PROCEDURE IF EXISTS `save_chat_message`;
 DROP PROCEDURE IF EXISTS `select_theme`;
 DROP PROCEDURE IF EXISTS `select_username`;
 DROP PROCEDURE IF EXISTS `toggle_ready_status`;
-DROP PROCEDURE IF EXISTS `set_black_hand_role_name`;
+DROP PROCEDURE IF EXISTS `update_black_hand_game_start_for_player`;
+DROP PROCEDURE IF EXISTS `update_black_hand_game`;
 DROP PROCEDURE IF EXISTS `set_black_hand_preferred_faction`;
 DROP PROCEDURE IF EXISTS `set_black_hand_display_name`;
 DROP PROCEDURE IF EXISTS `submit_black_hand_player_turn`;
@@ -128,7 +130,26 @@ CREATE PROCEDURE `get_black_hand_game`(
   IN i_room_name VARCHAR(32)   
 )
 BEGIN
-  SELECT * FROM `partyrdb`.`black_hand_games` WHERE `black_hand_games`.`room_name` = i_room_name;
+  SELECT
+    `black_hand_games`.`room_name`,
+    `black_hand_games`.`username`,
+    `black_hand_games`.`display_name`,
+    `black_hand_games`.`preferred_faction`,
+    `black_hand_games`.`role_name`,
+    `black_hand_games`.`blocks_against`,
+    `black_hand_games`.`attacks_against`,
+    `black_hand_games`.`turn_completed`,
+    `black_hand_games`.`attacking_player`,
+    `black_hand_games`.`blocking_player`,
+    `black_hand_games`.`turn_priority`,
+    `black_hand_games`.`player_status`,
+    `black_hand_games`.`ready_status`,
+    `black_hand_games`.`note`,
+    `lobby`.`game_start_time`
+  FROM `partyrdb`.`black_hand_games`
+    JOIN `partyrdb`.`lobby` ON `black_hand_games`.`room_name` = `lobby`.`room_name`
+  WHERE `black_hand_games`.`room_name` = 'ziploc bags box tablet stand'
+  ORDER BY `black_hand_games`.`turn_priority`;
 END$$
 
 -- ** get_black_hand_required_number_of_players
@@ -182,9 +203,7 @@ BEGIN
     T2.`players_ready`,
     T3.`players_not_ready`,
     T1.`number_of_players`,
-    T1.`game_started`,
-    T1.`game_start_time`,
-    T1.`game_end_time`
+    T1.`game_start_time`
   FROM
     (select * from `lobby`) T1
     LEFT OUTER JOIN (
@@ -331,6 +350,18 @@ BEGIN
   UPDATE `partyrdb`.`lobby` SET `number_of_players` = numOfPlayers WHERE `room_name` = i_room_name;
 END$$
 
+-- ** start_game
+
+CREATE PROCEDURE `start_game`(
+  IN i_room_name VARCHAR(32),
+  IN i_game_start_time TIMESTAMP
+)
+BEGIN
+  UPDATE `partyrdb`.`lobby` SET 
+    `game_start_time` = i_game_start_time 
+  WHERE `room_name` = i_room_name;
+END$$
+
 -- ** save_chat_message
 
 CREATE PROCEDURE `save_chat_message`(
@@ -384,17 +415,50 @@ BEGIN
   WHERE `room_name` = i_room_name AND `username` = i_username;
 END$$
 
--- ** set_black_hand_role_name
+-- ** update_black_hand_game_start_for_player
 
-CREATE PROCEDURE `set_black_hand_role_name`(
+CREATE PROCEDURE `update_black_hand_game_start_for_player`(
   IN i_room_name VARCHAR(32),
   IN i_username VARCHAR(32),
-  IN i_role_name VARCHAR(32)
+  IN i_role_name VARCHAR(32),
+  IN i_actual_faction VARCHAR(32),
+  IN i_turn_priority INT
+)
+BEGIN
+  DECLARE displayName VARCHAR(32);
+
+  SELECT `display_name` INTO displayName FROM `partyrdb`.`black_hand_games` 
+    WHERE `room_name` = i_room_name and `username` = i_username;
+
+  IF (displayName IS NOT NULL) THEN
+    UPDATE `partyrdb`.`black_hand_games`
+      SET 
+        `role_name` = i_role_name,
+        `actual_faction` = i_actual_faction,
+        `turn_priority` = i_turn_priority
+    WHERE `room_name` = i_room_name AND `username` = i_username;
+  ELSE 
+    UPDATE `partyrdb`.`black_hand_games`
+      SET 
+        `role_name` = i_role_name,
+        `actual_faction` = i_actual_faction,
+        `turn_priority` = i_turn_priority,
+        `display_name` = i_username
+    WHERE `room_name` = i_room_name AND `username` = i_username;
+  END IF;
+END$$
+
+-- ** update_black_hand_game
+
+CREATE PROCEDURE `update_black_hand_game`(
+  IN i_room_name VARCHAR(32),
+  IN i_phase VARCHAR(8)
 )
 BEGIN
   UPDATE `partyrdb`.`black_hand_games`
-	  SET `role_name` = i_role_name
-  WHERE `room_name` = i_room_name AND `username` = i_username;
+    SET 
+      `phase` = i_phase
+  WHERE `room_name` = i_room_name;
 END$$
 
 -- ** set_black_hand_preferred_faction
@@ -439,25 +503,44 @@ BEGIN
   DECLARE attacksAgainst INT;
   DECLARE blocksAgainst INT;
 
+  DECLARE turnCompleted INT;
+
   SELECT EXISTS(SELECT * FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_attacking_player) INTO attackingPlayerExists;
   SELECT EXISTS(SELECT * FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_blocking_player) INTO blockingPlayerExists;
 
   SELECT `attacks_against` INTO attacksAgainst FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_attacking_player;
   SELECT `blocks_against` INTO blocksAgainst FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_blocking_player;
 
-  IF (attackingPlayerExists = 1 AND blockingPlayerExists = 1) THEN
-    UPDATE `partyrdb`.`black_hand_games`
-      SET `attacking_player` = i_attacking_player, `blocking_player` = i_blocking_player, `note` = i_note WHERE `room_name` = i_room_name AND `username` = i_username;
-    UPDATE `partyrdb`.`black_hand_games` SET `attacks_against` = (attacksAgainst + 1) WHERE `username` = i_attacking_player;
-    UPDATE `partyrdb`.`black_hand_games` SET `blocks_against` = (blocksAgainst + 1) WHERE `username` = i_blocking_player;
-  ELSEIF (attackingPlayerExists <> 1 AND blockingPlayerExists = 1) THEN
-    UPDATE `partyrdb`.`black_hand_games`
-      SET `blocking_player` = i_blocking_player, `note` = i_note WHERE `room_name` = i_room_name AND `username` = i_username;
-    UPDATE `partyrdb`.`black_hand_games` SET `blocks_against` = (blocksAgainst + 1) WHERE `username` = i_blocking_player;
-  ELSEIF (attackingPlayerExists = 1 AND blockingPlayerExists <> 1) THEN
-    UPDATE `partyrdb`.`black_hand_games`
-      SET `attacking_player` = i_attacking_player, `note` = i_note WHERE `room_name` = i_room_name AND `username` = i_username;
-    UPDATE `partyrdb`.`black_hand_games` SET `attacks_against` = (attacksAgainst + 1) WHERE `username` = i_attacking_player;
+  SELECT `turn_completed` INTO turnCompleted FROM `partyrdb`.`turn_completed` WHERE `room_name` = i_room_name and `username` = i_username;
+
+  IF (turnCompleted = 0) THEN
+    IF (attackingPlayerExists = 1 AND blockingPlayerExists = 1) THEN
+      UPDATE `partyrdb`.`black_hand_games`
+        SET 
+          `attacking_player` = i_attacking_player, 
+          `blocking_player` = i_blocking_player, 
+          `turn_completed` = 1,
+          `note` = i_note 
+        WHERE `room_name` = i_room_name AND `username` = i_username;
+      UPDATE `partyrdb`.`black_hand_games` SET `attacks_against` = (attacksAgainst + 1) WHERE `username` = i_attacking_player;
+      UPDATE `partyrdb`.`black_hand_games` SET `blocks_against` = (blocksAgainst + 1) WHERE `username` = i_blocking_player;
+    ELSEIF (attackingPlayerExists <> 1 AND blockingPlayerExists = 1) THEN
+      UPDATE `partyrdb`.`black_hand_games`
+        SET 
+          `blocking_player` = i_blocking_player, 
+          `turn_completed` = 1,
+          `note` = i_note 
+        WHERE `room_name` = i_room_name AND `username` = i_username;
+      UPDATE `partyrdb`.`black_hand_games` SET `blocks_against` = (blocksAgainst + 1) WHERE `username` = i_blocking_player;
+    ELSEIF (attackingPlayerExists = 1 AND blockingPlayerExists <> 1) THEN
+      UPDATE `partyrdb`.`black_hand_games`
+        SET 
+          `attacking_player` = i_attacking_player, 
+          `turn_completed` = 1,
+          `note` = i_note 
+        WHERE `room_name` = i_room_name AND `username` = i_username;
+      UPDATE `partyrdb`.`black_hand_games` SET `attacks_against` = (attacksAgainst + 1) WHERE `username` = i_attacking_player;
+    END IF;
   END IF;
 END$$
 

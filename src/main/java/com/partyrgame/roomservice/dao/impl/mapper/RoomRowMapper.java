@@ -30,9 +30,7 @@ public class RoomRowMapper implements RowMapper<Room> {
     room.setPlayersReady(extractPlayerList(resultSet.getString("players_ready")));
     room.setPlayersNotReady(extractPlayerList(resultSet.getString("players_not_ready")));
     room.setNumberOfPlayers(resultSet.getInt("number_of_players"));
-    room.setGameStarted(resultSet.getInt("game_started") == 0 ? true : false);
     room.setGameStartTime(resultSet.getTimestamp("game_start_time"));
-    room.setGameEndTime(resultSet.getTimestamp("game_end_time"));
 
     return room;
   }

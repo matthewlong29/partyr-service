@@ -1,11 +1,14 @@
 package com.partyrgame.blackhandservice.model;
 
+import java.sql.Timestamp;
+
 import com.partyrgame.userservice.model.ReadyStatus;
 
 import lombok.Data;
 
 @Data
 public class BlackHandGame {
+  private Timestamp gameStartTime;
   private String gameRoomName;
   private String username;
   private String displayName;

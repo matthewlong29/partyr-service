@@ -19,6 +19,7 @@ public class BlackHandGameRowMapper implements RowMapper<BlackHandGame> {
   @Override
   public BlackHandGame mapRow(ResultSet resultSet, int rowNum) throws SQLException {
     BlackHandGame blackHandGame = new BlackHandGame();
+    blackHandGame.setGameStartTime(resultSet.getTimestamp("game_start_time"));
     blackHandGame.setGameRoomName(resultSet.getString("room_name"));
     blackHandGame.setUsername(resultSet.getString("username"));
     blackHandGame.setDisplayName(resultSet.getString("display_name"));

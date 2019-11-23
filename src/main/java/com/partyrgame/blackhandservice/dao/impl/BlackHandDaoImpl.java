@@ -60,17 +60,17 @@ public class BlackHandDaoImpl implements BlackHandDao {
   }
 
   /**
-   * setRoleForPlayer.
+   * updateBlackHandGameForPlayer.
    */
-  public int setRoleForPlayer(String username, String roomName, String roleName) {
-    String query = "CALL `partyrdb`.`set_black_hand_role_name`('" + roomName + "', '" + username + "', '" + roleName
-        + "')";
+  public int updateBlackHandGameForPlayer(String username, String roomName, String roleName, String faction, int turnPriority) {
+    String query = "CALL `partyrdb`.`update_black_hand_game_start_for_player`('" + roomName + "', '" + username + "', '"
+        + roleName + "', '" + faction + "', '" + turnPriority + "')";
     log.info(query);
 
     try {
       return jdbcTemplate.update(query);
     } catch (Exception e) {
-      log.error("unable to update role name for user {}; error: {}", username, e.getMessage());
+      log.error("unable to update black hand game data for user {}; error: {}", username, e.getMessage());
     }
 
     return 0;
@@ -105,6 +105,22 @@ public class BlackHandDaoImpl implements BlackHandDao {
       return jdbcTemplate.update(query);
     } catch (Exception e) {
       log.error("unable to update display name for user {}; error: {}", username, e.getMessage());
+    }
+
+    return 0;
+  }
+
+  /**
+   * updateBlackHandGame.
+   */
+  public int updateBlackHandGame(String roomName, String phase) {
+    String query = "CALL `partyrdb`.`update_black_hand_game`('" + roomName + "', '" + phase + "')";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to update black hand game for room {}; error: {}", roomName, e.getMessage());
     }
 
     return 0;

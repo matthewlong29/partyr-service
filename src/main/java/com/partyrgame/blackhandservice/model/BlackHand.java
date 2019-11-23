@@ -14,8 +14,8 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BlackHand {
   private String roomName;
-  private Timestamp gameStartTime; // TODO: set in startGame method of BlackHandInitializeService
-  private String phase; // NOTE DAY or NIGHT (start with DAY phase)
+  private Timestamp gameStartTime;
+  private String phase; // NOTE DAY, NIGHT, or SETUP (SETUP -> DAY -> NIGHT -> DAY -> NIGHT -> ...)
   private List<String> playersTurnRemaining = new ArrayList<>(); // list of players who have not completed their turn
   private int numOfBlackHandRemaining;
   private int numOfTownieRemaining;
@@ -32,10 +32,12 @@ public class BlackHand {
     private String username;
     private String displayName;
     private BlackHandFaction preferredFaction;
+    private BlackHandFaction actualFaction;
     private PlayerStatus playerStatus; // ALIVE or DEAD
     private int blocksAgainst;
     private int attacksAgainst;
-    private int turnPriority; // TODO: remove this as players can go in any order. the evaluate phases just check if block > attack
+    private int turnPriority; // TODO: remove this as players can go in any order. the evaluate phases just
+                              // check if block > attack
     private BlackHandRole role;
     private List<BlackHandNote> notes = new ArrayList<>();
   }

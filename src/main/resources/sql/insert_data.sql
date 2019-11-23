@@ -1,3 +1,22 @@
+-- ** purge all data
+
+SET FOREIGN_KEY_CHECKS = 0; -- to disable them
+SET SQL_SAFE_UPDATES = 0;
+
+DELETE FROM `partyrdb`.`themes`;
+DELETE FROM `partyrdb`.`partyr_users`;
+DELETE FROM `partyrdb`.`relationships`;
+DELETE FROM `partyrdb`.`achievements`;
+DELETE FROM `partyrdb`.`games`;
+DELETE FROM `partyrdb`.`black_hand_required_number_of_players`;
+DELETE FROM `partyrdb`.`lobby`;
+DELETE FROM `partyrdb`.`black_hand_roles`;
+DELETE FROM `partyrdb`.`black_hand_games`;
+DELETE FROM `partyrdb`.`chat`;
+
+SET SQL_SAFE_UPDATES = 1;
+SET FOREIGN_KEY_CHECKS = 1; -- to re-enable them
+
 -- ** themes mock data
 
 insert into `partyrdb`.`themes` (`theme_name`) values ('light');

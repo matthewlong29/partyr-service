@@ -21,9 +21,12 @@ public interface BlackHandDao {
 
   public int submitPlayerTurn(PlayerTurn turn);
 
-  public int setRoleForPlayer(String username, String roomName, String roleName);
+  public int updateBlackHandGame(String roomName, String phase);
 
-  public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles(); // TODO cache what is returned here to minimize dao calls
+  public int updateBlackHandGameForPlayer(String username, String roomName, String roleName, String faction, int turnPriority);
+
+  public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles(); // TODO cache what is returned here to
+                                                                             // minimize dao calls
 
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int totalNumberOfPlayers);
 }

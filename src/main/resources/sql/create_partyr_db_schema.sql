@@ -1,6 +1,6 @@
 -- ** drop all tables
 
-SET FOREIGN_KEY_CHECKS=0; -- to disable them
+SET FOREIGN_KEY_CHECKS = 0; -- to disable them
 
 DROP TRIGGER IF EXISTS set_username_equal_to_email;
 DROP TRIGGER IF EXISTS verify_valid_number_of_players;
@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS themes;
 DROP TABLE IF EXISTS games;
 DROP TABLE IF EXISTS chat;
 
-SET FOREIGN_KEY_CHECKS=1; -- to re-enable them
+SET FOREIGN_KEY_CHECKS = 1; -- to re-enable them
 
 -- ** create themes table
 
@@ -108,9 +108,7 @@ CREATE TABLE `lobby` (
   `game_name` VARCHAR(32) NOT NULL,
   `host_username` VARCHAR(32) NOT NULL,
   `number_of_players` INT NOT NULL,
-  `game_started` BOOLEAN NOT NULL DEFAULT 0,
   `game_start_time` TIMESTAMP,
-  `game_end_time` TIMESTAMP, -- TODO: maybe use this as indicatror for when to purge data?
   PRIMARY KEY (`room_name`),
   CONSTRAINT `set_player_reference` FOREIGN KEY (`host_username`) REFERENCES `partyr_users` (`username`),
   CONSTRAINT `set_game_name_reference` FOREIGN KEY (`game_name`) REFERENCES `games` (`game_name`)
@@ -140,9 +138,11 @@ CREATE TABLE `black_hand_roles` (
 
 CREATE TABLE `black_hand_games` (
   `room_name` VARCHAR(32) NOT NULL,
+  `phase` VARCHAR(8) NOT NULL DEFAULT 'SETUP',
   `username` VARCHAR(32) NOT NULL,
   `display_name` VARCHAR(32),
   `preferred_faction` VARCHAR(32), 
+  `actual_faction` VARCHAR(32), 
   `role_name` VARCHAR(32),
   `blocks_against` INT DEFAULT 0,
   `attacks_against` INT DEFAULT 0,
@@ -163,7 +163,9 @@ CREATE TABLE `black_hand_games` (
   CONSTRAINT `set_game_instance_reference` FOREIGN KEY (`room_name`) REFERENCES `lobby` (`room_name`),
   CONSTRAINT `limit_player_status` CHECK ((`player_status` IN ('ALIVE', 'DEAD'))),
   CONSTRAINT `limit_ready_status` CHECK ((`ready_status` IN ('READY', 'NOT_READY'))),
-  CONSTRAINT `limit_preferred_faction` CHECK ((`preferred_faction`) IN ('BlackHand', 'Monster', 'Townie'))
+  CONSTRAINT `limit_preferred_faction` CHECK ((`preferred_faction`) IN ('BlackHand', 'Monster', 'Townie')),
+  CONSTRAINT `limit_actual_faction` CHECK ((`actual_faction`) IN ('BlackHand', 'Monster', 'Townie')),
+  CONSTRAINT `limit_phase` CHECK ((`phase`) IN ('SETUP', 'DAY', 'NIGHT'))
 ) ENGINE=InnoDB;
 
 -- ** create chat table

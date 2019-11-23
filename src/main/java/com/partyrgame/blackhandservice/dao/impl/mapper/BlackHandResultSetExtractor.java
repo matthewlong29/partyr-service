@@ -36,6 +36,7 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
       player.setAttacksAgainst(blackHandGameRawDetails.getAttacksAgainst());
       player.setTurnPriority(blackHandGameRawDetails.getTurnPriority());
 
+      blackHand.setGameStartTime(blackHandGameRawDetails.getGameStartTime());
       blackHand.addPlayer(player);
     }
 

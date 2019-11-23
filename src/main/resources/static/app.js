@@ -14,7 +14,7 @@ let sendToOptions = [
   {
     send: "/app/join-room",
     example:
-      '{"roomName": "ziploc bags box tablet stand", "username": "cheesecake"}'
+      '{"roomName": "ziploc bags box tablet stand", "username": "twobyfour"}'
   },
   {
     send: "/app/leave-room",
