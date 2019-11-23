@@ -14,6 +14,7 @@ import com.partyrgame.blackhandservice.service.BlackHandDayService;
 import com.partyrgame.blackhandservice.service.BlackHandInitializeService;
 import com.partyrgame.blackhandservice.service.BlackHandNightService;
 import com.partyrgame.blackhandservice.service.BlackHandService;
+import com.partyrgame.blackhandservice.service.BlackHandTrialService;
 import com.partyrgame.socketservice.service.MessageService;
 import com.partyrgame.socketservice.util.WebsocketConstants;
 
@@ -40,6 +41,9 @@ public class BlackHandController {
 
   @Autowired
   BlackHandDayService blackHandDayService;
+
+  @Autowired
+  BlackHandTrialService blackHandTrialService;
 
   @Autowired
   BlackHandNightService blackHandNightService;
@@ -153,6 +157,38 @@ public class BlackHandController {
     String roomName = body.get("roomName");
 
     BlackHand blackHand = blackHandDayService.evaluateDay(roomName);
+
+    messageService.sendBlackHandMessage(blackHand);
+  }
+
+  /**
+   * blackHandSubmitVote: returns json needed to complete a trial.
+   * 
+   * @param body {"roomName": "game 1"}
+   */
+  @MessageMapping(WebsocketConstants.BLACK_HAND_SUBMIT_VOTE)
+  public void blackHandSubmitVote(@RequestBody Map<String, String> body) {
+    log.info("body: {}", body.toString());
+
+    String roomName = body.get("roomName");
+
+    BlackHand blackHand = blackHandTrialService.submitVote(roomName);
+
+    messageService.sendBlackHandMessage(blackHand);
+  }
+
+  /**
+   * blackHandEvaluateTrial: returns json needed to complete a trial.
+   * 
+   * @param body {"roomName": "game 1"}
+   */
+  @MessageMapping(WebsocketConstants.BLACK_HAND_EVALUATE_TRIAL)
+  public void blackHandEvaluateTrial(@RequestBody Map<String, String> body) {
+    log.info("body: {}", body.toString());
+
+    String roomName = body.get("roomName");
+
+    BlackHand blackHand = blackHandTrialService.evaluateTrial(roomName);
 
     messageService.sendBlackHandMessage(blackHand);
   }

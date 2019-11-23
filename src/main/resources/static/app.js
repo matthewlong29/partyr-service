@@ -56,6 +56,14 @@ let sendToOptions = [
   {
     send: "/app/evaluate-night",
     example: '{"roomName": "ziploc bags box tablet stand"}'
+  },
+  {
+    send: "/app/submit-vote",
+    example: '{"roomName": "ziploc bags box tablet stand"}'
+  },
+  {
+    send: "/app/evaluate-trial",
+    example: '{"roomName": "ziploc bags box tablet stand"}'
   }
 ];
 let subscribeToOptions = ["/chat/room", "/lobby/rooms", "/game/black-hand"];
