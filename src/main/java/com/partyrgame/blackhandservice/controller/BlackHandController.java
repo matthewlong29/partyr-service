@@ -12,6 +12,7 @@ import com.partyrgame.blackhandservice.model.BlackHandRole;
 import com.partyrgame.blackhandservice.model.PlayerTurn;
 import com.partyrgame.blackhandservice.service.BlackHandDayService;
 import com.partyrgame.blackhandservice.service.BlackHandInitializeService;
+import com.partyrgame.blackhandservice.service.BlackHandNightService;
 import com.partyrgame.blackhandservice.service.BlackHandService;
 import com.partyrgame.socketservice.service.MessageService;
 import com.partyrgame.socketservice.util.WebsocketConstants;
@@ -39,6 +40,9 @@ public class BlackHandController {
 
   @Autowired
   BlackHandDayService blackHandDayService;
+
+  @Autowired
+  BlackHandNightService blackHandNightService;
 
   @Autowired
   MessageService messageService;
@@ -149,6 +153,23 @@ public class BlackHandController {
     String roomName = body.get("roomName");
 
     BlackHand blackHand = blackHandDayService.evaluateDay(roomName);
+
+    messageService.sendBlackHandMessage(blackHand);
+  }
+
+  /**
+   * evaluateBlackHandNightPhase: returns json needed to go into day phase of a
+   * game of the black hand.
+   * 
+   * @param body {"roomName": "game 1"}
+   */
+  @MessageMapping(WebsocketConstants.BLACK_HAND_EVALUATE_NIGHT)
+  public void evaluateBlackHandNightPhase(@RequestBody Map<String, String> body) {
+    log.info("body: {}", body.toString());
+
+    String roomName = body.get("roomName");
+
+    BlackHand blackHand = blackHandNightService.evaluateNight(roomName);
 
     messageService.sendBlackHandMessage(blackHand);
   }
