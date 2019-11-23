@@ -137,6 +137,23 @@ public class BlackHandController {
   }
 
   /**
+   * evaluateBlackHandDayPhase: returns json needed to go into trial phase of a
+   * game of the black hand.
+   * 
+   * @param body {"roomName": "game 1"}
+   */
+  @MessageMapping(WebsocketConstants.BLACK_HAND_EVALUATE_DAY)
+  public void evaluateBlackHandDayPhase(@RequestBody Map<String, String> body) {
+    log.info("body: {}", body.toString());
+
+    String roomName = body.get("roomName");
+
+    BlackHand blackHand = blackHandDayService.evaluateDay(roomName);
+
+    messageService.sendBlackHandMessage(blackHand);
+  }
+
+  /**
    * startBlackHandGame: returns json needed to start a new game of the black
    * hand.
    * 

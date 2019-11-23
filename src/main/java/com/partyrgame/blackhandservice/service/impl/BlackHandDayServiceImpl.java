@@ -18,6 +18,15 @@ public class BlackHandDayServiceImpl implements BlackHandDayService {
   BlackHandDao blackHandDao;
 
   /**
+   * evaluateDay.
+   */
+  public BlackHand evaluateDay(String roomName) {
+    BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
+
+    return blackHand;
+  }
+
+  /**
    * submitPlayerTurn.
    */
   public BlackHand submitPlayerTurn(PlayerTurn turn) {

@@ -48,6 +48,10 @@ let sendToOptions = [
     send: "/app/submit-turn",
     example:
       '{"roomName": "ziploc bags box tablet stand", "username": "cheesecake", "attacking": "coty", "blocking": "", "note": "on the first night i attacked cody."}'
+  },
+  {
+    send: "/app/evaluate-day",
+    example: '{"roomName": "ziploc bags box tablet stand"}'
   }
 ];
 let subscribeToOptions = ["/chat/room", "/lobby/rooms", "/game/black-hand"];
