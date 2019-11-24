@@ -47,7 +47,7 @@ let sendToOptions = [
   {
     send: "/app/submit-turn",
     example:
-      '{"roomName": "ziploc bags box tablet stand", "username": "cheesecake", "attacking": "coty", "blocking": "", "note": "on the first night i attacked cody."}'
+      '{"roomName": "ziploc bags box tablet stand", "username": "cheesecake", "attacking": "coty", "blocking": "", "placeOnTrial": "lanawood", "note": "on the first night i attacked cody."}'
   },
   {
     send: "/app/evaluate-day",

@@ -62,7 +62,8 @@ public class BlackHandDaoImpl implements BlackHandDao {
   /**
    * updateBlackHandGameForPlayer.
    */
-  public int updateBlackHandGameForPlayer(String username, String roomName, String roleName, String faction, int turnPriority) {
+  public int updateBlackHandGameForPlayer(String username, String roomName, String roleName, String faction,
+      int turnPriority) {
     String query = "CALL `partyrdb`.`update_black_hand_game_start_for_player`('" + roomName + "', '" + username + "', '"
         + roleName + "', '" + faction + "', '" + turnPriority + "')";
     log.info(query);
@@ -130,9 +131,11 @@ public class BlackHandDaoImpl implements BlackHandDao {
    * submitPlayerTurn.
    */
   public int submitPlayerTurn(PlayerTurn turn) {
+    log.info("turn: {}", turn);
+
     String query = "CALL `partyrdb`.`submit_black_hand_player_turn`('" + turn.getRoomName() + "', '"
-        + turn.getUsername() + "', '" + turn.getAttacking() + "', '" + turn.getBlocking() + "', '" + turn.getNote()
-        + "')";
+        + turn.getUsername() + "', '" + turn.getAttacking() + "', '" + turn.getBlocking() + "', '"
+        + turn.getPlaceOnTrial() + "', '" + turn.getNote() + "')";
     log.info(query);
 
     try {

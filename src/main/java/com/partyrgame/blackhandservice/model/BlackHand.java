@@ -35,6 +35,7 @@ public class BlackHand {
     private PlayerStatus playerStatus; // ALIVE or DEAD
     private int blocksAgainst;
     private int attacksAgainst;
+    private int timesVotedToBePlacedOnTrial;
     private boolean hasAttacked;
     private boolean hasBlocked;
     private int turnPriority;

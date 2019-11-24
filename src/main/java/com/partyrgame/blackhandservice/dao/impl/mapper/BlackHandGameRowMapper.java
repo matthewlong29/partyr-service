@@ -32,6 +32,7 @@ public class BlackHandGameRowMapper implements RowMapper<BlackHandGame> {
     blackHandGame.setNote(resultSet.getString("note"));
     blackHandGame.setBlocksAgainst(resultSet.getInt("blocks_against"));
     blackHandGame.setAttacksAgainst(resultSet.getInt("attacks_against"));
+    blackHandGame.setTimesVotedToBePlacedOnTrial(resultSet.getInt("times_voted_to_be_placed_on_trial"));
     blackHandGame.setTurnPriority(resultSet.getInt("turn_priority"));
     blackHandGame.setTurnCompleted(convertToBoolean(resultSet.getInt("turn_completed")));
     blackHandGame.setHasAttacked(convertToBoolean(resultSet.getInt("has_attacked")));

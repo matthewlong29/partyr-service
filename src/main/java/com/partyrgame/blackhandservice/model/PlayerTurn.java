@@ -8,5 +8,6 @@ public class PlayerTurn {
   private String username;
   private String attacking;
   private String blocking;
+  private String placeOnTrial;
   private String note;
 }
