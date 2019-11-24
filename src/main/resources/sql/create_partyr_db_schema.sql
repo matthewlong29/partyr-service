@@ -5,6 +5,7 @@ SET FOREIGN_KEY_CHECKS = 0; -- to disable them
 DROP TRIGGER IF EXISTS set_username_equal_to_email;
 DROP TRIGGER IF EXISTS verify_valid_number_of_players;
 
+DROP TABLE IF EXISTS black_hand_player_notes;
 DROP TABLE IF EXISTS black_hand_games;
 DROP TABLE IF EXISTS black_hand_roles;
 DROP TABLE IF EXISTS black_hand_required_number_of_players;
@@ -144,15 +145,16 @@ CREATE TABLE `black_hand_games` (
   `preferred_faction` VARCHAR(32), 
   `actual_faction` VARCHAR(32), 
   `role_name` VARCHAR(32),
-  `blocks_against` INT DEFAULT 0,
-  `attacks_against` INT DEFAULT 0,
-  `turn_completed` BOOLEAN DEFAULT 0, -- 1 true else false
+  `blocks_against` INT NOT NULL DEFAULT 0,
+  `attacks_against` INT NOT NULL DEFAULT 0,
+  `has_blocked` BOOLEAN NOT NULL DEFAULT 0, -- 1 true else false
+  `has_attacked` BOOLEAN NOT NULL DEFAULT 0,
+  `turn_completed` BOOLEAN NOT NULL DEFAULT 0, 
   `attacking_player` VARCHAR(32),
   `blocking_player` VARCHAR(32),
   `turn_priority` INT DEFAULT 0,
   `player_status` VARCHAR(5) DEFAULT 'ALIVE',
   `ready_status` VARCHAR(16) DEFAULT 'NOT_READY',
-  `note` VARCHAR(1024),
   PRIMARY KEY (`room_name`, `username`),
   UNIQUE KEY `unique_role_per_game` (`username`,`role_name`),
   UNIQUE KEY `unique_display_name_per_game` (`display_name`,`room_name`),
@@ -166,6 +168,19 @@ CREATE TABLE `black_hand_games` (
   CONSTRAINT `limit_preferred_faction` CHECK ((`preferred_faction`) IN ('BlackHand', 'Monster', 'Townie')),
   CONSTRAINT `limit_actual_faction` CHECK ((`actual_faction`) IN ('BlackHand', 'Monster', 'Townie')),
   CONSTRAINT `limit_phase` CHECK ((`phase`) IN ('SETUP', 'DAY', 'NIGHT'))
+) ENGINE=InnoDB;
+
+-- ** create black_hand_player_notes table
+
+CREATE TABLE `black_hand_player_notes` (
+  `note_id` INT NOT NULL AUTO_INCREMENT,
+  `room_name` VARCHAR(32) NOT NULL,
+  `username` VARCHAR(32) NOT NULL,
+  `time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `note` VARCHAR(1024) NOT NULL,
+  PRIMARY KEY (`note_id`),
+  CONSTRAINT `set_player_name_reference` FOREIGN KEY (`username`) REFERENCES `partyr_users` (`username`),
+  CONSTRAINT `set_game_room_reference` FOREIGN KEY (`room_name`) REFERENCES `lobby` (`room_name`)
 ) ENGINE=InnoDB;
 
 -- ** create chat table

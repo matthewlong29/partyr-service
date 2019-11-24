@@ -65,7 +65,7 @@ public class BlackHandController {
    */
   @GetMapping(value = "/details/{roomName}", produces = MediaType.APPLICATION_JSON_VALUE)
   public BlackHand getBlackHandDetails(@PathVariable String roomName) {
-    log.info("game details: {}", blackHandService.getBlackHandDetails(roomName).toString());
+    log.debug("game details: {}", blackHandService.getBlackHandDetails(roomName).toString());
     return blackHandService.getBlackHandDetails(roomName);
   }
 
@@ -77,7 +77,7 @@ public class BlackHandController {
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_SELECT_PREFERRED_FACTION)
   public void setPreferredFaction(Map<String, String> body) {
-    log.info("body: {}", body.toString());
+    log.debug("body: {}", body.toString());
 
     String username = body.get("username");
     String roomName = body.get("roomName");
@@ -98,7 +98,7 @@ public class BlackHandController {
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_SELECT_DISPLAY_NAME)
   public void selectDisplayName(Map<String, String> body) {
-    log.info("body: {}", body.toString());
+    log.debug("body: {}", body.toString());
 
     String username = body.get("username");
     String roomName = body.get("roomName");
@@ -135,7 +135,7 @@ public class BlackHandController {
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_START_SEND)
   public void startBlackHandGame(@RequestBody Map<String, String> body) {
-    log.info("body: {}", body.toString());
+    log.debug("body: {}", body.toString());
 
     String roomName = body.get("roomName");
 
@@ -152,7 +152,7 @@ public class BlackHandController {
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_EVALUATE_DAY)
   public void evaluateBlackHandDayPhase(@RequestBody Map<String, String> body) {
-    log.info("body: {}", body.toString());
+    log.debug("body: {}", body.toString());
 
     String roomName = body.get("roomName");
 
@@ -168,7 +168,7 @@ public class BlackHandController {
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_SUBMIT_VOTE)
   public void blackHandSubmitVote(@RequestBody Map<String, String> body) {
-    log.info("body: {}", body.toString());
+    log.debug("body: {}", body.toString());
 
     String roomName = body.get("roomName");
 
@@ -184,7 +184,7 @@ public class BlackHandController {
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_EVALUATE_TRIAL)
   public void blackHandEvaluateTrial(@RequestBody Map<String, String> body) {
-    log.info("body: {}", body.toString());
+    log.debug("body: {}", body.toString());
 
     String roomName = body.get("roomName");
 
@@ -201,7 +201,7 @@ public class BlackHandController {
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_EVALUATE_NIGHT)
   public void evaluateBlackHandNightPhase(@RequestBody Map<String, String> body) {
-    log.info("body: {}", body.toString());
+    log.debug("body: {}", body.toString());
 
     String roomName = body.get("roomName");
 
@@ -220,7 +220,7 @@ public class BlackHandController {
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_SUBMIT_TURN)
   public void startBlackHandGame(@RequestBody PlayerTurn turn) {
-    log.info("player turn: {}", turn);
+    log.debug("player turn: {}", turn);
 
     BlackHand blackHand = blackHandDayService.submitPlayerTurn(turn);
 

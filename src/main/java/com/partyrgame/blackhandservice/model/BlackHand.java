@@ -2,7 +2,6 @@ package com.partyrgame.blackhandservice.model;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,7 +19,7 @@ public class BlackHand {
   private int numOfBlackHandRemaining;
   private int numOfTownieRemaining;
   private int numOfMonsterRemaining;
-  private BlackHandNote lastPlayerToDie;
+  private List<String> lastPlayerToDie;
   private BlackHandFaction winningFaction;
   private BlackHandTrial playerOnTrial;
   private BlackHandSettings settings = new BlackHandSettings();
@@ -36,10 +35,18 @@ public class BlackHand {
     private PlayerStatus playerStatus; // ALIVE or DEAD
     private int blocksAgainst;
     private int attacksAgainst;
-    private int turnPriority; // TODO: remove this as players can go in any order. the evaluate phases just
-                              // check if block > attack
+    private boolean hasAttacked;
+    private boolean hasBlocked;
+    private int turnPriority;
     private BlackHandRole role;
-    private List<BlackHandNote> notes = new ArrayList<>();
+    private List<String> notes = new ArrayList<>();
+
+    /**
+     * 
+     */
+    public void addNote(String note) {
+      this.notes.add(note);
+    }
   }
 
   /**
@@ -89,14 +96,6 @@ public class BlackHand {
       this.lengthOfNight = 3;
       this.chatOnly = false;
     }
-  }
-
-  @Data
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  public static class BlackHandNote {
-    private String username;
-    private String note;
-    private Timestamp time = new Timestamp(new Date().getTime());
   }
 
   /**

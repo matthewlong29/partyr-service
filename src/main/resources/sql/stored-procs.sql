@@ -140,16 +140,21 @@ BEGIN
     `black_hand_games`.`role_name`,
     `black_hand_games`.`blocks_against`,
     `black_hand_games`.`attacks_against`,
+    `black_hand_games`.`has_attacked`,
+    `black_hand_games`.`has_blocked`,
     `black_hand_games`.`turn_completed`,
     `black_hand_games`.`attacking_player`,
     `black_hand_games`.`blocking_player`,
     `black_hand_games`.`turn_priority`,
     `black_hand_games`.`player_status`,
     `black_hand_games`.`ready_status`,
-    `black_hand_games`.`note`,
+    `black_hand_player_notes`.`note`,
     `lobby`.`game_start_time`
   FROM `partyrdb`.`black_hand_games`
     JOIN `partyrdb`.`lobby` ON `black_hand_games`.`room_name` = `lobby`.`room_name`
+    LEFT JOIN `partyrdb`.`black_hand_player_notes` ON 
+      `black_hand_games`.`room_name` = `black_hand_games`.`room_name` AND
+      `black_hand_games`.`username` = `black_hand_player_notes`.`username`
   WHERE `black_hand_games`.`room_name` = 'ziploc bags box tablet stand'
   ORDER BY `black_hand_games`.`turn_priority`;
 END$$
@@ -507,6 +512,9 @@ BEGIN
 
   DECLARE turnCompleted INT;
 
+  DECLARE hasAttacked BOOLEAN;
+  DECLARE hasBlocked BOOLEAN;
+
   SELECT EXISTS(SELECT * FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_attacking_player) INTO attackingPlayerExists;
   SELECT EXISTS(SELECT * FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_blocking_player) INTO blockingPlayerExists;
 
@@ -515,35 +523,41 @@ BEGIN
 
   SELECT `turn_completed` INTO turnCompleted FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_username;
 
-  IF (turnCompleted = 0) THEN
-    IF (attackingPlayerExists = 1 AND blockingPlayerExists = 1) THEN
+  SELECT `has_attacked` INTO hasAttacked FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_username;
+  SELECT `has_blocked` INTO hasBlocked FROM `partyrdb`.`black_hand_games` WHERE `room_name` = i_room_name and `username` = i_username;
+
+  IF (turnCompleted = 0 AND (hasAttacked = 0 OR hasBlocked = 0)) THEN
+    IF (attackingPlayerExists = 1 AND blockingPlayerExists = 1 AND hasAttacked <> 1 AND hasBlocked <> 1) THEN
       UPDATE `partyrdb`.`black_hand_games`
         SET 
           `attacking_player` = i_attacking_player, 
           `blocking_player` = i_blocking_player, 
-          `turn_completed` = 1,
-          `note` = i_note 
+          `has_attacked` = 1, 
+          `has_blocked` = 1, 
+          `turn_completed` = 1
         WHERE `room_name` = i_room_name AND `username` = i_username;
       UPDATE `partyrdb`.`black_hand_games` SET `attacks_against` = (attacksAgainst + 1) WHERE `username` = i_attacking_player;
       UPDATE `partyrdb`.`black_hand_games` SET `blocks_against` = (blocksAgainst + 1) WHERE `username` = i_blocking_player;
-    ELSEIF (attackingPlayerExists <> 1 AND blockingPlayerExists = 1) THEN
+    ELSEIF (attackingPlayerExists <> 1 AND blockingPlayerExists = 1 AND hasBlocked <> 1) THEN
       UPDATE `partyrdb`.`black_hand_games`
         SET 
           `blocking_player` = i_blocking_player, 
-          `turn_completed` = 1,
-          `note` = i_note 
+          `has_blocked` = 1, 
+          `turn_completed` = 1
         WHERE `room_name` = i_room_name AND `username` = i_username;
       UPDATE `partyrdb`.`black_hand_games` SET `blocks_against` = (blocksAgainst + 1) WHERE `username` = i_blocking_player;
-    ELSEIF (attackingPlayerExists = 1 AND blockingPlayerExists <> 1) THEN
+    ELSEIF (attackingPlayerExists = 1 AND blockingPlayerExists <> 1 AND hasAttacked <> 1) THEN
       UPDATE `partyrdb`.`black_hand_games`
         SET 
           `attacking_player` = i_attacking_player, 
-          `turn_completed` = 1,
-          `note` = i_note 
+          `has_attacked` = 1, 
+          `turn_completed` = 1
         WHERE `room_name` = i_room_name AND `username` = i_username;
       UPDATE `partyrdb`.`black_hand_games` SET `attacks_against` = (attacksAgainst + 1) WHERE `username` = i_attacking_player;
     END IF;
   END IF;
+
+  INSERT INTO `partyrdb`.`black_hand_player_notes` (`room_name`, `username`, `note`) VALUES (i_room_name, i_username, i_note);
 END$$
 
 DELIMITER ;

@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import com.partyrgame.blackhandservice.model.BlackHand;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
@@ -26,6 +27,8 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
 
   /**
    * extractData.
+   * 
+   * TODO: if player died add BlackHandNote to list
    */
   @Override
   public BlackHand extractData(final ResultSet resultSet) throws SQLException {
@@ -33,46 +36,62 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
     final BlackHand blackHand = new BlackHand();
     final HashMap<BlackHandFaction, List<BlackHandRole>> factionRoles = blackHandInitializeService.getBlackHandRoles();
 
-    log.info("|||| factionRoles: {}", factionRoles);
+    log.debug("faction roles: {}", factionRoles);
 
     while (resultSet.next()) {
       final BlackHandGame blackHandGameRawDetails = rowMapper.mapRow(resultSet, resultSet.getRow());
-      log.info("row: {}", blackHandGameRawDetails.toString());
+      log.info("black hand game row: {}", blackHandGameRawDetails.toString());
 
-      final BlackHandPlayer player = new BlackHandPlayer();
-      player.setUsername(blackHandGameRawDetails.getUsername());
-      player.setDisplayName(blackHandGameRawDetails.getDisplayName());
-      player.setPreferredFaction(blackHandGameRawDetails.getPreferredFaction());
-      player.setPlayerStatus(blackHandGameRawDetails.getPlayerStatus());
-      player.setBlocksAgainst(blackHandGameRawDetails.getBlocksAgainst());
-      player.setAttacksAgainst(blackHandGameRawDetails.getAttacksAgainst());
-      player.setTurnPriority(blackHandGameRawDetails.getTurnPriority());
-      player.setActualFaction(blackHandGameRawDetails.getActualFaction());
+      final Optional<BlackHandPlayer> blackHandPlayer = isPlayerPresent(blackHand,
+          blackHandGameRawDetails.getUsername());
 
-      if (!blackHandGameRawDetails.isTurnCompleted()) {
-        blackHand.addPlayerNotCompletedTurn(player.getDisplayName());
+      if (!blackHandPlayer.isPresent()) {
+        BlackHandPlayer player = new BlackHandPlayer();
+        player.setUsername(blackHandGameRawDetails.getUsername());
+        player.setDisplayName(blackHandGameRawDetails.getDisplayName());
+        player.setPreferredFaction(blackHandGameRawDetails.getPreferredFaction());
+        player.setPlayerStatus(blackHandGameRawDetails.getPlayerStatus());
+        player.setBlocksAgainst(blackHandGameRawDetails.getBlocksAgainst());
+        player.setAttacksAgainst(blackHandGameRawDetails.getAttacksAgainst());
+        player.setTurnPriority(blackHandGameRawDetails.getTurnPriority());
+        player.setActualFaction(blackHandGameRawDetails.getActualFaction());
+        player.setHasAttacked(blackHandGameRawDetails.isHasAttacked());
+        player.setHasBlocked(blackHandGameRawDetails.isHasBlocked());
+        player.addNote(blackHandGameRawDetails.getNote());
+
+        if (!blackHandGameRawDetails.isTurnCompleted()) {
+          blackHand.addPlayerNotCompletedTurn(player.getDisplayName());
+        }
+
+        log.debug("faction: {}; \nrole name: {}; \nroles: {}", player.getActualFaction(),
+            blackHandGameRawDetails.getRoleName(), factionRoles.get(player.getActualFaction()));
+
+        if (null != player.getActualFaction() && null != blackHandGameRawDetails.getRoleName()) {
+          final List<BlackHandRole> roles = factionRoles.get(player.getActualFaction());
+          final BlackHandRole blackHandRole = roles.stream()
+              .filter(role -> role.getName().equals(blackHandGameRawDetails.getRoleName())).findFirst().get();
+
+          player.setRole(blackHandRole);
+        }
+
+        blackHand.setGameStartTime(blackHandGameRawDetails.getGameStartTime());
+        blackHand.setRoomName(blackHandGameRawDetails.getGameRoomName());
+        blackHand.setPhase(blackHandGameRawDetails.getPhase());
+        blackHand.addPlayer(player);
+      } else {
+        blackHandPlayer.get().addNote(blackHandGameRawDetails.getNote());
       }
-
-      log.info("\n||||| faction: {}; \n||||| role name: {}; \n||||| roles: {}", player.getActualFaction(),
-          blackHandGameRawDetails.getRoleName(), factionRoles.get(player.getActualFaction()));
-
-      if (null != player.getActualFaction() && null != blackHandGameRawDetails.getRoleName()) {
-        final List<BlackHandRole> roles = factionRoles.get(player.getActualFaction());
-
-        final BlackHandRole blackHandRole = roles.stream()
-            .filter(role -> role.getName().equals(blackHandGameRawDetails.getRoleName())).findFirst().get();
-
-        log.info("!!!role: {}", blackHandRole);
-
-        player.setRole(blackHandRole);
-      }
-
-      blackHand.setGameStartTime(blackHandGameRawDetails.getGameStartTime());
-      blackHand.setRoomName(blackHandGameRawDetails.getGameRoomName());
-      blackHand.setPhase(blackHandGameRawDetails.getPhase());
-      blackHand.addPlayer(player);
     }
 
     return blackHand;
+  }
+
+  /**
+   * isPlayerPresent: checks incoming player. if the player has already been added
+   * to the Black Hand game object, then do not add redundant player, but add note
+   * if exists.
+   */
+  private Optional<BlackHandPlayer> isPlayerPresent(BlackHand blackHand, String username) {
+    return blackHand.getPlayers().stream().filter(player -> player.getUsername().equals(username)).findFirst();
   }
 }

@@ -21,6 +21,8 @@ public class BlackHandGame {
   private String note;
   private int blocksAgainst;
   private int attacksAgainst;
+  private boolean hasAttacked;
+  private boolean hasBlocked;
   private boolean turnCompleted;
   private String attackingPlayer;
   private String blockingPlayer;
