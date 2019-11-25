@@ -34,6 +34,8 @@ public interface BlackHandDao {
 
   public int killPlayer(String roomName, String username);
 
+  public int resetGameCycle(String roomName);
+
   public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles();
 
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int totalNumberOfPlayers);

@@ -9,6 +9,4 @@ public interface BlackHandTrialService {
   public BlackHand submitPlayerVote(String roomName, String username, String vote);
 
   public BlackHandPlayer getPlayerOnTrial(BlackHand blackHand);
-
-  public int getVotes(BlackHand blackHand, String voteAction);
 }

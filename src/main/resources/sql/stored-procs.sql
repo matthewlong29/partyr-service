@@ -9,6 +9,7 @@ DROP PROCEDURE IF EXISTS `get_black_hand_game`;
 DROP PROCEDURE IF EXISTS `get_black_hand_required_number_of_players`;
 DROP PROCEDURE IF EXISTS `get_black_hand_roles`;
 DROP PROCEDURE IF EXISTS `get_game`;
+DROP PROCEDURE IF EXISTS `reset_black_hand_game_cycle`;
 DROP PROCEDURE IF EXISTS `get_games`;
 DROP PROCEDURE IF EXISTS `get_lobby`;
 DROP PROCEDURE IF EXISTS `get_online_friends`;
@@ -508,6 +509,30 @@ CREATE PROCEDURE `put_player_on_trial`(
 )
 BEGIN
   UPDATE `partyrdb`.`black_hand_games` SET `player_on_trial` = i_username WHERE `room_name` = i_room_name;
+END$$
+
+-- ** reset_black_hand_game_cycle
+
+CREATE PROCEDURE `reset_black_hand_game_cycle`(
+  IN i_room_name VARCHAR(32)
+)
+BEGIN
+  UPDATE `partyrdb`.`black_hand_games` SET 
+    `player_on_trial` = NULL, 
+    `guilty_votes` = 0,
+    `not_guilty_votes` = 0
+  WHERE `room_name` = i_room_name;
+
+  UPDATE `partyrdb`.`black_hand_game_players` SET
+    `blocks_against` = 0,
+    `attacks_against` = 0,
+    `times_voted_to_be_placed_on_trial` = 0,
+    `turn_completed` = 0,
+    `vote_completed` = 0,
+    `attacking_player` = NULL,
+    `blocking_player` = NULL,
+    `trial_player` = NULL
+  WHERE `room_name` = i_room_name;
 END$$
 
 -- ** submit_black_hand_player_vote

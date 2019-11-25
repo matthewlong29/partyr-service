@@ -213,6 +213,22 @@ public class BlackHandDaoImpl implements BlackHandDao {
   }
 
   /**
+   * resetGameCycle.
+   */
+  public int resetGameCycle(String roomName) {
+    String query = "CALL `partyrdb`.`reset_black_hand_game_cycle`('" + roomName + "')";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to reset black hand game cycle for room {}; error: {}", roomName, e.getMessage());
+    }
+
+    return 0;
+  }
+
+  /**
    * getBlackHandNumberOfPlayers.
    */
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int totalNumberOfPlayers) {

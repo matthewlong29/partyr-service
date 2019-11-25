@@ -83,17 +83,4 @@ public class BlackHandTrialServiceImpl implements BlackHandTrialService {
 
     return playerOnTrial;
   }
-
-  /**
-   * getVotes: gets number of votes to kill or number of votes to spare.
-   */
-  public int getVotes(BlackHand blackHand, String voteAction) {
-    if (voteAction.equals("kill")) {
-      Math.toIntExact(blackHand.getAlivePlayers().stream().filter(player -> player.isHasAttacked()).count());
-    } else {
-      Math.toIntExact(blackHand.getAlivePlayers().stream().filter(player -> !player.isHasAttacked()).count());
-    }
-
-    return 0;
-  }
 }

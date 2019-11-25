@@ -145,11 +145,4 @@ public class BlackHandServiceImpl implements BlackHandService {
   public BlackHandPlayer getPlayerOnTrial(BlackHand blackHand) {
     return trialService.getPlayerOnTrial(blackHand);
   }
-
-  /**
-   * getVotes.
-   */
-  public int getVotes(BlackHand blackHand, String vote) {
-    return trialService.getVotes(blackHand, vote);
-  }
 }

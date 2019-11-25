@@ -30,6 +30,4 @@ public interface BlackHandService {
   public void decrementNumberOfPlayersPerFaction(BlackHandFaction faction, BlackHandNumberOfPlayers actualNumber);
 
   public BlackHandPlayer getPlayerOnTrial(BlackHand blackHand);
-
-  public int getVotes(BlackHand blackHand, String vote);
 }
