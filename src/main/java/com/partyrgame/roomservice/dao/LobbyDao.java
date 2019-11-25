@@ -15,5 +15,7 @@ public interface LobbyDao {
 
   public int toggleReadyStatus(String username, String roomName);
 
+  public int startGame(String roomName);
+
   public List<Room> getRooms();
 }

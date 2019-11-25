@@ -14,7 +14,7 @@ let sendToOptions = [
   {
     send: "/app/join-room",
     example:
-      '{"roomName": "ziploc bags box tablet stand", "username": "cheesecake"}'
+      '{"roomName": "ziploc bags box tablet stand", "username": "twobyfour"}'
   },
   {
     send: "/app/leave-room",
@@ -29,9 +29,45 @@ let sendToOptions = [
     send: "/app/toggle-ready-status",
     example:
       '{"roomName": "ziploc bags box tablet stand", "username": "lanawood"}'
+  },
+  {
+    send: "/app/select-display-name",
+    example:
+      '{"roomName": "ziploc bags box tablet stand", "username": "cheesecake", "displayName": "cheese"}'
+  },
+  {
+    send: "/app/select-preferred-faction",
+    example:
+      '{"roomName": "ziploc bags box tablet stand", "username": "cheesecake", "preferredFaction": "Townie"}'
+  },
+  {
+    send: "/app/start-black-hand",
+    example: '{"roomName": "ziploc bags box tablet stand"}'
+  },
+  {
+    send: "/app/submit-turn",
+    example:
+      '{"roomName": "ziploc bags box tablet stand", "username": "cheesecake", "attacking": "coty", "blocking": "", "placeOnTrial": "lanawood", "note": "on the first night i attacked cody."}'
+  },
+  {
+    send: "/app/evaluate-day",
+    example: '{"roomName": "ziploc bags box tablet stand"}'
+  },
+  {
+    send: "/app/submit-vote",
+    example:
+      '{"roomName": "ziploc bags box tablet stand", "username": "cheesecake", "vote": "GUILTY"}'
+  },
+  {
+    send: "/app/evaluate-trial",
+    example: '{"roomName": "ziploc bags box tablet stand"}'
+  },
+  {
+    send: "/app/evaluate-night",
+    example: '{"roomName": "ziploc bags box tablet stand"}'
   }
 ];
-let subscribeToOptions = ["/chat/room", "/lobby/rooms"];
+let subscribeToOptions = ["/chat/room", "/lobby/rooms", "/game/black-hand"];
 
 /**
  * setConnected.

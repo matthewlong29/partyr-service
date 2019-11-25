@@ -28,7 +28,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public PartyrUser getUserByEmail(String email) {
     String query = "CALL `partyrdb`.`get_user_by_email`('" + email + "');";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.query(query, userRowMapper).get(0);  
@@ -45,7 +45,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public List<PartyrUser> searchForOnlineUsersContaining(String queryString) {
     String query = "CALL `partyrdb`.`get_online_users`('" + queryString + "');";
-    log.info(query);
+    log.debug(query);
 
     return jdbcTemplate.query(query, userRowMapper);
   }
@@ -55,7 +55,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public List<PartyrUser> getOnlineUsers() {
     String query = "CALL `partyrdb`.`get_online_users`('');";
-    log.info(query);
+    log.debug(query);
 
     return jdbcTemplate.query(query, userRowMapper);
   }
@@ -65,7 +65,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public List<PartyrUser> searchForAllUsersContaining(String queryString) {
     String query = "CALL `partyrdb`.`get_users`('" + queryString + "');";
-    log.info(query);
+    log.debug(query);
 
     return jdbcTemplate.query(query.toString(), userRowMapper);
   }
@@ -75,7 +75,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public List<PartyrUser> getAllUsers() {
     String query = "CALL `partyrdb`.`get_users`('');";
-    log.info(query);
+    log.debug(query);
 
     return jdbcTemplate.query(query, userRowMapper);
   }
@@ -85,7 +85,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public Relationships getBlockedList(String username) {
     String query = "CALL `partyrdb`.`get_relationships`('BLOCK', '" + username + "');";
-    log.info(query);
+    log.debug(query);
 
     Relationships relationships = new Relationships();
     relationships.setBlockedList(jdbcTemplate.query(query, userRowMapper));
@@ -98,7 +98,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public Relationships getFriendsList(String username) {
     String query = "CALL `partyrdb`.`get_relationships`('FRIEND', '" + username + "');";
-    log.info(query);
+    log.debug(query);
 
     Relationships relationships = new Relationships();
     relationships.setFriendsList(jdbcTemplate.query(query, userRowMapper));
@@ -111,7 +111,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public Relationships getOnlineFriendsList(String username) {
     String query = "CALL `partyrdb`.`get_online_friends`('" + username + "');";
-    log.info(query);
+    log.debug(query);
 
     Relationships relationships = new Relationships();
     relationships.setFriendsList(jdbcTemplate.query(query, userRowMapper));
@@ -126,7 +126,7 @@ public class UsersDaoImpl implements UsersDao {
   public int createRelationship(Relationship newRelationship) {
     String query = "CALL `partyrdb`.`create_relationship`('" + newRelationship.getRelatingUsername() + "', '"
         + newRelationship.getRelatedUsername() + "', '" + newRelationship.getRelationshipStatus() + "');";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -150,7 +150,7 @@ public class UsersDaoImpl implements UsersDao {
 
     String query = "CALL `partyrdb`.`create_user`('" + user.getUserHash() + "', '" + user.getEmail() + "', '"
         + user.getFirstName() + "', '" + user.getLastName() + "', '" + user.getProfileImageURL() + "');";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -167,7 +167,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public int selectTheme(String userToUpdate, String themeName) {
     String query = "CALL `partyrdb`.`select_theme`('" + userToUpdate + "', '" + themeName + "');";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -183,7 +183,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public List<String> getThemes() {
     String query = "CALL `partyrdb`.`get_themes`();";
-    log.info(query);
+    log.debug(query);
 
     return jdbcTemplate.queryForList(query, String.class);
   }
@@ -194,7 +194,7 @@ public class UsersDaoImpl implements UsersDao {
    */
   public int selectUsername(String userToUpdate, String username) {
     String query = "CALL `partyrdb`.`select_username`('" + userToUpdate + "', '" + username + "');";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);

@@ -13,7 +13,5 @@ public class Room {
   private List<String> playersReady = new ArrayList<>();
   private List<String> playersNotReady = new ArrayList<>();
   private int numberOfPlayers;
-  private boolean gameStarted;
   private Timestamp gameStartTime;
-  private Timestamp gameEndTime;
 }

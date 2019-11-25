@@ -24,15 +24,13 @@ public class RoomRowMapper implements RowMapper<Room> {
     log.info(resultSet.toString());
 
     Room room = new Room();
-    room.setGameRoomName(resultSet.getString("game_room_name"));
+    room.setGameRoomName(resultSet.getString("room_name"));
     room.setGameName(resultSet.getString("game_name"));
     room.setHostUsername(resultSet.getString("host_username"));
     room.setPlayersReady(extractPlayerList(resultSet.getString("players_ready")));
     room.setPlayersNotReady(extractPlayerList(resultSet.getString("players_not_ready")));
     room.setNumberOfPlayers(resultSet.getInt("number_of_players"));
-    room.setGameStarted(resultSet.getInt("game_started") == 0 ? true : false);
     room.setGameStartTime(resultSet.getTimestamp("game_start_time"));
-    room.setGameEndTime(resultSet.getTimestamp("game_end_time"));
 
     return room;
   }

@@ -1,19 +1,18 @@
 package com.partyrgame.blackhandservice.service.impl;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
 import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
+import com.partyrgame.blackhandservice.model.BlackHandPhase;
 import com.partyrgame.blackhandservice.model.BlackHandRole;
-import com.partyrgame.blackhandservice.model.BlackHandSettings;
-import com.partyrgame.blackhandservice.model.BlackHandSettings.BlackHandPlayerPreferences;
 import com.partyrgame.blackhandservice.service.BlackHandInitializeService;
+import com.partyrgame.blackhandservice.service.BlackHandService;
+import com.partyrgame.roomservice.dao.LobbyDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,44 +23,51 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class BlackHandInitializeServiceImpl implements BlackHandInitializeService {
   @Autowired
+  BlackHandService blackHandService;
+
+  @Autowired
   BlackHandDao blackHandDao;
 
+  @Autowired
+  LobbyDao lobbyDao;
+
   /**
-   * startGame: returns data necessary to start a game of black
+   * startGame: returns data necessary to start a game of black.
+   * 
+   * TODO: add randomization for assigning roles
    */
-  public BlackHand startGame(BlackHandSettings blackHandSettings) {
-    BlackHandNumberOfPlayers actualNumber = new BlackHandNumberOfPlayers();
-    HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles = getBlackHandRoles();
+  public BlackHand startGame(String roomName) {
+    BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
 
-    log.info("{};", availableRoles.toString());
+    if (null != blackHand.getGameStartTime()) {
+      log.info("this game [{}] has already started [{}]", blackHand.getRoomName(), blackHand.getGameStartTime());
 
-    BlackHand blackHand = new BlackHand();
-    blackHand.setGameRoomName(blackHandSettings.getGameRoomName());
-    blackHand.setPhase("DAY");
-    blackHand.setPlayersTurnRemaining(getPlayers(blackHandSettings));
-
-    List<BlackHandPlayerPreferences> preferences = blackHandSettings.getPlayerPreferences();
-    int totalNumberOfPlayers = preferences.size();
-    BlackHandNumberOfPlayers requiredNumber = getBlackHandNumberOfPlayers(totalNumberOfPlayers);
-
-    blackHand.setNumOfBlackHandRemaining(requiredNumber.getBlackHandTotal());
-    blackHand.setNumOfMonsterRemaining(requiredNumber.getMonstersTotal());
-    blackHand.setNumOfTownieRemaining(requiredNumber.getTowniesTotal());
-
-    log.info("required number of players per faction: {};", requiredNumber);
-
-    for (BlackHandPlayerPreferences preference : preferences) {
-      log.info("user: {}", preference.getUsername());
-      assignPreferredRole(blackHand, availableRoles, preference, requiredNumber, actualNumber);
+      return blackHand;
     }
 
-    assignRemainingRole(blackHand, availableRoles, requiredNumber, actualNumber);
+    lobbyDao.startGame(roomName);
 
-    log.info("actual number of players per faction: {};", actualNumber);
+    BlackHandNumberOfPlayers actualNumber = new BlackHandNumberOfPlayers();
+    HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles = getBlackHandRoles();
+    List<BlackHand.BlackHandPlayer> players = blackHand.getAlivePlayers();
+    int totalNumberOfPlayers = players.size();
 
-    sortPlayersByRolePriority(blackHand.getPlayers());
+    BlackHandNumberOfPlayers requiredNumber = blackHandService.getBlackHandNumberOfPlayers(totalNumberOfPlayers);
 
-    return blackHand;
+    for (BlackHand.BlackHandPlayer player : players) {
+      assignPreferredRole(blackHand, availableRoles, player, requiredNumber, actualNumber);
+    }
+
+    try {
+      assignRemainingRole(blackHand, availableRoles, requiredNumber, actualNumber);
+    } catch (Exception e) {
+      log.error("exception occurred when trying to assign role to player: {}", e.getMessage());
+    }
+
+    blackHandDao.updateBlackHandGame(roomName, BlackHandPhase.DAY, actualNumber.getBlackHandTotal(),
+        actualNumber.getMonstersTotal(), actualNumber.getTowniesTotal());
+
+    return blackHandService.getBlackHandDetails(roomName);
   }
 
   /**
@@ -72,114 +78,76 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
   }
 
   /**
-   * getBlackHandNumberOfPlayers: returns an object containing the required number
-   * of Monsters, BlackHands, and Townies.
-   */
-  public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int playerTotal) {
-    if (playerTotal < 5) {
-      log.info("At least 5 players are needed to play the Black Hand!");
-      playerTotal = 5;
-    } else if (playerTotal > 15) {
-      log.info("At most 15 players can play the Black Hand!");
-      playerTotal = 15;
-    }
-
-    return blackHandDao.getBlackHandNumberOfPlayers(playerTotal);
-  }
-
-  /**
-   * getPlayers.
-   */
-  public List<String> getPlayers(BlackHandSettings blackHandSettings) {
-    return blackHandSettings.getPlayerPreferences().stream().map(player -> player.getUsername())
-        .collect(Collectors.toList());
-  }
-
-  /**
    * findFirstAvailableFaction: scans list of available roles, sets player that
    * role, and removes role from the available roles list. Player will be set, but
    * role may not yet be if their preference cannot be met.
+   * 
+   * TODO: update db when assigning player
    */
   private void assignPreferredRole(BlackHand blackHand, HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles,
-      BlackHandPlayerPreferences playerPreference, BlackHandNumberOfPlayers requiredNumber,
+      BlackHand.BlackHandPlayer player, BlackHandNumberOfPlayers requiredNumber,
       BlackHandNumberOfPlayers actualNumber) {
-    BlackHandPlayer blackHandPlayer = new BlackHandPlayer();
-    blackHandPlayer.setUsername(playerPreference.getUsername());
-    blackHandPlayer.setAlive(true); // initialize player to be alive
-    blackHandPlayer.setDisplayName(playerPreference.getDisplayName());
+    if (availableRoles.containsKey(player.getPreferredFaction())
+        && isLessThanRequired(player.getPreferredFaction(), requiredNumber, actualNumber)) {
+      log.info("found role for player: {};", availableRoles.get(player.getPreferredFaction()).get(0));
+      int turnPriority = availableRoles.get(player.getPreferredFaction()).get(0).getRolePriority();
 
-    if (availableRoles.containsKey(playerPreference.getPreferredFaction())
-        && isLessThanRequired(playerPreference.getPreferredFaction(), requiredNumber, actualNumber)) {
-      log.info("found role for player: {};", availableRoles.get(playerPreference.getPreferredFaction()).get(0));
-      blackHandPlayer.setRole(availableRoles.get(playerPreference.getPreferredFaction()).get(0));
-      blackHandPlayer
-          .setTurnPriority(availableRoles.get(playerPreference.getPreferredFaction()).get(0).getRolePriority());
-      availableRoles.get(playerPreference.getPreferredFaction()).remove(0);
-      incrementNumberOfPlayersPerFaction(playerPreference.getPreferredFaction(), actualNumber);
+      player.setRole(availableRoles.get(player.getPreferredFaction()).get(0));
+      player.setActualFaction(player.getPreferredFaction());
+      player.setTurnPriority(turnPriority);
+
+      blackHandDao.updateBlackHandGameForPlayer(player.getUsername(), blackHand.getRoomName(),
+          player.getRole().getName(), player.getActualFaction().toString(), turnPriority);
+      availableRoles.get(player.getPreferredFaction()).remove(0);
+
+      blackHandService.incrementNumberOfPlayersPerFaction(player.getPreferredFaction(), actualNumber);
     } else {
       log.info("unable to set role for player;");
     }
-
-    blackHand.getPlayers().add(blackHandPlayer);
   }
 
   /**
    * assignRemainingRole: scan for instance where a players role has not been set
    * and fill that role with what is missing.
-   * 
-   * TODO: refactor..
    */
   private void assignRemainingRole(BlackHand blackHand, HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles,
-      BlackHandNumberOfPlayers requiredNumber, BlackHandNumberOfPlayers actualNumber) {
-    for (BlackHandPlayer blackHandPlayer : blackHand.getPlayers()) {
-      if (blackHandPlayer.getRole() == null) {
-        log.info("need to assign a role for {};", blackHandPlayer.getUsername());
+      BlackHandNumberOfPlayers requiredNumber, BlackHandNumberOfPlayers actualNumber) throws Exception {
+    for (BlackHandPlayer player : blackHand.getAlivePlayers()) {
+      int turnPriority;
+
+      if (player.getRole() == null) {
+        log.info("need to assign a role for {};", player.getUsername());
         if (requiredNumber.getBlackHandTotal() > actualNumber.getBlackHandTotal()) {
           log.info("found role for player: {};", availableRoles.get(BlackHandFaction.BlackHand).get(0));
-          blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.BlackHand).get(0));
-          blackHandPlayer.setTurnPriority(availableRoles.get(BlackHandFaction.BlackHand).get(0).getRolePriority());
+          player.setRole(availableRoles.get(BlackHandFaction.BlackHand).get(0));
+          player.setActualFaction(BlackHandFaction.BlackHand);
+          turnPriority = availableRoles.get(BlackHandFaction.BlackHand).get(0).getRolePriority();
+          player.setTurnPriority(turnPriority);
           availableRoles.get(BlackHandFaction.BlackHand).remove(0);
-          incrementNumberOfPlayersPerFaction(BlackHandFaction.BlackHand, actualNumber);
+          blackHandService.incrementNumberOfPlayersPerFaction(BlackHandFaction.BlackHand, actualNumber);
         } else if (requiredNumber.getMonstersTotal() > actualNumber.getMonstersTotal()) {
           log.info("found role for player: {};", availableRoles.get(BlackHandFaction.Monster).get(0));
-          blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.Monster).get(0));
-          blackHandPlayer.setTurnPriority(availableRoles.get(BlackHandFaction.Monster).get(0).getRolePriority());
+          player.setRole(availableRoles.get(BlackHandFaction.Monster).get(0));
+          player.setActualFaction(BlackHandFaction.Monster);
+          turnPriority = availableRoles.get(BlackHandFaction.Monster).get(0).getRolePriority();
+          player.setTurnPriority(turnPriority);
           availableRoles.get(BlackHandFaction.Monster).remove(0);
-          incrementNumberOfPlayersPerFaction(BlackHandFaction.Monster, actualNumber);
+          blackHandService.incrementNumberOfPlayersPerFaction(BlackHandFaction.Monster, actualNumber);
         } else if (requiredNumber.getTowniesTotal() > actualNumber.getTowniesTotal()) {
           log.info("found role for player: {};", availableRoles.get(BlackHandFaction.Townie).get(0));
-          blackHandPlayer.setRole(availableRoles.get(BlackHandFaction.Townie).get(0));
-          blackHandPlayer.setTurnPriority(availableRoles.get(BlackHandFaction.Townie).get(0).getRolePriority());
+          player.setRole(availableRoles.get(BlackHandFaction.Townie).get(0));
+          player.setActualFaction(BlackHandFaction.Townie);
+          turnPriority = availableRoles.get(BlackHandFaction.Townie).get(0).getRolePriority();
+          player.setTurnPriority(turnPriority);
           availableRoles.get(BlackHandFaction.Townie).remove(0);
-          incrementNumberOfPlayersPerFaction(BlackHandFaction.Townie, actualNumber);
+          blackHandService.incrementNumberOfPlayersPerFaction(BlackHandFaction.Townie, actualNumber);
+        } else {
+          throw new Exception("cannot assign player a role");
         }
+
+        blackHandDao.updateBlackHandGameForPlayer(player.getUsername(), blackHand.getRoomName(),
+            player.getRole().getName(), player.getActualFaction().toString(), turnPriority);
       }
-    }
-  }
-
-  /**
-   * sortPlayersByRolePriority.
-   */
-  private void sortPlayersByRolePriority(List<BlackHand.BlackHandPlayer> blackHandPlayers) {
-    blackHandPlayers.sort(Comparator.comparing(BlackHand.BlackHandPlayer::getTurnPriority));
-  }
-
-  /**
-   * incrementNumberOfPlayersPerFaction.
-   */
-  private void incrementNumberOfPlayersPerFaction(BlackHandFaction faction, BlackHandNumberOfPlayers actualNumber) {
-    switch (faction) {
-    case BlackHand:
-      actualNumber.incrementBlackHandTotal();
-      break;
-    case Monster:
-      actualNumber.incrementMonstersTotal();
-      break;
-    case Townie:
-      actualNumber.incrementTowniesTotal();
-      break;
-    default:
-      break; // invalid faction
     }
   }
 

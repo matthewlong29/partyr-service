@@ -1,11 +1,13 @@
 -- ** drop all tables
 
-SET FOREIGN_KEY_CHECKS=0; -- to disable them
+SET FOREIGN_KEY_CHECKS = 0; -- to disable them
 
 DROP TRIGGER IF EXISTS set_username_equal_to_email;
 DROP TRIGGER IF EXISTS verify_valid_number_of_players;
 
-DROP TABLE IF EXISTS black_hand_rooms;
+DROP TABLE IF EXISTS black_hand_player_notes;
+DROP TABLE IF EXISTS black_hand_games;
+DROP TABLE IF EXISTS black_hand_game_players;
 DROP TABLE IF EXISTS black_hand_roles;
 DROP TABLE IF EXISTS black_hand_required_number_of_players;
 DROP TABLE IF EXISTS lobby;
@@ -16,7 +18,7 @@ DROP TABLE IF EXISTS themes;
 DROP TABLE IF EXISTS games;
 DROP TABLE IF EXISTS chat;
 
-SET FOREIGN_KEY_CHECKS=1; -- to re-enable them
+SET FOREIGN_KEY_CHECKS = 1; -- to re-enable them
 
 -- ** create themes table
 
@@ -104,14 +106,12 @@ CREATE TABLE `black_hand_required_number_of_players` (
 -- ** create lobby table
 
 CREATE TABLE `lobby` (
-  `game_room_name` VARCHAR(32) NOT NULL,
+  `room_name` VARCHAR(32) NOT NULL,
   `game_name` VARCHAR(32) NOT NULL,
   `host_username` VARCHAR(32) NOT NULL,
   `number_of_players` INT NOT NULL,
-  `game_started` BOOLEAN NOT NULL DEFAULT 0,
   `game_start_time` TIMESTAMP,
-  `game_end_time` TIMESTAMP, -- TODO: maybe use this as indicatror for when to purge data?
-  PRIMARY KEY (`game_room_name`),
+  PRIMARY KEY (`room_name`),
   CONSTRAINT `set_player_reference` FOREIGN KEY (`host_username`) REFERENCES `partyr_users` (`username`),
   CONSTRAINT `set_game_name_reference` FOREIGN KEY (`game_name`) REFERENCES `games` (`game_name`)
 ) ENGINE=InnoDB;
@@ -128,32 +128,78 @@ CREATE TABLE `black_hand_roles` (
   `goal_description` VARCHAR(1024) NOT NULL,
   `sprite_path` VARCHAR(1024) DEFAULT '/',
   `role_priority` INT NOT NULL,
-  `day_kill` BOOLEAN NOT NULL, -- 1 true else false
-  `night_kill` BOOLEAN NOT NULL,
-  `day_block` BOOLEAN NOT NULL,
-  `night_block` BOOLEAN NOT NULL,
+  `can_attack` BOOLEAN NOT NULL, -- 1 true else false
+  `can_block` BOOLEAN NOT NULL,
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `unique_role_name` (`role_name`),
   UNIQUE KEY `unique_role_priority` (`role_priority`),
   CONSTRAINT `limit_faction` CHECK ((`faction` IN ('BlackHand', 'Monster', 'Townie')))
 ) ENGINE=InnoDB;
 
--- ** create black_hand_rooms table
+-- ** create black_hand_game_players table
 
-CREATE TABLE `black_hand_rooms` (
-  `game_room_name` VARCHAR(32) NOT NULL,
+CREATE TABLE `black_hand_game_players` (
+  `room_name` VARCHAR(32) NOT NULL,
   `username` VARCHAR(32) NOT NULL,
-  `ready_status` VARCHAR(16) DEFAULT 'NOT_READY',
+  `display_name` VARCHAR(32),
   `preferred_faction` VARCHAR(32), 
+  `actual_faction` VARCHAR(32), 
   `role_name` VARCHAR(32),
-  `player_status` VARCHAR(5),
-  PRIMARY KEY (`game_room_name`, `username`),
+  `blocks_against` INT NOT NULL DEFAULT 0,
+  `attacks_against` INT NOT NULL DEFAULT 0,
+  `times_voted_to_be_placed_on_trial` INT NOT NULL DEFAULT 0,
+  `has_blocked` BOOLEAN NOT NULL DEFAULT 0, -- 1 true else false
+  `has_attacked` BOOLEAN NOT NULL DEFAULT 0,
+  `turn_completed` BOOLEAN NOT NULL DEFAULT 0, 
+  `vote_completed` BOOLEAN NOT NULL DEFAULT 0, 
+  `attacking_player` VARCHAR(32),
+  `blocking_player` VARCHAR(32),
+  `trial_player` VARCHAR(32),
+  `turn_priority` INT DEFAULT 0,
+  `player_status` VARCHAR(5) DEFAULT 'ALIVE',
+  `ready_status` VARCHAR(16) DEFAULT 'NOT_READY',
+  PRIMARY KEY (`room_name`, `username`),
   UNIQUE KEY `unique_role_per_game` (`username`,`role_name`),
+  UNIQUE KEY `unique_display_name_per_game` (`display_name`,`room_name`),
   CONSTRAINT `set_player_username_reference` FOREIGN KEY (`username`) REFERENCES `partyr_users` (`username`),
+  CONSTRAINT `set_attacking_player_reference` FOREIGN KEY (`attacking_player`) REFERENCES `partyr_users` (`username`),
+  CONSTRAINT `set_blocking_player_reference` FOREIGN KEY (`blocking_player`) REFERENCES `partyr_users` (`username`),
+  CONSTRAINT `set_trial_player_reference` FOREIGN KEY (`trial_player`) REFERENCES `partyr_users` (`username`),
   CONSTRAINT `set_role_reference` FOREIGN KEY (`role_name`) REFERENCES `black_hand_roles` (`role_name`),
-  CONSTRAINT `set_game_instance_reference` FOREIGN KEY (`game_room_name`) REFERENCES `lobby` (`game_room_name`),
+  CONSTRAINT `set_game_instance_reference` FOREIGN KEY (`room_name`) REFERENCES `lobby` (`room_name`),
   CONSTRAINT `limit_player_status` CHECK ((`player_status` IN ('ALIVE', 'DEAD'))),
-  CONSTRAINT `limit_ready_status` CHECK ((`ready_status` IN ('READY', 'NOT_READY')))
+  CONSTRAINT `limit_ready_status` CHECK ((`ready_status` IN ('READY', 'NOT_READY'))),
+  CONSTRAINT `limit_preferred_faction` CHECK ((`preferred_faction`) IN ('BlackHand', 'Monster', 'Townie')),
+  CONSTRAINT `limit_actual_faction` CHECK ((`actual_faction`) IN ('BlackHand', 'Monster', 'Townie'))
+) ENGINE=InnoDB;
+
+-- ** create black_hand_games table
+
+CREATE TABLE `black_hand_games` (
+  `room_name` VARCHAR(32) NOT NULL,
+  `phase` VARCHAR(8) NOT NULL DEFAULT 'SETUP',
+  `number_of_black_hand_remaining` INT,
+  `number_of_townie_remaining` INT,
+  `number_of_monster_remaining` INT,
+  `player_on_trial` VARCHAR(32),
+  `guilty_votes` INT DEFAULT 0,
+  `not_guilty_votes` INT DEFAULT 0,
+  PRIMARY KEY (`room_name`),
+  CONSTRAINT `set_player_on_trial_reference` FOREIGN KEY (`player_on_trial`) REFERENCES `partyr_users` (`username`),
+  CONSTRAINT `limit_phase` CHECK ((`phase`) IN ('SETUP', 'DAY', 'TRIAL', 'NIGHT'))
+) ENGINE=InnoDB;
+
+-- ** create black_hand_player_notes table
+
+CREATE TABLE `black_hand_player_notes` (
+  `note_id` INT NOT NULL AUTO_INCREMENT,
+  `room_name` VARCHAR(32) NOT NULL,
+  `username` VARCHAR(32) NOT NULL,
+  `time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `note` VARCHAR(1024) NOT NULL,
+  PRIMARY KEY (`note_id`),
+  CONSTRAINT `set_player_name_reference` FOREIGN KEY (`username`) REFERENCES `partyr_users` (`username`),
+  CONSTRAINT `set_game_room_reference` FOREIGN KEY (`room_name`) REFERENCES `lobby` (`room_name`)
 ) ENGINE=InnoDB;
 
 -- ** create chat table

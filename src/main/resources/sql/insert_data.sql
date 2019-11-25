@@ -1,3 +1,24 @@
+-- ** purge all data
+
+SET FOREIGN_KEY_CHECKS = 0; -- to disable them
+SET SQL_SAFE_UPDATES = 0;
+
+DELETE FROM `partyrdb`.`themes`;
+DELETE FROM `partyrdb`.`partyr_users`;
+DELETE FROM `partyrdb`.`relationships`;
+DELETE FROM `partyrdb`.`achievements`;
+DELETE FROM `partyrdb`.`games`;
+DELETE FROM `partyrdb`.`black_hand_required_number_of_players`;
+DELETE FROM `partyrdb`.`black_hand_player_notes`;
+DELETE FROM `partyrdb`.`lobby`;
+DELETE FROM `partyrdb`.`black_hand_roles`;
+DELETE FROM `partyrdb`.`black_hand_game_players`;
+DELETE FROM `partyrdb`.`black_hand_games`;
+DELETE FROM `partyrdb`.`chat`;
+
+SET SQL_SAFE_UPDATES = 1;
+SET FOREIGN_KEY_CHECKS = 1; -- to re-enable them
+
 -- ** themes mock data
 
 insert into `partyrdb`.`themes` (`theme_name`) values ('light');
@@ -95,24 +116,24 @@ insert into `partyrdb`.`black_hand_required_number_of_players` (`player_total`, 
 
 -- ** add black hand roles data
 
-insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `role_priority`, `day_kill`, `night_kill`, `day_block`, `night_block`)
-  values ('Townie', 'Bodyguard', 'Protect one person from death each night.', 'If your target is attacked, both you and your attacker will die instead. If you successfully protect someone, you cant be saved from death. Your counterattack ignores night immunity.', 'Lynch every criminal and evildoer.', 9, 0, 0, 0, 1);
-insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `role_priority`, `day_kill`, `night_kill`, `day_block`, `night_block`)
-  values ('Townie', 'Doctor', 'Heal one person each night, preventing them from dying.', 'You may only heal yourself once. You will know if your target is attacked.', 'Lynch every criminal and evildoer.', 8, 0, 0, 0, 1);
-insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `day_ability_description`, `attribute_description`, `goal_description`, `role_priority`, `day_kill`, `night_kill`, `day_block`, `night_block`)
-  values ('Townie', 'Jailor', 'You may choose one person during the day to jail for the night.', 'You may anonymously talk with your prisoner. You may choose to execute your prisoner. The jailed target cannot perform their night ability. While jailed the prisoner is safe from all attacks.', 'Lynch every criminal and evildoer.', 6, 0, 0, 1, 1);
-insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `day_ability_description`, `attribute_description`, `goal_description`, `role_priority`, `day_kill`, `night_kill`, `day_block`, `night_block`)
-  values ('Townie', 'Spy', 'You may bug a players house to see what happens to them that night.', 'You will know who the Black Hand and Monsters visit each night.', 'Lynch every criminal and evildoer.', 5, 0, 0, 0, 0);
-insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `role_priority`, `day_kill`, `night_kill`, `day_block`, `night_block`)
-  values ('Townie', 'Vampire Hunter', 'Check for Vampires each night.', 'If you find a Vampire you will stake them in the heart. If a Vampire visits you they will be staked. You can hear Vampires at night. If you kill all Vampires you will become a Vigilante.', 'Lynch every criminal and evildoer.', 7, 1, 1, 0, 0);
-insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `day_ability_description`, `attribute_description`, `goal_description`, `role_priority`, `day_kill`, `night_kill`, `day_block`, `night_block`)
-  values ('BlackHand', 'Forget', 'Choose a person and rewrite their last will at night.', 'If your target dies their last will is replaced with your forgery. You may only perform 3 forgeries. If there are no kill capable Black Hand roles left you will become a Mafioso. You can talk with the other Black Hand at night.', 'Kill anyone that will not submit to the Black Hand.', 4, 0, 0, 0, 0);
-insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `role_priority`, `day_kill`, `night_kill`, `day_block`, `night_block`)
-  values ('BlackHand', 'Godfather', 'Kill someone each night.', 'You cant be killed at night. If there is a Mafioso he will attack the target instead of you. You will appear to be a Town member to the Sheriff. You can talk with the other Black Hand at night.', 'Kill anyone that will not submit to the Black Hand.', 1, 0, 1, 0, 0);
-insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `role_priority`, `day_kill`, `night_kill`, `day_block`, `night_block`)
-  values ('Monster', 'Vampire', 'Convert others to Vampires at night.', 'Vampires vote at night to bite a target. The youngest Vampire will visit the target at night. You must wait 1 night between conversions.', 'Convert everyone who would oppose you.', 2, 0, 1, 0, 0);
-insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `role_priority`, `day_kill`, `night_kill`, `day_block`, `night_block`)
-  values ('Monster', 'Werewolf', 'Transform into a Werewolf during the full moon.', 'As a Werewolf you can not be killed at night. As a Werewolf you will attack your victim and anyone that visits them. Your attack goes through night immunity. As a Werewolf you may choose to stay home and attack anyone who visits you.', 'Kill everyone who would oppose you.', 3, 0, 0, 0, 0);
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `sprite_path`, `role_priority`, `can_attack`, `can_block`)
+  values ('Townie', 'Bodyguard', 'Protect one person from death each night.', 'If your target is attacked, both you and your attacker will die instead. If you successfully protect someone, you cant be saved from death. Your counterattack ignores night immunity.', 'Lynch every criminal and evildoer.', 'assets/images/sprites/Bodyguard.webp', 9, 0, 1);
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `sprite_path`, `role_priority`, `can_attack`, `can_block`)
+  values ('Townie', 'Illusionist', 'Heal one person each night, preventing them from dying.', 'You may only heal yourself once. You will know if your target is attacked.', 'Lynch every criminal and evildoer.', 'assets/images/sprites/Illusionist.webp', 8, 0, 1);
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `day_ability_description`, `attribute_description`, `goal_description`, `sprite_path`, `role_priority`, `can_attack`, `can_block`)
+  values ('Townie', 'Peacekeeper', 'You may choose one person during the day to jail for the night.', 'You may anonymously talk with your prisoner. You may choose to execute your prisoner. The jailed target cannot perform their night ability. While jailed the prisoner is safe from all attacks.', 'Lynch every criminal and evildoer.', 'assets/images/sprites/Peacekeeper.webp', 6, 0, 0);
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `day_ability_description`, `attribute_description`, `goal_description`, `sprite_path`, `role_priority`, `can_attack`, `can_block`)
+  values ('Townie', 'Spy', 'You may bug a players house to see what happens to them that night.', 'You will know who the Black Hand and Monsters visit each night.', 'Lynch every criminal and evildoer.', 'assets/images/sprites/Spy.webp', 5, 0, 1);
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `sprite_path`, `role_priority`, `can_attack`, `can_block`)
+  values ('Townie', 'Veteran', 'Check for Vampires each night.', 'If you find a Vampire you will stake them in the heart. If a Vampire visits you they will be staked. You can hear Vampires at night. If you kill all Vampires you will become a Vigilante.', 'Lynch every criminal and evildoer.', 'assets/images/sprites/Veteran.webp', 7, 0, 1);
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `day_ability_description`, `attribute_description`, `goal_description`, `sprite_path`, `role_priority`, `can_attack`, `can_block`)
+  values ('BlackHand', 'Darkfinger', 'Choose a person and rewrite their last will at night.', 'If your target dies their last will is replaced with your forgery. You may only perform 3 forgeries. If there are no kill capable Black Hand roles left you will become a Mafioso. You can talk with the other Black Hand at night.', 'Kill anyone that will not submit to the Black Hand.', 'assets/images/sprites/Darkfinger.webp', 4, 0, 1);
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `sprite_path`, `role_priority`, `can_attack`, `can_block`)
+  values ('BlackHand', 'Darkfather', 'Kill someone each night.', 'You cant be killed at night. If there is a Mafioso he will attack the target instead of you. You will appear to be a Town member to the Sheriff. You can talk with the other Black Hand at night.', 'Kill anyone that will not submit to the Black Hand.', 'assets/images/sprites/Darkfather.webp', 1, 0, 1);
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `sprite_path`, `role_priority`, `can_attack`, `can_block`)
+  values ('Monster', 'Vampire', 'Convert others to Vampires at night.', 'Vampires vote at night to bite a target. The youngest Vampire will visit the target at night. You must wait 1 night between conversions.', 'Convert everyone who would oppose you.', 'assets/images/sprites/Vampire.webp', 2, 1, 1);
+insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `sprite_path`, `role_priority`, `can_attack`, `can_block`)
+  values ('Monster', 'Changeling', 'Transform into a Werewolf during the full moon.', 'As a Werewolf you can not be killed at night. As a Werewolf you will attack your victim and anyone that visits them. Your attack goes through night immunity. As a Werewolf you may choose to stay home and attack anyone who visits you.', 'Kill everyone who would oppose you.', 'assets/images/sprites/Changeling.webp', 3, 0, 0);
 
 -- ** add games mock data
 
@@ -121,18 +142,23 @@ insert into `partyrdb`.`games` (`game_name`, `min_players_num`, `max_players_num
 
 -- ** add lobby mock data
 
-insert into `partyrdb`.`lobby` (`game_room_name`, `game_name`, `host_username`, `number_of_players`) 
+insert into `partyrdb`.`lobby` (`room_name`, `game_name`, `host_username`, `number_of_players`) 
   values ('ziploc bags box tablet stand', 'Black Hand', 'coty', 5);
 
--- ** add black_hand_rooms mock data
+-- ** add black_hand_games mock data
 
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'coty', 'Townie', 'Bodyguard', 'ALIVE');
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'lanawood', 'Monster', 'Werewolf', 'ALIVE');
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'cheesecake', 'BlackHand', 'Forget', 'ALIVE');
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'timmy7', 'Monster', 'Doctor', 'ALIVE');
-insert into `partyrdb`.`black_hand_rooms` (`game_room_name`, `username`, `preferred_faction`, `role_name`, `player_status`) 
-  values ('ziploc bags box tablet stand', 'obtrusivemonks', 'Monster', 'Jailor', 'ALIVE');
+insert into `partyrdb`.`black_hand_games` (`room_name`) 
+  values ('ziploc bags box tablet stand');
+
+-- ** add black_hand_game_players mock data
+
+insert into `partyrdb`.`black_hand_game_players` (`room_name`, `username`) 
+  values ('ziploc bags box tablet stand', 'coty');
+insert into `partyrdb`.`black_hand_game_players` (`room_name`, `username`) 
+  values ('ziploc bags box tablet stand', 'lanawood');
+insert into `partyrdb`.`black_hand_game_players` (`room_name`, `username`) 
+  values ('ziploc bags box tablet stand', 'cheesecake');
+insert into `partyrdb`.`black_hand_game_players` (`room_name`, `username`) 
+  values ('ziploc bags box tablet stand', 'timmy7');
+insert into `partyrdb`.`black_hand_game_players` (`room_name`, `username`) 
+  values ('ziploc bags box tablet stand', 'obtrusivemonks');

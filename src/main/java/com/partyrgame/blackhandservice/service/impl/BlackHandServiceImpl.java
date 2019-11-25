@@ -1,58 +1,148 @@
 package com.partyrgame.blackhandservice.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
-import com.partyrgame.blackhandservice.model.PlayerTurn;
-import com.partyrgame.blackhandservice.service.BlackHandDayService;
-import com.partyrgame.blackhandservice.service.BlackHandNightService;
+import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
+import com.partyrgame.blackhandservice.model.BlackHandFaction;
+import com.partyrgame.blackhandservice.model.BlackHandGame;
+import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
 import com.partyrgame.blackhandservice.service.BlackHandService;
-import com.partyrgame.util.BlackHandConstants;
+import com.partyrgame.blackhandservice.service.BlackHandTrialService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Data
+@Service
 public class BlackHandServiceImpl implements BlackHandService {
   @Autowired
-  BlackHandDayService blackHandDayService;
+  BlackHandDao dao;
 
   @Autowired
-  BlackHandNightService blackHandNightService;
+  BlackHandTrialService trialService;
 
   /**
-   * completePhase.
+   * getBlackHandRawDetails.
    */
-  public BlackHand completePhase(BlackHand blackHand, List<PlayerTurn> playerTurns) throws Exception {
-    if (blackHand.getPhase().equals(BlackHandConstants.DAY)) {
-      log.info("currently in day phase");
-    } else if (blackHand.getPhase().equals(BlackHandConstants.NIGHT)) {
-      log.info("currently in night phase");
-    } else {
-      throw new Exception("unable to complete game; phase not recognized"); // TODO: create custom phase exception
-    }
-
-    blackHand.setPhase(alternatePhase(blackHand.getPhase()));
-
-    return new BlackHand();
+  public List<BlackHandGame> getBlackHandRawDetails(String roomName) {
+    return dao.getBlackHandRawDetails(roomName);
   }
 
   /**
-   * alternatePhase: switched from day phase to night phase and night phase to day
-   * phase after all players have made their move.
+   * getBlackHandDetails.
    */
-  private String alternatePhase(String phase) throws Exception {
-    if (phase.equals(BlackHandConstants.DAY)) {
-      log.info("alternating to night phase");
-      return BlackHandConstants.NIGHT;
-    } else if (phase.equals(BlackHandConstants.NIGHT)) {
-      log.info("alternating to day phase");
-      return BlackHandConstants.DAY;
-    } else {
-      throw new Exception("unable to complete game; phase not recognized"); // TODO: create custom phase exception
+  public BlackHand getBlackHandDetails(String roomName) {
+    log.debug("game details: {}", dao.getBlackHandDetails(roomName).toString());
+
+    return dao.getBlackHandDetails(roomName);
+  }
+
+  /**
+   * setPreferredFaction.
+   */
+  public BlackHand setPreferredFaction(String username, String roomName, String preferredFaction) {
+    dao.setPreferredFaction(username, roomName, preferredFaction);
+
+    return dao.getBlackHandDetails(roomName);
+  }
+
+  /**
+   * selectDisplayName.
+   */
+  public BlackHand selectDisplayName(String username, String roomName, String displayName) {
+    dao.selectDisplayName(username, roomName, displayName);
+
+    return dao.getBlackHandDetails(roomName);
+  }
+
+  /**
+   * incrementNumberOfPlayersPerFaction.
+   */
+  public void incrementNumberOfPlayersPerFaction(BlackHandFaction faction, BlackHandNumberOfPlayers actualNumber) {
+    switch (faction) {
+    case BlackHand:
+      actualNumber.incrementBlackHandTotal();
+      break;
+    case Monster:
+      actualNumber.incrementMonstersTotal();
+      break;
+    case Townie:
+      actualNumber.incrementTowniesTotal();
+      break;
+    default:
+      break; // invalid faction
     }
+  }
+
+  /**
+   * decrementNumberOfPlayersPerFaction.
+   */
+  public void decrementNumberOfPlayersPerFaction(BlackHandFaction faction, BlackHandNumberOfPlayers actualNumber) {
+    switch (faction) {
+    case BlackHand:
+      actualNumber.decrementBlackHandTotal();
+      break;
+    case Monster:
+      actualNumber.decrementMonstersTotal();
+      break;
+    case Townie:
+      actualNumber.decrementTowniesTotal();
+      break;
+    default:
+      break; // invalid faction
+    }
+  }
+
+  /**
+   * getBlackHandNumberOfPlayers: returns an object containing the required number
+   * of Monsters, BlackHands, and Townies.
+   */
+  public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int playerTotal) {
+    if (playerTotal < 5) {
+      log.info("at least 5 players are needed to play the Black Hand!");
+      playerTotal = 5;
+    } else if (playerTotal > 15) {
+      log.info("at most 15 players can play the Black Hand!");
+      playerTotal = 15;
+    }
+
+    return dao.getBlackHandNumberOfPlayers(playerTotal);
+  }
+
+  /**
+   * getAllPlayerUsernames.
+   */
+  public List<String> getAllPlayerUsernames(List<BlackHand.BlackHandPlayer> players) {
+    return players.stream().map(player -> player.getUsername()).collect(Collectors.toList());
+  }
+
+  /**
+   * getAllPlayersDisplayNames: if a players display name was not set then their
+   * username will be returned.
+   */
+  public List<String> getAllPlayersDisplayNames(List<BlackHand.BlackHandPlayer> players) {
+    return players.stream()
+        .map(player -> player.getDisplayName() == null ? player.getUsername() : player.getDisplayName())
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * getBlackHandPlayer.
+   */
+  public BlackHandPlayer getBlackHandPlayer(BlackHand blackHand, String username) {
+    return blackHand.getAlivePlayers().stream().filter(player -> player.getUsername().equals(username)).findFirst()
+        .get();
+  }
+
+  /**
+   * getPlayerOnTrial.
+   */
+  public BlackHandPlayer getPlayerOnTrial(BlackHand blackHand) {
+    return trialService.getPlayerOnTrial(blackHand);
   }
 }

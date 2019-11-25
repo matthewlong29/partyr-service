@@ -1,5 +1,7 @@
 package com.partyrgame.blackhandservice.service;
 
-public interface BlackHandNightService {
+import com.partyrgame.blackhandservice.model.BlackHand;
 
+public interface BlackHandNightService {
+  public BlackHand evaluateNight(String roomName);
 }

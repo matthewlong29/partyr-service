@@ -131,6 +131,14 @@ h4 {
   border-radius: 36px;
 }
 
+#jsonMessage {
+  overflow-x: scroll;
+}
+
+#jsonMessage pre span {
+  word-wrap: break-word;
+}
+
 #jsonMessage pre:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
