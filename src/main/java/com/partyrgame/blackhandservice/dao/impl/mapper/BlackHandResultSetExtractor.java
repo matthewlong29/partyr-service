@@ -82,7 +82,6 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
           }
 
         } else {
-          updatePlayersRemainingPerFaction(blackHand, gameRow.getActualFaction());
           blackHandPlayer.get().addNote(gameRow.getNote());
         }
       } else {
