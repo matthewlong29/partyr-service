@@ -12,7 +12,7 @@ DELETE FROM `partyrdb`.`black_hand_required_number_of_players`;
 DELETE FROM `partyrdb`.`black_hand_player_notes`;
 DELETE FROM `partyrdb`.`lobby`;
 DELETE FROM `partyrdb`.`black_hand_roles`;
-DELETE FROM `partyrdb`.`black_hand_games`;
+DELETE FROM `partyrdb`.`black_hand_game_players`;
 DELETE FROM `partyrdb`.`chat`;
 
 SET SQL_SAFE_UPDATES = 1;
@@ -146,13 +146,18 @@ insert into `partyrdb`.`lobby` (`room_name`, `game_name`, `host_username`, `numb
 
 -- ** add black_hand_games mock data
 
-insert into `partyrdb`.`black_hand_games` (`room_name`, `username`) 
+insert into `partyrdb`.`black_hand_games` (`room_name`) 
+  values ('ziploc bags box tablet stand');
+
+-- ** add black_hand_game_players mock data
+
+insert into `partyrdb`.`black_hand_game_players` (`room_name`, `username`) 
   values ('ziploc bags box tablet stand', 'coty');
-insert into `partyrdb`.`black_hand_games` (`room_name`, `username`) 
+insert into `partyrdb`.`black_hand_game_players` (`room_name`, `username`) 
   values ('ziploc bags box tablet stand', 'lanawood');
-insert into `partyrdb`.`black_hand_games` (`room_name`, `username`) 
+insert into `partyrdb`.`black_hand_game_players` (`room_name`, `username`) 
   values ('ziploc bags box tablet stand', 'cheesecake');
-insert into `partyrdb`.`black_hand_games` (`room_name`, `username`) 
+insert into `partyrdb`.`black_hand_game_players` (`room_name`, `username`) 
   values ('ziploc bags box tablet stand', 'timmy7');
-insert into `partyrdb`.`black_hand_games` (`room_name`, `username`) 
+insert into `partyrdb`.`black_hand_game_players` (`room_name`, `username`) 
   values ('ziploc bags box tablet stand', 'obtrusivemonks');

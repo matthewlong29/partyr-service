@@ -7,6 +7,7 @@ DROP TRIGGER IF EXISTS verify_valid_number_of_players;
 
 DROP TABLE IF EXISTS black_hand_player_notes;
 DROP TABLE IF EXISTS black_hand_games;
+DROP TABLE IF EXISTS black_hand_game_players;
 DROP TABLE IF EXISTS black_hand_roles;
 DROP TABLE IF EXISTS black_hand_required_number_of_players;
 DROP TABLE IF EXISTS lobby;
@@ -135,11 +136,10 @@ CREATE TABLE `black_hand_roles` (
   CONSTRAINT `limit_faction` CHECK ((`faction` IN ('BlackHand', 'Monster', 'Townie')))
 ) ENGINE=InnoDB;
 
--- ** create black_hand_games table
+-- ** create black_hand_game_players table
 
-CREATE TABLE `black_hand_games` (
+CREATE TABLE `black_hand_game_players` (
   `room_name` VARCHAR(32) NOT NULL,
-  `phase` VARCHAR(8) NOT NULL DEFAULT 'SETUP',
   `username` VARCHAR(32) NOT NULL,
   `display_name` VARCHAR(32),
   `preferred_faction` VARCHAR(32), 
@@ -169,7 +169,19 @@ CREATE TABLE `black_hand_games` (
   CONSTRAINT `limit_player_status` CHECK ((`player_status` IN ('ALIVE', 'DEAD'))),
   CONSTRAINT `limit_ready_status` CHECK ((`ready_status` IN ('READY', 'NOT_READY'))),
   CONSTRAINT `limit_preferred_faction` CHECK ((`preferred_faction`) IN ('BlackHand', 'Monster', 'Townie')),
-  CONSTRAINT `limit_actual_faction` CHECK ((`actual_faction`) IN ('BlackHand', 'Monster', 'Townie')),
+  CONSTRAINT `limit_actual_faction` CHECK ((`actual_faction`) IN ('BlackHand', 'Monster', 'Townie'))
+) ENGINE=InnoDB;
+
+-- ** create black_hand_games table
+
+CREATE TABLE `black_hand_games` (
+  `room_name` VARCHAR(32) NOT NULL,
+  `phase` VARCHAR(8) NOT NULL DEFAULT 'SETUP',
+  `player_on_trial` VARCHAR(32),
+  `votes_to_kill` INT,
+  `votes_to_spare` INT,
+  PRIMARY KEY (`room_name`),
+  CONSTRAINT `set_player_on_trial_reference` FOREIGN KEY (`player_on_trial`) REFERENCES `partyr_users` (`username`),
   CONSTRAINT `limit_phase` CHECK ((`phase`) IN ('SETUP', 'DAY', 'TRIAL', 'NIGHT'))
 ) ENGINE=InnoDB;
 
