@@ -61,7 +61,8 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
         player.addNote(blackHandGameRawDetails.getNote());
 
         if (!blackHandGameRawDetails.isTurnCompleted()) {
-          blackHand.addPlayerNotCompletedTurn(player.getDisplayName());
+          blackHand.addPlayerNotCompletedTurn(
+              player.getDisplayName() == null ? player.getUsername() : player.getDisplayName());
         }
 
         log.debug("faction: {}; \nrole name: {}; \nroles: {}", player.getActualFaction(),

@@ -43,7 +43,7 @@ public class BlackHand {
     private List<String> notes = new ArrayList<>();
 
     /**
-     * 
+     * addNote.
      */
     public void addNote(String note) {
       this.notes.add(note);
@@ -61,16 +61,16 @@ public class BlackHand {
    * addPlayerNotCompletedTurn: if a player hasn't completed his turn yet they're
    * added to this list.
    */
-  public void addPlayerNotCompletedTurn(String displayName) {
-    playersTurnRemaining.add(displayName);
+  public void addPlayerNotCompletedTurn(String username) {
+    playersTurnRemaining.add(username);
   }
 
   /**
    * removePlayerWhenCompletedTurn: when a player completes his turn remove him
    * from the list.
    */
-  public void removePlayerWhenCompletedTurn(String displayName) {
-    playersTurnRemaining.remove(displayName);
+  public void removePlayerWhenCompletedTurn(String username) {
+    playersTurnRemaining.remove(username);
   }
 
   @Data

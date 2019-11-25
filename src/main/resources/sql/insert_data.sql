@@ -9,6 +9,7 @@ DELETE FROM `partyrdb`.`relationships`;
 DELETE FROM `partyrdb`.`achievements`;
 DELETE FROM `partyrdb`.`games`;
 DELETE FROM `partyrdb`.`black_hand_required_number_of_players`;
+DELETE FROM `partyrdb`.`black_hand_player_notes`;
 DELETE FROM `partyrdb`.`lobby`;
 DELETE FROM `partyrdb`.`black_hand_roles`;
 DELETE FROM `partyrdb`.`black_hand_games`;
