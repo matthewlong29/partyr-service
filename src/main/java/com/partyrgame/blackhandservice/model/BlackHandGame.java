@@ -26,6 +26,8 @@ public class BlackHandGame {
   private boolean hasBlocked;
   private boolean turnCompleted;
   private boolean voteCompleted;
+  private int guiltyVotes;
+  private int notGuiltyVotes;
   private String attackingPlayer;
   private String blockingPlayer;
   private String trialPlayer;

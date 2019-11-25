@@ -5,6 +5,7 @@ import java.util.Comparator;
 import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
+import com.partyrgame.blackhandservice.model.BlackHand.BlackHandTrial;
 import com.partyrgame.blackhandservice.service.BlackHandService;
 import com.partyrgame.blackhandservice.service.BlackHandTrialService;
 
@@ -23,6 +24,21 @@ public class BlackHandTrialServiceImpl implements BlackHandTrialService {
   BlackHandDao dao;
 
   /**
+   * evaluateTrial.
+   */
+  public BlackHand evaluateTrial(String roomName) {
+    BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
+
+    BlackHandTrial trial = blackHand.getPlayerOnTrial();
+
+    if (trial.getGuiltyVotes() > trial.getNotGuiltyVotes()) {
+      dao.killPlayer(roomName, trial.getUsername());
+    }
+
+    return blackHand;
+  }
+
+  /**
    * submitVote.
    */
   public BlackHand submitPlayerVote(String roomName, String username, String vote) {
@@ -38,15 +54,6 @@ public class BlackHandTrialServiceImpl implements BlackHandTrialService {
     dao.submitPlayerVote(roomName, username, vote);
 
     return blackHandService.getBlackHandDetails(roomName);
-  }
-
-  /**
-   * evaluateTrial.
-   */
-  public BlackHand evaluateTrial(String roomName) {
-    BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
-
-    return blackHand;
   }
 
   /**

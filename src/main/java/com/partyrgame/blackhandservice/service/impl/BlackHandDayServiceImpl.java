@@ -39,8 +39,8 @@ public class BlackHandDayServiceImpl implements BlackHandDayService {
 
     BlackHandTrial blackHandTrial = new BlackHandTrial();
     blackHandTrial.setDisplayName(playerOnTrial.getDisplayName());
-    blackHandTrial.setVotesToKill(0);
-    blackHandTrial.setVotesToSpare(0);
+    blackHandTrial.setGuiltyVotes(0);
+    blackHandTrial.setNotGuiltyVotes(0);
 
     blackHand.setPlayerOnTrial(blackHandTrial);
 

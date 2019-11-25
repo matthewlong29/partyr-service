@@ -100,8 +100,9 @@ public class BlackHand {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   public static class BlackHandTrial {
     private String displayName;
-    private int votesToKill;
-    private int votesToSpare;
+    private String username;
+    private int guiltyVotes;
+    private int notGuiltyVotes;
   }
 
   @Data

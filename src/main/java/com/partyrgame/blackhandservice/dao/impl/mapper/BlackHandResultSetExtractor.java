@@ -92,22 +92,22 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
           blackHand.addAlivePlayer(player);
         }
       }
+
+      if (blackHand.getPhase().equals(BlackHandPhase.TRIAL)) {
+        BlackHandPlayer playerOnTrial = blackHandService.getPlayerOnTrial(blackHand);
+
+        BlackHandTrial blackHandTrial = new BlackHandTrial();
+        blackHandTrial.setDisplayName(playerOnTrial.getDisplayName());
+        blackHandTrial.setGuiltyVotes(gameRow.getGuiltyVotes());
+        blackHandTrial.setNotGuiltyVotes(gameRow.getNotGuiltyVotes());
+
+        blackHand.removePlayerWhenCompletedVote(playerOnTrial.getUsername());
+        blackHand.setPlayerOnTrial(blackHandTrial);
+      }
     }
 
     if (!blackHand.getPhase().equals(BlackHandPhase.SETUP)) {
       checkForWinningFaction(blackHand);
-    }
-
-    if (blackHand.getPhase().equals(BlackHandPhase.TRIAL)) {
-      BlackHandPlayer playerOnTrial = blackHandService.getPlayerOnTrial(blackHand);
-
-      BlackHandTrial blackHandTrial = new BlackHandTrial();
-      blackHandTrial.setDisplayName(playerOnTrial.getDisplayName());
-      blackHandTrial.setVotesToKill(blackHandService.getVotes(blackHand, "kill"));
-      blackHandTrial.setVotesToSpare(blackHandService.getVotes(blackHand, "spare"));
-
-      blackHand.removePlayerWhenCompletedVote(playerOnTrial.getUsername());
-      blackHand.setPlayerOnTrial(blackHandTrial);
     }
 
     return blackHand;
