@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.partyrgame.blackhandservice.util.BlackHandConstants;
 
 import lombok.Data;
 
@@ -14,7 +13,7 @@ import lombok.Data;
 public class BlackHand {
   private String roomName;
   private Timestamp gameStartTime;
-  private String phase; // NOTE DAY, NIGHT, or SETUP (SETUP -> DAY -> NIGHT -> DAY -> NIGHT -> ...)
+  private BlackHandPhase phase; // NOTE DAY, NIGHT, or SETUP (SETUP -> DAY -> NIGHT -> DAY -> NIGHT -> ...)
   private List<String> playersTurnRemaining = new ArrayList<>(); // list of players who have not completed their turn
   private int numOfBlackHandRemaining;
   private int numOfTownieRemaining;
@@ -109,6 +108,6 @@ public class BlackHand {
    * BlackHand: initialize various black hand values.
    */
   public BlackHand() {
-    this.phase = BlackHandConstants.SETUP; // game starts in setup phase
+    this.phase = BlackHandPhase.SETUP; // game starts in setup phase
   }
 }

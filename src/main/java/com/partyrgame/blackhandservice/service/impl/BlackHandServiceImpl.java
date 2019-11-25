@@ -5,11 +5,11 @@ import java.util.List;
 import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
+import com.partyrgame.blackhandservice.model.BlackHandPhase;
 import com.partyrgame.blackhandservice.model.PlayerTurn;
 import com.partyrgame.blackhandservice.service.BlackHandDayService;
 import com.partyrgame.blackhandservice.service.BlackHandNightService;
 import com.partyrgame.blackhandservice.service.BlackHandService;
-import com.partyrgame.blackhandservice.util.BlackHandConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,9 +66,9 @@ public class BlackHandServiceImpl implements BlackHandService {
    * completePhase.
    */
   public BlackHand completePhase(BlackHand blackHand, List<PlayerTurn> playerTurns) throws Exception {
-    if (blackHand.getPhase().equals(BlackHandConstants.DAY)) {
+    if (blackHand.getPhase().equals(BlackHandPhase.DAY)) {
       log.info("currently in day phase");
-    } else if (blackHand.getPhase().equals(BlackHandConstants.NIGHT)) {
+    } else if (blackHand.getPhase().equals(BlackHandPhase.NIGHT)) {
       log.info("currently in night phase");
     } else {
       throw new Exception("unable to complete game; phase not recognized"); // TODO: create custom phase exception
@@ -83,13 +83,13 @@ public class BlackHandServiceImpl implements BlackHandService {
    * alternatePhase: switched from day phase to night phase and night phase to day
    * phase after all players have made their move.
    */
-  private String alternatePhase(String phase) throws Exception {
-    if (phase.equals(BlackHandConstants.DAY)) {
+  private BlackHandPhase alternatePhase(BlackHandPhase phase) throws Exception {
+    if (phase.equals(BlackHandPhase.DAY)) {
       log.info("alternating to night phase");
-      return BlackHandConstants.NIGHT;
-    } else if (phase.equals(BlackHandConstants.NIGHT)) {
+      return BlackHandPhase.NIGHT;
+    } else if (phase.equals(BlackHandPhase.NIGHT)) {
       log.info("alternating to day phase");
-      return BlackHandConstants.DAY;
+      return BlackHandPhase.DAY;
     } else {
       throw new Exception("unable to complete game; phase not recognized"); // TODO: create custom phase exception
     }

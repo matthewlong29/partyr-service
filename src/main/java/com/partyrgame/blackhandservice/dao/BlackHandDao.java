@@ -7,6 +7,7 @@ import com.partyrgame.blackhandservice.model.BlackHand;
 import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
 import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
+import com.partyrgame.blackhandservice.model.BlackHandPhase;
 import com.partyrgame.blackhandservice.model.BlackHandRole;
 import com.partyrgame.blackhandservice.model.PlayerTurn;
 
@@ -21,7 +22,7 @@ public interface BlackHandDao {
 
   public int submitPlayerTurn(PlayerTurn turn);
 
-  public int updateBlackHandGame(String roomName, String phase);
+  public int updateBlackHandGame(String roomName, BlackHandPhase phase);
 
   public int updateBlackHandGameForPlayer(String username, String roomName, String roleName, String faction,
       int turnPriority);

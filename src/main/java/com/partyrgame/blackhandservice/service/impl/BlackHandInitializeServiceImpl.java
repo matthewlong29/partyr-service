@@ -9,10 +9,10 @@ import com.partyrgame.blackhandservice.model.BlackHand;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
 import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
+import com.partyrgame.blackhandservice.model.BlackHandPhase;
 import com.partyrgame.blackhandservice.model.BlackHandRole;
 import com.partyrgame.blackhandservice.service.BlackHandInitializeService;
 import com.partyrgame.blackhandservice.service.BlackHandService;
-import com.partyrgame.blackhandservice.util.BlackHandConstants;
 import com.partyrgame.roomservice.dao.LobbyDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +35,7 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
   /**
    * startGame: returns data necessary to start a game of black.
    * 
-   * TODO: add randomization for assigning roles;
-   * 
-   * TODO: update get_black_hand_game stored proc to also return start time for
-   * game
-   * 
-   * TODO: consider adding more to lobby table (i.e. phase, numRemaining,
-   * lastPlayerToDie, playerOnTrial, etc...?)
+   * TODO: add randomization for assigning roles
    */
   public BlackHand startGame(String roomName) {
     BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
@@ -56,26 +50,12 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
 
     BlackHandNumberOfPlayers actualNumber = new BlackHandNumberOfPlayers();
     HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles = getBlackHandRoles();
-
-    log.debug("available roles: {}", availableRoles.toString());
-    log.debug("black hand game: {}", blackHand.toString());
-
-    blackHand.setRoomName(roomName);
-    blackHand.setPhase(BlackHandConstants.DAY); // start game in DAY phase
-    blackHand.setPlayersTurnRemaining(getAllPlayersDisplayNames(blackHand.getAlivePlayers()));
-
     List<BlackHand.BlackHandPlayer> players = blackHand.getAlivePlayers();
     int totalNumberOfPlayers = players.size();
 
     BlackHandNumberOfPlayers requiredNumber = getBlackHandNumberOfPlayers(totalNumberOfPlayers);
-    blackHand.setNumOfBlackHandRemaining(requiredNumber.getBlackHandTotal());
-    blackHand.setNumOfMonsterRemaining(requiredNumber.getMonstersTotal());
-    blackHand.setNumOfTownieRemaining(requiredNumber.getTowniesTotal());
-
-    log.debug("required number of players per faction: {};", requiredNumber);
 
     for (BlackHand.BlackHandPlayer player : players) {
-      log.debug("user: {}", player.getUsername());
       assignPreferredRole(blackHand, availableRoles, player, requiredNumber, actualNumber);
     }
 
@@ -85,11 +65,9 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
       log.error("exception occurred when trying to assign role to player: {}", e.getMessage());
     }
 
-    log.debug("actual number of players per faction: {};", actualNumber);
+    blackHandDao.updateBlackHandGame(roomName, BlackHandPhase.DAY);
 
-    blackHandDao.updateBlackHandGame(roomName, BlackHandConstants.DAY);
-
-    return blackHand;
+    return blackHandService.getBlackHandDetails(roomName);
   }
 
   /**

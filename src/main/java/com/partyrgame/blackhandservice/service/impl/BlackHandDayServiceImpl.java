@@ -6,6 +6,7 @@ import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandTrial;
+import com.partyrgame.blackhandservice.model.BlackHandPhase;
 import com.partyrgame.blackhandservice.model.PlayerTurn;
 import com.partyrgame.blackhandservice.service.BlackHandDayService;
 import com.partyrgame.blackhandservice.service.BlackHandService;
@@ -48,6 +49,8 @@ public class BlackHandDayServiceImpl implements BlackHandDayService {
       }
     }
 
+    blackHandDao.updateBlackHandGame(blackHand.getRoomName(), BlackHandPhase.TRIAL);
+
     return blackHandService.getBlackHandDetails(roomName);
   }
 
@@ -84,7 +87,8 @@ public class BlackHandDayServiceImpl implements BlackHandDayService {
    * getBlackHandPlayer.
    */
   private BlackHandPlayer getBlackHandPlayer(BlackHand blackHand, String username) {
-    return blackHand.getAlivePlayers().stream().filter(player -> player.getUsername().equals(username)).findFirst().get();
+    return blackHand.getAlivePlayers().stream().filter(player -> player.getUsername().equals(username)).findFirst()
+        .get();
   }
 
   /**

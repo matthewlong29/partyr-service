@@ -170,7 +170,7 @@ CREATE TABLE `black_hand_games` (
   CONSTRAINT `limit_ready_status` CHECK ((`ready_status` IN ('READY', 'NOT_READY'))),
   CONSTRAINT `limit_preferred_faction` CHECK ((`preferred_faction`) IN ('BlackHand', 'Monster', 'Townie')),
   CONSTRAINT `limit_actual_faction` CHECK ((`actual_faction`) IN ('BlackHand', 'Monster', 'Townie')),
-  CONSTRAINT `limit_phase` CHECK ((`phase`) IN ('SETUP', 'DAY', 'NIGHT'))
+  CONSTRAINT `limit_phase` CHECK ((`phase`) IN ('SETUP', 'DAY', 'TRIAL', 'NIGHT'))
 ) ENGINE=InnoDB;
 
 -- ** create black_hand_player_notes table

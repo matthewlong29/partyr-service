@@ -10,6 +10,7 @@ import com.partyrgame.blackhandservice.model.BlackHand;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
 import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
+import com.partyrgame.blackhandservice.model.BlackHandPhase;
 import com.partyrgame.blackhandservice.model.BlackHandRole;
 import com.partyrgame.blackhandservice.model.PlayerStatus;
 import com.partyrgame.blackhandservice.service.BlackHandInitializeService;
@@ -32,66 +33,59 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
   @Override
   public BlackHand extractData(final ResultSet resultSet) throws SQLException {
     final BlackHandGameRowMapper rowMapper = new BlackHandGameRowMapper();
-    final BlackHand blackHand = new BlackHand();
     final HashMap<BlackHandFaction, List<BlackHandRole>> factionRoles = blackHandInitializeService.getBlackHandRoles();
 
-    int numOfBlackHandRemaining = 0;
-    int numOfTownieRemaining = 0;
-    int numOfMonsterRemaining = 0;
-
-    log.debug("faction roles: {}", factionRoles);
+    final BlackHand blackHand = new BlackHand();
+    blackHand.setNumOfBlackHandRemaining(0);
+    blackHand.setNumOfTownieRemaining(0);
+    blackHand.setNumOfMonsterRemaining(0);
 
     while (resultSet.next()) {
       final BlackHandGame gameRow = rowMapper.mapRow(resultSet, resultSet.getRow());
-      log.debug("black hand game row: {}", gameRow.toString());
+      blackHand.setPhase(BlackHandPhase.valueOf(gameRow.getPhase()));
+      blackHand.setRoomName(gameRow.getGameRoomName());
 
       final Optional<BlackHandPlayer> blackHandPlayer = isPlayerPresent(blackHand, gameRow.getPlayerStatus(),
           gameRow.getUsername());
 
-      if (!blackHandPlayer.isPresent()) {
-        BlackHandPlayer player = new BlackHandPlayer();
-        player.setUsername(gameRow.getUsername());
-        player.setDisplayName(gameRow.getDisplayName());
-        player.setPreferredFaction(gameRow.getPreferredFaction());
-        player.setBlocksAgainst(gameRow.getBlocksAgainst());
-        player.setAttacksAgainst(gameRow.getAttacksAgainst());
-        player.setTimesVotedToBePlacedOnTrial(gameRow.getTimesVotedToBePlacedOnTrial());
-        player.setTurnPriority(gameRow.getTurnPriority());
-        player.setActualFaction(gameRow.getActualFaction());
-        player.setHasAttacked(gameRow.isHasAttacked());
-        player.setHasBlocked(gameRow.isHasBlocked());
-        player.addNote(gameRow.getNote());
+      if (!blackHand.getPhase().equals(BlackHandPhase.SETUP)) {
+        if (!blackHandPlayer.isPresent()) {
+          BlackHandPlayer player = createPlayer(gameRow);
 
-        if (!gameRow.isTurnCompleted() && gameRow.getPlayerStatus().equals(PlayerStatus.ALIVE)) {
-          blackHand.addPlayerNotCompletedTurn(
-              player.getDisplayName() == null ? player.getUsername() : player.getDisplayName());
-        }
+          if (!gameRow.isTurnCompleted() && gameRow.getPlayerStatus().equals(PlayerStatus.ALIVE)) {
+            blackHand.addPlayerNotCompletedTurn(
+                player.getDisplayName() == null ? player.getUsername() : player.getDisplayName());
+          }
 
-        if (null != player.getActualFaction() && null != gameRow.getRoleName()) {
           final List<BlackHandRole> roles = factionRoles.get(player.getActualFaction());
           final BlackHandRole blackHandRole = roles.stream()
               .filter(role -> role.getName().equals(gameRow.getRoleName())).findFirst().get();
-
           player.setRole(blackHandRole);
-        }
 
-        blackHand.setGameStartTime(gameRow.getGameStartTime());
-        blackHand.setRoomName(gameRow.getGameRoomName());
-        blackHand.setPhase(gameRow.getPhase());
+          blackHand.setGameStartTime(gameRow.getGameStartTime());
 
-        if (gameRow.getPlayerStatus().equals(PlayerStatus.ALIVE)) {
-          updatePlayersRemainingPerFaction(blackHand, gameRow.getActualFaction());
-          blackHand.addPlayer(player);
+          if (gameRow.getPlayerStatus().equals(PlayerStatus.ALIVE)) {
+            updatePlayersRemainingPerFaction(blackHand, gameRow.getActualFaction());
+            blackHand.addPlayer(player);
+          } else {
+            blackHand.addDeadPlayer(player);
+          }
         } else {
-          blackHand.addDeadPlayer(player);
+          updatePlayersRemainingPerFaction(blackHand, gameRow.getActualFaction());
+          blackHandPlayer.get().addNote(gameRow.getNote());
         }
       } else {
-        updatePlayersRemainingPerFaction(blackHand, gameRow.getActualFaction());
-        blackHandPlayer.get().addNote(gameRow.getNote());
+        if (!blackHandPlayer.isPresent()) {
+          BlackHandPlayer player = createPlayer(gameRow);
+
+          blackHand.addPlayer(player);
+        }
       }
     }
 
-    checkForWinningFaction(blackHand);
+    if (!blackHand.getPhase().equals(BlackHandPhase.SETUP)) {
+      checkForWinningFaction(blackHand);
+    }
 
     return blackHand;
   }
@@ -110,7 +104,27 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
   }
 
   /**
-   * updatePlayersRemainingPerFaction.
+   * createPlayer: builds a player object with data obtained from database.
+   */
+  private BlackHandPlayer createPlayer(BlackHandGame gameRow) {
+    BlackHandPlayer player = new BlackHandPlayer();
+    player.setUsername(gameRow.getUsername());
+    player.setDisplayName(gameRow.getDisplayName());
+    player.setPreferredFaction(gameRow.getPreferredFaction());
+    player.setBlocksAgainst(gameRow.getBlocksAgainst());
+    player.setAttacksAgainst(gameRow.getAttacksAgainst());
+    player.setTimesVotedToBePlacedOnTrial(gameRow.getTimesVotedToBePlacedOnTrial());
+    player.setTurnPriority(gameRow.getTurnPriority());
+    player.setActualFaction(gameRow.getActualFaction());
+    player.setHasAttacked(gameRow.isHasAttacked());
+    player.setHasBlocked(gameRow.isHasBlocked());
+    player.addNote(gameRow.getNote());
+
+    return player;
+  }
+
+  /**
+   * updatePlayersRemainingPerFaction: count number of players alive per faction.
    */
   private void updatePlayersRemainingPerFaction(BlackHand blackHand, BlackHandFaction faction) {
     switch (faction) {
@@ -129,7 +143,8 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
   }
 
   /**
-   * checkForWinningFaction.
+   * checkForWinningFaction: if only one faction remains then they are the winning
+   * faction.
    */
   private void checkForWinningFaction(BlackHand blackHand) {
     int monsters = blackHand.getNumOfBlackHandRemaining();
