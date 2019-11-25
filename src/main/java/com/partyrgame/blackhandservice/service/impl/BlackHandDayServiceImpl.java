@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
+import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandTrial;
 import com.partyrgame.blackhandservice.model.BlackHandPhase;
@@ -41,15 +42,22 @@ public class BlackHandDayServiceImpl implements BlackHandDayService {
 
     blackHand.setPlayerOnTrial(blackHandTrial);
 
+    BlackHandNumberOfPlayers numOfPlayers = new BlackHandNumberOfPlayers();
+    numOfPlayers.setBlackHandTotal(blackHand.getNumOfBlackHandRemaining());
+    numOfPlayers.setMonstersTotal(blackHand.getNumOfMonsterRemaining());
+    numOfPlayers.setTowniesTotal(blackHand.getNumOfTownieRemaining());
+
     for (BlackHandPlayer player : blackHand.getAlivePlayers()) {
       log.info("player: [{}]", player);
       if (player.getAttacksAgainst() > player.getBlocksAgainst()) {
         log.info("player [{}] has died", player.getUsername());
         blackHandDao.killPlayer(roomName, player.getUsername());
+        blackHandService.decrementNumberOfPlayersPerFaction(player.getActualFaction(), numOfPlayers);
       }
     }
 
-    blackHandDao.updateBlackHandGame(blackHand.getRoomName(), BlackHandPhase.TRIAL);
+    blackHandDao.updateBlackHandGame(blackHand.getRoomName(), BlackHandPhase.TRIAL, numOfPlayers.getBlackHandTotal(),
+        numOfPlayers.getMonstersTotal(), numOfPlayers.getTowniesTotal());
 
     return blackHandService.getBlackHandDetails(roomName);
   }

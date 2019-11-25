@@ -22,7 +22,8 @@ public interface BlackHandDao {
 
   public int submitPlayerTurn(PlayerTurn turn);
 
-  public int updateBlackHandGame(String roomName, BlackHandPhase phase);
+  public int updateBlackHandGame(String roomName, BlackHandPhase phase, int numOfBlackHand, int numOfMonster,
+      int numOfTownie);
 
   public int updateBlackHandGameForPlayer(String username, String roomName, String roleName, String faction,
       int turnPriority);

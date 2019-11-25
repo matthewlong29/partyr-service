@@ -116,8 +116,10 @@ public class BlackHandDaoImpl implements BlackHandDao {
   /**
    * updateBlackHandGame.
    */
-  public int updateBlackHandGame(String roomName, BlackHandPhase phase) {
-    String query = "CALL `partyrdb`.`update_black_hand_game`('" + roomName + "', '" + phase + "')";
+  public int updateBlackHandGame(String roomName, BlackHandPhase phase, int numOfBlackHand, int numOfMonster,
+      int numOfTownie) {
+    String query = "CALL `partyrdb`.`update_black_hand_game`('" + roomName + "', '" + phase + "', '" + numOfBlackHand
+        + "', '" + numOfMonster + "', '" + numOfTownie + "')";
     log.info(query);
 
     try {
@@ -153,8 +155,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
    * killPlayer.
    */
   public int killPlayer(String roomName, String username) {
-    String query = "CALL `partyrdb`.`kill_player`('" + roomName + "', '" + username + "', '"
-        + PlayerStatus.DEAD + "')";
+    String query = "CALL `partyrdb`.`kill_player`('" + roomName + "', '" + username + "', '" + PlayerStatus.DEAD + "')";
     log.info(query);
 
     try {

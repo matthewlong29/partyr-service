@@ -25,4 +25,16 @@ public class BlackHandNumberOfPlayers {
   public void incrementTowniesTotal() {
     this.towniesTotal++;
   }
+
+  public void decrementMonstersTotal() {
+    this.monstersTotal--;
+  }
+
+  public void decrementBlackHandTotal() {
+    this.blackHandTotal--;
+  }
+
+  public void decrementTowniesTotal() {
+    this.towniesTotal--;
+  }
 }

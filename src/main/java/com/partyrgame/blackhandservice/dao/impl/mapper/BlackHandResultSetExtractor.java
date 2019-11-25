@@ -147,7 +147,7 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
    * faction.
    */
   private void checkForWinningFaction(BlackHand blackHand) {
-    int monsters = blackHand.getNumOfBlackHandRemaining();
+    int monsters = blackHand.getNumOfMonsterRemaining();
     int townies = blackHand.getNumOfTownieRemaining();
     int blackHands = blackHand.getNumOfBlackHandRemaining();
 

@@ -448,10 +448,18 @@ END$$
 
 CREATE PROCEDURE `update_black_hand_game`(
   IN i_room_name VARCHAR(32),
-  IN i_phase VARCHAR(8)
+  IN i_phase VARCHAR(8),
+  IN i_num_of_black_hand INT,
+  IN i_num_of_monster INT,
+  IN i_num_of_townie INT
 )
 BEGIN
-  UPDATE `partyrdb`.`black_hand_games` SET `phase` = i_phase WHERE `room_name` = i_room_name;
+  UPDATE `partyrdb`.`black_hand_games` SET 
+    `phase` = i_phase,
+    `number_of_black_hand_remaining` = i_num_of_black_hand,
+    `number_of_monster_remaining` = i_num_of_monster,
+    `number_of_townie_remaining` = i_num_of_townie
+  WHERE `room_name` = i_room_name;
 END$$
 
 -- ** kill_player

@@ -177,6 +177,9 @@ CREATE TABLE `black_hand_game_players` (
 CREATE TABLE `black_hand_games` (
   `room_name` VARCHAR(32) NOT NULL,
   `phase` VARCHAR(8) NOT NULL DEFAULT 'SETUP',
+  `number_of_black_hand_remaining` INT,
+  `number_of_townie_remaining` INT,
+  `number_of_monster_remaining` INT,
   `player_on_trial` VARCHAR(32),
   `votes_to_kill` INT,
   `votes_to_spare` INT,

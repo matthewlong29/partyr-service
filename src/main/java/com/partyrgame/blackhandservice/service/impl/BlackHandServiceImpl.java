@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
+import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
+import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
 import com.partyrgame.blackhandservice.model.BlackHandPhase;
 import com.partyrgame.blackhandservice.model.PlayerTurn;
 import com.partyrgame.blackhandservice.service.BlackHandDayService;
@@ -77,6 +79,44 @@ public class BlackHandServiceImpl implements BlackHandService {
     blackHand.setPhase(alternatePhase(blackHand.getPhase()));
 
     return new BlackHand();
+  }
+
+  /**
+   * incrementNumberOfPlayersPerFaction.
+   */
+  public void incrementNumberOfPlayersPerFaction(BlackHandFaction faction, BlackHandNumberOfPlayers actualNumber) {
+    switch (faction) {
+    case BlackHand:
+      actualNumber.incrementBlackHandTotal();
+      break;
+    case Monster:
+      actualNumber.incrementMonstersTotal();
+      break;
+    case Townie:
+      actualNumber.incrementTowniesTotal();
+      break;
+    default:
+      break; // invalid faction
+    }
+  }
+
+  /**
+   * decrementNumberOfPlayersPerFaction.
+   */
+  public void decrementNumberOfPlayersPerFaction(BlackHandFaction faction, BlackHandNumberOfPlayers actualNumber) {
+    switch (faction) {
+    case BlackHand:
+      actualNumber.decrementBlackHandTotal();
+      break;
+    case Monster:
+      actualNumber.decrementMonstersTotal();
+      break;
+    case Townie:
+      actualNumber.decrementTowniesTotal();
+      break;
+    default:
+      break; // invalid faction
+    }
   }
 
   /**

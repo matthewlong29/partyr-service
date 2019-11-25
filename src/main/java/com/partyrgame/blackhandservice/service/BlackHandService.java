@@ -3,7 +3,9 @@ package com.partyrgame.blackhandservice.service;
 import java.util.List;
 
 import com.partyrgame.blackhandservice.model.BlackHand;
+import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
+import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
 import com.partyrgame.blackhandservice.model.PlayerTurn;
 
 public interface BlackHandService {
@@ -16,4 +18,8 @@ public interface BlackHandService {
   public BlackHand completePhase(BlackHand blackHand, List<PlayerTurn> playerTurns) throws Exception;
 
   public BlackHand selectDisplayName(String username, String roomName, String displayName);
+
+  public void incrementNumberOfPlayersPerFaction(BlackHandFaction faction, BlackHandNumberOfPlayers actualNumber);
+
+  public void decrementNumberOfPlayersPerFaction(BlackHandFaction faction, BlackHandNumberOfPlayers actualNumber);
 }

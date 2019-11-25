@@ -13,6 +13,7 @@ DELETE FROM `partyrdb`.`black_hand_player_notes`;
 DELETE FROM `partyrdb`.`lobby`;
 DELETE FROM `partyrdb`.`black_hand_roles`;
 DELETE FROM `partyrdb`.`black_hand_game_players`;
+DELETE FROM `partyrdb`.`black_hand_games`;
 DELETE FROM `partyrdb`.`chat`;
 
 SET SQL_SAFE_UPDATES = 1;
@@ -130,7 +131,7 @@ insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `day_ability_
 insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `sprite_path`, `role_priority`, `can_attack`, `can_block`)
   values ('BlackHand', 'Darkfather', 'Kill someone each night.', 'You cant be killed at night. If there is a Mafioso he will attack the target instead of you. You will appear to be a Town member to the Sheriff. You can talk with the other Black Hand at night.', 'Kill anyone that will not submit to the Black Hand.', 'assets/images/sprites/Darkfather.webp', 1, 0, 1);
 insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `sprite_path`, `role_priority`, `can_attack`, `can_block`)
-  values ('Monster', 'Vampire', 'Convert others to Vampires at night.', 'Vampires vote at night to bite a target. The youngest Vampire will visit the target at night. You must wait 1 night between conversions.', 'Convert everyone who would oppose you.', 'assets/images/sprites/Vampire.webp', 2, 0, 1);
+  values ('Monster', 'Vampire', 'Convert others to Vampires at night.', 'Vampires vote at night to bite a target. The youngest Vampire will visit the target at night. You must wait 1 night between conversions.', 'Convert everyone who would oppose you.', 'assets/images/sprites/Vampire.webp', 2, 1, 1);
 insert into `partyrdb`.`black_hand_roles` (`faction`, `role_name`, `night_ability_description`, `attribute_description`, `goal_description`, `sprite_path`, `role_priority`, `can_attack`, `can_block`)
   values ('Monster', 'Changeling', 'Transform into a Werewolf during the full moon.', 'As a Werewolf you can not be killed at night. As a Werewolf you will attack your victim and anyone that visits them. Your attack goes through night immunity. As a Werewolf you may choose to stay home and attack anyone who visits you.', 'Kill everyone who would oppose you.', 'assets/images/sprites/Changeling.webp', 3, 0, 0);
 
