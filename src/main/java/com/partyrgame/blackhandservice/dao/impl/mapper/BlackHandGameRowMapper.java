@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
+import com.partyrgame.blackhandservice.model.BlackHandPhase;
 import com.partyrgame.blackhandservice.model.PlayerStatus;
 import com.partyrgame.userservice.model.ReadyStatus;
 
@@ -22,7 +23,7 @@ public class BlackHandGameRowMapper implements RowMapper<BlackHandGame> {
     blackHandGame.setGameStartTime(resultSet.getTimestamp("game_start_time"));
     blackHandGame.setGameRoomName(resultSet.getString("room_name"));
     blackHandGame.setUsername(resultSet.getString("username"));
-    blackHandGame.setPhase(resultSet.getString("phase"));
+    blackHandGame.setPhase(BlackHandPhase.valueOf(resultSet.getString("phase")));
     blackHandGame.setDisplayName(resultSet.getString("display_name"));
     blackHandGame.setReadyStatus(ReadyStatus.valueOf(resultSet.getString("ready_status")));
     blackHandGame.setPreferredFaction(checkForFaction(resultSet.getString("preferred_faction")));

@@ -40,13 +40,13 @@ public class BlackHandController {
   BlackHandService blackHandService;
 
   @Autowired
-  BlackHandDayService blackHandDayService;
+  BlackHandDayService dayService;
 
   @Autowired
-  BlackHandTrialService blackHandTrialService;
+  BlackHandTrialService trialService;
 
   @Autowired
-  BlackHandNightService blackHandNightService;
+  BlackHandNightService nightService;
 
   @Autowired
   MessageService messageService;
@@ -124,7 +124,7 @@ public class BlackHandController {
    */
   @GetMapping(value = "/player-total/{playerTotal}", produces = MediaType.APPLICATION_JSON_VALUE)
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(@PathVariable int playerTotal) {
-    return blackHandInitializeService.getBlackHandNumberOfPlayers(playerTotal);
+    return blackHandService.getBlackHandNumberOfPlayers(playerTotal);
   }
 
   /**
@@ -156,7 +156,7 @@ public class BlackHandController {
 
     String roomName = body.get("roomName");
 
-    BlackHand blackHand = blackHandDayService.evaluateDay(roomName);
+    BlackHand blackHand = dayService.evaluateDay(roomName);
 
     messageService.sendBlackHandMessage(blackHand);
   }
@@ -164,15 +164,18 @@ public class BlackHandController {
   /**
    * blackHandSubmitVote: returns json needed to complete a trial.
    * 
-   * @param body {"roomName": "game 1"}
+   * @param body {"roomName": "game 1", "username": "cheesecake", "vote":
+   *             "GUILTY"}
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_SUBMIT_VOTE)
   public void blackHandSubmitVote(@RequestBody Map<String, String> body) {
     log.debug("body: {}", body.toString());
 
     String roomName = body.get("roomName");
+    String username = body.get("username");
+    String vote = body.get("vote"); // GUILTY or NOT_GUILTY
 
-    BlackHand blackHand = blackHandTrialService.submitVote(roomName);
+    BlackHand blackHand = trialService.submitPlayerVote(roomName, username, vote);
 
     messageService.sendBlackHandMessage(blackHand);
   }
@@ -188,7 +191,7 @@ public class BlackHandController {
 
     String roomName = body.get("roomName");
 
-    BlackHand blackHand = blackHandTrialService.evaluateTrial(roomName);
+    BlackHand blackHand = trialService.evaluateTrial(roomName);
 
     messageService.sendBlackHandMessage(blackHand);
   }
@@ -205,7 +208,7 @@ public class BlackHandController {
 
     String roomName = body.get("roomName");
 
-    BlackHand blackHand = blackHandNightService.evaluateNight(roomName);
+    BlackHand blackHand = nightService.evaluateNight(roomName);
 
     messageService.sendBlackHandMessage(blackHand);
   }
@@ -222,7 +225,7 @@ public class BlackHandController {
   public void startBlackHandGame(@RequestBody PlayerTurn turn) {
     log.debug("player turn: {}", turn);
 
-    BlackHand blackHand = blackHandDayService.submitPlayerTurn(turn);
+    BlackHand blackHand = dayService.submitPlayerTurn(turn);
 
     messageService.sendBlackHandMessage(blackHand);
   }

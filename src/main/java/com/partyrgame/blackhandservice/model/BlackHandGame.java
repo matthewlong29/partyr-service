@@ -12,7 +12,7 @@ public class BlackHandGame {
   private String gameRoomName;
   private String username;
   private String displayName;
-  private String phase;
+  private BlackHandPhase phase;
   private BlackHandFaction preferredFaction;
   private BlackHandFaction actualFaction;
   private String roleName;
@@ -25,6 +25,7 @@ public class BlackHandGame {
   private boolean hasAttacked;
   private boolean hasBlocked;
   private boolean turnCompleted;
+  private boolean voteCompleted;
   private String attackingPlayer;
   private String blockingPlayer;
   private String trialPlayer;

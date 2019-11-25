@@ -15,6 +15,7 @@ public class BlackHand {
   private Timestamp gameStartTime;
   private BlackHandPhase phase; // NOTE DAY, NIGHT, or SETUP (SETUP -> DAY -> NIGHT -> DAY -> NIGHT -> ...)
   private List<String> playersTurnRemaining = new ArrayList<>(); // list of players who have not completed their turn
+  private List<String> playersVoteRemaining = new ArrayList<>(); // list of players who have not completed their turn
   private int numOfBlackHandRemaining;
   private int numOfTownieRemaining;
   private int numOfMonsterRemaining;
@@ -34,6 +35,7 @@ public class BlackHand {
     private int blocksAgainst;
     private int attacksAgainst;
     private int timesVotedToBePlacedOnTrial;
+    private boolean hasVoted;
     private boolean hasAttacked;
     private boolean hasBlocked;
     private int turnPriority;
@@ -76,6 +78,22 @@ public class BlackHand {
    */
   public void removePlayerWhenCompletedTurn(String username) {
     playersTurnRemaining.remove(username);
+  }
+
+  /**
+   * addPlayerNotCompletedTurn: if a player hasn't completed his vote yet they're
+   * added to this list.
+   */
+  public void addPlayerNotCompletedVote(String username) {
+    playersVoteRemaining.add(username);
+  }
+
+  /**
+   * removePlayerWhenCompletedVote: when a player completes his vote remove him
+   * from the list.
+   */
+  public void removePlayerWhenCompletedVote(String username) {
+    playersVoteRemaining.remove(username);
   }
 
   @Data

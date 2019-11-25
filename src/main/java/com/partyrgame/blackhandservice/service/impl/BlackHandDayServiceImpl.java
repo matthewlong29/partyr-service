@@ -1,16 +1,15 @@
 package com.partyrgame.blackhandservice.service.impl;
 
-import java.util.Comparator;
-
 import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
-import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandTrial;
+import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
 import com.partyrgame.blackhandservice.model.BlackHandPhase;
 import com.partyrgame.blackhandservice.model.PlayerTurn;
 import com.partyrgame.blackhandservice.service.BlackHandDayService;
 import com.partyrgame.blackhandservice.service.BlackHandService;
+import com.partyrgame.blackhandservice.service.BlackHandTrialService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,14 +23,17 @@ public class BlackHandDayServiceImpl implements BlackHandDayService {
   BlackHandService blackHandService;
 
   @Autowired
-  BlackHandDao blackHandDao;
+  BlackHandTrialService trialService;
+
+  @Autowired
+  BlackHandDao dao;
 
   /**
    * evaluateDay.
    */
   public BlackHand evaluateDay(String roomName) {
     BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
-    BlackHandPlayer playerOnTrial = getPlayerOnTrial(blackHand);
+    BlackHandPlayer playerOnTrial = trialService.getPlayerOnTrial(blackHand);
 
     log.info("[{}] is on trial", playerOnTrial.getUsername());
 
@@ -51,12 +53,12 @@ public class BlackHandDayServiceImpl implements BlackHandDayService {
       log.info("player: [{}]", player);
       if (player.getAttacksAgainst() > player.getBlocksAgainst()) {
         log.info("player [{}] has died", player.getUsername());
-        blackHandDao.killPlayer(roomName, player.getUsername());
+        dao.killPlayer(roomName, player.getUsername());
         blackHandService.decrementNumberOfPlayersPerFaction(player.getActualFaction(), numOfPlayers);
       }
     }
 
-    blackHandDao.updateBlackHandGame(blackHand.getRoomName(), BlackHandPhase.TRIAL, numOfPlayers.getBlackHandTotal(),
+    dao.updateBlackHandGame(blackHand.getRoomName(), BlackHandPhase.TRIAL, numOfPlayers.getBlackHandTotal(),
         numOfPlayers.getMonstersTotal(), numOfPlayers.getTowniesTotal());
 
     return blackHandService.getBlackHandDetails(roomName);
@@ -68,7 +70,7 @@ public class BlackHandDayServiceImpl implements BlackHandDayService {
   public BlackHand submitPlayerTurn(PlayerTurn turn) {
     BlackHand blackHand = blackHandService.getBlackHandDetails(turn.getRoomName());
     String username = turn.getUsername(); // player making the turn
-    BlackHandPlayer player = getBlackHandPlayer(blackHand, username);
+    BlackHandPlayer player = blackHandService.getBlackHandPlayer(blackHand, username);
 
     if (player.isHasAttacked()) {
       log.info("player [{}] has already attack", username);
@@ -86,26 +88,8 @@ public class BlackHandDayServiceImpl implements BlackHandDayService {
       turn.setBlocking(null); // player cant block with this role
     }
 
-    blackHandDao.submitPlayerTurn(turn);
+    dao.submitPlayerTurn(turn);
 
     return blackHandService.getBlackHandDetails(turn.getRoomName());
-  }
-
-  /**
-   * getBlackHandPlayer.
-   */
-  private BlackHandPlayer getBlackHandPlayer(BlackHand blackHand, String username) {
-    return blackHand.getAlivePlayers().stream().filter(player -> player.getUsername().equals(username)).findFirst()
-        .get();
-  }
-
-  /**
-   * getPlayerOnTrial
-   */
-  private BlackHandPlayer getPlayerOnTrial(BlackHand blackHand) {
-    BlackHandPlayer playerOnTrial = blackHand.getAlivePlayers().stream()
-        .max(Comparator.comparing(player -> player.getTimesVotedToBePlacedOnTrial())).get();
-
-    return playerOnTrial;
   }
 }

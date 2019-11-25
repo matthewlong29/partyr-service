@@ -30,16 +30,16 @@ public class BlackHandDaoImpl implements BlackHandDao {
   JdbcTemplate jdbcTemplate;
 
   @Autowired
-  BlackHandRoleResultSetExtractor blackHandRoleResultSetExtractor;
+  BlackHandRoleResultSetExtractor roleResultSetExtractor;
 
   @Autowired
-  BlackHandNumberOfPlayersRowMapper blackHandRequiredNumberOfPlayersRowMapper;
+  BlackHandNumberOfPlayersRowMapper requiredNumberOfPlayersRowMapper;
 
   @Autowired
-  BlackHandGameRowMapper blackHandGameRowMapper;
+  BlackHandGameRowMapper gameRowMapper;
 
   @Autowired
-  BlackHandResultSetExtractor blackHandResultSetExtractor;
+  BlackHandResultSetExtractor resultSetExtractor;
 
   /**
    * getBlackHandRawDetails;
@@ -48,7 +48,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
     String query = "CALL `partyrdb`.get_black_hand_game('" + roomName + "')";
     log.info(query);
 
-    return jdbcTemplate.query(query, blackHandGameRowMapper);
+    return jdbcTemplate.query(query, gameRowMapper);
   }
 
   /**
@@ -58,7 +58,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
     String query = "CALL `partyrdb`.get_black_hand_game('" + roomName + "')";
     log.info(query);
 
-    return jdbcTemplate.query(query, blackHandResultSetExtractor);
+    return jdbcTemplate.query(query, resultSetExtractor);
   }
 
   /**
@@ -152,6 +152,41 @@ public class BlackHandDaoImpl implements BlackHandDao {
   }
 
   /**
+   * submitPlayerVote.
+   */
+  public int submitPlayerVote(String roomName, String username, String vote) {
+    log.debug("vote: {}", vote);
+
+    String query = "CALL `partyrdb`.`submit_black_hand_player_vote`('" + roomName + "', '" + username + "', '" + vote
+        + "')";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to submit vote for user {}; error: {}", username, e.getMessage());
+    }
+
+    return 0;
+  }
+
+  /**
+   * putPlayerOnTrial
+   */
+  public int putPlayerOnTrial(String username, String roomName) {
+    String query = "CALL `partyrdb`.`put_player_on_trial`('" + roomName + "', '" + username + "')";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to put player on trial for user {}; error: {}", username, e.getMessage());
+    }
+
+    return 0;
+  }
+
+  /**
    * killPlayer.
    */
   public int killPlayer(String roomName, String username) {
@@ -174,7 +209,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
     String query = "CALL `partyrdb`.`get_black_hand_roles`();";
     log.info(query);
 
-    return jdbcTemplate.query(query, blackHandRoleResultSetExtractor);
+    return jdbcTemplate.query(query, roleResultSetExtractor);
   }
 
   /**
@@ -184,6 +219,6 @@ public class BlackHandDaoImpl implements BlackHandDao {
     String query = "CALL `partyrdb`.`get_black_hand_required_number_of_players`('" + totalNumberOfPlayers + "');";
     log.info(query);
 
-    return jdbcTemplate.query(query, blackHandRequiredNumberOfPlayersRowMapper).get(0);
+    return jdbcTemplate.query(query, requiredNumberOfPlayersRowMapper).get(0);
   }
 }

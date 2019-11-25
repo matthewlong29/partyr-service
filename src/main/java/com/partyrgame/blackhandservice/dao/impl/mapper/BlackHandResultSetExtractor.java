@@ -8,12 +8,14 @@ import java.util.Optional;
 
 import com.partyrgame.blackhandservice.model.BlackHand;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
+import com.partyrgame.blackhandservice.model.BlackHand.BlackHandTrial;
 import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
 import com.partyrgame.blackhandservice.model.BlackHandPhase;
 import com.partyrgame.blackhandservice.model.BlackHandRole;
 import com.partyrgame.blackhandservice.model.PlayerStatus;
 import com.partyrgame.blackhandservice.service.BlackHandInitializeService;
+import com.partyrgame.blackhandservice.service.BlackHandService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -25,7 +27,10 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand> {
   @Autowired
-  BlackHandInitializeService blackHandInitializeService;
+  BlackHandInitializeService initializeService;
+
+  @Autowired
+  BlackHandService blackHandService;
 
   /**
    * extractData.
@@ -33,7 +38,7 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
   @Override
   public BlackHand extractData(final ResultSet resultSet) throws SQLException {
     final BlackHandGameRowMapper rowMapper = new BlackHandGameRowMapper();
-    final HashMap<BlackHandFaction, List<BlackHandRole>> factionRoles = blackHandInitializeService.getBlackHandRoles();
+    final HashMap<BlackHandFaction, List<BlackHandRole>> factionRoles = initializeService.getBlackHandRoles();
 
     final BlackHand blackHand = new BlackHand();
     blackHand.setNumOfBlackHandRemaining(0);
@@ -42,7 +47,7 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
 
     while (resultSet.next()) {
       final BlackHandGame gameRow = rowMapper.mapRow(resultSet, resultSet.getRow());
-      blackHand.setPhase(BlackHandPhase.valueOf(gameRow.getPhase()));
+      blackHand.setPhase(gameRow.getPhase());
       blackHand.setRoomName(gameRow.getGameRoomName());
 
       final Optional<BlackHandPlayer> blackHandPlayer = isPlayerPresent(blackHand, gameRow.getPlayerStatus(),
@@ -52,8 +57,13 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
         if (!blackHandPlayer.isPresent()) {
           BlackHandPlayer player = createPlayer(gameRow);
 
-          if (!gameRow.isTurnCompleted() && gameRow.getPlayerStatus().equals(PlayerStatus.ALIVE)) {
+          if (!gameRow.isTurnCompleted() && gameRow.getPlayerStatus().equals(PlayerStatus.ALIVE)
+              && gameRow.getPhase().equals(BlackHandPhase.DAY)) {
             blackHand.addPlayerNotCompletedTurn(
+                player.getDisplayName() == null ? player.getUsername() : player.getDisplayName());
+          } else if (!gameRow.isVoteCompleted() && gameRow.getPlayerStatus().equals(PlayerStatus.ALIVE)
+              && gameRow.getPhase().equals(BlackHandPhase.TRIAL)) {
+            blackHand.addPlayerNotCompletedVote(
                 player.getDisplayName() == null ? player.getUsername() : player.getDisplayName());
           }
 
@@ -70,6 +80,7 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
           } else {
             blackHand.addDeadPlayer(player);
           }
+
         } else {
           updatePlayersRemainingPerFaction(blackHand, gameRow.getActualFaction());
           blackHandPlayer.get().addNote(gameRow.getNote());
@@ -85,6 +96,18 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
 
     if (!blackHand.getPhase().equals(BlackHandPhase.SETUP)) {
       checkForWinningFaction(blackHand);
+    }
+
+    if (blackHand.getPhase().equals(BlackHandPhase.TRIAL)) {
+      BlackHandPlayer playerOnTrial = blackHandService.getPlayerOnTrial(blackHand);
+
+      BlackHandTrial blackHandTrial = new BlackHandTrial();
+      blackHandTrial.setDisplayName(playerOnTrial.getDisplayName());
+      blackHandTrial.setVotesToKill(blackHandService.getVotes(blackHand, "kill"));
+      blackHandTrial.setVotesToSpare(blackHandService.getVotes(blackHand, "spare"));
+
+      blackHand.removePlayerWhenCompletedVote(playerOnTrial.getUsername());
+      blackHand.setPlayerOnTrial(blackHandTrial);
     }
 
     return blackHand;

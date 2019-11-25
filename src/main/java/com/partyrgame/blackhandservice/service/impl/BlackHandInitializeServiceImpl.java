@@ -2,7 +2,6 @@ package com.partyrgame.blackhandservice.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
@@ -53,7 +52,7 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
     List<BlackHand.BlackHandPlayer> players = blackHand.getAlivePlayers();
     int totalNumberOfPlayers = players.size();
 
-    BlackHandNumberOfPlayers requiredNumber = getBlackHandNumberOfPlayers(totalNumberOfPlayers);
+    BlackHandNumberOfPlayers requiredNumber = blackHandService.getBlackHandNumberOfPlayers(totalNumberOfPlayers);
 
     for (BlackHand.BlackHandPlayer player : players) {
       assignPreferredRole(blackHand, availableRoles, player, requiredNumber, actualNumber);
@@ -76,39 +75,6 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
    */
   public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles() {
     return blackHandDao.getBlackHandRoles();
-  }
-
-  /**
-   * getBlackHandNumberOfPlayers: returns an object containing the required number
-   * of Monsters, BlackHands, and Townies.
-   */
-  public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int playerTotal) {
-    if (playerTotal < 5) {
-      log.info("at least 5 players are needed to play the Black Hand!");
-      playerTotal = 5;
-    } else if (playerTotal > 15) {
-      log.info("at most 15 players can play the Black Hand!");
-      playerTotal = 15;
-    }
-
-    return blackHandDao.getBlackHandNumberOfPlayers(playerTotal);
-  }
-
-  /**
-   * getAllPlayerUsernames.
-   */
-  public List<String> getAllPlayerUsernames(List<BlackHand.BlackHandPlayer> players) {
-    return players.stream().map(player -> player.getUsername()).collect(Collectors.toList());
-  }
-
-  /**
-   * getAllPlayersDisplayNames: if a players display name was not set then their
-   * username will be returned.
-   */
-  public List<String> getAllPlayersDisplayNames(List<BlackHand.BlackHandPlayer> players) {
-    return players.stream()
-        .map(player -> player.getDisplayName() == null ? player.getUsername() : player.getDisplayName())
-        .collect(Collectors.toList());
   }
 
   /**
