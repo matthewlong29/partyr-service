@@ -37,7 +37,7 @@ public class BlackHandTrialServiceImpl implements BlackHandTrialService {
 
     dao.submitPlayerVote(roomName, username, vote);
 
-    return blackHand;
+    return blackHandService.getBlackHandDetails(roomName);
   }
 
   /**

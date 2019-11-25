@@ -76,7 +76,7 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
 
           if (gameRow.getPlayerStatus().equals(PlayerStatus.ALIVE)) {
             updatePlayersRemainingPerFaction(blackHand, gameRow.getActualFaction());
-            blackHand.addPlayer(player);
+            blackHand.addAlivePlayer(player);
           } else {
             blackHand.addDeadPlayer(player);
           }
@@ -89,7 +89,7 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
         if (!blackHandPlayer.isPresent()) {
           BlackHandPlayer player = createPlayer(gameRow);
 
-          blackHand.addPlayer(player);
+          blackHand.addAlivePlayer(player);
         }
       }
     }

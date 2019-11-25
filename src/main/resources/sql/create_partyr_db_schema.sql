@@ -151,6 +151,7 @@ CREATE TABLE `black_hand_game_players` (
   `has_blocked` BOOLEAN NOT NULL DEFAULT 0, -- 1 true else false
   `has_attacked` BOOLEAN NOT NULL DEFAULT 0,
   `turn_completed` BOOLEAN NOT NULL DEFAULT 0, 
+  `vote_completed` BOOLEAN NOT NULL DEFAULT 0, 
   `attacking_player` VARCHAR(32),
   `blocking_player` VARCHAR(32),
   `trial_player` VARCHAR(32),
@@ -181,8 +182,8 @@ CREATE TABLE `black_hand_games` (
   `number_of_townie_remaining` INT,
   `number_of_monster_remaining` INT,
   `player_on_trial` VARCHAR(32),
-  `votes_to_kill` INT,
-  `votes_to_spare` INT,
+  `guilty_votes` INT DEFAULT 0,
+  `not_guilty_votes` INT DEFAULT 0,
   PRIMARY KEY (`room_name`),
   CONSTRAINT `set_player_on_trial_reference` FOREIGN KEY (`player_on_trial`) REFERENCES `partyr_users` (`username`),
   CONSTRAINT `limit_phase` CHECK ((`phase`) IN ('SETUP', 'DAY', 'TRIAL', 'NIGHT'))

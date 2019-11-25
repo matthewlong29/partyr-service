@@ -53,7 +53,7 @@ public class BlackHand {
   /**
    * addPlayer: adds player to alive BlackHandPlayers list.
    */
-  public void addPlayer(BlackHandPlayer player) {
+  public void addAlivePlayer(BlackHandPlayer player) {
     this.alivePlayers.add(player);
   }
 
