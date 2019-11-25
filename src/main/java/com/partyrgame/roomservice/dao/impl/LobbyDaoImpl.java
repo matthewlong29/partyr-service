@@ -27,7 +27,7 @@ public class LobbyDaoImpl implements LobbyDao {
    */
   public int createNewGameRoom(String username, String roomName, String gameName) {
     String query = "CALL `partyrdb`.`create_room`('" + roomName + "', '" + username + "', '" + gameName + "');";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -43,7 +43,7 @@ public class LobbyDaoImpl implements LobbyDao {
    */
   public int joinGameRoom(String username, String roomName) {
     String query = "CALL `partyrdb`.`join_black_hand_room`('" + roomName + "', '" + username + "');";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -59,7 +59,7 @@ public class LobbyDaoImpl implements LobbyDao {
    */
   public int leaveGameRoom(String username, String roomName) {
     String query = "CALL `partyrdb`.`leave_black_hand_room`('" + roomName + "', '" + username + "');";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -75,7 +75,7 @@ public class LobbyDaoImpl implements LobbyDao {
    */
   public int deleteGameRoom(String roomName) {
     String query = "CALL `partyrdb`.`delete_black_hand_room`('" + roomName + "');";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -91,7 +91,7 @@ public class LobbyDaoImpl implements LobbyDao {
    */
   public int toggleReadyStatus(String username, String roomName) {
     String query = "CALL `partyrdb`.`toggle_ready_status`('" + roomName + "', '" + username + "');";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -109,7 +109,7 @@ public class LobbyDaoImpl implements LobbyDao {
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
     String query = "CALL `partyrdb`.`start_game`('" + roomName + "', '" + timestamp + "');";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -125,7 +125,7 @@ public class LobbyDaoImpl implements LobbyDao {
    */
   public List<Room> getRooms() {
     String query = "CALL `partyrdb`.`get_lobby`();";
-    log.info(query);
+    log.debug(query);
 
     return jdbcTemplate.query(query, roomRowMapper);
   }

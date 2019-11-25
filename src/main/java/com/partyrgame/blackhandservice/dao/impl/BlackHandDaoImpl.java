@@ -46,7 +46,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
    */
   public List<BlackHandGame> getBlackHandRawDetails(String roomName) {
     String query = "CALL `partyrdb`.get_black_hand_game('" + roomName + "')";
-    log.info(query);
+    log.debug(query);
 
     return jdbcTemplate.query(query, gameRowMapper);
   }
@@ -56,7 +56,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
    */
   public BlackHand getBlackHandDetails(String roomName) {
     String query = "CALL `partyrdb`.get_black_hand_game('" + roomName + "')";
-    log.info(query);
+    log.debug(query);
 
     return jdbcTemplate.query(query, resultSetExtractor);
   }
@@ -68,7 +68,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
       int turnPriority) {
     String query = "CALL `partyrdb`.`update_black_hand_game_start_for_player`('" + roomName + "', '" + username + "', '"
         + roleName + "', '" + faction + "', '" + turnPriority + "')";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -85,7 +85,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
   public int setPreferredFaction(String username, String roomName, String preferredFaction) {
     String query = "CALL `partyrdb`.`set_black_hand_preferred_faction`('" + roomName + "', '" + username + "', '"
         + preferredFaction + "')";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -102,7 +102,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
   public int selectDisplayName(String username, String roomName, String displayName) {
     String query = "CALL `partyrdb`.`set_black_hand_display_name`('" + roomName + "', '" + username + "', '"
         + displayName + "')";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -120,7 +120,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
       int numOfTownie) {
     String query = "CALL `partyrdb`.`update_black_hand_game`('" + roomName + "', '" + phase + "', '" + numOfBlackHand
         + "', '" + numOfMonster + "', '" + numOfTownie + "')";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -140,7 +140,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
     String query = "CALL `partyrdb`.`submit_black_hand_player_turn`('" + turn.getRoomName() + "', '"
         + turn.getUsername() + "', '" + turn.getAttacking() + "', '" + turn.getBlocking() + "', '"
         + turn.getPlaceOnTrial() + "', '" + turn.getNote() + "')";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -159,7 +159,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
 
     String query = "CALL `partyrdb`.`submit_black_hand_player_vote`('" + roomName + "', '" + username + "', '" + vote
         + "')";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -175,7 +175,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
    */
   public int putPlayerOnTrial(String username, String roomName) {
     String query = "CALL `partyrdb`.`put_player_on_trial`('" + roomName + "', '" + username + "')";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -191,7 +191,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
    */
   public int killPlayer(String roomName, String username) {
     String query = "CALL `partyrdb`.`kill_player`('" + roomName + "', '" + username + "', '" + PlayerStatus.DEAD + "')";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -207,7 +207,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
    */
   public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles() {
     String query = "CALL `partyrdb`.`get_black_hand_roles`();";
-    log.info(query);
+    log.debug(query);
 
     return jdbcTemplate.query(query, roleResultSetExtractor);
   }
@@ -217,7 +217,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
    */
   public int resetGameCycle(String roomName) {
     String query = "CALL `partyrdb`.`reset_black_hand_game_cycle`('" + roomName + "')";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -233,7 +233,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
    */
   public BlackHandNumberOfPlayers getBlackHandNumberOfPlayers(int totalNumberOfPlayers) {
     String query = "CALL `partyrdb`.`get_black_hand_required_number_of_players`('" + totalNumberOfPlayers + "');";
-    log.info(query);
+    log.debug(query);
 
     return jdbcTemplate.query(query, requiredNumberOfPlayersRowMapper).get(0);
   }

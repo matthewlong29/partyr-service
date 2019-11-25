@@ -27,7 +27,7 @@ public class ChatDaoImpl implements ChatDao {
   public int insertChatMessage(ChatMessage chatMessage) {
     String query = "CALL `partyrdb`.`save_chat_message`('" + chatMessage.getUsername() + "', '" + chatMessage.getContent()
         + "', '" + chatMessage.getTimeOfMessage() + "');";
-    log.info(query);
+    log.debug(query);
 
     try {
       return jdbcTemplate.update(query);
@@ -43,7 +43,7 @@ public class ChatDaoImpl implements ChatDao {
    */
   public List<ChatMessage> getChatMessages() {
     String query = "CALL `partyrdb`.`get_all_chat_messages`();";
-    log.info(query);
+    log.debug(query);
 
     return jdbcTemplate.query(query, chatRowMapper);
   }
