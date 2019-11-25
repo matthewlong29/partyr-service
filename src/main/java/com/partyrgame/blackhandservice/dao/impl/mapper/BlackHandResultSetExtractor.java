@@ -98,6 +98,7 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
 
         BlackHandTrial blackHandTrial = new BlackHandTrial();
         blackHandTrial.setDisplayName(playerOnTrial.getDisplayName());
+        blackHandTrial.setUsername(playerOnTrial.getUsername());
         blackHandTrial.setGuiltyVotes(gameRow.getGuiltyVotes());
         blackHandTrial.setNotGuiltyVotes(gameRow.getNotGuiltyVotes());
 

@@ -4,6 +4,8 @@ import java.util.Comparator;
 
 import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
+import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
+import com.partyrgame.blackhandservice.model.BlackHandPhase;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandTrial;
 import com.partyrgame.blackhandservice.service.BlackHandService;
@@ -29,13 +31,27 @@ public class BlackHandTrialServiceImpl implements BlackHandTrialService {
   public BlackHand evaluateTrial(String roomName) {
     BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
 
-    BlackHandTrial trial = blackHand.getPlayerOnTrial();
+    try {
+      BlackHandTrial trial = blackHand.getPlayerOnTrial();
 
-    if (trial.getGuiltyVotes() > trial.getNotGuiltyVotes()) {
-      dao.killPlayer(roomName, trial.getUsername());
+      if (trial.getGuiltyVotes() > trial.getNotGuiltyVotes()) {
+        dao.killPlayer(roomName, trial.getUsername());
+      }
+    } catch (Exception e) {
+      log.error("no player on trial; transitioning to night phase; error: {};", e.getMessage());
     }
 
-    return blackHand;
+    blackHand = blackHandService.getBlackHandDetails(roomName);
+
+    BlackHandNumberOfPlayers numOfPlayers = new BlackHandNumberOfPlayers();
+    numOfPlayers.setBlackHandTotal(blackHand.getNumOfBlackHandRemaining());
+    numOfPlayers.setMonstersTotal(blackHand.getNumOfMonsterRemaining());
+    numOfPlayers.setTowniesTotal(blackHand.getNumOfTownieRemaining());
+
+    dao.updateBlackHandGame(blackHand.getRoomName(), BlackHandPhase.NIGHT, numOfPlayers.getBlackHandTotal(),
+        numOfPlayers.getMonstersTotal(), numOfPlayers.getTowniesTotal());
+
+    return blackHandService.getBlackHandDetails(roomName);
   }
 
   /**
