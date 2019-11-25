@@ -3,10 +3,10 @@ server:
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    # url: jdbc:mysql://partyrgame.com:3306/partyrdb
-    url: jdbc:mysql://127.0.0.1:3306/partyrdb
-    # username: root
-    username: partyr
+    url: jdbc:mysql://partyrgame.com:3306/partyrdb
+    # url: jdbc:mysql://127.0.0.1:3306/partyrdb
+    username: root
+    # username: partyr
     password: Partyr@2019
   output:
     ansi:
