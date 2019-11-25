@@ -42,7 +42,7 @@ public class BlackHandDayServiceImpl implements BlackHandDayService {
 
     for (BlackHandPlayer player : blackHand.getAlivePlayers()) {
       log.info("player: [{}]", player);
-      if (player.getAttacksAgainst() < player.getBlocksAgainst()) {
+      if (player.getAttacksAgainst() > player.getBlocksAgainst()) {
         log.info("player [{}] has died", player.getUsername());
         blackHandDao.killPlayer(roomName, player.getUsername());
       }

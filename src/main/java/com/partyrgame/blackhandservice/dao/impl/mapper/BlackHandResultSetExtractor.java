@@ -35,57 +35,63 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
     final BlackHand blackHand = new BlackHand();
     final HashMap<BlackHandFaction, List<BlackHandRole>> factionRoles = blackHandInitializeService.getBlackHandRoles();
 
+    int numOfBlackHandRemaining = 0;
+    int numOfTownieRemaining = 0;
+    int numOfMonsterRemaining = 0;
+
     log.debug("faction roles: {}", factionRoles);
 
     while (resultSet.next()) {
-      final BlackHandGame blackHandGameRawDetails = rowMapper.mapRow(resultSet, resultSet.getRow());
-      log.debug("black hand game row: {}", blackHandGameRawDetails.toString());
+      final BlackHandGame gameRow = rowMapper.mapRow(resultSet, resultSet.getRow());
+      log.debug("black hand game row: {}", gameRow.toString());
 
-      final Optional<BlackHandPlayer> blackHandPlayer = isPlayerPresent(blackHand,
-          blackHandGameRawDetails.getPlayerStatus(), blackHandGameRawDetails.getUsername());
+      final Optional<BlackHandPlayer> blackHandPlayer = isPlayerPresent(blackHand, gameRow.getPlayerStatus(),
+          gameRow.getUsername());
 
       if (!blackHandPlayer.isPresent()) {
         BlackHandPlayer player = new BlackHandPlayer();
-        player.setUsername(blackHandGameRawDetails.getUsername());
-        player.setDisplayName(blackHandGameRawDetails.getDisplayName());
-        player.setPreferredFaction(blackHandGameRawDetails.getPreferredFaction());
-        player.setBlocksAgainst(blackHandGameRawDetails.getBlocksAgainst());
-        player.setAttacksAgainst(blackHandGameRawDetails.getAttacksAgainst());
-        player.setTimesVotedToBePlacedOnTrial(blackHandGameRawDetails.getTimesVotedToBePlacedOnTrial());
-        player.setTurnPriority(blackHandGameRawDetails.getTurnPriority());
-        player.setActualFaction(blackHandGameRawDetails.getActualFaction());
-        player.setHasAttacked(blackHandGameRawDetails.isHasAttacked());
-        player.setHasBlocked(blackHandGameRawDetails.isHasBlocked());
-        player.addNote(blackHandGameRawDetails.getNote());
+        player.setUsername(gameRow.getUsername());
+        player.setDisplayName(gameRow.getDisplayName());
+        player.setPreferredFaction(gameRow.getPreferredFaction());
+        player.setBlocksAgainst(gameRow.getBlocksAgainst());
+        player.setAttacksAgainst(gameRow.getAttacksAgainst());
+        player.setTimesVotedToBePlacedOnTrial(gameRow.getTimesVotedToBePlacedOnTrial());
+        player.setTurnPriority(gameRow.getTurnPriority());
+        player.setActualFaction(gameRow.getActualFaction());
+        player.setHasAttacked(gameRow.isHasAttacked());
+        player.setHasBlocked(gameRow.isHasBlocked());
+        player.addNote(gameRow.getNote());
 
-        if (!blackHandGameRawDetails.isTurnCompleted()
-            && blackHandGameRawDetails.getPlayerStatus().equals(PlayerStatus.ALIVE)) {
+        if (!gameRow.isTurnCompleted() && gameRow.getPlayerStatus().equals(PlayerStatus.ALIVE)) {
           blackHand.addPlayerNotCompletedTurn(
               player.getDisplayName() == null ? player.getUsername() : player.getDisplayName());
         }
 
-        if (null != player.getActualFaction() && null != blackHandGameRawDetails.getRoleName()) {
+        if (null != player.getActualFaction() && null != gameRow.getRoleName()) {
           final List<BlackHandRole> roles = factionRoles.get(player.getActualFaction());
           final BlackHandRole blackHandRole = roles.stream()
-              .filter(role -> role.getName().equals(blackHandGameRawDetails.getRoleName())).findFirst().get();
+              .filter(role -> role.getName().equals(gameRow.getRoleName())).findFirst().get();
 
           player.setRole(blackHandRole);
         }
 
-        blackHand.setGameStartTime(blackHandGameRawDetails.getGameStartTime());
-        blackHand.setRoomName(blackHandGameRawDetails.getGameRoomName());
-        blackHand.setPhase(blackHandGameRawDetails.getPhase());
+        blackHand.setGameStartTime(gameRow.getGameStartTime());
+        blackHand.setRoomName(gameRow.getGameRoomName());
+        blackHand.setPhase(gameRow.getPhase());
 
-        if (blackHandGameRawDetails.getPlayerStatus().equals(PlayerStatus.ALIVE)) {
+        if (gameRow.getPlayerStatus().equals(PlayerStatus.ALIVE)) {
+          updatePlayersRemainingPerFaction(blackHand, gameRow.getActualFaction());
           blackHand.addPlayer(player);
         } else {
           blackHand.addDeadPlayer(player);
         }
-
       } else {
-        blackHandPlayer.get().addNote(blackHandGameRawDetails.getNote());
+        updatePlayersRemainingPerFaction(blackHand, gameRow.getActualFaction());
+        blackHandPlayer.get().addNote(gameRow.getNote());
       }
     }
+
+    checkForWinningFaction(blackHand);
 
     return blackHand;
   }
@@ -100,6 +106,45 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
       return blackHand.getAlivePlayers().stream().filter(player -> player.getUsername().equals(username)).findFirst();
     } else {
       return blackHand.getDeadPlayers().stream().filter(player -> player.getUsername().equals(username)).findFirst();
+    }
+  }
+
+  /**
+   * updatePlayersRemainingPerFaction.
+   */
+  private void updatePlayersRemainingPerFaction(BlackHand blackHand, BlackHandFaction faction) {
+    switch (faction) {
+    case BlackHand:
+      blackHand.setNumOfBlackHandRemaining(blackHand.getNumOfBlackHandRemaining() + 1);
+      break;
+    case Monster:
+      blackHand.setNumOfMonsterRemaining(blackHand.getNumOfMonsterRemaining() + 1);
+      break;
+    case Townie:
+      blackHand.setNumOfTownieRemaining(blackHand.getNumOfTownieRemaining() + 1);
+      break;
+    default:
+      break;
+    }
+  }
+
+  /**
+   * checkForWinningFaction.
+   */
+  private void checkForWinningFaction(BlackHand blackHand) {
+    int monsters = blackHand.getNumOfBlackHandRemaining();
+    int townies = blackHand.getNumOfTownieRemaining();
+    int blackHands = blackHand.getNumOfBlackHandRemaining();
+
+    if (monsters > 0 && townies == 0 && blackHands == 0) {
+      log.info("monsters win!");
+      blackHand.setWinningFaction(BlackHandFaction.Monster);
+    } else if (monsters == 0 && townies > 0 && blackHands == 0) {
+      log.info("townies win!");
+      blackHand.setWinningFaction(BlackHandFaction.Townie);
+    } else if (monsters == 0 && townies > 0 && blackHands == 0) {
+      log.info("black hand wins!");
+      blackHand.setWinningFaction(BlackHandFaction.BlackHand);
     }
   }
 }
