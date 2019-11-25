@@ -13,6 +13,7 @@ import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
 import com.partyrgame.blackhandservice.model.BlackHandNumberOfPlayers;
 import com.partyrgame.blackhandservice.model.BlackHandRole;
+import com.partyrgame.blackhandservice.model.PlayerStatus;
 import com.partyrgame.blackhandservice.model.PlayerTurn;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,7 +132,7 @@ public class BlackHandDaoImpl implements BlackHandDao {
    * submitPlayerTurn.
    */
   public int submitPlayerTurn(PlayerTurn turn) {
-    log.info("turn: {}", turn);
+    log.debug("turn: {}", turn);
 
     String query = "CALL `partyrdb`.`submit_black_hand_player_turn`('" + turn.getRoomName() + "', '"
         + turn.getUsername() + "', '" + turn.getAttacking() + "', '" + turn.getBlocking() + "', '"
@@ -142,6 +143,23 @@ public class BlackHandDaoImpl implements BlackHandDao {
       return jdbcTemplate.update(query);
     } catch (Exception e) {
       log.error("unable to submit turn for user {}; error: {}", turn.getUsername(), e.getMessage());
+    }
+
+    return 0;
+  }
+
+  /**
+   * killPlayer.
+   */
+  public int killPlayer(String roomName, String username) {
+    String query = "CALL `partyrdb`.`kill_player`('" + roomName + "', '" + username + "', '"
+        + PlayerStatus.DEAD + "')";
+    log.info(query);
+
+    try {
+      return jdbcTemplate.update(query);
+    } catch (Exception e) {
+      log.error("unable to submit update player status for user {}; error: {}", username, e.getMessage());
     }
 
     return 0;

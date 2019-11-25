@@ -19,11 +19,11 @@ public class BlackHand {
   private int numOfBlackHandRemaining;
   private int numOfTownieRemaining;
   private int numOfMonsterRemaining;
-  private List<String> lastPlayerToDie;
   private BlackHandFaction winningFaction;
   private BlackHandTrial playerOnTrial;
   private BlackHandSettings settings = new BlackHandSettings();
-  private List<BlackHandPlayer> players = new ArrayList<>();
+  private List<BlackHandPlayer> deadPlayers = new ArrayList<>();
+  private List<BlackHandPlayer> alivePlayers = new ArrayList<>();
 
   @Data
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -32,7 +32,6 @@ public class BlackHand {
     private String displayName;
     private BlackHandFaction preferredFaction;
     private BlackHandFaction actualFaction;
-    private PlayerStatus playerStatus; // ALIVE or DEAD
     private int blocksAgainst;
     private int attacksAgainst;
     private int timesVotedToBePlacedOnTrial;
@@ -51,10 +50,17 @@ public class BlackHand {
   }
 
   /**
-   * addPlayer: adds player to BlackHandPlayers list.
+   * addPlayer: adds player to alive BlackHandPlayers list.
    */
   public void addPlayer(BlackHandPlayer player) {
-    this.players.add(player);
+    this.alivePlayers.add(player);
+  }
+
+  /**
+   * addPlayer: adds player to dead BlackHandPlayers list.
+   */
+  public void addDeadPlayer(BlackHandPlayer player) {
+    this.deadPlayers.add(player);
   }
 
   /**

@@ -11,6 +11,7 @@ import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
 import com.partyrgame.blackhandservice.model.BlackHandFaction;
 import com.partyrgame.blackhandservice.model.BlackHandGame;
 import com.partyrgame.blackhandservice.model.BlackHandRole;
+import com.partyrgame.blackhandservice.model.PlayerStatus;
 import com.partyrgame.blackhandservice.service.BlackHandInitializeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,6 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
 
   /**
    * extractData.
-   * 
-   * TODO: if player died add BlackHandNote to list
    */
   @Override
   public BlackHand extractData(final ResultSet resultSet) throws SQLException {
@@ -40,17 +39,16 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
 
     while (resultSet.next()) {
       final BlackHandGame blackHandGameRawDetails = rowMapper.mapRow(resultSet, resultSet.getRow());
-      log.info("black hand game row: {}", blackHandGameRawDetails.toString());
+      log.debug("black hand game row: {}", blackHandGameRawDetails.toString());
 
       final Optional<BlackHandPlayer> blackHandPlayer = isPlayerPresent(blackHand,
-          blackHandGameRawDetails.getUsername());
+          blackHandGameRawDetails.getPlayerStatus(), blackHandGameRawDetails.getUsername());
 
       if (!blackHandPlayer.isPresent()) {
         BlackHandPlayer player = new BlackHandPlayer();
         player.setUsername(blackHandGameRawDetails.getUsername());
         player.setDisplayName(blackHandGameRawDetails.getDisplayName());
         player.setPreferredFaction(blackHandGameRawDetails.getPreferredFaction());
-        player.setPlayerStatus(blackHandGameRawDetails.getPlayerStatus());
         player.setBlocksAgainst(blackHandGameRawDetails.getBlocksAgainst());
         player.setAttacksAgainst(blackHandGameRawDetails.getAttacksAgainst());
         player.setTimesVotedToBePlacedOnTrial(blackHandGameRawDetails.getTimesVotedToBePlacedOnTrial());
@@ -60,13 +58,11 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
         player.setHasBlocked(blackHandGameRawDetails.isHasBlocked());
         player.addNote(blackHandGameRawDetails.getNote());
 
-        if (!blackHandGameRawDetails.isTurnCompleted()) {
+        if (!blackHandGameRawDetails.isTurnCompleted()
+            && blackHandGameRawDetails.getPlayerStatus().equals(PlayerStatus.ALIVE)) {
           blackHand.addPlayerNotCompletedTurn(
               player.getDisplayName() == null ? player.getUsername() : player.getDisplayName());
         }
-
-        log.debug("faction: {}; \nrole name: {}; \nroles: {}", player.getActualFaction(),
-            blackHandGameRawDetails.getRoleName(), factionRoles.get(player.getActualFaction()));
 
         if (null != player.getActualFaction() && null != blackHandGameRawDetails.getRoleName()) {
           final List<BlackHandRole> roles = factionRoles.get(player.getActualFaction());
@@ -79,7 +75,13 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
         blackHand.setGameStartTime(blackHandGameRawDetails.getGameStartTime());
         blackHand.setRoomName(blackHandGameRawDetails.getGameRoomName());
         blackHand.setPhase(blackHandGameRawDetails.getPhase());
-        blackHand.addPlayer(player);
+
+        if (blackHandGameRawDetails.getPlayerStatus().equals(PlayerStatus.ALIVE)) {
+          blackHand.addPlayer(player);
+        } else {
+          blackHand.addDeadPlayer(player);
+        }
+
       } else {
         blackHandPlayer.get().addNote(blackHandGameRawDetails.getNote());
       }
@@ -93,7 +95,11 @@ public class BlackHandResultSetExtractor implements ResultSetExtractor<BlackHand
    * to the Black Hand game object, then do not add redundant player, but add note
    * if exists.
    */
-  private Optional<BlackHandPlayer> isPlayerPresent(BlackHand blackHand, String username) {
-    return blackHand.getPlayers().stream().filter(player -> player.getUsername().equals(username)).findFirst();
+  private Optional<BlackHandPlayer> isPlayerPresent(BlackHand blackHand, PlayerStatus playerStatus, String username) {
+    if (playerStatus.equals(PlayerStatus.ALIVE)) {
+      return blackHand.getAlivePlayers().stream().filter(player -> player.getUsername().equals(username)).findFirst();
+    } else {
+      return blackHand.getDeadPlayers().stream().filter(player -> player.getUsername().equals(username)).findFirst();
+    }
   }
 }

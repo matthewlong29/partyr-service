@@ -26,6 +26,7 @@ DROP PROCEDURE IF EXISTS `select_username`;
 DROP PROCEDURE IF EXISTS `toggle_ready_status`;
 DROP PROCEDURE IF EXISTS `update_black_hand_game_start_for_player`;
 DROP PROCEDURE IF EXISTS `update_black_hand_game`;
+DROP PROCEDURE IF EXISTS `kill_player`;
 DROP PROCEDURE IF EXISTS `set_black_hand_preferred_faction`;
 DROP PROCEDURE IF EXISTS `set_black_hand_display_name`;
 DROP PROCEDURE IF EXISTS `submit_black_hand_player_turn`;
@@ -464,10 +465,20 @@ CREATE PROCEDURE `update_black_hand_game`(
   IN i_phase VARCHAR(8)
 )
 BEGIN
-  UPDATE `partyrdb`.`black_hand_games`
-    SET 
-      `phase` = i_phase
+  UPDATE `partyrdb`.`black_hand_games` SET `phase` = i_phase
   WHERE `room_name` = i_room_name;
+END$$
+
+-- ** kill_player
+
+CREATE PROCEDURE `kill_player`(
+  IN i_room_name VARCHAR(32),
+  IN i_username VARCHAR(32),
+  IN i_player_status VARCHAR(32)
+)
+BEGIN
+  UPDATE `partyrdb`.`black_hand_games` SET `player_status` = i_player_status
+  WHERE `room_name` = i_room_name AND `username` = i_username;
 END$$
 
 -- ** set_black_hand_preferred_faction

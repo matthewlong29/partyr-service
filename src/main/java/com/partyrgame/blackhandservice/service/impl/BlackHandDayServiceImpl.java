@@ -1,11 +1,12 @@
 package com.partyrgame.blackhandservice.service.impl;
 
-import java.util.Optional;
+import java.util.Comparator;
 
 import com.partyrgame.blackhandservice.dao.BlackHandDao;
 import com.partyrgame.blackhandservice.model.BlackHand;
-import com.partyrgame.blackhandservice.model.PlayerTurn;
 import com.partyrgame.blackhandservice.model.BlackHand.BlackHandPlayer;
+import com.partyrgame.blackhandservice.model.BlackHand.BlackHandTrial;
+import com.partyrgame.blackhandservice.model.PlayerTurn;
 import com.partyrgame.blackhandservice.service.BlackHandDayService;
 import com.partyrgame.blackhandservice.service.BlackHandService;
 
@@ -28,8 +29,26 @@ public class BlackHandDayServiceImpl implements BlackHandDayService {
    */
   public BlackHand evaluateDay(String roomName) {
     BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
+    BlackHandPlayer playerOnTrial = getPlayerOnTrial(blackHand);
 
-    return blackHand;
+    log.info("[{}] is on trial", playerOnTrial.getUsername());
+
+    BlackHandTrial blackHandTrial = new BlackHandTrial();
+    blackHandTrial.setDisplayName(playerOnTrial.getDisplayName());
+    blackHandTrial.setVotesToKill(0);
+    blackHandTrial.setVotesToSpare(0);
+
+    blackHand.setPlayerOnTrial(blackHandTrial);
+
+    for (BlackHandPlayer player : blackHand.getAlivePlayers()) {
+      log.info("player: [{}]", player);
+      if (player.getAttacksAgainst() < player.getBlocksAgainst()) {
+        log.info("player [{}] has died", player.getUsername());
+        blackHandDao.killPlayer(roomName, player.getUsername());
+      }
+    }
+
+    return blackHandService.getBlackHandDetails(roomName);
   }
 
   /**
@@ -65,6 +84,16 @@ public class BlackHandDayServiceImpl implements BlackHandDayService {
    * getBlackHandPlayer.
    */
   private BlackHandPlayer getBlackHandPlayer(BlackHand blackHand, String username) {
-    return blackHand.getPlayers().stream().filter(player -> player.getUsername().equals(username)).findFirst().get();
+    return blackHand.getAlivePlayers().stream().filter(player -> player.getUsername().equals(username)).findFirst().get();
+  }
+
+  /**
+   * getPlayerOnTrial
+   */
+  private BlackHandPlayer getPlayerOnTrial(BlackHand blackHand) {
+    BlackHandPlayer playerOnTrial = blackHand.getAlivePlayers().stream()
+        .max(Comparator.comparing(player -> player.getTimesVotedToBePlacedOnTrial())).get();
+
+    return playerOnTrial;
   }
 }

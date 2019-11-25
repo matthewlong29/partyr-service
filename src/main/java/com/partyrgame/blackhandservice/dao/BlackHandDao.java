@@ -23,7 +23,10 @@ public interface BlackHandDao {
 
   public int updateBlackHandGame(String roomName, String phase);
 
-  public int updateBlackHandGameForPlayer(String username, String roomName, String roleName, String faction, int turnPriority);
+  public int updateBlackHandGameForPlayer(String username, String roomName, String roleName, String faction,
+      int turnPriority);
+
+  public int killPlayer(String roomName, String username);
 
   public HashMap<BlackHandFaction, List<BlackHandRole>> getBlackHandRoles(); // TODO cache what is returned here to
                                                                              // minimize dao calls

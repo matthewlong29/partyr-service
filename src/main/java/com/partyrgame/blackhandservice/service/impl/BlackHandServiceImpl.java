@@ -39,7 +39,7 @@ public class BlackHandServiceImpl implements BlackHandService {
    * getBlackHandDetails.
    */
   public BlackHand getBlackHandDetails(String roomName) {
-    log.info("game details: {}", blackHandDao.getBlackHandDetails(roomName).toString());
+    log.debug("game details: {}", blackHandDao.getBlackHandDetails(roomName).toString());
 
     return blackHandDao.getBlackHandDetails(roomName);
   }

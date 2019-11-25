@@ -62,9 +62,9 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
 
     blackHand.setRoomName(roomName);
     blackHand.setPhase(BlackHandConstants.DAY); // start game in DAY phase
-    blackHand.setPlayersTurnRemaining(getAllPlayersDisplayNames(blackHand.getPlayers()));
+    blackHand.setPlayersTurnRemaining(getAllPlayersDisplayNames(blackHand.getAlivePlayers()));
 
-    List<BlackHand.BlackHandPlayer> players = blackHand.getPlayers();
+    List<BlackHand.BlackHandPlayer> players = blackHand.getAlivePlayers();
     int totalNumberOfPlayers = players.size();
 
     BlackHandNumberOfPlayers requiredNumber = getBlackHandNumberOfPlayers(totalNumberOfPlayers);
@@ -167,7 +167,7 @@ public class BlackHandInitializeServiceImpl implements BlackHandInitializeServic
    */
   private void assignRemainingRole(BlackHand blackHand, HashMap<BlackHandFaction, List<BlackHandRole>> availableRoles,
       BlackHandNumberOfPlayers requiredNumber, BlackHandNumberOfPlayers actualNumber) throws Exception {
-    for (BlackHandPlayer player : blackHand.getPlayers()) {
+    for (BlackHandPlayer player : blackHand.getAlivePlayers()) {
       int turnPriority;
 
       if (player.getRole() == null) {
