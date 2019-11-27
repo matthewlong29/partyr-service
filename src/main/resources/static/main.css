@@ -3,9 +3,9 @@ body {
 }
 
 #main-content {
-  max-width: 940px;
-  padding: 2em 3em;
-  margin: 0 auto 20px;
+  max-width: 1200px;
+  padding: 2rem;
+  margin: 1rem auto;
   background-color: #fff;
   border: 1px solid #e5e5e5;
   -webkit-border-radius: 5px;
@@ -19,9 +19,10 @@ form {
   align-items: flex-start;
 }
 
-#message {
-  margin: 8px;
-  padding: 8px;
+#message,
+#room-name {
+  margin: 4px;
+  padding: 5px;
   border-radius: 6px;
   border: 2px solid #666;
   flex-grow: 2;
@@ -32,15 +33,20 @@ form {
   display: flex;
 }
 
-.subscribe-message span,
-.send-message span {
+span.subscribe-message,
+span.send-message {
   font-weight: bolder;
   color: #c24038;
 }
 
+h1,
 h3,
 h4 {
-  margin: 8px;
+  margin: 16px 4px 4px 4px;
+}
+
+h1 {
+  margin-top: 4px;
 }
 
 @-webkit-keyframes stripe-slide {
@@ -71,13 +77,14 @@ h4 {
   cursor: pointer;
   -moz-user-select: text;
   text-decoration: none;
-  padding: 6px 24px 18px;
-  background-color: #fff;
+  padding: 0 10px 6px 10px;
+  background-color: #fdfdfd;
   color: #666;
   border: 2px solid #666;
   border-radius: 6px;
-  margin: 8px;
+  margin: 4px;
   transition: all 0.5s ease;
+  font-weight: bold;
 }
 .btn:-moz-focus-inner {
   padding: 0;
@@ -90,7 +97,7 @@ h4 {
 .btn--stripe:after {
   content: "";
   display: block;
-  height: 7px;
+  height: 4px;
   width: 100%;
   background-image: repeating-linear-gradient(
     45deg,
@@ -164,7 +171,7 @@ pre {
 }
 
 button.accordion {
-  width: calc(100% - 1rem);
+  width: calc(100% - 8px);
 }
 
 pre.panel {

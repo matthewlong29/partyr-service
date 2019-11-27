@@ -1,4 +1,5 @@
 let stompClient = null;
+let roomName = "";
 let subscribeTo = "";
 let sendTo = "";
 let sendToOptions = [
@@ -122,6 +123,14 @@ const showMessage = message => {
 };
 
 /**
+ * selectRoom.
+ */
+const selectRoom = () => {
+  roomName = document.querySelector("#room-name").value;
+  console.log(`room name: "${roomName}"`);
+};
+
+/**
  * syntaxHighlight.
  */
 const syntaxHighlight = json => {
@@ -158,15 +167,12 @@ const syntaxHighlight = json => {
  */
 const getSendTo = () => {
   console.log(sendToOptions);
-  let buttons = "";
   let togglePanels = "";
   sendToOptions.forEach(button => {
-    buttons += `<button class="btn btn--stripe" onclick="setSendTo('${button.send}')">${button.send}</button>`;
     togglePanels += `<button class="accordion btn btn--stripe btn--large">${
       button.send
     }</button><pre class="panel">${syntaxHighlight(button.example)}</pre>`;
   });
-  document.querySelector("#sendToOptions").innerHTML = buttons;
   document.querySelector("#accordion").innerHTML = togglePanels;
 };
 
@@ -176,9 +182,7 @@ const getSendTo = () => {
 const setSendTo = selectedSendTo => {
   sendTo = selectedSendTo;
   console.log(`selected to send to: ${sendTo}`);
-  document.querySelector(
-    ".send-message"
-  ).innerHTML = `select where to send <span>[${sendTo}]</span>`;
+  document.querySelector(".send-message").innerHTML = `[${sendTo}]`;
 };
 
 /**
@@ -199,9 +203,7 @@ const getSubscribeTo = () => {
 const setSubscribeTo = selectedSubscribeTo => {
   subscribeTo = selectedSubscribeTo;
   console.log(`selected to subscribe to: ${subscribeTo}`);
-  document.querySelector(
-    ".subscribe-message"
-  ).innerHTML = `select what to subscribe to <span>[${subscribeTo}]</span>`;
+  document.querySelector(".subscribe-message").innerHTML = `[${subscribeTo}]`;
 };
 
 /**
@@ -211,20 +213,16 @@ document.addEventListener("DOMContentLoaded", () => {
   getSendTo();
   getSubscribeTo();
 
-  document.querySelector(
-    ".subscribe-message"
-  ).innerHTML = `select what to subscribe to`;
-  document.querySelector(".send-message").innerHTML = "select where to send to";
+  document.querySelector(".subscribe-message").innerHTML = "";
+  document.querySelector(".send-message").innerHTML = "";
 
   document.querySelector("#connect").addEventListener("click", () => {
     connect();
   });
 
   document.querySelector("#disconnect").addEventListener("click", () => {
-    document.querySelector(".send-message").innerHTML =
-      "select where to send to";
-    document.querySelector(".subscribe-message").innerHTML =
-      "select what to subscribe to";
+    document.querySelector(".send-message").innerHTML = "";
+    document.querySelector(".subscribe-message").innerHTML = "";
     disconnect();
   });
 
@@ -233,11 +231,17 @@ document.addEventListener("DOMContentLoaded", () => {
     sendJSON();
   });
 
+  document.querySelector("#submit-room").addEventListener("click", e => {
+    e.preventDefault();
+    selectRoom();
+  });
+
   const accordion = document.getElementsByClassName("accordion");
 
   for (let i = 0; i < accordion.length; i++) {
     accordion[i].onclick = function() {
       this.classList.toggle("active");
+      setSendTo(sendToOptions[i].send);
       let panel = this.nextElementSibling;
       if (panel.style.maxHeight) {
         panel.style.maxHeight = null;
