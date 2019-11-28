@@ -34,7 +34,7 @@ public class ChatController {
   public void onReceivedChatMessage(ChatMessage chatMessage) {
     log.info(chatMessage.toString());
     chatService.saveChatMessage(chatMessage);
-    messageService.sendChatMessage(chatMessage);
+    messageService.sendChatMessage(chatMessage, "");
   }
 
   /**

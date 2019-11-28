@@ -10,26 +10,26 @@ let sendToOptions = [
   {
     send: "/app/create-room",
     example:
-      '{"roomName": "ziploc bags box tablet stand", "gameName": "Black Hand", "username": "timmy7"}'
+      '{"roomName": "ziploc bags box tablet stand 1", "gameName": "Black Hand", "username": "timmy7"}'
   },
   {
     send: "/app/join-room",
     example:
-      '{"roomName": "ziploc bags box tablet stand", "username": "twobyfour"}'
+      '{"roomName": "ziploc bags box tablet stand 1", "username": "twobyfour"}'
   },
   {
     send: "/app/leave-room",
     example:
-      '{"roomName": "ziploc bags box tablet stand", "username": "obtrusivemonks"}'
+      '{"roomName": "ziploc bags box tablet stand 1", "username": "obtrusivemonks"}'
   },
   {
     send: "/app/delete-room",
-    example: '{"roomName": "ziploc bags box tablet stand"}'
+    example: '{"roomName": "ziploc bags box tablet stand 1"}'
   },
   {
     send: "/app/toggle-ready-status",
     example:
-      '{"roomName": "ziploc bags box tablet stand", "username": "lanawood"}'
+      '{"roomName": "ziploc bags box tablet stand 1", "username": "lanawood"}'
   },
   {
     send: "/app/select-display-name",
@@ -109,7 +109,11 @@ const disconnect = () => {
  * sendJSON.
  */
 const sendJSON = () => {
-  stompClient.send(sendTo, {}, document.querySelector("#message").value);
+  stompClient.send(
+    sendTo + roomName,
+    {},
+    document.querySelector("#message").value
+  );
 };
 
 /**
@@ -127,6 +131,9 @@ const showMessage = message => {
  */
 const selectRoom = () => {
   roomName = document.querySelector("#room-name").value;
+  roomName = roomName.replace(/[^a-zA-Z0-9 ]/g, "");
+  roomName = roomName.replace(/\s+/g, "-").toLowerCase();
+
   console.log(`room name: "${roomName}"`);
 };
 
@@ -181,6 +188,7 @@ const getSendTo = () => {
  */
 const setSendTo = selectedSendTo => {
   sendTo = selectedSendTo;
+  sendTo = `${sendTo}/${roomName}`;
   console.log(`selected to send to: ${sendTo}`);
   document.querySelector(".send-message").innerHTML = `[${sendTo}]`;
 };

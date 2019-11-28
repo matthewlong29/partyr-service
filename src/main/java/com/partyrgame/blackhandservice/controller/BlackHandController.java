@@ -87,7 +87,7 @@ public class BlackHandController {
 
     BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
 
-    messageService.sendBlackHandMessage(blackHand);
+    messageService.sendBlackHandMessage(blackHand, roomName);
   }
 
   /**
@@ -108,7 +108,7 @@ public class BlackHandController {
 
     BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
 
-    messageService.sendBlackHandMessage(blackHand);
+    messageService.sendBlackHandMessage(blackHand, roomName);
   }
 
   /**
@@ -141,7 +141,7 @@ public class BlackHandController {
 
     BlackHand blackHand = blackHandInitializeService.startGame(roomName);
 
-    messageService.sendBlackHandMessage(blackHand);
+    messageService.sendBlackHandMessage(blackHand, roomName);
   }
 
   /**
@@ -158,7 +158,7 @@ public class BlackHandController {
 
     BlackHand blackHand = dayService.evaluateDay(roomName);
 
-    messageService.sendBlackHandMessage(blackHand);
+    messageService.sendBlackHandMessage(blackHand, roomName);
   }
 
   /**
@@ -177,7 +177,7 @@ public class BlackHandController {
 
     BlackHand blackHand = trialService.submitPlayerVote(roomName, username, vote);
 
-    messageService.sendBlackHandMessage(blackHand);
+    messageService.sendBlackHandMessage(blackHand, roomName);
   }
 
   /**
@@ -193,7 +193,7 @@ public class BlackHandController {
 
     BlackHand blackHand = trialService.evaluateTrial(roomName);
 
-    messageService.sendBlackHandMessage(blackHand);
+    messageService.sendBlackHandMessage(blackHand, roomName);
   }
 
   /**
@@ -210,7 +210,7 @@ public class BlackHandController {
 
     BlackHand blackHand = nightService.evaluateNight(roomName);
 
-    messageService.sendBlackHandMessage(blackHand);
+    messageService.sendBlackHandMessage(blackHand, roomName);
   }
 
   /**
@@ -227,6 +227,6 @@ public class BlackHandController {
 
     BlackHand blackHand = dayService.submitPlayerTurn(turn);
 
-    messageService.sendBlackHandMessage(blackHand);
+    messageService.sendBlackHandMessage(blackHand, turn.getRoomName());
   }
 }

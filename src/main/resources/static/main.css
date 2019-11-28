@@ -4,6 +4,7 @@ body {
 
 #main-content {
   max-width: 1200px;
+  min-height: calc(100vh - 6rem - 2px);
   padding: 2rem;
   margin: 1rem auto;
   background-color: #fff;
