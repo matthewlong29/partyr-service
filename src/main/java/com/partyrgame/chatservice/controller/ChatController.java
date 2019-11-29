@@ -9,6 +9,7 @@ import com.partyrgame.socketservice.util.WebsocketConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,10 +32,10 @@ public class ChatController {
    * 
    */
   @MessageMapping(WebsocketConstants.CHAT_SEND)
-  public void onReceivedChatMessage(ChatMessage chatMessage) {
+  public void onReceivedChatMessage(ChatMessage chatMessage, @DestinationVariable String channel) {
     log.info(chatMessage.toString());
     chatService.saveChatMessage(chatMessage);
-    messageService.sendChatMessage(chatMessage, "");
+    messageService.sendChatMessage(chatMessage, channel);
   }
 
   /**

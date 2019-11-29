@@ -13,7 +13,7 @@ public class WebsocketConstants {
   public final static String CHAT_SUBSCRIBE = "/chat/room"; // TODO add a room id to have multiple chat instances
   public final static String CHAT_BROKER = "/chat";
 
-  public final static String CHAT_SEND = "/send-chat";
+  public final static String CHAT_SEND = "/send-chat/{channel}";
 
   // ** lobby and room constants
 
@@ -30,7 +30,7 @@ public class WebsocketConstants {
 
   // TODO: get working with one black hand game first! then add the room names to
   // have separate games going at once
-  public final static String BLACK_HAND_SUBSCRIBE = "/game/black-hand"; // + {gameRoomName}
+  public final static String BLACK_HAND_SUBSCRIBE = "/game/black-hand";
   public final static String BLACK_HAND_BROKER = "/game";
   
   public final static String BLACK_HAND_SELECT_PREFERRED_FACTION = "/select-preferred-faction/{channel}";
