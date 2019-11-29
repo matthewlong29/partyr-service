@@ -90,7 +90,7 @@ public class MessageServiceImpl implements MessageService {
    *         dashes.
    */
   private String convertChannelName(String channel) {
-    channel = channel.replaceAll("[^a-zA-Z0-9\\s]", "");
+    channel = channel.replaceAll("[^a-zA-Z0-9\\s\\-]", "");
     channel = channel.replaceAll(" ", "-").toLowerCase();
 
     log.info("altered channel: {}", channel);

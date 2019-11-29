@@ -20,6 +20,7 @@ import com.partyrgame.socketservice.util.WebsocketConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,48 +71,6 @@ public class BlackHandController {
   }
 
   /**
-   * setPreferredFaction.
-   * 
-   * @param body {"roomName": "game 1", "username": "cheesecake",
-   *             "preferredFaction": "Monster"}
-   */
-  @MessageMapping(WebsocketConstants.BLACK_HAND_SELECT_PREFERRED_FACTION)
-  public void setPreferredFaction(Map<String, String> body) {
-    log.debug("body: {}", body.toString());
-
-    String username = body.get("username");
-    String roomName = body.get("roomName");
-    String preferredFaction = body.get("preferredFaction");
-
-    blackHandService.setPreferredFaction(username, roomName, preferredFaction);
-
-    BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
-
-    messageService.sendBlackHandMessage(blackHand, roomName);
-  }
-
-  /**
-   * selectDisplayName.
-   * 
-   * @param body {"roomName": "game 1", "username": "cheesecake",
-   *             "preferredFaction": "Monster"}
-   */
-  @MessageMapping(WebsocketConstants.BLACK_HAND_SELECT_DISPLAY_NAME)
-  public void selectDisplayName(Map<String, String> body) {
-    log.debug("body: {}", body.toString());
-
-    String username = body.get("username");
-    String roomName = body.get("roomName");
-    String displayName = body.get("displayName");
-
-    blackHandService.selectDisplayName(username, roomName, displayName);
-
-    BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
-
-    messageService.sendBlackHandMessage(blackHand, roomName);
-  }
-
-  /**
    * getBlackHandRoles.
    */
   @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -128,20 +87,62 @@ public class BlackHandController {
   }
 
   /**
+   * setPreferredFaction.
+   * 
+   * @param body {"roomName": "game 1", "username": "cheesecake",
+   *             "preferredFaction": "Monster"}
+   */
+  @MessageMapping(WebsocketConstants.BLACK_HAND_SELECT_PREFERRED_FACTION)
+  public void setPreferredFaction(Map<String, String> body, @DestinationVariable String channel) {
+    log.debug("body: {}", body.toString());
+
+    String username = body.get("username");
+    String roomName = body.get("roomName");
+    String preferredFaction = body.get("preferredFaction");
+
+    blackHandService.setPreferredFaction(username, roomName, preferredFaction);
+
+    BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
+
+    messageService.sendBlackHandMessage(blackHand, channel);
+  }
+
+  /**
+   * selectDisplayName.
+   * 
+   * @param body {"roomName": "game 1", "username": "cheesecake",
+   *             "preferredFaction": "Monster"}
+   */
+  @MessageMapping(WebsocketConstants.BLACK_HAND_SELECT_DISPLAY_NAME)
+  public void selectDisplayName(Map<String, String> body, @DestinationVariable String channel) {
+    log.debug("body: {}", body.toString());
+
+    String username = body.get("username");
+    String roomName = body.get("roomName");
+    String displayName = body.get("displayName");
+
+    blackHandService.selectDisplayName(username, roomName, displayName);
+
+    BlackHand blackHand = blackHandService.getBlackHandDetails(roomName);
+
+    messageService.sendBlackHandMessage(blackHand, channel);
+  }
+
+  /**
    * startBlackHandGame: returns json needed to start a new game of the black
    * hand.
    * 
    * @param body {"roomName": "game 1"}
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_START_SEND)
-  public void startBlackHandGame(@RequestBody Map<String, String> body) {
+  public void startBlackHandGame(@RequestBody Map<String, String> body, @DestinationVariable String channel) {
     log.debug("body: {}", body.toString());
 
     String roomName = body.get("roomName");
 
     BlackHand blackHand = blackHandInitializeService.startGame(roomName);
 
-    messageService.sendBlackHandMessage(blackHand, roomName);
+    messageService.sendBlackHandMessage(blackHand, channel);
   }
 
   /**
@@ -151,14 +152,14 @@ public class BlackHandController {
    * @param body {"roomName": "game 1"}
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_EVALUATE_DAY)
-  public void evaluateBlackHandDayPhase(@RequestBody Map<String, String> body) {
+  public void evaluateBlackHandDayPhase(@RequestBody Map<String, String> body, @DestinationVariable String channel) {
     log.debug("body: {}", body.toString());
 
     String roomName = body.get("roomName");
 
     BlackHand blackHand = dayService.evaluateDay(roomName);
 
-    messageService.sendBlackHandMessage(blackHand, roomName);
+    messageService.sendBlackHandMessage(blackHand, channel);
   }
 
   /**
@@ -168,7 +169,7 @@ public class BlackHandController {
    *             "GUILTY"}
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_SUBMIT_VOTE)
-  public void blackHandSubmitVote(@RequestBody Map<String, String> body) {
+  public void blackHandSubmitVote(@RequestBody Map<String, String> body, @DestinationVariable String channel) {
     log.debug("body: {}", body.toString());
 
     String roomName = body.get("roomName");
@@ -177,7 +178,7 @@ public class BlackHandController {
 
     BlackHand blackHand = trialService.submitPlayerVote(roomName, username, vote);
 
-    messageService.sendBlackHandMessage(blackHand, roomName);
+    messageService.sendBlackHandMessage(blackHand, channel);
   }
 
   /**
@@ -186,14 +187,14 @@ public class BlackHandController {
    * @param body {"roomName": "game 1"}
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_EVALUATE_TRIAL)
-  public void blackHandEvaluateTrial(@RequestBody Map<String, String> body) {
+  public void blackHandEvaluateTrial(@RequestBody Map<String, String> body, @DestinationVariable String channel) {
     log.debug("body: {}", body.toString());
 
     String roomName = body.get("roomName");
 
     BlackHand blackHand = trialService.evaluateTrial(roomName);
 
-    messageService.sendBlackHandMessage(blackHand, roomName);
+    messageService.sendBlackHandMessage(blackHand, channel);
   }
 
   /**
@@ -203,18 +204,18 @@ public class BlackHandController {
    * @param body {"roomName": "game 1"}
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_EVALUATE_NIGHT)
-  public void evaluateBlackHandNightPhase(@RequestBody Map<String, String> body) {
+  public void evaluateBlackHandNightPhase(@RequestBody Map<String, String> body, @DestinationVariable String channel) {
     log.debug("body: {}", body.toString());
 
     String roomName = body.get("roomName");
 
     BlackHand blackHand = nightService.evaluateNight(roomName);
 
-    messageService.sendBlackHandMessage(blackHand, roomName);
+    messageService.sendBlackHandMessage(blackHand, channel);
   }
 
   /**
-   * startBlackHandGame: returns json needed to start a new game of the black
+   * blackHandSubmitTurn: returns json needed to start a new game of the black
    * hand.
    * 
    * @param body {"roomName": "game 1", "username": "cheesecake", "attacking":
@@ -222,11 +223,11 @@ public class BlackHandController {
    *             cody."}
    */
   @MessageMapping(WebsocketConstants.BLACK_HAND_SUBMIT_TURN)
-  public void startBlackHandGame(@RequestBody PlayerTurn turn) {
+  public void blackHandSubmitTurn(@RequestBody PlayerTurn turn, @DestinationVariable String channel) {
     log.debug("player turn: {}", turn);
 
     BlackHand blackHand = dayService.submitPlayerTurn(turn);
 
-    messageService.sendBlackHandMessage(blackHand, turn.getRoomName());
+    messageService.sendBlackHandMessage(blackHand, channel);
   }
 }

@@ -109,11 +109,7 @@ const disconnect = () => {
  * sendJSON.
  */
 const sendJSON = () => {
-  stompClient.send(
-    sendTo + roomName,
-    {},
-    document.querySelector("#message").value
-  );
+  stompClient.send(sendTo, {}, document.querySelector("#message").value);
 };
 
 /**
@@ -209,7 +205,7 @@ const getSubscribeTo = () => {
  * setSubscribeTo.
  */
 const setSubscribeTo = selectedSubscribeTo => {
-  subscribeTo = selectedSubscribeTo;
+  subscribeTo = `${selectedSubscribeTo}/${roomName}`;
   console.log(`selected to subscribe to: ${subscribeTo}`);
   document.querySelector(".subscribe-message").innerHTML = `[${subscribeTo}]`;
 };
