@@ -20,11 +20,11 @@ public class WebsocketConstants {
   public final static String LOBBY_SUBSCRIBE = "/lobby/rooms";
   public final static String LOBBY_BROKER = "/lobby";
 
-  public final static String ROOM_CREATE_SEND = "/create-room";
-  public final static String ROOM_JOIN_SEND = "/join-room";
-  public final static String ROOM_LEAVE_SEND = "/leave-room";
-  public final static String ROOM_DELETE_SEND = "/delete-room";
-  public final static String ROOM_TOGGLE_READY_STATUS_SEND = "/toggle-ready-status";
+  public final static String ROOM_CREATE_SEND = "/create-room/{channel}";
+  public final static String ROOM_JOIN_SEND = "/join-room/{channel}";
+  public final static String ROOM_LEAVE_SEND = "/leave-room/{channel}";
+  public final static String ROOM_DELETE_SEND = "/delete-room/{channel}";
+  public final static String ROOM_TOGGLE_READY_STATUS_SEND = "/toggle-ready-status/{channel}";
 
   // ** black hand constants
 
@@ -32,7 +32,7 @@ public class WebsocketConstants {
   // have separate games going at once
   public final static String BLACK_HAND_SUBSCRIBE = "/game/black-hand";
   public final static String BLACK_HAND_BROKER = "/game";
-  
+
   public final static String BLACK_HAND_SELECT_PREFERRED_FACTION = "/select-preferred-faction/{channel}";
   public final static String BLACK_HAND_SELECT_DISPLAY_NAME = "/select-display-name/{channel}";
   public final static String BLACK_HAND_START_SEND = "/start-black-hand/{channel}";

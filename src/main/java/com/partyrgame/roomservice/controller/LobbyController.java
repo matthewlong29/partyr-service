@@ -10,6 +10,7 @@ import com.partyrgame.socketservice.util.WebsocketConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,10 +29,11 @@ public class LobbyController {
   /**
    * createRoom.
    * 
-   * @param body {"roomName": "game 1", "gameName": "Black Hand", "username": "timmy7"}
+   * @param body {"roomName": "game 1", "gameName": "Black Hand", "username":
+   *             "timmy7"}
    */
   @MessageMapping(WebsocketConstants.ROOM_CREATE_SEND)
-  public void createRoom(Map<String, String> body) {
+  public void createRoom(Map<String, String> body, @DestinationVariable String channel) {
     log.info("body: {}", body.toString());
 
     String username = body.get("username");
@@ -40,7 +42,7 @@ public class LobbyController {
 
     lobbyService.createNewGameRoom(username, roomName, gameName);
 
-    messageService.sendRoomMessage(lobbyService.getRooms());
+    messageService.sendRoomMessage(lobbyService.getRooms(), channel);
   }
 
   /**
@@ -49,7 +51,7 @@ public class LobbyController {
    * @param body {"roomName": "game 1", "username": "timmy7"}
    */
   @MessageMapping(WebsocketConstants.ROOM_JOIN_SEND)
-  public void joinRoom(Map<String, String> body) {
+  public void joinRoom(Map<String, String> body, @DestinationVariable String channel) {
     log.info("body: {}", body.toString());
 
     String username = body.get("username");
@@ -57,7 +59,7 @@ public class LobbyController {
 
     lobbyService.joinGameRoom(username, roomName);
 
-    messageService.sendRoomMessage(lobbyService.getRooms());
+    messageService.sendRoomMessage(lobbyService.getRooms(), channel);
   }
 
   /**
@@ -66,7 +68,7 @@ public class LobbyController {
    * @param body {"roomName": "game 1", "username": "timmy7"}
    */
   @MessageMapping(WebsocketConstants.ROOM_LEAVE_SEND)
-  public void leaveRoom(Map<String, String> body) {
+  public void leaveRoom(Map<String, String> body, @DestinationVariable String channel) {
     log.info("body: {}", body.toString());
 
     String username = body.get("username");
@@ -74,7 +76,7 @@ public class LobbyController {
 
     lobbyService.leaveGameRoom(username, roomName);
 
-    messageService.sendRoomMessage(lobbyService.getRooms());
+    messageService.sendRoomMessage(lobbyService.getRooms(), channel);
   }
 
   /**
@@ -83,14 +85,14 @@ public class LobbyController {
    * @param body {"roomName": "game 1"}
    */
   @MessageMapping(WebsocketConstants.ROOM_DELETE_SEND)
-  public void deleteRoom(Map<String, String> body) {
+  public void deleteRoom(Map<String, String> body, @DestinationVariable String channel) {
     log.info("body: {}", body.toString());
 
     String roomName = body.get("roomName");
 
     lobbyService.deleteGameRoom(roomName);
 
-    messageService.sendRoomMessage(lobbyService.getRooms());
+    messageService.sendRoomMessage(lobbyService.getRooms(), channel);
   }
 
   /**
@@ -99,7 +101,7 @@ public class LobbyController {
    * @param body {"roomName": "game 1", "username": "timmy7"}
    */
   @MessageMapping(WebsocketConstants.ROOM_TOGGLE_READY_STATUS_SEND)
-  public void toggleReadyStatus(Map<String, String> body) {
+  public void toggleReadyStatus(Map<String, String> body, @DestinationVariable String channel) {
     log.info("body: {}", body.toString());
 
     String username = body.get("username");
@@ -107,7 +109,7 @@ public class LobbyController {
 
     lobbyService.toggleReadyStatus(username, roomName);
 
-    messageService.sendRoomMessage(lobbyService.getRooms());
+    messageService.sendRoomMessage(lobbyService.getRooms(), channel);
   }
 
   /**

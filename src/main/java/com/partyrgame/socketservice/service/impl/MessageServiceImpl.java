@@ -41,8 +41,10 @@ public class MessageServiceImpl implements MessageService {
   /**
    * sendRoomMessage: sends a list of rooms to the client
    */
-  public void sendRoomMessage(List<Room> rooms) {
-    this.template.convertAndSend(WebsocketConstants.LOBBY_SUBSCRIBE, rooms);
+  public void sendRoomMessage(List<Room> rooms, String channel) {
+    String destination = WebsocketConstants.LOBBY_SUBSCRIBE + "/" + convertChannelName(channel);
+    log.info("{}", rooms);
+    this.template.convertAndSend(destination, rooms);
   }
 
   /**
