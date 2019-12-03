@@ -33,22 +33,26 @@ public class MessageServiceImpl implements MessageService {
   /**
    * sendChatMessage.
    */
-  public void sendChatMessage(ChatMessage chatMessage) {
-    this.template.convertAndSend(WebsocketConstants.CHAT_SUBSCRIBE, chatMessage);
+  public void sendChatMessage(ChatMessage chatMessage, String channel) {
+    String destination = WebsocketConstants.CHAT_SUBSCRIBE + "/" + convertChannelName(channel);
+    this.template.convertAndSend(destination, chatMessage);
   }
 
   /**
    * sendRoomMessage: sends a list of rooms to the client
    */
-  public void sendRoomMessage(List<Room> rooms) {
-    this.template.convertAndSend(WebsocketConstants.LOBBY_SUBSCRIBE, rooms);
+  public void sendRoomMessage(List<Room> rooms, String channel) {
+    String destination = WebsocketConstants.LOBBY_SUBSCRIBE + "/" + convertChannelName(channel);
+    log.info("{}", rooms);
+    this.template.convertAndSend(destination, rooms);
   }
 
   /**
    * sendBlackHandMessage: sends a BlackHand object to the current game.
    */
-  public void sendBlackHandMessage(BlackHand blackHand) {
-    this.template.convertAndSend(WebsocketConstants.BLACK_HAND_SUBSCRIBE, blackHand);
+  public void sendBlackHandMessage(BlackHand blackHand, String channel) {
+    String destination = WebsocketConstants.BLACK_HAND_SUBSCRIBE + "/" + convertChannelName(channel);
+    this.template.convertAndSend(destination, blackHand);
   }
 
   /**
@@ -77,5 +81,22 @@ public class MessageServiceImpl implements MessageService {
   public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
     log.info("received a new web socket connection. time: {}; user: {}; message: {}; source: {}", event.getTimestamp(),
         event.getUser(), event.getMessage(), event.getSource());
+  }
+
+  /**
+   * convertChannelName: removes special characters, converts spaces to dashes,
+   * and converts to lowercase.
+   * 
+   * @param channel input channel which may contain spaces and special characters.
+   * @return lowercase alphanumeric version of a room name (channel) separated by
+   *         dashes.
+   */
+  private String convertChannelName(String channel) {
+    channel = channel.replaceAll("[^a-zA-Z0-9\\s\\-]", "");
+    channel = channel.replaceAll(" ", "-").toLowerCase();
+
+    log.info("altered channel: {}", channel);
+
+    return channel;
   }
 }
